@@ -135,6 +135,7 @@
             <button id="showSelectionSort" class="tab-button active -mb-px px-6 py-3 border border-transparent rounded-t-lg hover:text-indigo-700 hover:border-gray-400 focus:outline-none">Selection Sort</button>
             <button id="showBubbleSort" class="tab-button px-6 py-3 border border-transparent rounded-t-lg text-gray-600 hover:text-indigo-700 hover:border-gray-400 focus:outline-none">Bubble Sort</button>
             <button id="showSearching" class="tab-button px-6 py-3 border border-transparent rounded-t-lg text-gray-600 hover:text-indigo-700 hover:border-gray-400 focus:outline-none">Searching</button>
+            <button id="showMerge" class="tab-button px-6 py-3 border border-transparent rounded-t-lg text-gray-600 hover:text-indigo-700 hover:border-gray-400 focus:outline-none">Merge</button>
         </nav>
 
         <main>
@@ -425,6 +426,116 @@
                     </article>
                 </div>
             </section>
+
+            <section id="mergeSection" class="sort-section hidden">
+                <header class="mb-6">
+                    <h2 class="text-3xl font-semibold text-gray-800">Merge Algorithm</h2>
+                </header>
+                <article class="prose max-w-none text-gray-700 mb-6 leading-relaxed">
+                    <p>Merging is the process of combining two or more sorted lists into a third sorted list. It's a fundamental operation used in merge sort and many other algorithms.</p>
+                    <p><strong>How it works:</strong></p>
+                    <ol class="list-decimal list-inside">
+                        <li>Set the subscripts i, j and k to 0 (for arrays A, B, and C).</li>
+                        <li>As long as neither array is exhausted, compare the current elements of both arrays.</li>
+                        <li>If A[i] < B[j], copy A[i] to C[k] and increment i and k. Otherwise, copy B[j] to C[k] and increment j and k.</li>
+                        <li>When one of the arrays has been completely transferred to C, copy the remainder of the other array to C.</li>
+                    </ol>
+                    <p><strong>Note:</strong> The merge algorithm only works for sorted arrays.</p>
+                </article>
+                
+                <details class="mb-6 group">
+                    <summary class="text-xl font-medium text-indigo-600 hover:text-indigo-800 cursor-pointer list-none flex items-center">
+                        Python Code
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 ml-2 transform group-open:rotate-180 transition-transform">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                        </svg>
+                    </summary>
+                    <pre id="mergeCodeBlock" class="code-block mt-2"><code>
+<span class="code-line" data-line-number="0" data-explanation="Defines the merge function that takes two sorted arrays as input.">def merge(A, B):</span>
+<span class="code-line" data-line-number="1" data-explanation="Creates an empty result array to store merged elements.">    C = []</span>
+<span class="code-line" data-line-number="2" data-explanation="Initialize index for first array.">    i = 0</span>
+<span class="code-line" data-line-number="3" data-explanation="Initialize index for second array.">    j = 0</span>
+<span class="code-line" data-line-number="4" data-explanation="Loop continues until we reach the end of either array.">    while i < len(A) and j < len(B):</span>
+<span class="code-line" data-line-number="5" data-explanation="Compare the current elements from both arrays.">        if A[i] < B[j]:</span>
+<span class="code-line" data-line-number="6" data-explanation="If A's element is smaller, add it to the result array.">            C.append(A[i])</span>
+<span class="code-line" data-line-number="7" data-explanation="Move to the next element in array A.">            i += 1</span>
+<span class="code-line" data-line-number="8" data-explanation="If B's element is smaller or equal, add it to the result array.">        else:</span>
+<span class="code-line" data-line-number="9" data-explanation="Add B's element to the result array.">            C.append(B[j])</span>
+<span class="code-line" data-line-number="10" data-explanation="Move to the next element in array B.">            j += 1</span>
+<span class="code-line" data-line-number="11" data-explanation="Check if there are remaining elements in array A.">    while i < len(A):</span>
+<span class="code-line" data-line-number="12" data-explanation="Add remaining elements from array A to the result.">        C.append(A[i])</span>
+<span class="code-line" data-line-number="13" data-explanation="Move to the next element in array A.">        i += 1</span>
+<span class="code-line" data-line-number="14" data-explanation="Check if there are remaining elements in array B.">    while j < len(B):</span>
+<span class="code-line" data-line-number="15" data-explanation="Add remaining elements from array B to the result.">        C.append(B[j])</span>
+<span class="code-line" data-line-number="16" data-explanation="Move to the next element in array B.">        j += 1</span>
+<span class="code-line" data-line-number="17" data-explanation="Return the merged sorted array.">    return C</span>
+                    </code></pre>
+                </details>
+                
+                <div class="interactive-area mt-6 p-6 border border-gray-300 rounded-lg bg-gray-50 shadow-sm">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Try it yourself!</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="arrayA" class="block text-sm font-medium text-gray-700 mb-1">Array A (comma-separated, will be sorted):</label>
+                            <input type="text" id="arrayA" class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" value="13,15,28,29">
+                        </div>
+                        <div>
+                            <label for="arrayB" class="block text-sm font-medium text-gray-700 mb-1">Array B (comma-separated, will be sorted):</label>
+                            <input type="text" id="arrayB" class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" value="10,12,16">
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 mb-4">
+                        <button id="startMerge" class="px-5 py-3 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition duration-150 ease-in-out">Visualize</button>
+                        <button id="nextMergeStep" class="px-5 py-3 bg-green-500 text-white font-medium rounded-md hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out" disabled>Next Step</button>
+                        <button id="resetMerge" class="px-5 py-3 bg-red-500 text-white font-medium rounded-md hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out" disabled>Reset</button>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <h4 class="text-center font-medium text-gray-700 mb-2">Array A</h4>
+                            <div id="arrayAViz" class="visualization-area bg-gray-200 rounded-md p-4 flex justify-center items-center min-h-[150px]">
+                                <p class="text-gray-500">Array A will appear here.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-center font-medium text-gray-700 mb-2">Array B</h4>
+                            <div id="arrayBViz" class="visualization-area bg-gray-200 rounded-md p-4 flex justify-center items-center min-h-[150px]">
+                                <p class="text-gray-500">Array B will appear here.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-center font-medium text-gray-700 mb-2">Merged Array C</h4>
+                            <div id="arrayCViz" class="visualization-area bg-gray-200 rounded-md p-4 flex justify-center items-center min-h-[150px]">
+                                <p class="text-gray-500">Merged array will appear here.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p id="mergeStatus" class="status-text mt-4 text-sm text-gray-600 min-h-[40px] bg-gray-100 p-2 rounded-md border border-gray-200">Enter arrays and click "Visualize".</p>
+                </div>
+
+                <div class="mt-8 p-6 border border-gray-300 rounded-lg bg-gray-50">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4">How to handle unsorted arrays?</h3>
+                    <div class="prose max-w-none text-gray-700">
+                        <p>The merge algorithm assumes that both input arrays are already sorted. If you have unsorted arrays, you have two options:</p>
+                        <ol class="list-decimal list-inside">
+                            <li><strong>Sort before merging:</strong> First sort each array individually using algorithms like Bubble Sort, Selection Sort, or Merge Sort, then apply the merge algorithm.</li>
+                            <li><strong>Merge and sort:</strong> Concatenate the arrays and then sort the result using a sorting algorithm. However, this approach doesn't take advantage of any existing order in the arrays.</li>
+                        </ol>
+                        <p class="mt-4">For example, to handle unsorted arrays in Python:</p>
+                        <pre class="bg-gray-800 text-gray-300 p-4 rounded-lg overflow-x-auto">
+# Option 1: Sort before merging
+def merge_unsorted(A, B):
+    sorted_A = sorted(A)
+    sorted_B = sorted(B)
+    return merge(sorted_A, sorted_B)
+
+# Option 2: Concatenate and sort
+def concat_and_sort(A, B):
+    return sorted(A + B)
+                        </pre>
+                        <p class="mt-4">The first approach (sort then merge) is often more efficient when the arrays are large, as the merge operation is O(n), while sorting is O(n log n). The total complexity would be O(n log n), which is the same as sorting the concatenated array, but with better constants in practice.</p>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
@@ -476,13 +587,25 @@
         codeBlockId: 'binarySearchCodeBlock'
     };
 
+    let mergeData = {
+        steps: [],
+        currentStep: 0,
+        arrayA: [],
+        arrayB: [],
+        arrayC: [],
+        isMerging: false,
+        codeBlockId: 'mergeCodeBlock'
+    };
+
     // DOM Elements (common)
     const selectionSortSection = document.getElementById('selectionSortSection');
     const bubbleSortSection = document.getElementById('bubbleSortSection');
     const searchingSection = document.getElementById('searchingSection');
+    const mergeSection = document.getElementById('mergeSection');
     const showSelectionSortBtn = document.getElementById('showSelectionSort');
     const showBubbleSortBtn = document.getElementById('showBubbleSort');
     const showSearchingBtn = document.getElementById('showSearching');
+    const showMergeBtn = document.getElementById('showMerge');
     const codeExplanationPopup = document.getElementById('codeExplanationPopup'); // Added popup element
 
     // DOM Elements for Selection Sort
@@ -525,17 +648,31 @@
     const binarySearchViz = document.getElementById('binarySearchViz');
     const binarySearchStatus = document.getElementById('binarySearchStatus');
 
+    // DOM Elements for Merge
+    const arrayAInput = document.getElementById('arrayA');
+    const arrayBInput = document.getElementById('arrayB');
+    const startMergeBtn = document.getElementById('startMerge');
+    const nextMergeStepBtn = document.getElementById('nextMergeStep');
+    const resetMergeBtn = document.getElementById('resetMerge');
+    const arrayAViz = document.getElementById('arrayAViz');
+    const arrayBViz = document.getElementById('arrayBViz');
+    const arrayCViz = document.getElementById('arrayCViz');
+    const mergeStatus = document.getElementById('mergeStatus');
+
     // --- Tab Switching Logic ---
     showSelectionSortBtn.addEventListener('click', () => {
         selectionSortSection.classList.remove('hidden');
         bubbleSortSection.classList.add('hidden');
         searchingSection.classList.add('hidden');
+        mergeSection.classList.add('hidden');
         showSelectionSortBtn.classList.add('active');
         showBubbleSortBtn.classList.remove('active');
         showSearchingBtn.classList.remove('active');
+        showMergeBtn.classList.remove('active');
         clearCodeHighlight(bubbleSortData.codeBlockId); 
         clearCodeHighlight(linearSearchData.codeBlockId);
         clearCodeHighlight(binarySearchData.codeBlockId);
+        clearCodeHighlight(mergeData.codeBlockId);
         hideExplanationPopup(); // Hide popup on tab switch
     });
 
@@ -543,12 +680,15 @@
         bubbleSortSection.classList.remove('hidden');
         selectionSortSection.classList.add('hidden');
         searchingSection.classList.add('hidden');
+        mergeSection.classList.add('hidden');
         showBubbleSortBtn.classList.add('active');
         showSelectionSortBtn.classList.remove('active');
         showSearchingBtn.classList.remove('active');
+        showMergeBtn.classList.remove('active');
         clearCodeHighlight(selectionSortData.codeBlockId); 
         clearCodeHighlight(linearSearchData.codeBlockId);
         clearCodeHighlight(binarySearchData.codeBlockId);
+        clearCodeHighlight(mergeData.codeBlockId);
         hideExplanationPopup(); // Hide popup on tab switch
     });
 
@@ -556,11 +696,30 @@
         searchingSection.classList.remove('hidden');
         selectionSortSection.classList.add('hidden');
         bubbleSortSection.classList.add('hidden');
+        mergeSection.classList.add('hidden');
         showSearchingBtn.classList.add('active');
         showSelectionSortBtn.classList.remove('active');
         showBubbleSortBtn.classList.remove('active');
+        showMergeBtn.classList.remove('active');
         clearCodeHighlight(selectionSortData.codeBlockId);
         clearCodeHighlight(bubbleSortData.codeBlockId);
+        clearCodeHighlight(mergeData.codeBlockId);
+        hideExplanationPopup();
+    });
+
+    showMergeBtn.addEventListener('click', () => {
+        mergeSection.classList.remove('hidden');
+        selectionSortSection.classList.add('hidden');
+        bubbleSortSection.classList.add('hidden');
+        searchingSection.classList.add('hidden');
+        showMergeBtn.classList.add('active');
+        showSelectionSortBtn.classList.remove('active');
+        showBubbleSortBtn.classList.remove('active');
+        showSearchingBtn.classList.remove('active');
+        clearCodeHighlight(selectionSortData.codeBlockId);
+        clearCodeHighlight(bubbleSortData.codeBlockId);
+        clearCodeHighlight(linearSearchData.codeBlockId);
+        clearCodeHighlight(binarySearchData.codeBlockId);
         hideExplanationPopup();
     });
 
@@ -1347,9 +1506,342 @@
         resetBinarySearchBtn.disabled = true;
         
         binarySearchViz.innerHTML = '<p class="text-gray-500 self-center">Visualization will appear here.</p>';
-        binarySearchStatus.textContent = "Enter an array and target, then click 'Visualize'.";
+        binarySearchStatus.textContent = "Enter a sorted array and target, then click 'Visualize'.";
         clearCodeHighlight(binarySearchData.codeBlockId);
         hideExplanationPopup();
+    });
+
+    // --- Merge Logic ---
+    function generateMergeSteps(arrA, arrB) {
+        // Ensure arrays are sorted
+        arrA.sort((a, b) => a - b);
+        arrB.sort((a, b) => a - b);
+        
+        const steps = [];
+        
+        // Initial state
+        steps.push({
+            arrayA: [...arrA],
+            arrayB: [...arrB],
+            arrayC: [],
+            indexes: { i: 0, j: 0 },
+            comparingElements: false,
+            explanation: "Starting merge process. Arrays A and B are sorted.",
+            codeHighlights: [0, 1, 2, 3]
+        });
+        
+        let i = 0, j = 0;
+        let arrayC = [];
+        
+        // Main merge loop
+        while (i < arrA.length && j < arrB.length) {
+            // Highlight current elements being compared
+            steps.push({
+                arrayA: [...arrA],
+                arrayB: [...arrB],
+                arrayC: [...arrayC],
+                indexes: { i: i, j: j },
+                comparingElements: true,
+                explanation: `Comparing A[${i}] = ${arrA[i]} and B[${j}] = ${arrB[j]}.`,
+                codeHighlights: [4, 5]
+            });
+            
+            if (arrA[i] < arrB[j]) {
+                // A[i] is smaller
+                steps.push({
+                    arrayA: [...arrA],
+                    arrayB: [...arrB],
+                    arrayC: [...arrayC],
+                    indexes: { i: i, j: j },
+                    selected: { array: 'A', index: i },
+                    explanation: `A[${i}] = ${arrA[i]} is smaller than B[${j}] = ${arrB[j]}. Adding A[${i}] to C.`,
+                    codeHighlights: [5, 6, 7]
+                });
+                
+                arrayC.push(arrA[i]);
+                i++;
+            } else {
+                // B[j] is smaller or equal
+                steps.push({
+                    arrayA: [...arrA],
+                    arrayB: [...arrB],
+                    arrayC: [...arrayC],
+                    indexes: { i: i, j: j },
+                    selected: { array: 'B', index: j },
+                    explanation: `B[${j}] = ${arrB[j]} is smaller or equal to A[${i}] = ${arrA[i]}. Adding B[${j}] to C.`,
+                    codeHighlights: [8, 9, 10]
+                });
+                
+                arrayC.push(arrB[j]);
+                j++;
+            }
+            
+            // Show updated array C
+            steps.push({
+                arrayA: [...arrA],
+                arrayB: [...arrB],
+                arrayC: [...arrayC],
+                indexes: { i: i, j: j },
+                addedToC: arrayC.length - 1,
+                explanation: `Current merged array C: [${arrayC.join(', ')}].`,
+                codeHighlights: i < arrA.length && j < arrB.length ? [4] : []
+            });
+        }
+        
+        // Handle remaining elements in array A
+        while (i < arrA.length) {
+            steps.push({
+                arrayA: [...arrA],
+                arrayB: [...arrB],
+                arrayC: [...arrayC],
+                indexes: { i: i, j: j },
+                explanation: `Array B is exhausted. Adding remaining elements from A.`,
+                codeHighlights: [11, 12, 13]
+            });
+            
+            steps.push({
+                arrayA: [...arrA],
+                arrayB: [...arrB],
+                arrayC: [...arrayC],
+                indexes: { i: i, j: j },
+                selected: { array: 'A', index: i },
+                explanation: `Adding A[${i}] = ${arrA[i]} to C.`,
+                codeHighlights: [12, 13]
+            });
+            
+            arrayC.push(arrA[i]);
+            i++;
+            
+            steps.push({
+                arrayA: [...arrA],
+                arrayB: [...arrB],
+                arrayC: [...arrayC],
+                indexes: { i: i, j: j },
+                addedToC: arrayC.length - 1,
+                explanation: `Current merged array C: [${arrayC.join(', ')}].`,
+                codeHighlights: i < arrA.length ? [11] : []
+            });
+        }
+        
+        // Handle remaining elements in array B
+        while (j < arrB.length) {
+            steps.push({
+                arrayA: [...arrA],
+                arrayB: [...arrB],
+                arrayC: [...arrayC],
+                indexes: { i: i, j: j },
+                explanation: `Array A is exhausted. Adding remaining elements from B.`,
+                codeHighlights: [14, 15, 16]
+            });
+            
+            steps.push({
+                arrayA: [...arrA],
+                arrayB: [...arrB],
+                arrayC: [...arrayC],
+                indexes: { i: i, j: j },
+                selected: { array: 'B', index: j },
+                explanation: `Adding B[${j}] = ${arrB[j]} to C.`,
+                codeHighlights: [15, 16]
+            });
+            
+            arrayC.push(arrB[j]);
+            j++;
+            
+            steps.push({
+                arrayA: [...arrA],
+                arrayB: [...arrB],
+                arrayC: [...arrayC],
+                indexes: { i: i, j: j },
+                addedToC: arrayC.length - 1,
+                explanation: `Current merged array C: [${arrayC.join(', ')}].`,
+                codeHighlights: j < arrB.length ? [14] : []
+            });
+        }
+        
+        // Final state
+        steps.push({
+            arrayA: [...arrA],
+            arrayB: [...arrB],
+            arrayC: [...arrayC],
+            indexes: { i: i, j: j },
+            explanation: `Merge complete! Final array C: [${arrayC.join(', ')}].`,
+            codeHighlights: [17]
+        });
+        
+        return steps;
+    }
+
+    function renderMergeArrays(stepData) {
+        if (!stepData) return;
+        
+        const { arrayA, arrayB, arrayC, indexes, comparingElements, selected, addedToC } = stepData;
+        
+        // Render array A
+        arrayAViz.innerHTML = '';
+        const arrayAContainer = document.createElement('div');
+        arrayAContainer.className = 'flex flex-wrap gap-2 justify-center';
+        
+        arrayA.forEach((value, index) => {
+            const element = document.createElement('div');
+            element.className = 'search-step flex items-center justify-center w-12 h-12 border border-gray-300 rounded-md shadow-sm text-lg font-medium';
+            element.textContent = value;
+            
+            // Highlight current index and selected elements
+            if (indexes.i === index) {
+                element.classList.add('search-current');
+            }
+            if (selected && selected.array === 'A' && selected.index === index) {
+                element.classList.add('search-found');
+            }
+            if (comparingElements && indexes.i === index) {
+                element.classList.add('search-mid');
+            }
+            
+            arrayAContainer.appendChild(element);
+        });
+        
+        arrayAViz.appendChild(arrayAContainer);
+        
+        // Render array B
+        arrayBViz.innerHTML = '';
+        const arrayBContainer = document.createElement('div');
+        arrayBContainer.className = 'flex flex-wrap gap-2 justify-center';
+        
+        arrayB.forEach((value, index) => {
+            const element = document.createElement('div');
+            element.className = 'search-step flex items-center justify-center w-12 h-12 border border-gray-300 rounded-md shadow-sm text-lg font-medium';
+            element.textContent = value;
+            
+            // Highlight current index and selected elements
+            if (indexes.j === index) {
+                element.classList.add('search-current');
+            }
+            if (selected && selected.array === 'B' && selected.index === index) {
+                element.classList.add('search-found');
+            }
+            if (comparingElements && indexes.j === index) {
+                element.classList.add('search-mid');
+            }
+            
+            arrayBContainer.appendChild(element);
+        });
+        
+        arrayBViz.appendChild(arrayBContainer);
+        
+        // Render array C
+        arrayCViz.innerHTML = '';
+        const arrayCContainer = document.createElement('div');
+        arrayCContainer.className = 'flex flex-wrap gap-2 justify-center';
+        
+        arrayC.forEach((value, index) => {
+            const element = document.createElement('div');
+            element.className = 'search-step flex items-center justify-center w-12 h-12 border border-gray-300 rounded-md shadow-sm text-lg font-medium';
+            element.textContent = value;
+            
+            // Highlight newly added element
+            if (addedToC === index) {
+                element.classList.add('search-found');
+            }
+            
+            arrayCContainer.appendChild(element);
+        });
+        
+        arrayCViz.appendChild(arrayCContainer);
+        
+        // Update status text and code highlights
+        mergeStatus.textContent = stepData.explanation || '';
+        if (mergeData.codeBlockId && stepData.codeHighlights) {
+            highlightCodeLines(mergeData.codeBlockId, stepData.codeHighlights);
+        }
+    }
+
+    startMergeBtn.addEventListener('click', () => {
+        const arrA = parseInput(arrayAInput.value);
+        const arrB = parseInput(arrayBInput.value);
+        
+        if (arrA.length === 0 || arrB.length === 0) {
+            mergeStatus.textContent = "Please enter valid arrays.";
+            arrayAViz.innerHTML = '<p class="text-gray-500 self-center">Array A is empty.</p>';
+            arrayBViz.innerHTML = '<p class="text-gray-500 self-center">Array B is empty.</p>';
+            arrayCViz.innerHTML = '<p class="text-gray-500 self-center">Merged array will appear here.</p>';
+            clearCodeHighlight(mergeData.codeBlockId);
+            return;
+        }
+        
+        // Sort arrays for proper visualization
+        const sortedA = [...arrA].sort((a, b) => a - b);
+        const sortedB = [...arrB].sort((a, b) => a - b);
+        
+        // Update input fields with sorted arrays
+        arrayAInput.value = sortedA.join(', ');
+        arrayBInput.value = sortedB.join(', ');
+        
+        mergeData.arrayA = sortedA;
+        mergeData.arrayB = sortedB;
+        mergeData.steps = generateMergeSteps(sortedA, sortedB);
+        mergeData.currentStep = 0;
+        mergeData.isMerging = true;
+        
+        renderMergeArrays(mergeData.steps[0]);
+        
+        startMergeBtn.disabled = true;
+        arrayAInput.disabled = true;
+        arrayBInput.disabled = true;
+        nextMergeStepBtn.disabled = mergeData.steps.length <= 1;
+        resetMergeBtn.disabled = false;
+    });
+
+    nextMergeStepBtn.addEventListener('click', () => {
+        if (!mergeData.isMerging || mergeData.currentStep >= mergeData.steps.length - 1) {
+            nextMergeStepBtn.disabled = true;
+            return;
+        }
+        
+        mergeData.currentStep++;
+        renderMergeArrays(mergeData.steps[mergeData.currentStep]);
+        
+        if (mergeData.currentStep >= mergeData.steps.length - 1) {
+            nextMergeStepBtn.disabled = true;
+        }
+    });
+
+    resetMergeBtn.addEventListener('click', () => {
+        mergeData.isMerging = false;
+        arrayAInput.disabled = false;
+        arrayBInput.disabled = false;
+        startMergeBtn.disabled = false;
+        nextMergeStepBtn.disabled = true;
+        resetMergeBtn.disabled = true;
+        
+        arrayAViz.innerHTML = '<p class="text-gray-500 self-center">Array A will appear here.</p>';
+        arrayBViz.innerHTML = '<p class="text-gray-500 self-center">Array B will appear here.</p>';
+        arrayCViz.innerHTML = '<p class="text-gray-500 self-center">Merged array will appear here.</p>';
+        mergeStatus.textContent = "Enter arrays and click \"Visualize\".";
+        clearCodeHighlight(mergeData.codeBlockId);
+        hideExplanationPopup();
+    });
+
+    // Add the code explanation listeners
+    window.addEventListener('load', function() {
+        // Add event listeners to the new merge code block
+        const mergeCodeLines = document.querySelectorAll('#mergeCodeBlock .code-line');
+        mergeCodeLines.forEach(line => {
+            line.addEventListener('mouseover', (event) => {
+                const explanation = event.target.getAttribute('data-explanation');
+                if (explanation) {
+                    showExplanationPopup(event, explanation);
+                }
+            });
+            line.addEventListener('mouseout', () => {
+                hideExplanationPopup();
+            });
+            line.addEventListener('mousemove', (event) => {
+                const explanation = event.target.getAttribute('data-explanation');
+                if (explanation && !codeExplanationPopup.classList.contains('hidden')) {
+                    updatePopupPosition(event);
+                }
+            });
+        });
     });
 
     // Initialize default view and attach hover listeners for code explanations
@@ -1358,6 +1850,9 @@
         bubbleViz.innerHTML = '<p class="text-gray-500 self-center">Visualization will appear here.</p>';
         linearSearchViz.innerHTML = '<p class="text-gray-500 self-center">Visualization will appear here.</p>';
         binarySearchViz.innerHTML = '<p class="text-gray-500 self-center">Visualization will appear here.</p>';
+        arrayAViz.innerHTML = '<p class="text-gray-500 self-center">Array A will appear here.</p>';
+        arrayBViz.innerHTML = '<p class="text-gray-500 self-center">Array B will appear here.</p>';
+        arrayCViz.innerHTML = '<p class="text-gray-500 self-center">Merged array will appear here.</p>';
         
         if (selectionSortSection.classList.contains('hidden')) {
             clearCodeHighlight(bubbleSortData.codeBlockId);

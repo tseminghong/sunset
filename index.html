@@ -95,6 +95,33 @@
             max-width: 280px; /* Or max-w-xs/sm in Tailwind */
             word-wrap: break-word; /* Ensure long words don't overflow */
         }
+
+        /* Search visualization styles */
+        .search-step {
+            padding: 6px;
+            border-radius: 4px;
+            margin: 4px 0;
+            transition: background-color 0.3s ease;
+        }
+        .search-current {
+            background-color: #60A5FA; /* blue-400 */
+            color: white;
+        }
+        .search-found {
+            background-color: #34D399; /* green-400 */
+            color: white;
+        }
+        .search-mid {
+            background-color: #F59E0B; /* amber-500 */
+            color: white; 
+        }
+        .search-range {
+            border-bottom: 2px solid #4F46E5; /* indigo-600 */
+        }
+        .search-eliminated {
+            text-decoration: line-through;
+            color: #9CA3AF; /* gray-400 */
+        }
     </style>
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col items-center py-8 px-4">
@@ -107,6 +134,7 @@
         <nav class="mb-8 flex justify-center border-b border-gray-300">
             <button id="showSelectionSort" class="tab-button active -mb-px px-6 py-3 border border-transparent rounded-t-lg hover:text-indigo-700 hover:border-gray-400 focus:outline-none">Selection Sort</button>
             <button id="showBubbleSort" class="tab-button px-6 py-3 border border-transparent rounded-t-lg text-gray-600 hover:text-indigo-700 hover:border-gray-400 focus:outline-none">Bubble Sort</button>
+            <button id="showSearching" class="tab-button px-6 py-3 border border-transparent rounded-t-lg text-gray-600 hover:text-indigo-700 hover:border-gray-400 focus:outline-none">Searching</button>
         </nav>
 
         <main>
@@ -232,6 +260,171 @@
                     <p id="bubbleStatus" class="status-text mt-4 text-sm text-gray-600 min-h-[40px] bg-gray-100 p-2 rounded-md border border-gray-200">Enter an array and click "Visualize".</p>
                 </div>
             </section>
+
+            <section id="searchingSection" class="sort-section hidden">
+                <header class="mb-6">
+                    <h2 class="text-3xl font-semibold text-gray-800">Searching Algorithms</h2>
+                </header>
+                
+                <div class="mb-8 flex justify-center">
+                    <button id="showLinearSearch" class="tab-button active px-6 py-3 border border-b-0 border-gray-300 rounded-t-lg hover:text-indigo-700 focus:outline-none">Linear Search</button>
+                    <button id="showBinarySearch" class="tab-button px-6 py-3 border border-b-0 border-gray-300 rounded-t-lg text-gray-600 hover:text-indigo-700 focus:outline-none">Binary Search</button>
+                    <button id="showSearchComparison" class="tab-button px-6 py-3 border border-b-0 border-gray-300 rounded-t-lg text-gray-600 hover:text-indigo-700 focus:outline-none">Comparison</button>
+                </div>
+                
+                <div id="linearSearchSection" class="search-subsection">
+                    <article class="prose max-w-none text-gray-700 mb-6 leading-relaxed">
+                        <p>Linear search (also called sequential search) is the simplest searching algorithm. It sequentially checks each element of the list until it finds the target or reaches the end of the list.</p>
+                        <p><strong>How it works:</strong></p>
+                        <ol class="list-decimal list-inside">
+                            <li>Start from the first element of the list</li>
+                            <li>Compare the current element with the target</li>
+                            <li>If the current element matches the target, return its index</li>
+                            <li>If the current element doesn't match, move to the next element</li>
+                            <li>Repeat steps 2-4 until the element is found or the end of the list is reached</li>
+                            <li>If the target is not found, return -1</li>
+                        </ol>
+                    </article>
+                    
+                    <details class="mb-6 group">
+                        <summary class="text-xl font-medium text-indigo-600 hover:text-indigo-800 cursor-pointer list-none flex items-center">
+                            Python Code
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 ml-2 transform group-open:rotate-180 transition-transform">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </summary>
+                        <pre id="linearSearchCodeBlock" class="code-block mt-2"><code>
+<span class="code-line" data-line-number="0" data-explanation="Defines the LinearSearch function that takes a list and a target value as input.">def LinearSearch(list, target):</span>
+<span class="code-line" data-line-number="1" data-explanation="Starts a loop that iterates through each index of the list.">  for i in range(len(list)):</span>
+<span class="code-line" data-line-number="2" data-explanation="Checks if the current element equals the target value.">     if list[i] == target:</span>
+<span class="code-line" data-line-number="3" data-explanation="If target is found, returns its index position.">       return i</span>
+<span class="code-line" data-line-number="4" data-explanation="If the entire list was searched and target wasn't found, returns -1.">   return -1</span>
+                        </code></pre>
+                    </details>
+                    
+                    <div class="interactive-area mt-6 p-6 border border-gray-300 rounded-lg bg-gray-50 shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4">Try it yourself!</h3>
+                        <div class="mb-4">
+                            <label for="linearSearchInput" class="block text-sm font-medium text-gray-700 mb-1">Enter numbers (comma-separated):</label>
+                            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+                                <input type="text" id="linearSearchInput" class="flex-grow p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" value="5,1,9,3,7,4,6,2,8">
+                                <input type="text" id="linearSearchTarget" placeholder="Target value" class="w-32 p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" value="7">
+                                <button id="startLinearSearch" class="px-5 py-3 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition duration-150 ease-in-out">Visualize</button>
+                            </div>
+                        </div>
+                        <div class="controls mb-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+                            <button id="nextLinearSearchStep" class="px-5 py-3 bg-green-500 text-white font-medium rounded-md hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out" disabled>Next Step</button>
+                            <button id="resetLinearSearch" class="px-5 py-3 bg-red-500 text-white font-medium rounded-md hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out" disabled>Reset</button>
+                        </div>
+                        <div id="linearSearchViz" class="visualization-area bg-gray-200 rounded-md p-4 w-full">
+                            <p class="text-gray-500 self-center">Visualization will appear here.</p>
+                        </div>
+                        <p id="linearSearchStatus" class="status-text mt-4 text-sm text-gray-600 min-h-[40px] bg-gray-100 p-2 rounded-md border border-gray-200">Enter an array and target, then click "Visualize".</p>
+                    </div>
+                </div>
+                
+                <div id="binarySearchSection" class="search-subsection hidden">
+                    <article class="prose max-w-none text-gray-700 mb-6 leading-relaxed">
+                        <p>Binary search is a more efficient search algorithm that works on sorted arrays. It repeatedly divides the search range in half until the target is found or the range is empty.</p>
+                        <p><strong>How it works:</strong></p>
+                        <ol class="list-decimal list-inside">
+                            <li>Start with the middle element of the sorted array</li>
+                            <li>If the target equals the middle element, return its index</li>
+                            <li>If the target is less than the middle element, search the left half</li>
+                            <li>If the target is greater than the middle element, search the right half</li>
+                            <li>Repeat steps 1-4 until the target is found or the search range is empty</li>
+                            <li>If the search range becomes empty, return -1</li>
+                        </ol>
+                        <p><strong>Note:</strong> Binary search requires a sorted array to work correctly.</p>
+                    </article>
+                    
+                    <details class="mb-6 group">
+                        <summary class="text-xl font-medium text-indigo-600 hover:text-indigo-800 cursor-pointer list-none flex items-center">
+                            Python Code
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 ml-2 transform group-open:rotate-180 transition-transform">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </summary>
+                        <pre id="binarySearchCodeBlock" class="code-block mt-2"><code>
+<span class="code-line" data-line-number="0" data-explanation="Defines the BinarySearch function that takes a list and a target value as input.">def BinarySearch(list, target):</span>
+<span class="code-line" data-line-number="1" data-explanation="Initializes the first index of the search range.">    first = 0</span>
+<span class="code-line" data-line-number="2" data-explanation="Initializes the last index of the search range.">    last = len(list) - 1</span>
+<span class="code-line" data-line-number="3" data-explanation="Sets the initial location to -1 (not found).">    location = -1</span>
+<span class="code-line" data-line-number="4" data-explanation="Loop continues as long as there are elements to search and target hasn't been found.">    while first <= last and location == -1:</span>
+<span class="code-line" data-line-number="5" data-explanation="Calculates the middle index of the current search range.">        mid = (first + last) // 2</span>
+<span class="code-line" data-line-number="6" data-explanation="Checks if the middle element equals the target.">        if target == list[mid]:</span>
+<span class="code-line" data-line-number="7" data-explanation="If target is found, sets its location to the middle index.">            location = mid</span>
+<span class="code-line" data-line-number="8" data-explanation="If target is less than the middle element, searches in the left half.">        elif target < list[mid]:</span>
+<span class="code-line" data-line-number="9" data-explanation="Updates the last index to search only the left half.">            last = mid - 1</span>
+<span class="code-line" data-line-number="10" data-explanation="If target is greater than the middle element, searches in the right half.">        else:</span>
+<span class="code-line" data-line-number="11" data-explanation="Updates the first index to search only the right half.">            first = mid + 1</span>
+<span class="code-line" data-line-number="12" data-explanation="Returns the location of the target (index if found, -1 if not found).">    return location</span>
+                        </code></pre>
+                    </details>
+                    
+                    <div class="interactive-area mt-6 p-6 border border-gray-300 rounded-lg bg-gray-50 shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4">Try it yourself!</h3>
+                        <div class="mb-4">
+                            <label for="binarySearchInput" class="block text-sm font-medium text-gray-700 mb-1">Enter numbers (comma-separated, will be sorted):</label>
+                            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+                                <input type="text" id="binarySearchInput" class="flex-grow p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" value="2,4,5,9,12,15,19,23,25,28,31,37,40,50,52">
+                                <input type="text" id="binarySearchTarget" placeholder="Target value" class="w-32 p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" value="15">
+                                <button id="startBinarySearch" class="px-5 py-3 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition duration-150 ease-in-out">Visualize</button>
+                            </div>
+                        </div>
+                        <div class="controls mb-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+                            <button id="nextBinarySearchStep" class="px-5 py-3 bg-green-500 text-white font-medium rounded-md hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out" disabled>Next Step</button>
+                            <button id="resetBinarySearch" class="px-5 py-3 bg-red-500 text-white font-medium rounded-md hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out" disabled>Reset</button>
+                        </div>
+                        <div id="binarySearchViz" class="visualization-area bg-gray-200 rounded-md p-4 w-full">
+                            <p class="text-gray-500 self-center">Visualization will appear here.</p>
+                        </div>
+                        <p id="binarySearchStatus" class="status-text mt-4 text-sm text-gray-600 min-h-[40px] bg-gray-100 p-2 rounded-md border border-gray-200">Enter a sorted array and target, then click "Visualize".</p>
+                    </div>
+                </div>
+                
+                <div id="searchComparisonSection" class="search-subsection hidden">
+                    <article class="prose max-w-none text-gray-700 mb-6 leading-relaxed">
+                        <h3 class="text-xl font-semibold">Comparison of Search Algorithms</h3>
+                        <table class="min-w-full border border-gray-300 mt-4">
+                            <thead>
+                                <tr>
+                                    <th class="border border-gray-300 p-3 bg-gray-100"></th>
+                                    <th class="border border-gray-300 p-3 bg-gray-100">Linear Search</th>
+                                    <th class="border border-gray-300 p-3 bg-gray-100">Binary Search</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border border-gray-300 p-3 font-medium">Data Structure</td>
+                                    <td class="border border-gray-300 p-3">Can search on multiple-dimensional arrays, in a sequential way.</td>
+                                    <td class="border border-gray-300 p-3">Can only search over a one-dimensional array with sorted data.</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 p-3 font-medium">Performance</td>
+                                    <td class="border border-gray-300 p-3">Slower in search. O(n) time complexity.</td>
+                                    <td class="border border-gray-300 p-3">Much faster in search. O(log n) time complexity.</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 p-3 font-medium">Multiple Matches</td>
+                                    <td class="border border-gray-300 p-3">All targets can be found (by continuing the search).</td>
+                                    <td class="border border-gray-300 p-3">Only one target will be found. (Need to scan forward and backward for more matches.)</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 p-3 font-medium">Pre-processing</td>
+                                    <td class="border border-gray-300 p-3">No pre-processing required.</td>
+                                    <td class="border border-gray-300 p-3">Data must be sorted first.</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 p-3 font-medium">Best for</td>
+                                    <td class="border border-gray-300 p-3">Small datasets or unsorted data.</td>
+                                    <td class="border border-gray-300 p-3">Large sorted datasets.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </article>
+                </div>
+            </section>
         </main>
     </div>
 
@@ -265,11 +458,31 @@
         codeBlockId: 'bubbleSortCodeBlock' 
     };
 
+    let linearSearchData = {
+        steps: [],
+        currentStep: 0,
+        array: [],
+        target: null,
+        isSearching: false,
+        codeBlockId: 'linearSearchCodeBlock'
+    };
+
+    let binarySearchData = {
+        steps: [],
+        currentStep: 0,
+        array: [],
+        target: null,
+        isSearching: false,
+        codeBlockId: 'binarySearchCodeBlock'
+    };
+
     // DOM Elements (common)
     const selectionSortSection = document.getElementById('selectionSortSection');
     const bubbleSortSection = document.getElementById('bubbleSortSection');
+    const searchingSection = document.getElementById('searchingSection');
     const showSelectionSortBtn = document.getElementById('showSelectionSort');
     const showBubbleSortBtn = document.getElementById('showBubbleSort');
+    const showSearchingBtn = document.getElementById('showSearching');
     const codeExplanationPopup = document.getElementById('codeExplanationPopup'); // Added popup element
 
     // DOM Elements for Selection Sort
@@ -288,23 +501,102 @@
     const bubbleViz = document.getElementById('bubbleViz');
     const bubbleStatus = document.getElementById('bubbleStatus');
 
+    // DOM Elements for Searching
+    const linearSearchSection = document.getElementById('linearSearchSection');
+    const binarySearchSection = document.getElementById('binarySearchSection');
+    const searchComparisonSection = document.getElementById('searchComparisonSection');
+    const showLinearSearchBtn = document.getElementById('showLinearSearch');
+    const showBinarySearchBtn = document.getElementById('showBinarySearch');
+    const showSearchComparisonBtn = document.getElementById('showSearchComparison');
+
+    const linearSearchInput = document.getElementById('linearSearchInput');
+    const linearSearchTarget = document.getElementById('linearSearchTarget');
+    const startLinearSearchBtn = document.getElementById('startLinearSearch');
+    const nextLinearSearchStepBtn = document.getElementById('nextLinearSearchStep');
+    const resetLinearSearchBtn = document.getElementById('resetLinearSearch');
+    const linearSearchViz = document.getElementById('linearSearchViz');
+    const linearSearchStatus = document.getElementById('linearSearchStatus');
+
+    const binarySearchInput = document.getElementById('binarySearchInput');
+    const binarySearchTarget = document.getElementById('binarySearchTarget');
+    const startBinarySearchBtn = document.getElementById('startBinarySearch');
+    const nextBinarySearchStepBtn = document.getElementById('nextBinarySearchStep');
+    const resetBinarySearchBtn = document.getElementById('resetBinarySearch');
+    const binarySearchViz = document.getElementById('binarySearchViz');
+    const binarySearchStatus = document.getElementById('binarySearchStatus');
+
     // --- Tab Switching Logic ---
     showSelectionSortBtn.addEventListener('click', () => {
         selectionSortSection.classList.remove('hidden');
         bubbleSortSection.classList.add('hidden');
+        searchingSection.classList.add('hidden');
         showSelectionSortBtn.classList.add('active');
         showBubbleSortBtn.classList.remove('active');
+        showSearchingBtn.classList.remove('active');
         clearCodeHighlight(bubbleSortData.codeBlockId); 
+        clearCodeHighlight(linearSearchData.codeBlockId);
+        clearCodeHighlight(binarySearchData.codeBlockId);
         hideExplanationPopup(); // Hide popup on tab switch
     });
 
     showBubbleSortBtn.addEventListener('click', () => {
         bubbleSortSection.classList.remove('hidden');
         selectionSortSection.classList.add('hidden');
+        searchingSection.classList.add('hidden');
         showBubbleSortBtn.classList.add('active');
         showSelectionSortBtn.classList.remove('active');
+        showSearchingBtn.classList.remove('active');
         clearCodeHighlight(selectionSortData.codeBlockId); 
+        clearCodeHighlight(linearSearchData.codeBlockId);
+        clearCodeHighlight(binarySearchData.codeBlockId);
         hideExplanationPopup(); // Hide popup on tab switch
+    });
+
+    showSearchingBtn.addEventListener('click', () => {
+        searchingSection.classList.remove('hidden');
+        selectionSortSection.classList.add('hidden');
+        bubbleSortSection.classList.add('hidden');
+        showSearchingBtn.classList.add('active');
+        showSelectionSortBtn.classList.remove('active');
+        showBubbleSortBtn.classList.remove('active');
+        clearCodeHighlight(selectionSortData.codeBlockId);
+        clearCodeHighlight(bubbleSortData.codeBlockId);
+        hideExplanationPopup();
+    });
+
+    // --- Sub-tab Switching Logic for Searching ---
+    showLinearSearchBtn.addEventListener('click', () => {
+        linearSearchSection.classList.remove('hidden');
+        binarySearchSection.classList.add('hidden');
+        searchComparisonSection.classList.add('hidden');
+        showLinearSearchBtn.classList.add('active');
+        showBinarySearchBtn.classList.remove('active');
+        showSearchComparisonBtn.classList.remove('active');
+        clearCodeHighlight(binarySearchData.codeBlockId);
+        hideExplanationPopup();
+    });
+
+    showBinarySearchBtn.addEventListener('click', () => {
+        linearSearchSection.classList.add('hidden');
+        binarySearchSection.classList.remove('hidden');
+        searchComparisonSection.classList.add('hidden');
+        showLinearSearchBtn.classList.remove('active');
+        showBinarySearchBtn.classList.add('active');
+        showSearchComparisonBtn.classList.remove('active');
+        clearCodeHighlight(linearSearchData.codeBlockId);
+        hideExplanationPopup();
+    });
+
+    showSearchComparisonBtn.addEventListener('click', () => {
+        linearSearchSection.classList.add('hidden');
+        binarySearchSection.classList.add('hidden');
+        searchComparisonSection.classList.remove('hidden');
+        showLinearSearchBtn.classList.remove('active');
+        showBinarySearchBtn.classList.remove('active');
+        showSearchComparisonBtn.classList.add('active');
+        clearCodeHighlight(linearSearchData.codeBlockId);
+        clearCodeHighlight(binarySearchData.codeBlockId);
+        hideExplanationPopup();
     });
 
     // --- Utility Functions ---
@@ -718,10 +1010,354 @@
         hideExplanationPopup();
     });
 
+    // --- Linear Search Logic ---
+    function generateLinearSearchSteps(arr, target) {
+        const steps = [];
+        target = parseInt(target);
+        
+        // Initial state
+        steps.push({
+            arrayState: [...arr],
+            highlights: {},
+            explanation: "Starting linear search for target " + target + ".",
+            codeHighlights: [0, 1]
+        });
+        
+        let found = false;
+        
+        // Generate steps for each iteration
+        for (let i = 0; i < arr.length; i++) {
+            // Comparing current element
+            steps.push({
+                arrayState: [...arr],
+                highlights: { current: i },
+                explanation: `Checking if arr[${i}] (${arr[i]}) equals target ${target}.`,
+                codeHighlights: [1, 2]
+            });
+            
+            // Check if found
+            if (arr[i] === target) {
+                found = true;
+                steps.push({
+                    arrayState: [...arr],
+                    highlights: { found: i },
+                    explanation: `Found target ${target} at index ${i}!`,
+                    codeHighlights: [3]
+                });
+                break;
+            }
+        }
+        
+        // If target not found
+        if (!found) {
+            steps.push({
+                arrayState: [...arr],
+                highlights: {},
+                explanation: `Target ${target} not found in the array.`,
+                codeHighlights: [4]
+            });
+        }
+        
+        return steps;
+    }
+
+    function renderLinearSearchArray(vizElement, statusElement, stepData, sortData) {
+        vizElement.innerHTML = '';
+        if (!stepData || !stepData.arrayState) {
+            vizElement.innerHTML = '<p class="text-gray-500 self-center">Array is empty or not yet visualized.</p>';
+            return;
+        }
+
+        const { arrayState, highlights, explanation, codeHighlights } = stepData;
+        
+        // Create a container for the array elements
+        const arrayContainer = document.createElement('div');
+        arrayContainer.className = 'flex flex-wrap gap-2 justify-center';
+        
+        // Render each element of the array
+        arrayState.forEach((value, index) => {
+            const element = document.createElement('div');
+            element.className = 'search-step flex items-center justify-center w-12 h-12 border border-gray-300 rounded-md shadow-sm text-lg font-medium';
+            element.textContent = value;
+            
+            // Apply appropriate highlighting
+            if (highlights.found === index) {
+                element.classList.add('search-found');
+            } else if (highlights.current === index) {
+                element.classList.add('search-current');
+            }
+            
+            arrayContainer.appendChild(element);
+        });
+        
+        vizElement.appendChild(arrayContainer);
+        statusElement.innerHTML = explanation || 'Status will appear here.';
+        
+        if (sortData.codeBlockId && codeHighlights) {
+            highlightCodeLines(sortData.codeBlockId, codeHighlights);
+        }
+    }
+
+    startLinearSearchBtn.addEventListener('click', () => {
+        const arr = parseInput(linearSearchInput.value);
+        const target = parseInt(linearSearchTarget.value);
+        
+        if (arr.length === 0 || isNaN(target)) {
+            linearSearchStatus.textContent = "Please enter a valid array and target value.";
+            linearSearchViz.innerHTML = '<p class="text-gray-500 self-center">Invalid input.</p>';
+            clearCodeHighlight(linearSearchData.codeBlockId);
+            return;
+        }
+        
+        linearSearchData.array = [...arr];
+        linearSearchData.target = target;
+        linearSearchData.steps = generateLinearSearchSteps(arr, target);
+        linearSearchData.currentStep = 0;
+        linearSearchData.isSearching = true;
+        
+        renderLinearSearchArray(linearSearchViz, linearSearchStatus, linearSearchData.steps[0], linearSearchData);
+        
+        startLinearSearchBtn.disabled = true;
+        linearSearchInput.disabled = true;
+        linearSearchTarget.disabled = true;
+        nextLinearSearchStepBtn.disabled = linearSearchData.steps.length <= 1;
+        resetLinearSearchBtn.disabled = false;
+    });
+
+    nextLinearSearchStepBtn.addEventListener('click', () => {
+        if (!linearSearchData.isSearching || linearSearchData.currentStep >= linearSearchData.steps.length - 1) {
+            nextLinearSearchStepBtn.disabled = true;
+            return;
+        }
+        
+        linearSearchData.currentStep++;
+        renderLinearSearchArray(linearSearchViz, linearSearchStatus, linearSearchData.steps[linearSearchData.currentStep], linearSearchData);
+        
+        if (linearSearchData.currentStep >= linearSearchData.steps.length - 1) {
+            nextLinearSearchStepBtn.disabled = true;
+        }
+    });
+
+    resetLinearSearchBtn.addEventListener('click', () => {
+        linearSearchData.isSearching = false;
+        linearSearchInput.disabled = false;
+        linearSearchTarget.disabled = false;
+        startLinearSearchBtn.disabled = false;
+        nextLinearSearchStepBtn.disabled = true;
+        resetLinearSearchBtn.disabled = true;
+        
+        linearSearchViz.innerHTML = '<p class="text-gray-500 self-center">Visualization will appear here.</p>';
+        linearSearchStatus.textContent = "Enter an array and target, then click 'Visualize'.";
+        clearCodeHighlight(linearSearchData.codeBlockId);
+        hideExplanationPopup();
+    });
+
+    // --- Binary Search Logic ---
+    function generateBinarySearchSteps(arr, target) {
+        const steps = [];
+        target = parseInt(target);
+        
+        // Ensure array is sorted
+        arr.sort((a, b) => a - b);
+        
+        // Initial state
+        steps.push({
+            arrayState: [...arr],
+            highlights: { range: { first: 0, last: arr.length - 1 } },
+            explanation: "Starting binary search for target " + target + " in sorted array.",
+            codeHighlights: [0, 1, 2, 3]
+        });
+        
+        let first = 0;
+        let last = arr.length - 1;
+        let found = false;
+        let eliminated = [];
+        
+        while (first <= last && !found) {
+            let mid = Math.floor((first + last) / 2);
+            
+            // Highlighting current range and midpoint
+            steps.push({
+                arrayState: [...arr],
+                highlights: { 
+                    range: { first, last },
+                    mid: mid,
+                    eliminated: [...eliminated]
+                },
+                explanation: `Searching between indices ${first} and ${last}. Middle element is at index ${mid} (value: ${arr[mid]}).`,
+                codeHighlights: [4, 5]
+            });
+            
+            // Check if target found
+            if (arr[mid] === target) {
+                found = true;
+                steps.push({
+                    arrayState: [...arr],
+                    highlights: { 
+                        found: mid,
+                        eliminated: [...eliminated]
+                    },
+                    explanation: `Found target ${target} at index ${mid}!`,
+                    codeHighlights: [6, 7]
+                });
+            } 
+            // Target is in left half
+            else if (arr[mid] > target) {
+                for (let i = mid; i <= last; i++) {
+                    if (!eliminated.includes(i)) eliminated.push(i);
+                }
+                steps.push({
+                    arrayState: [...arr],
+                    highlights: { 
+                        range: { first, last: mid - 1 },
+                        compare: [mid],
+                        eliminated: [...eliminated]
+                    },
+                    explanation: `arr[${mid}] (${arr[mid]}) > ${target}, so target must be in the left half. Search range updated to indices ${first} to ${mid-1}.`,
+                    codeHighlights: [8, 9]
+                });
+                last = mid - 1;
+            } 
+            // Target is in right half
+            else {
+                for (let i = first; i <= mid; i++) {
+                    if (!eliminated.includes(i)) eliminated.push(i);
+                }
+                steps.push({
+                    arrayState: [...arr],
+                    highlights: { 
+                        range: { first: mid + 1, last },
+                        compare: [mid],
+                        eliminated: [...eliminated]
+                    },
+                    explanation: `arr[${mid}] (${arr[mid]}) < ${target}, so target must be in the right half. Search range updated to indices ${mid+1} to ${last}.`,
+                    codeHighlights: [10, 11]
+                });
+                first = mid + 1;
+            }
+        }
+        
+        // If target not found
+        if (!found) {
+            steps.push({
+                arrayState: [...arr],
+                highlights: { eliminated: [...eliminated] },
+                explanation: `Target ${target} not found in the array.`,
+                codeHighlights: [12]
+            });
+        }
+        
+        return steps;
+    }
+
+    function renderBinarySearchArray(vizElement, statusElement, stepData, sortData) {
+        vizElement.innerHTML = '';
+        if (!stepData || !stepData.arrayState) {
+            vizElement.innerHTML = '<p class="text-gray-500 self-center">Array is empty or not yet visualized.</p>';
+            return;
+        }
+
+        const { arrayState, highlights, explanation, codeHighlights } = stepData;
+        
+        // Create a container for the array elements
+        const arrayContainer = document.createElement('div');
+        arrayContainer.className = 'flex flex-wrap gap-2 justify-center';
+        
+        // Render each element of the array
+        arrayState.forEach((value, index) => {
+            const element = document.createElement('div');
+            element.className = 'search-step flex items-center justify-center w-12 h-12 border border-gray-300 rounded-md shadow-sm text-lg font-medium';
+            element.textContent = value;
+            
+            // Apply appropriate highlighting
+            if (highlights.found === index) {
+                element.classList.add('search-found');
+            } else if (highlights.mid === index) {
+                element.classList.add('search-mid');
+            } else if (highlights.eliminated && highlights.eliminated.includes(index)) {
+                element.classList.add('search-eliminated');
+            }
+            
+            // Highlight the current range
+            if (highlights.range && index >= highlights.range.first && index <= highlights.range.last) {
+                element.classList.add('search-range');
+            }
+            
+            arrayContainer.appendChild(element);
+        });
+        
+        vizElement.appendChild(arrayContainer);
+        statusElement.innerHTML = explanation || 'Status will appear here.';
+        
+        if (sortData.codeBlockId && codeHighlights) {
+            highlightCodeLines(sortData.codeBlockId, codeHighlights);
+        }
+    }
+
+    startBinarySearchBtn.addEventListener('click', () => {
+        let arr = parseInput(binarySearchInput.value);
+        const target = parseInt(binarySearchTarget.value);
+        
+        if (arr.length === 0 || isNaN(target)) {
+            binarySearchStatus.textContent = "Please enter a valid array and target value.";
+            binarySearchViz.innerHTML = '<p class="text-gray-500 self-center">Invalid input.</p>';
+            clearCodeHighlight(binarySearchData.codeBlockId);
+            return;
+        }
+        
+        // Sort the array for binary search
+        arr.sort((a, b) => a - b);
+        binarySearchInput.value = arr.join(', ');
+        
+        binarySearchData.array = [...arr];
+        binarySearchData.target = target;
+        binarySearchData.steps = generateBinarySearchSteps(arr, target);
+        binarySearchData.currentStep = 0;
+        binarySearchData.isSearching = true;
+        
+        renderBinarySearchArray(binarySearchViz, binarySearchStatus, binarySearchData.steps[0], binarySearchData);
+        
+        startBinarySearchBtn.disabled = true;
+        binarySearchInput.disabled = true;
+        binarySearchTarget.disabled = true;
+        nextBinarySearchStepBtn.disabled = binarySearchData.steps.length <= 1;
+        resetBinarySearchBtn.disabled = false;
+    });
+
+    nextBinarySearchStepBtn.addEventListener('click', () => {
+        if (!binarySearchData.isSearching || binarySearchData.currentStep >= binarySearchData.steps.length - 1) {
+            nextBinarySearchStepBtn.disabled = true;
+            return;
+        }
+        
+        binarySearchData.currentStep++;
+        renderBinarySearchArray(binarySearchViz, binarySearchStatus, binarySearchData.steps[binarySearchData.currentStep], binarySearchData);
+        
+        if (binarySearchData.currentStep >= binarySearchData.steps.length - 1) {
+            nextBinarySearchStepBtn.disabled = true;
+        }
+    });
+
+    resetBinarySearchBtn.addEventListener('click', () => {
+        binarySearchData.isSearching = false;
+        binarySearchInput.disabled = false;
+        binarySearchTarget.disabled = false;
+        startBinarySearchBtn.disabled = false;
+        nextBinarySearchStepBtn.disabled = true;
+        resetBinarySearchBtn.disabled = true;
+        
+        binarySearchViz.innerHTML = '<p class="text-gray-500 self-center">Visualization will appear here.</p>';
+        binarySearchStatus.textContent = "Enter an array and target, then click 'Visualize'.";
+        clearCodeHighlight(binarySearchData.codeBlockId);
+        hideExplanationPopup();
+    });
+
     // Initialize default view and attach hover listeners for code explanations
     window.onload = () => {
         selectionViz.innerHTML = '<p class="text-gray-500 self-center">Visualization will appear here.</p>';
         bubbleViz.innerHTML = '<p class="text-gray-500 self-center">Visualization will appear here.</p>';
+        linearSearchViz.innerHTML = '<p class="text-gray-500 self-center">Visualization will appear here.</p>';
+        binarySearchViz.innerHTML = '<p class="text-gray-500 self-center">Visualization will appear here.</p>';
         
         if (selectionSortSection.classList.contains('hidden')) {
             clearCodeHighlight(bubbleSortData.codeBlockId);

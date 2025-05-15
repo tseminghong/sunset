@@ -1895,6 +1895,57 @@ def concat_and_sort(A, B):
         });
     };
 
+    // Updated event listeners for main navigation tabs
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the main tab buttons
+        const showSortingBtn = document.getElementById('showSorting');
+        const showSearchingBtn = document.getElementById('showSearching');
+        const showMergeBtn = document.getElementById('showMerge');
+        
+        // Get main sections
+        const sortingSection = document.getElementById('sortingSection');
+        const searchingSection = document.getElementById('searchingSection');
+        const mergeSection = document.getElementById('mergeSection');
+        
+        // Fix for Searching tab - ensure sortingSection is hidden
+        showSearchingBtn.addEventListener('click', () => {
+            // Show searching section, hide others
+            searchingSection.classList.remove('hidden');
+            sortingSection.classList.add('hidden'); // This ensures the sorting sub-nav is hidden
+            mergeSection.classList.add('hidden');
+            
+            // Update active tab
+            showSearchingBtn.classList.add('active');
+            showSortingBtn.classList.remove('active');
+            showMergeBtn.classList.remove('active');
+            
+            // Clear code highlights
+            clearCodeHighlight(selectionSortData.codeBlockId);
+            clearCodeHighlight(bubbleSortData.codeBlockId);
+            clearCodeHighlight(mergeData.codeBlockId);
+            hideExplanationPopup();
+        });
+        
+        // Fix for Merge tab - ensure sortingSection is hidden
+        showMergeBtn.addEventListener('click', () => {
+            // Show merge section, hide others
+            mergeSection.classList.remove('hidden');
+            sortingSection.classList.add('hidden'); // This ensures the sorting sub-nav is hidden
+            searchingSection.classList.add('hidden');
+            
+            // Update active tab
+            showMergeBtn.classList.add('active');
+            showSortingBtn.classList.remove('active');
+            showSearchingBtn.classList.remove('active');
+            
+            // Clear code highlights
+            clearCodeHighlight(selectionSortData.codeBlockId);
+            clearCodeHighlight(bubbleSortData.codeBlockId);
+            clearCodeHighlight(linearSearchData.codeBlockId);
+            clearCodeHighlight(binarySearchData.codeBlockId);
+            hideExplanationPopup();
+        });
+    });
 </script>
 </body>
 </html>

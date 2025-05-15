@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Game Question Explainer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem; /* More rounded corners */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        th, td {
+            border: 1px solid #e5e7eb; 
+            padding: 0.75rem;
+            text-align: center;
+            min-width: 50px;
+        }
+        th {
+            background-color: #f9fafb; /* Very light gray for headers */
+            font-weight: 600;
+        }
+        .pseudocode {
+            background-color: #1f2937; /* Dark gray for code blocks */
+            color: #d1d5db; /* Light gray text */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap; /* Preserve line breaks and spaces */
+            margin-top: 1rem;
+        }
+        .reveal-btn {
+            background-color: #3b82f6; /* Blue */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: none;
+            font-weight: 500;
+        }
+        .reveal-btn:hover {
+            background-color: #2563eb; /* Darker blue */
+        }
+        .answer-box {
+            background-color: #e0f2fe; /* Light blue */
+            border: 1px solid #7dd3fc; /* Sky blue border */
+            color: #0c4a6e; /* Dark blue text */
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+        .nav-tabs button {
+            padding: 0.75rem 1.25rem;
+            margin-right: 0.5rem;
+            border-radius: 0.375rem 0.375rem 0 0;
+            font-weight: 500;
+            background-color: #e5e7eb; /* Light gray inactive tab */
+            color: #374151; /* Dark gray text */
+            border: 1px solid #d1d5db;
+            border-bottom: none;
+        }
+        .nav-tabs button.active {
+            background-color: #3b82f6; /* Blue active tab */
+            color: white;
+            border-color: #3b82f6;
+        }
+        .hint-explanation {
+            background-color: #f0f9ff; /* Very light blue */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            border: 1px solid #bae6fd; /* Light sky blue border */
+        }
+        .code-inline {
+            background-color: #e5e7eb;
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+        }
+        .highlight-correct { background-color: #dcfce7; color: #166534; } /* Light green for correct */
+        .highlight-incorrect { background-color: #fee2e2; color: #991b1b; } /* Light red for incorrect */
+        .highlight-current-check { border: 2px solid #fb923c; /* Orange border */ }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <header class="text-center mb-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Number Game Challenge Explainer</h1>
+        <p class="text-gray-600 mt-2">An interactive guide to understanding the exam question.</p>
+    </header>
+
+    <section id="introduction" class="card">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-3">1. The Number Game: Overview</h2>
+        <p class="text-gray-700 mb-2">In this program, a player guesses <strong class="text-blue-600">N</strong> numbers, each ranging from 0 to 9. The program uses several global variables to manage the game:</p>
+        <ul class="list-disc list-inside text-gray-700 space-y-1 pl-4">
+            <li><code class="code-inline">ANS</code>: An integer array storing the <strong class="text-green-600">correct answer numbers</strong>.</li>
+            <li><code class="code-inline">trial</code>: A 2D integer array storing the <strong class="text-yellow-600">player's N guessed numbers</strong> for each trial. <code class="code-inline">trial[t][k]</code> is the k-th number guessed in trial t.</li>
+            <li><code class="code-inline">result</code>: A 2D character array storing the <strong class="text-purple-600">correctness</strong> of each guess. 'T' means a right guess, 'F' means a wrong guess. <code class="code-inline">result[t][k]</code> corresponds to <code class="code-inline">trial[t][k]</code>.</li>
+        </ul>
+    </section>
+
+    <section id="example-data" class="card">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-3">2. Example Data (for N=3)</h2>
+        <p class="text-gray-700 mb-2">The problem provides an example where N=3 (3 numbers to guess). There are 4 trials (indexed 0 to 3).</p>
+        
+        <div class="grid md:grid-cols-3 gap-6">
+            <div>
+                <h3 class="text-lg font-medium text-gray-700">ANS (Correct Answers)</h3>
+                <div class="table-container">
+                    <table id="ans-table">
+                        </table>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-lg font-medium text-gray-700">trial (Player's Guesses)</h3>
+                <div class="table-container">
+                    <table id="trial-table">
+                        </table>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-lg font-medium text-gray-700">result (Guess Outcomes)</h3>
+                <div class="table-container">
+                    <table id="result-table">
+                        </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="part-a" class="card">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-3">3. Part (a): The <code class="code-inline">check(t)</code> Subprogram</h2>
+        <p class="text-gray-700 mb-2">This subprogram is used to fill in the <code class="code-inline">result</code> array for a specific trial <code class="code-inline">t</code> by comparing the player's guesses with the <code class="code-inline">ANS</code> array.</p>
+        <p class="text-gray-700 mb-3 font-medium">Your task: Write the missing parts of Lines 30 and 40 in the pseudocode.</p>
+        
+        <h4 class="text-lg font-medium text-gray-700 mb-2">Pseudocode for <code class="code-inline">check(t)</code>:</h4>
+        <div class="pseudocode">
+            Line 10: check (t)
+            Line 20:   k ← 0
+            Line 30:   while k &lt; <span class="text-yellow-400 font-bold">(a1)</span>
+            Line 40:     if <span class="text-yellow-400 font-bold">(a2)</span> = ANS[k]
+            Line 50:       result[t][k] ← 'T'
+            Line 60:     else
+            Line 70:       result[t][k] ← 'F'
+            Line 80:       // Part (b) hints(t,k) is called here if guess is wrong
+            Line 90:     k ← k + 1
+            Line 95:   end while
+        </div>
+
+        <div class="mt-4 space-y-3">
+            <div>
+                <label for="a1-reveal" class="block text-md font-medium text-gray-700">Missing part (a1) in Line 30:</label>
+                <button id="a1-reveal" class="reveal-btn mt-1">Reveal Answer for (a1)</button>
+                <div id="a1-answer" class="answer-box hidden"></div>
+            </div>
+            <div>
+                <label for="a2-reveal" class="block text-md font-medium text-gray-700">Missing part (a2) in Line 40:</label>
+                <button id="a2-reveal" class="reveal-btn mt-1">Reveal Answer for (a2)</button>
+                <div id="a2-answer" class="answer-box hidden"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="part-b" class="card">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-3">4. Part (b): The <code class="code-inline">hints(t, k)</code> Subprogram</h2>
+        <p class="text-gray-700 mb-2">If a guess <code class="code-inline">trial[t][k]</code> is wrong (as determined in <code class="code-inline">check(t)</code>), the subprogram <code class="code-inline">hints(t,k)</code> is called to display hints.</p>
+        <p class="text-gray-700 mb-3 font-medium">Your task: Write the <code class="code-inline">hints(t,k)</code> subprogram in Python, C++ or Pascal.</p>
+        
+        <h4 class="text-lg font-medium text-gray-700 mb-2">Hint Cases:</h4>
+        <ul class="list-disc list-inside text-gray-700 space-y-1 pl-4 mb-4">
+            <li><strong>Case A:</strong> "There had been a right guess in a previous trial."
+                <ul class="list-circle list-inside pl-6">
+                    <li>Example: <code class="code-inline">hints(2,1)</code> displays "Case A" because "There had been a right guess in trial 0 (number 7)". (Note: For <code class="code-inline">t=2, k=1</code>, <code class="code-inline">ANS[1]</code> is 7. In trial 0, <code class="code-inline">trial[0][1]</code> was 7 and <code class="code-inline">result[0][1]</code> was 'T').</li>
+                </ul>
+            </li>
+            <li><strong>Case B:</strong> "This wrong guess is the same as the wrong guess in a previous trial."
+                <ul class="list-circle list-inside pl-6">
+                     <li>Example: <code class="code-inline">hints(2,1)</code> displays "Case B" because "This wrong guess is the same as the wrong guess in trial 1 (number 8)". (Note: For <code class="code-inline">t=2, k=1</code>, <code class="code-inline">trial[2][1]</code> is 8. In trial 1, <code class="code-inline">trial[1][1]</code> was 8 and <code class="code-inline">result[1][1]</code> was 'F').</li>
+                     <li>Example: <code class="code-inline">hints(2,2)</code> displays "Case B" because "This wrong guess is the same as the wrong guess in trial 1 (number 4)". (Note: For <code class="code-inline">t=2, k=2</code>, <code class="code-inline">trial[2][2]</code> is 4. In trial 1, <code class="code-inline">trial[1][2]</code> was 4 and <code class="code-inline">result[1][2]</code> was 'F').</li>
+                </ul>
+            </li>
+        </ul>
+        <p class="text-gray-700 mb-3">The example output for <code class="code-inline">check(2)</code> (which implies calls to <code class="code-inline">hints</code>) is:</p>
+        <div class="pseudocode text-sm">
+            t=2 k=1 Case A
+            t=2 k=1 Case B
+            t=2 k=2 Case B
+        </div>
+
+        <h4 class="text-lg font-medium text-gray-700 mt-6 mb-3">Explore Hint Logic Interactively:</h4>
+        <p class="text-gray-600 mb-3">Select an example call to <code class="code-inline">hints(t,k)</code> to see how Case A and Case B are determined using the example data.</p>
+        <div class="nav-tabs mb-4">
+            <button onclick="showHintExplanation('hints(2,1)')" class="hint-tab-btn active">hints(2,1)</button>
+            <button onclick="showHintExplanation('hints(2,2)')" class="hint-tab-btn">hints(2,2)</button>
+        </div>
+        <div id="hint-explanation-content" class="hint-explanation">
+            </div>
+    </section>
+
+    <footer class="text-center mt-12 py-6 border-t border-gray-300">
+        <p class="text-gray-600">End of Explainer. You should now have a better understanding of the question!</p>
+    </footer>
+
+<script>
+    // --- Data from the problem ---
+    const N_val = 3;
+    const ANS_data = [3, 7, 8]; // ANS[0], ANS[1], ANS[2]
+    const trial_data = [
+        [7, 7, 9], // trial 0: trial[0][0], trial[0][1], trial[0][2]
+        [8, 8, 4], // trial 1: trial[1][0], trial[1][1], trial[1][2]
+        [3, 8, 4], // trial 2: trial[2][0], trial[2][1], trial[2][2]
+        [3, 7, 8]  // trial 3: trial[3][0], trial[3][1], trial[3][2]
+    ];
+    const result_data = [
+        ['F', 'T', 'F'], // result for trial 0
+        ['F', 'F', 'F'], // result for trial 1
+        ['T', 'F', 'F'], // result for trial 2 (Note: from problem description, but hints(2,1) and hints(2,2) are called, so result[2][1] and result[2][2] are 'F')
+        ['T', 'T', 'T']  // result for trial 3
+    ];
+
+    // --- Helper function to create and populate tables ---
+    function createTable(tableId, data, headers, rowHeaderPrefix = '') {
+        const table = document.getElementById(tableId);
+        table.innerHTML = ''; // Clear existing
+        const thead = table.createTHead();
+        const headerRow = thead.insertRow();
+        headers.forEach(headerText => {
+            const th = document.createElement('th');
+            th.textContent = headerText;
+            headerRow.appendChild(th);
+        });
+
+        const tbody = table.createTBody();
+        if (tableId === 'ans-table') {
+            const row = tbody.insertRow();
+            const th = document.createElement('th');
+            th.textContent = 'ANS';
+            row.appendChild(th);
+            data.forEach(val => {
+                const cell = row.insertCell();
+                cell.textContent = val;
+            });
+        } else {
+            data.forEach((rowData, rowIndex) => {
+                const row = tbody.insertRow();
+                const th = document.createElement('th');
+                th.textContent = `${rowHeaderPrefix}${rowIndex}`;
+                row.appendChild(th);
+                rowData.forEach(cellData => {
+                    const cell = row.insertCell();
+                    cell.textContent = cellData;
+                    if (tableId === 'result-table') {
+                        cell.classList.add(cellData === 'T' ? 'highlight-correct' : 'highlight-incorrect');
+                    }
+                });
+            });
+        }
+    }
+    
+    // --- Populate tables on load ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // ANS Table
+        const ansHeaders = ['Index', ...Array.from({length: N_val}, (_, i) => i.toString())];
+        const ansTableElement = document.getElementById('ans-table');
+        ansTableElement.innerHTML = ''; // Clear existing
+        const ansThead = ansTableElement.createTHead();
+        const ansHeaderRow = ansThead.insertRow();
+        ansHeaders.forEach(headerText => {
+            const th = document.createElement('th');
+            th.textContent = headerText;
+            ansHeaderRow.appendChild(th);
+        });
+        const ansTbody = ansTableElement.createTBody();
+        const ansDataRow = ansTbody.insertRow();
+        const ansRowTh = document.createElement('th');
+        ansRowTh.textContent = 'ANS';
+        ansDataRow.appendChild(ansRowTh);
+        ANS_data.forEach(val => {
+            const cell = ansDataRow.insertCell();
+            cell.textContent = val;
+        });
+
+        // Trial Table
+        const trialHeaders = ['Trial', ...Array.from({length: N_val}, (_, i) => `Num ${i}`) ];
+        createTable('trial-table', trial_data, trialHeaders, 'Trial ');
+
+        // Result Table
+        const resultHeaders = ['Trial', ...Array.from({length: N_val}, (_, i) => `Num ${i}`) ];
+        createTable('result-table', result_data, resultHeaders, 'Trial ');
+
+        // Part (a) reveal buttons
+        document.getElementById('a1-reveal').addEventListener('click', () => {
+            const answerBox = document.getElementById('a1-answer');
+            answerBox.innerHTML = `<strong>N</strong> <br/> (The loop iterates 'N' times, once for each number guessed in the trial. 'k' goes from 0 up to N-1).`;
+            answerBox.classList.remove('hidden');
+        });
+        document.getElementById('a2-reveal').addEventListener('click', () => {
+            const answerBox = document.getElementById('a2-answer');
+            answerBox.innerHTML = `<strong>trial[t][k]</strong> <br/> (This accesses the k-th number guessed by the player in the current trial 't' to compare it against ANS[k]).`;
+            answerBox.classList.remove('hidden');
+        });
+
+        // Initialize first hint explanation
+        showHintExplanation('hints(2,1)');
+    });
+
+    // --- Part (b) Hint Explanation Logic ---
+    function showHintExplanation(hintCall) {
+        document.querySelectorAll('.hint-tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelector(`.hint-tab-btn[onclick="showHintExplanation('${hintCall}')"]`).classList.add('active');
+
+        const contentDiv = document.getElementById('hint-explanation-content');
+        let html = `<h3 class="text-xl font-semibold mb-3 text-blue-700">Explanation for ${hintCall}:</h3>`;
+        let t, k;
+
+        if (hintCall === 'hints(2,1)') {
+            t = 2; k = 1;
+        } else if (hintCall === 'hints(2,2)') {
+            t = 2; k = 2;
+        } else {
+            contentDiv.innerHTML = "<p>Select a hint call to see the explanation.</p>";
+            return;
+        }
+
+        const currentGuess = trial_data[t][k];
+        const correctAnswer = ANS_data[k];
+        html += `<p class="mb-1">Current trial <code class="code-inline">t = ${t}</code>, number index <code class="code-inline">k = ${k}</code>.</p>`;
+        html += `<p class="mb-1">Player guessed <code class="code-inline">trial[${t}][${k}] = ${currentGuess}</code>.</p>`;
+        html += `<p class="mb-3">Correct answer <code class="code-inline">ANS[${k}] = ${correctAnswer}</code>. This is a <strong>wrong guess</strong>.</p>`;
+
+        // Case A Check
+        html += `<h4 class="text-lg font-medium mt-4 mb-2 text-indigo-600">Checking Case A:</h4>`;
+        html += `<p class="italic text-sm mb-2">"There had been a right guess (of the value <code class="code-inline">${correctAnswer}</code>, which is <code class="code-inline">ANS[${k}]</code>) in a previous trial."</p>`;
+        let caseAFound = false;
+        let caseADetails = "";
+        for (let prev_t = 0; prev_t < t; prev_t++) {
+            for (let prev_k = 0; prev_k < N_val; prev_k++) {
+                caseADetails += `<p class="text-xs ml-2">  Checking previous trial <code class="code-inline">trial[${prev_t}][${prev_k}]</code>: Value is <code class="code-inline">${trial_data[prev_t][prev_k]}</code>, Result is <code class="code-inline">${result_data[prev_t][prev_k]}</code>.`;
+                if (trial_data[prev_t][prev_k] === correctAnswer && result_data[prev_t][prev_k] === 'T') {
+                    caseADetails += ` <strong class="text-green-600">Match!</strong> The correct answer <code class="code-inline">${correctAnswer}</code> was guessed correctly here.</p>`;
+                    caseAFound = true;
+                    break;
+                } else {
+                     caseADetails += ` No match for Case A condition.</p>`;
+                }
+            }
+            if (caseAFound) break;
+        }
+        if (caseAFound) {
+            html += `<p class="text-green-700 font-semibold">Result: Case A is TRUE.</p>`;
+        } else {
+            html += `<p class="text-red-700 font-semibold">Result: Case A is FALSE.</p>`;
+        }
+        html += `<div class="text-xs mt-1 p-2 bg-gray-50 border border-gray-200 rounded">${caseADetails}</div>`;
+
+
+        // Case B Check
+        html += `<h4 class="text-lg font-medium mt-4 mb-2 text-indigo-600">Checking Case B:</h4>`;
+        html += `<p class="italic text-sm mb-2">"This wrong guess (<code class="code-inline">${currentGuess}</code>) is the same as a wrong guess in a previous trial at the same position <code class="code-inline">k=${k}</code>."</p>`;
+        let caseBFound = false;
+        let caseBDetails = "";
+        for (let prev_t = 0; prev_t < t; prev_t++) {
+            caseBDetails += `<p class="text-xs ml-2">  Checking previous trial <code class="code-inline">trial[${prev_t}][${k}]</code>: Value is <code class="code-inline">${trial_data[prev_t][k]}</code>, Result is <code class="code-inline">${result_data[prev_t][k]}</code>.`;
+            if (trial_data[prev_t][k] === currentGuess && result_data[prev_t][k] === 'F') {
+                caseBDetails += ` <strong class="text-green-600">Match!</strong> The current wrong guess <code class="code-inline">${currentGuess}</code> was also guessed incorrectly here.</p>`;
+                caseBFound = true;
+                break;
+            } else {
+                caseBDetails += ` No match for Case B condition.</p>`;
+            }
+        }
+        if (caseBFound) {
+            html += `<p class="text-green-700 font-semibold">Result: Case B is TRUE.</p>`;
+        } else {
+            html += `<p class="text-red-700 font-semibold">Result: Case B is FALSE.</p>`;
+        }
+         html += `<div class="text-xs mt-1 p-2 bg-gray-50 border border-gray-200 rounded">${caseBDetails}</div>`;
+
+        // Summary of outputs based on PDF
+        html += `<h4 class="text-lg font-medium mt-4 mb-2 text-indigo-600">Expected Output (from PDF for <code class="code-inline">check(${t})</code>):</h4>`;
+        if (t === 2 && k === 1) {
+            html += `<div class="pseudocode text-sm">t=2 k=1 Case A<br>t=2 k=1 Case B</div>`;
+        } else if (t === 2 && k === 2) {
+             html += `<div class="pseudocode text-sm">t=2 k=2 Case B</div>`;
+        }
+
+
+        contentDiv.innerHTML = html;
+    }
+
+</script>
+</body>
+</html>

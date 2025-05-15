@@ -126,6 +126,14 @@
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col items-center py-8 px-4">
     <div class="container mx-auto bg-white p-6 rounded-2xl shadow-xl w-full max-w-5xl">
+        <div class="flex justify-start mb-4">
+            <a href="index.html" class="flex items-center text-indigo-600 hover:text-indigo-800 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                </svg>
+                Back to Home
+            </a>
+        </div>
         <header class="mb-8">
             <h1 class="text-4xl font-bold text-center text-indigo-700">ICT python S4</h1>
             <p class="text-center text-gray-600 mt-2">Learn python step-by-step!</p>
@@ -1945,6 +1953,40 @@ def concat_and_sort(A, B):
             clearCodeHighlight(binarySearchData.codeBlockId);
             hideExplanationPopup();
         });
+    });
+
+    // Fix the event listener for the Sorting tab
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the main tab buttons
+        const showSortingBtn = document.getElementById('showSorting');
+        const showSearchingBtn = document.getElementById('showSearching');
+        const showMergeBtn = document.getElementById('showMerge');
+        
+        // Get main sections
+        const sortingSection = document.getElementById('sortingSection');
+        const searchingSection = document.getElementById('searchingSection');
+        const mergeSection = document.getElementById('mergeSection');
+        
+        // Fix for Sorting tab - ensure consistent behavior
+        showSortingBtn.addEventListener('click', () => {
+            // Show sorting section, hide others
+            sortingSection.classList.remove('hidden');
+            searchingSection.classList.add('hidden');
+            mergeSection.classList.add('hidden');
+            
+            // Update active tab
+            showSortingBtn.classList.add('active');
+            showSearchingBtn.classList.remove('active');
+            showMergeBtn.classList.remove('active');
+            
+            // Clear code highlights
+            clearCodeHighlight(linearSearchData.codeBlockId);
+            clearCodeHighlight(binarySearchData.codeBlockId);
+            clearCodeHighlight(mergeData.codeBlockId);
+            hideExplanationPopup();
+        });
+        
+        // The existing event listeners for showSearchingBtn and showMergeBtn should remain
     });
 </script>
 </body>

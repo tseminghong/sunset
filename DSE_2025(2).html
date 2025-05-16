@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Seating Explainer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+        .content-card {
+            background-color: white;
+            border-radius: 0.75rem; /* 12px */
+            padding: 1.5rem; /* 24px */
+            margin-bottom: 1.5rem; /* 24px */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .code-block {
+            background-color: #1f2937; /* Dark gray for code */
+            color: #d1d5db; /* Light gray text for code */
+            padding: 1rem;
+            border-radius: 0.5rem; /* 8px */
+            overflow-x: auto;
+            font-family: monospace;
+        }
+        .interactive-section input[type="number"] {
+            border: 1px solid #d1d5db;
+            padding: 0.5rem;
+            border-radius: 0.375rem; /* 6px */
+            margin-right: 0.5rem;
+        }
+        .interactive-section button {
+            background-color: #3b82f6; /* Blue */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .interactive-section button:hover {
+            background-color: #2563eb; /* Darker blue */
+        }
+        .log-entry {
+            padding: 0.25rem 0.5rem;
+            margin-bottom: 0.25rem;
+            border-radius: 0.25rem;
+        }
+        .log-entry.highlight {
+            background-color: #e0f2fe; /* Light blue highlight */
+            border-left: 3px solid #3b82f6;
+        }
+        .zone-card {
+            border: 1px solid #e5e7eb; /* Light gray border */
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            background-color: #f9fafb; /* Very light gray */
+        }
+        .solution {
+            background-color: #eef2ff; /* Light indigo */
+            color: #3730a3; /* Indigo text */
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-top: 0.5rem;
+            border-left: 4px solid #4f46e5; /* Indigo border */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            border: 1px solid #e5e7eb;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        th {
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Interactive Restaurant Seating Explainer</h1>
+            <p class="text-gray-600 mt-2">Understanding the DSE ICT Exam Question</p>
+            <a href="index.html" class="inline-block mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full font-medium transition">
+                ← Back to Home
+            </a>
+        </header>
+
+        <section class="content-card">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-3">Problem Overview</h2>
+            <p class="text-gray-700 leading-relaxed">
+                A restaurant allocates 20 two-seat tables across different zones. The system uses global variables to manage seating:
+            </p>
+            <ul class="list-disc list-inside mt-2 text-gray-700 space-y-1">
+                <li><code>cap</code>: An integer array storing the total number of seats in each zone.</li>
+                <li><code>avail</code>: An integer array storing the number of unoccupied seats in each zone.</li>
+                <li><code>zn</code>: An integer storing the total number of zones.</li>
+            </ul>
+            <p class="text-gray-700 mt-2 leading-relaxed">
+                We will explore two subprograms: <code>findZone(c)</code> for finding a suitable zone for a given number of customers <code>c</code>, and <code>comZone(c)</code> for combining adjacent empty zones to serve larger groups.
+            </p>
+        </section>
+
+        <section class="content-card">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-3">Example Data & Zone Status</h2>
+            <p class="text-gray-700">The example uses <code>zn = 9</code> zones (0 to 8).</p>
+            <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>i (Zone)</th>
+                            <th>cap[i] (Capacity)</th>
+                            <th>avail[i] (Available)</th>
+                            <th>Occupied</th>
+                        </tr>
+                    </thead>
+                    <tbody id="zone-data-table">
+                        </tbody>
+                </table>
+            </div>
+            <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4" id="zone-visualization">
+                </div>
+        </section>
+
+        <section class="content-card">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-3">Subprogram: <code>findZone(c)</code></h2>
+            <p class="text-gray-700 leading-relaxed">
+                <code>findZone(c)</code> aims to return the smallest zone index <code>i</code> such that <code>avail[i] >= c</code> (the zone has enough available seats for <code>c</code> customers) and <code>avail[i]</code> is the closest value to <code>c</code>. If multiple zones satisfy this with the same minimal <code>avail[i]</code>, the smallest zone index <code>i</code> is chosen. If no such zone is found, it returns -1.
+            </p>
+            <p class="text-gray-700 mt-1 leading-relaxed">Example from document: <code>findZone(4)</code> returns <code>7</code>.</p>
+
+            <h3 class="text-xl font-semibold text-gray-700 mt-4 mb-2">Pseudocode for <code>findZone(c)</code></h3>
+            <pre class="code-block">
+findZone(c)
+  zone <span id="findzone-var-init">-1</span>
+  for i from 0 to zn-1
+    if avail[i] >= c
+      if zone == -1
+        <span class="text-yellow-400 font-bold">(a1)</span> <span id="findzone-a1-solution" class="hidden solution-text">zone &lt;- i</span>
+      else if avail[i] &lt; <span class="text-yellow-400 font-bold">(a2)</span> <span id="findzone-a2-solution" class="hidden solution-text">avail[zone]</span>
+        zone &lt;- i
+  return zone</pre>
+
+            <h3 class="text-xl font-semibold text-gray-700 mt-4 mb-2">Solutions for Part (a)</h3>
+            <p class="text-gray-700"><strong>(a)(i) Return value of <code>findZone(6)</code>:</strong></p>
+            <div class="solution">
+                <code>findZone(6)</code> will return <strong><code>3</code></strong>.
+                <br>Explanation:
+                <ul class="list-disc list-inside text-sm">
+                    <li>Zone 2: avail[2]=7 (>=6). Current best zone=2 (avail=7).</li>
+                    <li>Zone 3: avail[3]=6 (>=6). avail[3]=6 is less than avail[2]=7. New best zone=3 (avail=6).</li>
+                    <li>No other subsequent zone has avail >= 6 and avail < 6.</li>
+                </ul>
+            </div>
+
+            <p class="text-gray-700 mt-3"><strong>(a)(ii) Missing parts of <code>findZone(c)</code>:</strong></p>
+            <div class="solution">
+                (a1): <code>zone &lt;- i</code><br>
+                (a2): <code>avail[zone]</code>
+                <button onclick="toggleSolution('findzone-a1-solution'); toggleSolution('findzone-a2-solution'); this.textContent = (this.textContent === 'Show Pseudocode Solutions' ? 'Hide Pseudocode Solutions' : 'Show Pseudocode Solutions');" class="mt-2 bg-indigo-500 hover:bg-indigo-600 text-white py-1 px-3 rounded text-sm">Show Pseudocode Solutions</button>
+            </div>
+
+            <div class="interactive-section mt-6">
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Interactive <code>findZone(c)</code></h3>
+                <label for="findzone-c" class="mr-2 text-gray-700">Number of customers (c):</label>
+                <input type="number" id="findzone-c" value="4" min="1">
+                <button onclick="runFindZone()">Run findZone</button>
+                <button onclick="resetFindZone()" class="ml-2 bg-gray-500 hover:bg-gray-600">Reset</button>
+                <div id="findzone-log" class="mt-3 text-sm space-y-1"></div>
+                <div id="findzone-result" class="mt-2 font-semibold text-gray-800"></div>
+            </div>
+        </section>
+
+        <section class="content-card">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-3">Subprogram: <code>comZone(c)</code></h2>
+            <p class="text-gray-700 leading-relaxed">
+                <code>comZone(c)</code> aims to find and display a sequence of adjacent, completely empty zones (where <code>avail[j] == cap[j]</code>) that can collectively accommodate <code>c</code> customers. It should find the combination starting with the smallest possible zone index <code>i</code>.
+            </p>
+            <p class="text-gray-700 mt-1 leading-relaxed">Example from document: <code>comZone(7)</code> will display 'Combine zones: 5 to 7'.</p>
+
+            <h3 class="text-xl font-semibold text-gray-700 mt-4 mb-2">Pseudocode for <code>comZone(c)</code></h3>
+            <pre class="code-block">
+comZone(c)
+  i &lt;- 0
+  cnt &lt;- 0
+  for j from 0 to zn-1
+    if avail[j] == cap[j]
+      cnt &lt;- cnt + <span class="text-yellow-400 font-bold">(b1)</span> <span id="comzone-b1-solution" class="hidden solution-text">avail[j] // or cap[j]</span>
+      if <span class="text-yellow-400 font-bold">(b2)</span> <span id="comzone-b2-solution" class="hidden solution-text">cnt >= c</span>
+        output 'Combine zones: ', i, ' to ', j
+        exit comZone
+    else
+      cnt &lt;- <span class="text-yellow-400 font-bold">(b3)</span> <span id="comzone-b3-solution" class="hidden solution-text">0</span>
+      i &lt;- <span class="text-yellow-400 font-bold">(b4)</span> <span id="comzone-b4-solution" class="hidden solution-text">j + 1</span>
+  output 'No suitable combination found' // Added for completeness if loop finishes
+            </pre>
+
+            <h3 class="text-xl font-semibold text-gray-700 mt-4 mb-2">Solutions for Part (b)</h3>
+            <p class="text-gray-700"><strong>(b) Missing parts of <code>comZone(c)</code>:</strong></p>
+            <div class="solution">
+                (b1): <code>avail[j]</code> (or <code>cap[j]</code>, since they are equal in this condition)<br>
+                (b2): <code>cnt >= c</code><br>
+                (b3): <code>0</code><br>
+                (b4): <code>j + 1</code>
+                <button onclick="toggleSolution('comzone-b1-solution'); toggleSolution('comzone-b2-solution'); toggleSolution('comzone-b3-solution'); toggleSolution('comzone-b4-solution'); this.textContent = (this.textContent === 'Show Pseudocode Solutions' ? 'Hide Pseudocode Solutions' : 'Show Pseudocode Solutions');" class="mt-2 bg-indigo-500 hover:bg-indigo-600 text-white py-1 px-3 rounded text-sm">Show Pseudocode Solutions</button>
+            </div>
+
+            <div class="interactive-section mt-6">
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Interactive <code>comZone(c)</code></h3>
+                <label for="comzone-c" class="mr-2 text-gray-700">Number of customers (c):</label>
+                <input type="number" id="comzone-c" value="7" min="1">
+                <button onclick="runComZone()">Run comZone</button>
+                <button onclick="resetComZone()" class="ml-2 bg-gray-500 hover:bg-gray-600">Reset</button>
+                <div id="comzone-log" class="mt-3 text-sm space-y-1"></div>
+                <div id="comzone-result" class="mt-2 font-semibold text-gray-800"></div>
+            </div>
+        </section>
+
+        <footer class="text-center mt-8 mb-4 text-gray-500 text-sm">
+            Interactive Explainer.
+        </footer>
+    </div>
+
+    <script>
+        // --- Global Data (from the example) ---
+        const cap = [2, 4, 12, 6, 4, 2, 2, 4, 4];
+        const avail = [2, 0, 7, 6, 1, 2, 2, 4, 4];
+        const zn = 9;
+
+        // --- Utility to display logs ---
+        function logStep(logAreaId, message, isHighlight = false) {
+            const logArea = document.getElementById(logAreaId);
+            const entry = document.createElement('div');
+            entry.textContent = message;
+            entry.classList.add('log-entry');
+            if (isHighlight) {
+                entry.classList.add('highlight');
+            }
+            logArea.appendChild(entry);
+        }
+
+        function clearLog(logAreaId, resultAreaId) {
+            document.getElementById(logAreaId).innerHTML = '';
+            document.getElementById(resultAreaId).innerHTML = '';
+        }
+        
+        function toggleSolution(elementId) {
+            const el = document.getElementById(elementId);
+            if (el) {
+                el.classList.toggle('hidden');
+            }
+        }
+
+        // --- Zone Data and Visualization ---
+        function displayZoneData() {
+            const tableBody = document.getElementById('zone-data-table');
+            const vizContainer = document.getElementById('zone-visualization');
+            tableBody.innerHTML = ''; // Clear previous
+            vizContainer.innerHTML = ''; // Clear previous
+
+            for (let i = 0; i < zn; i++) {
+                const occupied = cap[i] - avail[i];
+                // Populate table
+                const row = tableBody.insertRow();
+                row.insertCell().textContent = i;
+                row.insertCell().textContent = cap[i];
+                row.insertCell().textContent = avail[i];
+                row.insertCell().textContent = occupied;
+
+                // Populate visualization
+                const zoneDiv = document.createElement('div');
+                zoneDiv.classList.add('zone-card');
+                zoneDiv.innerHTML = `
+                    <p class="font-semibold text-gray-700">Zone ${i}</p>
+                    <p class="text-xs text-gray-500">Cap: ${cap[i]}</p>
+                    <p class="text-xs text-gray-500">Avail: ${avail[i]}</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1">
+                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: ${(occupied / cap[i] * 100) || 0}%"></div>
+                    </div>
+                `;
+                vizContainer.appendChild(zoneDiv);
+            }
+        }
+
+        // --- findZone(c) Logic ---
+        function findZoneAlgorithm(c_customers) {
+            let currentZone = -1;
+            const logAreaId = 'findzone-log';
+            logStep(logAreaId, `Executing findZone(c=${c_customers})`);
+            logStep(logAreaId, `Initial: zone = -1`);
+
+            for (let i = 0; i < zn; i++) {
+                logStep(logAreaId, `--- Iteration i = ${i} ---`, true);
+                logStep(logAreaId, `avail[${i}] = ${avail[i]}`);
+                if (avail[i] >= c_customers) {
+                    logStep(logAreaId, `Condition: avail[${i}] (${avail[i]}) >= c (${c_customers}) is TRUE.`);
+                    if (currentZone === -1) {
+                        currentZone = i;
+                        logStep(logAreaId, `Condition: zone == -1 is TRUE. Update zone = ${i}. (Current best avail: ${avail[currentZone]})`);
+                    } else if (avail[i] < avail[currentZone]) {
+                        logStep(logAreaId, `Condition: avail[${i}] (${avail[i]}) < avail[zone] (${avail[currentZone]}) is TRUE. Update zone = ${i}. (Current best avail: ${avail[i]})`);
+                        currentZone = i;
+                    } else {
+                        logStep(logAreaId, `Condition: avail[${i}] (${avail[i]}) < avail[zone] (${avail[currentZone]}) is FALSE. Zone remains ${currentZone}.`);
+                    }
+                } else {
+                    logStep(logAreaId, `Condition: avail[${i}] (${avail[i]}) >= c (${c_customers}) is FALSE.`);
+                }
+            }
+            logStep(logAreaId, `--- Loop Finished ---`, true);
+            logStep(logAreaId, `Return zone = ${currentZone}.`);
+            return currentZone;
+        }
+
+        function runFindZone() {
+            clearLog('findzone-log', 'findzone-result');
+            const c = parseInt(document.getElementById('findzone-c').value);
+            if (isNaN(c) || c < 1) {
+                document.getElementById('findzone-result').textContent = "Please enter a valid number of customers (c >= 1).";
+                return;
+            }
+            const resultZone = findZoneAlgorithm(c);
+            document.getElementById('findzone-result').textContent = `Result: findZone(${c}) returns ${resultZone}.`;
+        }
+
+        function resetFindZone() {
+            clearLog('findzone-log', 'findzone-result');
+            document.getElementById('findzone-c').value = "4";
+        }
+
+        // --- comZone(c) Logic ---
+        function comZoneAlgorithm(c_customers) {
+            let startZoneIndex = 0; // 'i' in pseudocode
+            let currentCount = 0;   // 'cnt' in pseudocode
+            const logAreaId = 'comzone-log';
+            logStep(logAreaId, `Executing comZone(c=${c_customers})`);
+            logStep(logAreaId, `Initial: i = ${startZoneIndex}, cnt = ${currentCount}`);
+
+            for (let j = 0; j < zn; j++) {
+                logStep(logAreaId, `--- Iteration j = ${j} ---`, true);
+                logStep(logAreaId, `Zone ${j}: avail[${j}]=${avail[j]}, cap[${j}]=${cap[j]}`);
+                if (avail[j] === cap[j]) { // Zone j is completely empty
+                    logStep(logAreaId, `Condition: avail[${j}] == cap[${j}] is TRUE (Zone ${j} is empty).`);
+                    currentCount += avail[j]; // (b1)
+                    logStep(logAreaId, `Update: cnt = cnt + avail[${j}] = ${currentCount}.`);
+                    if (currentCount >= c_customers) { // (b2)
+                        logStep(logAreaId, `Condition: cnt (${currentCount}) >= c (${c_customers}) is TRUE.`);
+                        const resultMessage = `Combine zones: ${startZoneIndex} to ${j}`;
+                        logStep(logAreaId, `Output: "${resultMessage}". Exit subprogram.`);
+                        return resultMessage;
+                    } else {
+                        logStep(logAreaId, `Condition: cnt (${currentCount}) >= c (${c_customers}) is FALSE.`);
+                    }
+                } else { // Zone j is not empty, or breaks sequence
+                    logStep(logAreaId, `Condition: avail[${j}] == cap[${j}] is FALSE (Zone ${j} is not empty or sequence broken).`);
+                    currentCount = 0; // (b3)
+                    startZoneIndex = j + 1; // (b4)
+                    logStep(logAreaId, `Update: cnt = 0. Potential next start i = ${startZoneIndex}.`);
+                }
+            }
+            logStep(logAreaId, `--- Loop Finished ---`, true);
+            const noCombinationMsg = "No suitable combination of zones found.";
+            logStep(logAreaId, `Output: "${noCombinationMsg}"`);
+            return noCombinationMsg;
+        }
+
+        function runComZone() {
+            clearLog('comzone-log', 'comzone-result');
+            const c = parseInt(document.getElementById('comzone-c').value);
+             if (isNaN(c) || c < 1) {
+                document.getElementById('comzone-result').textContent = "Please enter a valid number of customers (c >= 1).";
+                return;
+            }
+            const resultMessage = comZoneAlgorithm(c);
+            document.getElementById('comzone-result').textContent = `Result: ${resultMessage}`;
+        }
+
+        function resetComZone() {
+            clearLog('comzone-log', 'comzone-result');
+            document.getElementById('comzone-c').value = "7";
+        }
+
+
+        // --- Initial Setup ---
+        window.onload = () => {
+            displayZoneData();
+            // Set initial values for interactive parts if needed, or trigger a default run.
+            // For example, pre-fill solutions for the pseudocode blanks if desired on load,
+            // but the button toggle is probably better.
+        };
+    </script>
+</body>
+</html>

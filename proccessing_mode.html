@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Processing Modes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .interactive-box {
+            min-height: 200px; /* Ensure a minimum height for visual consistency */
+            transition: all 0.3s ease-in-out; /* Smooth transitions for interactive elements */
+        }
+        .tab-button {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .progress-bar-bg {
+            background-color: #e0e0e0; /* Light grey background for progress bars */
+            border-radius: 0.375rem; /* md */
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            background-color: #3b82f6; /* blue-500 */
+            height: 100%;
+            transition: width 0.5s ease-in-out;
+            text-align: center;
+            color: white;
+            font-size: 0.75rem; /* text-xs */
+            line-height: 1.25rem; /* leading-5 */
+        }
+        .node {
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .task-item {
+             transition: background-color 0.3s, opacity 0.3s;
+        }
+        /* Custom styles for better visual appeal */
+        .section-card {
+            background-color: white;
+            border-radius: 0.75rem; /* lg */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+            padding: 1.5rem; /* p-6 */
+            margin-bottom: 2rem; /* mb-8 */
+        }
+        .section-title {
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 700; /* bold */
+            color: #1f2937; /* gray-800 */
+            margin-bottom: 1rem; /* mb-4 */
+            border-bottom: 2px solid #3b82f6; /* blue-500 */
+            padding-bottom: 0.5rem; /* pb-2 */
+        }
+        .button-primary {
+            background-color: #3b82f6; /* blue-500 */
+            color: white;
+            font-weight: 500; /* medium */
+            padding: 0.75rem 1.5rem; /* py-3 px-6 */
+            border-radius: 0.5rem; /* md */
+            transition: background-color 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .button-primary:hover {
+            background-color: #2563eb; /* blue-600 */
+        }
+        .button-secondary {
+            background-color: #6b7280; /* gray-500 */
+            color: white;
+            font-weight: 500; /* medium */
+            padding: 0.5rem 1rem; /* py-2 px-4 */
+            border-radius: 0.5rem; /* md */
+            transition: background-color 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .button-secondary:hover {
+            background-color: #4b5563; /* gray-600 */
+        }
+        .explanation-text {
+            color: #4b5563; /* gray-600 */
+            line-height: 1.75; /* leading-relaxed */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900 antialiased">
+
+    <header class="bg-blue-600 text-white p-6 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center">
+            <h1 class="text-3xl font-bold mb-4 sm:mb-0">Understanding Processing Modes</h1>
+            <nav>
+                <ul class="flex space-x-3 sm:space-x-4">
+                    <li><a href="#real-time" class="hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium">Real-time</a></li>
+                    <li><a href="#batch" class="hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium">Batch</a></li>
+                    <li><a href="#parallel" class="hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium">Parallel</a></li>
+                    <li><a href="#distributed" class="hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium">Distributed</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section class="mb-12 text-center section-card">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-3">Welcome!</h2>
+            <p class="explanation-text max-w-3xl mx-auto">
+                This page provides an interactive way to learn about different data processing modes.
+                Scroll down or use the navigation bar to explore each concept. Each section includes an explanation and a simple interactive demo.
+            </p>
+        </section>
+
+        <section id="real-time" class="section-card">
+            <h2 class="section-title">1. Real-time Processing</h2>
+            <div class="grid md:grid-cols-2 gap-6 items-center">
+                <div>
+                    <p class="explanation-text mb-4">
+                        <strong>Real-time processing</strong> involves processing data almost instantaneously as it's collected or requested. There's minimal to no delay.
+                        This ensures that the information is always up-to-date, enabling immediate responses and actions.
+                    </p>
+                    <ul class="list-disc list-inside explanation-text mb-4 space-y-1">
+                        <li><strong>Key characteristics:</strong> Instantaneous, always current, system often online.</li>
+                        <li><strong>Pros:</strong> Immediate feedback, crucial for time-sensitive tasks.</li>
+                        <li><strong>Cons:</strong> Can be resource-intensive, often requires constant connectivity, potentially higher setup/maintenance costs.</li>
+                        <li><strong>Examples:</strong> Video conferencing, ATM transactions, online ticket booking systems, live streaming.</li>
+                    </ul>
+                </div>
+                <div class="interactive-box bg-gray-50 p-6 rounded-lg border border-gray-200 shadow-inner">
+                    <h3 class="text-xl font-semibold mb-3 text-blue-600">Live Chat Simulation</h3>
+                    <p class="text-sm text-gray-500 mb-3">Type a message and press "Send" to see it appear instantly.</p>
+                    <div id="realTimeChatLog" class="h-32 overflow-y-auto border bg-white p-3 rounded-md mb-3 text-sm">
+                        </div>
+                    <div class="flex space-x-2">
+                        <input type="text" id="realTimeInput" class="flex-grow p-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Type your message...">
+                        <button id="realTimeSendBtn" class="button-primary text-sm px-4 py-2">Send</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="batch" class="section-card">
+            <h2 class="section-title">2. Batch Processing</h2>
+            <div class="grid md:grid-cols-2 gap-6 items-center">
+                <div>
+                    <p class="explanation-text mb-4">
+                        <strong>Batch processing</strong> involves collecting data over a period and then processing it all together in a single "batch" or run. This is often scheduled for off-peak hours.
+                    </p>
+                    <ul class="list-disc list-inside explanation-text mb-4 space-y-1">
+                        <li><strong>Key characteristics:</strong> Data processed in groups, not always up-to-date, suitable for high-volume, repetitive tasks.</li>
+                        <li><strong>Pros:</strong> Efficient use of computer resources, minimal human interaction during processing, good for non-urgent tasks.</li>
+                        <li><strong>Cons:</strong> Data is not current until the batch is processed, delays in getting results.</li>
+                        <li><strong>Examples:</strong> Payroll systems, generating monthly bank statements, large-scale data analysis reports.</li>
+                    </ul>
+                </div>
+                <div class="interactive-box bg-gray-50 p-6 rounded-lg border border-gray-200 shadow-inner">
+                    <h3 class="text-xl font-semibold mb-3 text-blue-600">Batch Job Processor</h3>
+                    <p class="text-sm text-gray-500 mb-3">Add tasks to the queue, then run the batch to process them sequentially.</p>
+                    <div class="flex mb-3 space-x-2">
+                        <input type="text" id="batchTaskInput" class="flex-grow p-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter task name (e.g., 'Paystub #1')">
+                        <button id="addBatchTaskBtn" class="button-secondary text-sm">Add Task</button>
+                    </div>
+                    <ul id="batchTaskQueue" class="h-32 overflow-y-auto border bg-white p-3 rounded-md mb-3 text-sm space-y-1">
+                        </ul>
+                    <button id="runBatchBtn" class="button-primary w-full">Run Batch Process</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="parallel" class="section-card">
+            <h2 class="section-title">3. Parallel Processing</h2>
+            <div class="grid md:grid-cols-2 gap-6 items-center">
+                <div>
+                    <p class="explanation-text mb-4">
+                        <strong>Parallel processing</strong> means using two or more processors (cores) within a single computer to work on parts of a task simultaneously.
+                        A large task is often decomposed into smaller sub-tasks that can be executed in parallel.
+                    </p>
+                    <ul class="list-disc list-inside explanation-text mb-4 space-y-1">
+                        <li><strong>Key characteristics:</strong> Multiple processors on one machine, task decomposition, simultaneous execution.</li>
+                        <li><strong>Pros:</strong> Significantly improves performance and speed for complex, divisible tasks.</li>
+                        <li><strong>Cons:</strong> Requires tasks that can be parallelized, managing parallel execution can be complex.</li>
+                        <li><strong>Examples:</strong> Complex graphic rendering, scientific simulations (weather forecasting), big data analysis.</li>
+                    </ul>
+                </div>
+                <div class="interactive-box bg-gray-50 p-6 rounded-lg border border-gray-200 shadow-inner">
+                    <h3 class="text-xl font-semibold mb-3 text-blue-600">Parallel Task Simulation</h3>
+                    <p class="text-sm text-gray-500 mb-3">Click "Start Task" to see multiple 'cores' process parts of a task at the same time.</p>
+                    <div id="parallelCoresContainer" class="space-y-2 mb-4">
+                        </div>
+                    <button id="startParallelTaskBtn" class="button-primary w-full">Start Complex Task</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="distributed" class="section-card">
+            <h2 class="section-title">4. Distributed Processing</h2>
+            <div class="grid md:grid-cols-2 gap-6 items-center">
+                <div>
+                    <p class="explanation-text mb-4">
+                        <strong>Distributed processing</strong> uses multiple, separate computers connected by a network to work together on a common task.
+                        A load manager or coordinator often divides the job and distributes these parts to different computers.
+                    </p>
+                    <ul class="list-disc list-inside explanation-text mb-4 space-y-1">
+                        <li><strong>Key characteristics:</strong> Multiple networked computers, job distribution, collaborative processing.</li>
+                        <li><strong>Pros:</strong> Scalability, fault tolerance (if one computer fails, others can continue), can handle very large computations.</li>
+                        <li><strong>Cons:</strong> Complexity in managing distributed systems, communication overhead between computers.</li>
+                        <li><strong>Examples:</strong> Search engines, cloud computing platforms, large-scale scientific research projects (like SETI@home).</li>
+                    </ul>
+                </div>
+                <div class="interactive-box bg-gray-50 p-6 rounded-lg border border-gray-200 shadow-inner">
+                    <h3 class="text-xl font-semibold mb-3 text-blue-600">Distributed Job Simulation</h3>
+                    <p class="text-sm text-gray-500 mb-3">Submit a job to see it distributed and processed by worker nodes.</p>
+                    <div class="text-center mb-4">
+                        <div class="inline-block bg-blue-500 text-white p-3 rounded-lg shadow-md node" id="loadManager">Load Manager</div>
+                    </div>
+                    <div id="workerNodesContainer" class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
+                        </div>
+                    <button id="submitDistributedJobBtn" class="button-primary w-full">Submit Large Job</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 p-6 text-center mt-12">
+        <p class="text-sm">&copy; 2024 Processing Modes Explainer. An interactive learning tool.</p>
+    </footer>
+
+    <script>
+        // Common function to add a message to a log
+        function addToLog(logElement, message, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('p-1.5', 'rounded-md', 'mb-1.5', 'max-w-max');
+            if (sender === 'user') {
+                messageDiv.classList.add('bg-blue-500', 'text-white', 'ml-auto');
+                messageDiv.textContent = message;
+            } else if (sender === 'system') {
+                messageDiv.classList.add('bg-gray-200', 'text-gray-700');
+                messageDiv.textContent = message;
+            } else { // Neutral, for batch tasks etc.
+                messageDiv.classList.add('bg-gray-100', 'text-gray-600', 'border', 'border-gray-300');
+                messageDiv.innerHTML = message; // Use innerHTML for status updates
+            }
+            logElement.appendChild(messageDiv);
+            logElement.scrollTop = logElement.scrollHeight; // Auto-scroll to the latest message
+        }
+
+        // --- Real-time Processing ---
+        const realTimeInput = document.getElementById('realTimeInput');
+        const realTimeSendBtn = document.getElementById('realTimeSendBtn');
+        const realTimeChatLog = document.getElementById('realTimeChatLog');
+
+        function handleRealTimeSend() {
+            const message = realTimeInput.value.trim();
+            if (message) {
+                addToLog(realTimeChatLog, message, 'user');
+                realTimeInput.value = ''; // Clear input
+                // Simulate an instant reply or processing
+                setTimeout(() => {
+                    addToLog(realTimeChatLog, "Received: " + message, 'system');
+                }, 100); // Very short delay to mimic near instant processing
+            }
+        }
+        realTimeSendBtn.addEventListener('click', handleRealTimeSend);
+        realTimeInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                handleRealTimeSend();
+            }
+        });
+
+        // --- Batch Processing ---
+        const batchTaskInput = document.getElementById('batchTaskInput');
+        const addBatchTaskBtn = document.getElementById('addBatchTaskBtn');
+        const batchTaskQueue = document.getElementById('batchTaskQueue');
+        const runBatchBtn = document.getElementById('runBatchBtn');
+        let batchTasks = [];
+
+        addBatchTaskBtn.addEventListener('click', () => {
+            const taskName = batchTaskInput.value.trim();
+            if (taskName && batchTasks.length < 5) { // Limit tasks for demo purposes
+                batchTasks.push({ name: taskName, status: 'Pending' });
+                renderBatchTasks();
+                batchTaskInput.value = '';
+            } else if (batchTasks.length >= 5) {
+                addToLog(batchTaskQueue, '<i>Queue full for this demo.</i>', 'system');
+            }
+        });
+
+        function renderBatchTasks() {
+            batchTaskQueue.innerHTML = ''; // Clear existing tasks
+            if (batchTasks.length === 0) {
+                 addToLog(batchTaskQueue, '<i>No tasks in queue.</i>', 'system');
+                 return;
+            }
+            batchTasks.forEach((task, index) => {
+                const taskItem = document.createElement('li');
+                taskItem.classList.add('task-item', 'p-1.5', 'rounded-md', 'bg-gray-100', 'border', 'border-gray-300');
+                taskItem.innerHTML = `<strong>${task.name}</strong> - <span class="status">${task.status}</span>`;
+                batchTaskQueue.appendChild(taskItem);
+            });
+        }
+        renderBatchTasks(); // Initial render
+
+        runBatchBtn.addEventListener('click', async () => {
+            if (batchTasks.length === 0) {
+                addToLog(batchTaskQueue, '<i>No tasks to process.</i>', 'system');
+                return;
+            }
+            runBatchBtn.disabled = true;
+            runBatchBtn.textContent = 'Processing Batch...';
+            runBatchBtn.classList.replace('button-primary', 'button-secondary');
+
+
+            for (let i = 0; i < batchTasks.length; i++) {
+                batchTasks[i].status = 'Processing...';
+                renderBatchTasks();
+                await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate processing time
+
+                batchTasks[i].status = 'Completed';
+                renderBatchTasks();
+                await new Promise(resolve => setTimeout(resolve, 300)); // Short delay before next
+            }
+            
+            // Optional: Clear completed tasks after a delay or keep them as 'Completed'
+            // setTimeout(() => {
+            //    batchTasks = [];
+            //    renderBatchTasks();
+            // }, 2000);
+
+            runBatchBtn.disabled = false;
+            runBatchBtn.textContent = 'Run Batch Process';
+            runBatchBtn.classList.replace('button-secondary', 'button-primary');
+        });
+
+        // --- Parallel Processing ---
+        const parallelCoresContainer = document.getElementById('parallelCoresContainer');
+        const startParallelTaskBtn = document.getElementById('startParallelTaskBtn');
+        const numCores = 4; // Simulate 4 cores
+
+        function setupParallelCores() {
+            parallelCoresContainer.innerHTML = ''; // Clear previous
+            for (let i = 0; i < numCores; i++) {
+                const coreDiv = document.createElement('div');
+                coreDiv.classList.add('mb-1');
+                coreDiv.innerHTML = `
+                    <span class="text-sm font-medium text-gray-700">Core ${i + 1}</span>
+                    <div class="w-full progress-bar-bg h-5">
+                        <div id="coreProgress${i}" class="progress-bar-fill" style="width: 0%;">0%</div>
+                    </div>
+                `;
+                parallelCoresContainer.appendChild(coreDiv);
+            }
+        }
+        setupParallelCores(); // Initialize cores display
+
+        startParallelTaskBtn.addEventListener('click', () => {
+            startParallelTaskBtn.disabled = true;
+            startParallelTaskBtn.textContent = 'Processing in Parallel...';
+            startParallelTaskBtn.classList.replace('button-primary', 'button-secondary');
+
+            // Reset progress bars
+            for (let i = 0; i < numCores; i++) {
+                const progressBar = document.getElementById(`coreProgress${i}`);
+                progressBar.style.width = '0%';
+                progressBar.textContent = '0%';
+            }
+
+            let completedCores = 0;
+            for (let i = 0; i < numCores; i++) {
+                let progress = 0;
+                const progressBar = document.getElementById(`coreProgress${i}`);
+                const interval = setInterval(() => {
+                    progress += Math.random() * 10 + 5; // Simulate variable work
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(interval);
+                        completedCores++;
+                        if (completedCores === numCores) {
+                            startParallelTaskBtn.disabled = false;
+                            startParallelTaskBtn.textContent = 'Start Complex Task';
+                            startParallelTaskBtn.classList.replace('button-secondary', 'button-primary');
+                        }
+                    }
+                    progressBar.style.width = progress + '%';
+                    progressBar.textContent = Math.round(progress) + '%';
+                }, 200 + Math.random() * 200); // Each core progresses at slightly different speeds
+            }
+        });
+
+        // --- Distributed Processing ---
+        const loadManager = document.getElementById('loadManager');
+        const workerNodesContainer = document.getElementById('workerNodesContainer');
+        const submitDistributedJobBtn = document.getElementById('submitDistributedJobBtn');
+        const numWorkerNodes = 3; // Simulate 3 worker nodes
+        let workerNodes = [];
+
+        function setupWorkerNodes() {
+            workerNodesContainer.innerHTML = '';
+            workerNodes = [];
+            for (let i = 0; i < numWorkerNodes; i++) {
+                const nodeDiv = document.createElement('div');
+                nodeDiv.id = `workerNode${i}`;
+                nodeDiv.classList.add('node', 'bg-gray-300', 'text-gray-700', 'p-3', 'rounded-lg', 'shadow', 'text-center', 'text-sm');
+                nodeDiv.textContent = `Worker ${i + 1} (Idle)`;
+                workerNodesContainer.appendChild(nodeDiv);
+                workerNodes.push(nodeDiv);
+            }
+        }
+        setupWorkerNodes();
+
+        submitDistributedJobBtn.addEventListener('click', async () => {
+            submitDistributedJobBtn.disabled = true;
+            submitDistributedJobBtn.textContent = 'Distributing Job...';
+            submitDistributedJobBtn.classList.replace('button-primary', 'button-secondary');
+
+            // Reset nodes
+            setupWorkerNodes();
+
+            loadManager.classList.add('animate-pulse', 'bg-green-500');
+            loadManager.textContent = 'Load Manager (Distributing)';
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate distribution time
+
+            loadManager.classList.remove('animate-pulse', 'bg-green-500');
+            loadManager.textContent = 'Load Manager (Monitoring)';
+
+            let processedNodes = 0;
+            workerNodes.forEach(async (node, index) => {
+                await new Promise(resolve => setTimeout(resolve, index * 200)); // Stagger start
+                node.classList.replace('bg-gray-300', 'bg-yellow-400');
+                node.textContent = `Worker ${index + 1} (Processing...)`;
+                node.classList.add('animate-pulse');
+
+                // Simulate processing time for each node
+                const processingTime = 2000 + Math.random() * 2000;
+                await new Promise(resolve => setTimeout(resolve, processingTime));
+
+                node.classList.remove('animate-pulse');
+                node.classList.replace('bg-yellow-400', 'bg-green-500');
+                node.classList.add('text-white');
+                node.textContent = `Worker ${index + 1} (Done)`;
+                processedNodes++;
+
+                if (processedNodes === numWorkerNodes) {
+                    loadManager.textContent = 'Load Manager (All Jobs Complete)';
+                    loadManager.classList.add('bg-green-500', 'text-white');
+                    submitDistributedJobBtn.disabled = false;
+                    submitDistributedJobBtn.textContent = 'Submit Large Job';
+                    submitDistributedJobBtn.classList.replace('button-secondary', 'button-primary');
+                }
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('header nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Calculate position considering sticky header height
+                    const headerOffset = document.querySelector('header').offsetHeight;
+                    const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - headerOffset - 20; // 20px extra spacing
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

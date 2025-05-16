@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive HTML & CSS Learner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden; /* Prevent horizontal scroll on the body */
+            background-color: #f0f9ff; /* Tailwind: bg-sky-50 - More colorful background */
+            color: #1f2937; /* Tailwind: text-gray-800 */
+        }
+        .editor-container textarea {
+            font-family: 'Monaco', 'Courier New', Courier, monospace;
+            font-size: 0.875rem; /* 14px */
+            line-height: 1.25rem; /* 20px */
+            border: 1px solid #D1D5DB; /* gray-300 */
+            border-radius: 0.375rem; /* rounded-md */
+            padding: 0.75rem; /* p-3 */
+            outline: none;
+            transition: border-color 0.2s;
+            min-height: 150px; /* Ensure textareas are not too small */
+            background-color: #ffffff; /* Ensure textareas are white */
+        }
+        .editor-container textarea:focus {
+            border-color: #2563EB; /* blue-600 */
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4); /* Ring effect */
+        }
+        .preview-frame {
+            border: 1px solid #D1D5DB; /* gray-300 */
+            border-radius: 0.375rem; /* rounded-md */
+            width: 100%;
+            height: 100%;
+            min-height: 300px; /* Ensure preview is visible */
+            background-color: #ffffff; /* Ensure iframe background is white */
+        }
+        /* Custom scrollbar for webkit browsers */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e0f2fe; /* Tailwind: bg-sky-100 */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #7dd3fc; /* Tailwind: bg-sky-300 */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #38bdf8; /* Tailwind: bg-sky-400 */
+        }
+
+        /* Lesson Content Styling */
+        .lesson-content h2 {
+            font-size: 1.5rem; /* text-2xl */
+            font-weight: 600; /* font-semibold */
+            margin-bottom: 0.75rem; /* mb-3 */
+            color: #0284c7; /* Tailwind: text-sky-600 */
+        }
+        .lesson-content h3 {
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 600; /* font-semibold */
+            margin-top: 1rem; /* mt-4 */
+            margin-bottom: 0.5rem; /* mb-2 */
+            color: #0369a1; /* Tailwind: text-sky-700 */
+        }
+        .lesson-content p {
+            margin-bottom: 0.75rem; /* mb-3 */
+            line-height: 1.6;
+            color: #374151; /* Tailwind: text-gray-700 */
+        }
+        /* Highlight for inline code snippets */
+        .lesson-content > p code,
+        .lesson-content > ul code,
+        .lesson-content > h3 code { /* Target only direct children or specific contexts */
+            background-color: #ffedd5; /* Tailwind: bg-orange-100 */
+            color: #c2410c; /* Tailwind: text-orange-700 */
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem; /* rounded-sm */
+            font-family: 'Monaco', 'Courier New', Courier, monospace;
+            font-size: 0.85em;
+            border: 1px solid #fed7aa; /* Tailwind: border-orange-200 */
+        }
+        /* Styling for preformatted code blocks */
+        .lesson-content pre {
+            background-color: #f3f4f6; /* Tailwind: bg-gray-100 */
+            border: 1px solid #d1d5db; /* Tailwind: border-gray-300 */
+            padding: 0.75rem; /* p-3 */
+            border-radius: 0.375rem; /* rounded-md */
+            overflow-x: auto;
+            margin-bottom: 0.75rem; /* mb-3 */
+            font-family: 'Monaco', 'Courier New', Courier, monospace;
+            font-size: 0.875rem; /* text-sm */
+            line-height: 1.4;
+        }
+        /* Code inside pre should not have its own background, inherit from pre */
+        .lesson-content pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+            border-radius: 0;
+            font-size: inherit; /* Ensure font size consistency */
+            border: none;
+        }
+        .lesson-content ul {
+            list-style-type: disc;
+            margin-left: 1.5rem; /* ml-6 */
+            margin-bottom: 0.75rem; /* mb-3 */
+            color: #374151; /* Tailwind: text-gray-700 */
+        }
+        /* Highlight for <strong> tags */
+        .lesson-content strong {
+            color: #0ea5e9; /* Tailwind: text-sky-500 */
+            font-weight: 600; /* font-semibold */
+        }
+
+        /* Button Styles - Primary */
+        .button-primary {
+            background-color: #0ea5e9; /* Tailwind: bg-sky-500 */
+            color: white;
+            padding: 0.625rem 1.25rem; /* py-2.5 px-5 */
+            border-radius: 0.375rem; /* rounded-md */
+            font-weight: 500; /* font-medium */
+            transition: background-color 0.2s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px -1px rgba(0,0,0,.1);
+        }
+        .button-primary:hover {
+            background-color: #0284c7; /* Tailwind: bg-sky-600 */
+        }
+        /* Button Styles - Secondary */
+        .button-secondary {
+            background-color: #e0f2fe; /* Tailwind: bg-sky-100 */
+            color: #0369a1; /* Tailwind: text-sky-700 */
+            padding: 0.625rem 1.25rem; /* py-2.5 px-5 */
+            border-radius: 0.375rem; /* rounded-md */
+            font-weight: 500; /* font-medium */
+            transition: background-color 0.2s, color 0.2s;
+            border: 1px solid #bae6fd; /* Tailwind: border-sky-200 */
+            cursor: pointer;
+            box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px -1px rgba(0,0,0,.1);
+        }
+        .button-secondary:hover {
+            background-color: #bae6fd; /* Tailwind: bg-sky-200 */
+            color: #0284c7; /* Tailwind: text-sky-600 */
+        }
+        .button-disabled {
+            background-color: #cbd5e1; /* Tailwind: bg-slate-300 */
+            color: #94a3b8; /* Tailwind: text-slate-400 */
+            cursor: not-allowed;
+            border-color: #e2e8f0; /* Tailwind: border-slate-200 */
+        }
+        /* Goal Area Styling */
+        #goal-area {
+            background-color: #e0f2fe; /* Tailwind: bg-sky-50 (lighter sky) */
+            border-left-width: 4px;
+            border-color: #0ea5e9; /* Tailwind: border-sky-500 */
+            border-radius: 0 0.375rem 0.375rem 0; /* rounded-r-md */
+        }
+        #goal-area h3 {
+            color: #0369a1; /* Tailwind: text-sky-700 */
+        }
+        #goal-area p {
+            color: #075985; /* Tailwind: text-sky-800 */
+        }
+    </style>
+</head>
+<body class="bg-sky-50 text-gray-800"> <header class="bg-white shadow-lg sticky top-0 z-50"> <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <h1 class="text-2xl sm:text-3xl font-bold text-sky-600">Learn HTML & CSS Interactively</h1> </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex flex-col lg:flex-row gap-6">
+
+            <div class="lg:w-2/5 bg-white p-6 rounded-lg shadow-xl h-fit lg:sticky lg:top-24"> <div id="lesson-area" class="lesson-content">
+                    </div>
+                <div class="mt-6 flex justify-between items-center">
+                    <button id="prev-lesson-btn" class="button-secondary">Previous</button>
+                    <span id="lesson-counter" class="text-sm text-gray-600">Lesson 1 / N</span>
+                    <button id="next-lesson-btn" class="button-primary">Next</button>
+                </div>
+                 <div id="goal-area" class="mt-6 p-4 rounded-r-md"> <h3 class="text-lg font-semibold mb-2">🎯 Your Goal:</h3>
+                    <p id="lesson-goal" class=""></p>
+                </div>
+            </div>
+
+            <div class="lg:w-3/5 flex flex-col gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-xl editor-container"> <h2 class="text-xl font-semibold mb-3 text-gray-700">HTML Editor</h2>
+                    <textarea id="html-editor" class="w-full h-64 resize-y" spellcheck="false" placeholder="Write your HTML code here..."></textarea>
+
+                    <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">CSS Editor</h2>
+                    <textarea id="css-editor" class="w-full h-48 resize-y" spellcheck="false" placeholder="Write your CSS code here..."></textarea>
+
+                    <button id="run-code-btn" class="mt-6 button-primary w-full sm:w-auto">Run Code & Preview</button>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-xl flex-grow"> <h2 class="text-xl font-semibold mb-3 text-gray-700">Live Preview</h2>
+                    <iframe id="preview-frame" class="preview-frame" title="Live Preview"></iframe>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- LESSON DATA ---
+        const lessons = [
+            {
+                title: "Welcome to the Interactive Learner!",
+                explanation: `
+                    <p>Welcome! This interactive tool will help you learn the basics of HTML and CSS. </p>
+                    <p><strong>HTML (HyperText Markup Language)</strong> is the standard markup language for creating web pages. It describes the structure of a web page.</p>
+                    <p><strong>CSS (Cascading Style Sheets)</strong> is a style sheet language used for describing the presentation of a document written in a markup language like HTML. CSS describes how HTML elements should be displayed.</p>
+                    <p>In the editors to your right, you can write HTML and CSS code. Click the "Run Code & Preview" button to see your creation in the "Live Preview" window below the editors.</p>
+                    <p>Click "Next" to start your first lesson!</p>
+                `,
+                initialHTML: `\n<h1>Hello World!</h1>\n<p>This is your first preview.</p>`,
+                initialCSS: `/* CSS styles will appear here */\nbody {\n  font-family: sans-serif;\n  padding: 10px;\n}\nh1 {\n  color: #0284c7; /* sky-600 */ \n}`,
+                goal: "Familiarize yourself with the interface. Try changing the text in the HTML editor or the color in the CSS editor and click 'Run Code'."
+            },
+            {
+                title: "Lesson 1: Basic HTML Structure",
+                explanation: `
+                    <p>Every HTML document has a basic structure. It starts with <code>&lt;!DOCTYPE html&gt;</code>, which tells the browser it's an HTML5 document.</p>
+                    <p>The main container is the <code>&lt;html&gt;</code> tag. Inside it, you'll find:</p>
+                    <ul>
+                        <li><code>&lt;head&gt;</code>: Contains meta-information about the HTML document, like the title that appears in the browser tab (using the <code>&lt;title&gt;</code> tag). It also includes links to CSS files and other metadata.</li>
+                        <li><code>&lt;body&gt;</code>: Contains the visible page content – all the things you see on a webpage, like text, images, links, etc.</li>
+                    </ul>
+                    <p>Here's a <strong>minimal example</strong> of an HTML page structure:</p>
+                    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;My First Page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hello World!&lt;/h1&gt;
+    &lt;p&gt;This is my first web page.&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                `,
+                initialHTML: `<!DOCTYPE html>
+<html>
+<head>
+    <title>My Page Title</title>
+</head>
+<body>
+    <h1>Main Heading</h1>
+    <p>A paragraph of text.</p>
+</body>
+</html>`,
+                initialCSS: `body {\n    font-family: Arial, sans-serif;\n    margin: 20px;\n    background-color: #f0f8ff; /* AliceBlue for preview */\n}\nh1 {\n    color: #0369a1; /* sky-700 */\n}\np {\n    color: #334155; /* slate-700 */\n}`,
+                goal: "Understand the basic HTML document structure. Try changing the text inside the <h1> and <p> tags, and also change the <title>."
+            },
+            {
+                title: "Lesson 2: Headings & Paragraphs",
+                explanation: `
+                    <p>HTML provides several tags for structuring text.</p>
+                    <p><strong>Headings</strong> are defined with <code>&lt;h1&gt;</code> through <code>&lt;h6&gt;</code> tags. <code>&lt;h1&gt;</code> defines the most important heading, and <code>&lt;h6&gt;</code> defines the least important.</p>
+                    <p><strong>Paragraphs</strong> are defined with the <code>&lt;p&gt;</code> tag. Browsers automatically add some space (a margin) before and after each paragraph.</p>
+                    <p>Example:</p>
+                    <pre><code>&lt;h1&gt;This is a Main Heading&lt;/h1&gt;
+&lt;h2&gt;This is a Subheading&lt;/h2&gt;
+&lt;p&gt;This is a paragraph of text. It can contain many sentences.&lt;/p&gt;
+&lt;p&gt;This is another paragraph.&lt;/p&gt;</code></pre>
+                `,
+                initialHTML: `<h1>My Awesome Blog Post</h1>\n<h2>An Introduction</h2>\n<p>This is the first paragraph where I talk about interesting things.</p>\n<h3>Key Point 1</h3>\n<p>Details about the first key point.</p>\n<p>Another paragraph to make it longer.</p>`,
+                initialCSS: `h1 {\n    color: #0ea5e9; /* sky-500 */\n}\nh2 {\n    color: #f59e0b; /* amber-500 */\n}\np {\n    line-height: 1.6;\n    color: #475569; /* slate-600 */\n}`,
+                goal: "Add at least one more heading (e.g., <h3>) and two more paragraphs with some text. Observe how they are displayed."
+            },
+            {
+                title: "Lesson 3: Basic CSS Styling",
+                explanation: `
+                    <p>CSS is used to style your HTML elements. You can change colors, fonts, spacing, and much more!</p>
+                    <p>A CSS rule consists of a <strong>selector</strong> and a <strong>declaration block</strong>.</p>
+                    <ul>
+                        <li>The selector points to the HTML element you want to style (e.g., <code>h1</code>, <code>p</code>).</li>
+                        <li>The declaration block contains one or more declarations separated by semicolons. Each declaration includes a CSS property name and a value, separated by a colon (e.g., <code>color: blue;</code>).</li>
+                    </ul>
+                    <p>Example: To make all <code>&lt;p&gt;</code> elements have red text and a font size of 16 pixels, you would write:</p>
+                    <pre><code>p {
+  color: red;
+  font-size: 16px;
+}</code></pre>
+                    <p>You can put CSS rules in the <strong>CSS editor</strong> on the right.</p>
+                `,
+                initialHTML: `<h1>Style Me!</h1>\n<p>This paragraph needs some style.</p>\n<p>And this one too!</p>`,
+                initialCSS: `/* Try changing these styles */\nh1 {\n    color: #16a34a; /* green-600 */\n    text-align: center;\n}\n\np {\n    color: #7c3aed; /* violet-600 */\n    font-size: 18px;\n}`,
+                goal: "Change the color of the <h1> to 'orange' and the font size of the <p> tags to '20px'. Then, try to make the paragraphs' text color 'darkblue'."
+            },
+            {
+                title: "Lesson 4: CSS Classes and IDs",
+                explanation: `
+                    <p>Sometimes you don't want to style all elements of a certain type in the same way. That's where <strong>classes</strong> and <strong>IDs</strong> come in.</p>
+                    <h3>Classes</h3>
+                    <p>A class selector is a name preceded by a period (<code>.</code>). You can apply a class to multiple HTML elements using the <code>class</code> attribute.</p>
+                    <p>HTML: <code>&lt;p class="highlight"&gt;This is important.&lt;/p&gt;</code></p>
+                    <p>CSS: <code>.highlight { background-color: yellow; }</code></p>
+                    <h3>IDs</h3>
+                    <p>An ID selector is a name preceded by a hash character (<code>#</code>). An ID should be <strong>unique</strong> within an HTML page. You apply an ID using the <code>id</code> attribute.</p>
+                    <p>HTML: <code>&lt;div id="header"&gt;My Page Header&lt;/div&gt;</code></p>
+                    <p>CSS: <code>#header { padding: 10px; border-bottom: 1px solid black; }</code></p>
+                    <p><strong>Key difference:</strong> Classes can be used on <strong>multiple</strong> elements. IDs must be unique and used for <strong>one specific</strong> element.</p>
+                `,
+                initialHTML: `<h1 id="main-title">Learning about Selectors</h1>\n<p class="intro-text">This is an introductory paragraph.</p>\n<p>This is a normal paragraph.</p>\n<p class="intro-text important">This paragraph is also introductory and important.</p>`,
+                initialCSS: `/* Style for the ID */\n#main-title {\n    color: #0d9488; /* teal-600 */\n    text-decoration: underline;\n}\n\n/* Style for the class */\n.intro-text {\n    font-style: italic;\n    color: #4b5563; /* gray-600 */\n}\n\n/* Style for elements with BOTH intro-text and important classes */\n.intro-text.important {\n    font-weight: bold;\n    color: #be123c; /* rose-700 */\n}`,
+                goal: "Create a new paragraph and give it a class name 'special'. Then, in the CSS editor, define a style for the '.special' class to have a 'lightblue' background and 'black' text color."
+            },
+            {
+                title: "Lesson 5: The CSS Box Model",
+                explanation: `
+                    <p>All HTML elements can be considered as boxes. The <strong>CSS box model</strong> describes how these boxes are rendered and includes properties like:</p>
+                    <ul>
+                        <li><strong>Content:</strong> The actual content of the box, where text and images appear.</li>
+                        <li><strong>Padding:</strong> Clears an area around the content. Padding is transparent.</li>
+                        <li><strong>Border:</strong> A border that goes around the padding and content.</li>
+                        <li><strong>Margin:</strong> Clears an area outside the border. The margin is transparent.</li>
+                    </ul>
+                    <p>Visualized (from outside to inside): Margin -> Border -> Padding -> Content</p>
+                    <pre><code>div.example-box {
+  width: 300px; /* Width of the content area */
+  padding: 25px; /* Space between content and border */
+  border: 5px solid navy; /* The visible border */
+  margin: 20px; /* Space outside the border, separating from other elements */
+  background-color: lightblue; /* Background of the content and padding area */
+}</code></pre>
+                    <p>Understanding the box model is <strong>crucial</strong> for layout and spacing in CSS.</p>
+                `,
+                initialHTML: `<div class="my-box">\n  This is some content inside a div.\n  We will style this box!\n</div>\n\n<div class="another-box">\n  Another box for comparison.\n</div>`,
+                initialCSS: `body {\n    background-color: #e2e8f0; /* slate-200 background to see margins */\n}\n\n.my-box {\n    background-color: #fb7185; /* rose-400 */\n    color: white;\n    width: 250px;\n    /* Add padding, border, and margin below */\n    padding: 20px;\n    border: 3px dashed #4338ca; /* indigo-700 */\n    margin: 30px auto; /* auto centers block elements with a set width */\n}\n\n.another-box {\n    background-color: #60a5fa; /* blue-400 */\n    color: white;\n    padding: 10px;\n    margin: 20px auto;\n    width: 200px;\n}`,
+                goal: "For the element with class 'my-box', change its padding to '30px', its border to '5px solid green', and its margin to '40px'. Observe how it affects the layout and the 'another-box'."
+            }
+        ];
+
+        // --- DOM ELEMENTS ---
+        const lessonArea = document.getElementById('lesson-area');
+        const lessonGoalEl = document.getElementById('lesson-goal'); // Renamed for clarity
+        const htmlEditor = document.getElementById('html-editor');
+        const cssEditor = document.getElementById('css-editor');
+        const previewFrame = document.getElementById('preview-frame');
+        const runCodeBtn = document.getElementById('run-code-btn');
+        const prevLessonBtn = document.getElementById('prev-lesson-btn');
+        const nextLessonBtn = document.getElementById('next-lesson-btn');
+        const lessonCounter = document.getElementById('lesson-counter');
+
+        // --- STATE ---
+        let currentLessonIndex = 0;
+
+        // --- FUNCTIONS ---
+        function updatePreview() {
+            const htmlCode = htmlEditor.value;
+            const cssCode = cssEditor.value;
+            const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+
+            previewDoc.open();
+            previewDoc.write(`
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Preview</title>
+                    <style>
+                        body { margin: 0; padding: 15px; font-family: sans-serif; line-height: 1.5; } /* Basic reset for preview */
+                        ${cssCode}
+                    </style>
+                </head>
+                <body>
+                    ${htmlCode}
+                </body>
+                </html>
+            `);
+            previewDoc.close();
+        }
+
+        function loadLesson(index) {
+            if (index < 0 || index >= lessons.length) {
+                console.error("Invalid lesson index:", index);
+                return;
+            }
+            currentLessonIndex = index;
+            const lesson = lessons[currentLessonIndex];
+
+            lessonArea.innerHTML = `<h2>${lesson.title}</h2>${lesson.explanation}`;
+            // Remove Tailwind classes from HTML for goal text, as it's styled via CSS now
+            lessonGoalEl.textContent = lesson.goal;
+            htmlEditor.value = lesson.initialHTML;
+            cssEditor.value = lesson.initialCSS;
+
+            updateLessonCounter();
+            updateNavigationButtons();
+            // Ensure lesson content scroll to top on new lesson load
+            lessonArea.scrollTop = 0;
+            updatePreview(); // Initial preview for the lesson
+        }
+
+        function updateLessonCounter() {
+            lessonCounter.textContent = `Lesson ${currentLessonIndex + 1} / ${lessons.length}`;
+        }
+
+        function updateNavigationButtons() {
+            prevLessonBtn.disabled = currentLessonIndex === 0;
+            nextLessonBtn.disabled = currentLessonIndex === lessons.length - 1;
+
+            // Add/remove disabled classes for styling
+            prevLessonBtn.classList.toggle('button-disabled', prevLessonBtn.disabled);
+            prevLessonBtn.classList.toggle('button-secondary', !prevLessonBtn.disabled); // Ensure it has base style if not disabled
+
+            nextLessonBtn.classList.toggle('button-disabled', nextLessonBtn.disabled);
+            nextLessonBtn.classList.toggle('button-primary', !nextLessonBtn.disabled); // Ensure it has base style if not disabled
+        }
+
+        function goToNextLesson() {
+            if (currentLessonIndex < lessons.length - 1) {
+                loadLesson(currentLessonIndex + 1);
+            }
+        }
+
+        function goToPrevLesson() {
+            if (currentLessonIndex > 0) {
+                loadLesson(currentLessonIndex - 1);
+            }
+        }
+
+        // --- EVENT LISTENERS ---
+        runCodeBtn.addEventListener('click', updatePreview);
+        nextLessonBtn.addEventListener('click', goToNextLesson);
+        prevLessonBtn.addEventListener('click', goToPrevLesson);
+
+        // --- INITIALIZATION ---
+        loadLesson(0); // Load the first lesson (Welcome message)
+
+    </script>
+</body>
+</html>

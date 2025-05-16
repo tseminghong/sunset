@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn About Software</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+        }
+        .content-section {
+            background-color: white;
+            border-radius: 0.75rem; /* Rounded corners */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-bottom: 1.5rem;
+            overflow: hidden; /* Ensures child elements don't break rounded corners */
+        }
+        .section-header, .subsection-header, .os-function-header {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5e7eb; /* Light gray border */
+            transition: background-color 0.3s ease;
+        }
+        .section-header:hover, .subsection-header:hover, .os-function-header:hover {
+            background-color: #f9fafb; /* Slightly lighter gray on hover */
+        }
+        .section-header h2, .subsection-header h3, .os-function-header h4 {
+            font-weight: 600;
+            color: #1f2937; /* Dark gray text */
+        }
+        .section-content, .subsection-content, .os-function-content {
+            padding: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+            display: none; /* Hidden by default */
+        }
+        .section-content ul, .subsection-content ul, .os-function-content ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            color: #4b5563; /* Medium gray text for lists */
+        }
+        .section-content p, .subsection-content p, .os-function-content p {
+            color: #374151; /* Darker gray for paragraphs */
+            line-height: 1.6;
+        }
+        .icon {
+            transition: transform 0.3s ease;
+            font-size: 1.1em; /* Slightly larger icons */
+            margin-left: 0.5rem;
+        }
+        .expanded .icon {
+            transform: rotate(180deg);
+        }
+        .tag {
+            background-color: #e0e7ff; /* Light indigo background */
+            color: #3730a3; /* Indigo text */
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px; /* Pill shape */
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        .summary-box {
+            background-color: #eff6ff; /* Very light blue */
+            border-left: 4px solid #3b82f6; /* Blue left border */
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0.375rem;
+        }
+        .summary-box h5 {
+            font-weight: 600;
+            color: #1e40af; /* Darker blue */
+            margin-bottom: 0.5rem;
+        }
+
+        /* Styles for highlighting */
+        .highlight-keyword {
+            color: #2563eb; /* Tailwind Blue-600 */
+            font-weight: 600;
+        }
+        .highlight-example {
+            color: #059669; /* Tailwind Emerald-600 */
+            font-style: italic;
+        }
+        .highlight-pro {
+            color: #16a34a; /* Tailwind Green-600 */
+            font-weight: 500;
+        }
+        .highlight-con {
+            color: #dc2626; /* Tailwind Red-600 */
+            font-weight: 500;
+        }
+        .highlight-osname {
+            color: #7c3aed; /* Tailwind Violet-600 */
+            font-weight: 500;
+        }
+
+
+        /* Styles for UI Comparison Tabs */
+        .ui-comparison-tabs {
+            margin-top: 1.25rem; /* Increased margin a bit */
+            margin-bottom: 1rem;
+            border: 1px solid #d1d5db; /* Gray-300 */
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06); /* Subtle shadow */
+        }
+        .tab-buttons {
+            display: flex;
+            background-color: #f3f4f6; /* Gray-100 */
+        }
+        .tab-button {
+            padding: 0.85rem 1rem; /* Adjusted padding for better touch targets */
+            cursor: pointer;
+            border: none;
+            background-color: transparent;
+            font-weight: 500;
+            color: #4b5563; /* Gray-600 */
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+            flex-grow: 1; 
+            text-align: center;
+            border-bottom: 3px solid transparent; 
+            font-size: 0.9rem; /* Slightly smaller font for tabs if needed */
+        }
+        .tab-button:not(:last-child) {
+            border-right: 1px solid #d1d5db; /* Gray-300 */
+        }
+        .tab-button:hover {
+            background-color: #e5e7eb; /* Gray-200 */
+            color: #1f2937; /* Darker text on hover */
+        }
+        .tab-button.active {
+            background-color: white;
+            color: #3b82f6; /* Blue-500 for active tab text */
+            border-bottom-color: #3b82f6; /* Blue-500 */
+            font-weight: 600;
+        }
+        .tab-content {
+            padding: 1.5rem; /* Increased padding */
+            background-color: white;
+            display: none; 
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .tab-content p { 
+            margin-bottom: 0.75rem; /* Spacing for paragraphs in tabs */
+            line-height: 1.6;
+        }
+        .tab-content strong.title { /* For the main title within tab content */
+             color: #111827; /* Gray-900 */
+             font-size: 1.1em;
+             display: block;
+             margin-bottom: 0.5rem;
+        }
+        .tab-content ul {
+            list-style-type: disc;
+            margin-left: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <header class="text-center mb-10">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800">Learn About Software</h1>
+        <p class="text-lg text-gray-600 mt-2">An interactive guide to system and application software.</p>
+    </header>
+
+    <main class="max-w-4xl mx-auto">
+
+        <div class="content-section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2 class="text-2xl md:text-3xl">A. System Software</h2>
+                <i class="fas fa-chevron-down icon"></i>
+            </div>
+            <div class="section-content">
+                <div class="content-section mt-4">
+                    <div class="subsection-header" onclick="toggleSection(this)">
+                        <h3 class="text-xl md:text-2xl">1. Operating System (OS)</h3>
+                        <i class="fas fa-chevron-down icon"></i>
+                    </div>
+                    <div class="subsection-content">
+                        <p class="mb-3">An <span class="highlight-keyword">Operating System</span> (OS) is crucial system software that <span class="highlight-keyword">manages computer hardware and software resources</span> and provides <span class="highlight-keyword">common services</span> for computer programs.</p>
+                        <p class="mb-2"><strong class="text-gray-700">Examples:</strong> <span class="highlight-osname">Windows</span>, <span class="highlight-osname">MacOS</span>, <span class="highlight-osname">Android</span>, <span class="highlight-osname">iOS</span>, <span class="highlight-osname">iPadOS</span></p>
+                        <div class="mb-4">
+                            <span class="tag mr-2">For desktop computers</span>
+                            <span class="tag mr-2">For mobile devices</span>
+                            <span class="tag">For servers</span>
+                        </div>
+
+                        <h4 class="text-lg font-semibold mt-6 mb-3 text-gray-700">Common Functions/Features:</h4>
+                        <div id="osFunctionsAccordion">
+                            <div class="os-function-item mb-2 border border-gray-200 rounded-md">
+                                <div class="os-function-header bg-gray-50" onclick="toggleSection(this)">
+                                    <h4 class="text-md font-medium">Job scheduling and running</h4>
+                                    <i class="fas fa-plus icon text-sm"></i>
+                                </div>
+                                <div class="os-function-content text-sm">
+                                    <p>- Handles <span class="highlight-keyword">multitasking jobs</span> efficiently.</p>
+                                    <p>- Provides services for computer programs to execute.</p>
+                                </div>
+                            </div>
+
+                            <div class="os-function-item mb-2 border border-gray-200 rounded-md">
+                                <div class="os-function-header bg-gray-50" onclick="toggleSection(this)">
+                                    <h4 class="text-md font-medium">Manage system resources</h4>
+                                    <i class="fas fa-plus icon text-sm"></i>
+                                </div>
+                                <div class="os-function-content text-sm">
+                                    <p>Controls and allocates resources like:</p>
+                                    <ul>
+                                        <li><span class="highlight-keyword">CPU time</span></li>
+                                        <li><span class="highlight-keyword">Memory (RAM)</span></li>
+                                        <li><span class="highlight-keyword">Virtual memory</span></li>
+                                        <li><span class="highlight-keyword">Storage</span> (disk space)</li>
+                                        <li><span class="highlight-keyword">Network usage</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="os-function-item mb-2 border border-gray-200 rounded-md">
+                                <div class="os-function-header bg-gray-50" onclick="toggleSection(this)">
+                                    <h4 class="text-md font-medium">Error handling / Show alerts</h4>
+                                    <i class="fas fa-plus icon text-sm"></i>
+                                </div>
+                                <div class="os-function-content text-sm">
+                                    <p>- Detects and manages system errors.</p>
+                                    <p>- Shows alerts to the user (e.g., <span class="highlight-example">"not enough storage/memory" alerts</span>).</p>
+                                    <p>- Manages system security and error detection.</p>
+                                </div>
+                            </div>
+
+                            <div class="os-function-item mb-2 border border-gray-200 rounded-md">
+                                <div class="os-function-header bg-gray-50" onclick="toggleSection(this)">
+                                    <h4 class="text-md font-medium">Provision of user interface</h4>
+                                    <i class="fas fa-plus icon text-sm"></i>
+                                </div>
+                                <div class="os-function-content text-sm">
+                                    <p class="mb-3">Allows users to interact with the system through various interface types:</p>
+                                    <div class="ui-comparison-tabs">
+                                        <div class="tab-buttons">
+                                            <button class="tab-button active" onclick="showUiTab('guiTabContent', this)">GUI</button>
+                                            <button class="tab-button" onclick="showUiTab('menuTabContent', this)">Menu-Driven</button>
+                                            <button class="tab-button" onclick="showUiTab('cliTabContent', this)">CLI</button>
+                                        </div>
+                                        <div id="guiTabContent" class="tab-content active">
+                                            <p><strong class="title">Graphical User Interface (GUI)</strong></p>
+                                            <p>Visually intuitive interface using icons, windows, and menus.</p>
+                                            <p><span class="highlight-pro">Pros:</span> Easy control for beginners, visually appealing.</p>
+                                            <p><span class="highlight-con">Cons:</span> Consumes more computer resources.</p>
+                                            <p><strong>Examples:</strong> <span class="highlight-example">Windows, macOS</span></p>
+                                        </div>
+                                        <div id="menuTabContent" class="tab-content">
+                                            <p><strong class="title">Menu-driven interface</strong></p>
+                                            <p>Users interact by selecting options from a series of menus.</p>
+                                            <p><span class="highlight-pro">Pros:</span> No need to remember complex commands, easier for new users than CLI.</p>
+                                            <p><span class="highlight-con">Cons:</span> Can be slower for experienced users, navigation can be tedious for complex tasks.</p>
+                                        </div>
+                                        <div id="cliTabContent" class="tab-content">
+                                            <p><strong class="title">Command-line interface (CLI)</strong></p>
+                                            <p>Text-based interface where users type commands to interact with the system.</p>
+                                            <p><span class="highlight-pro">Pros:</span> Fast control for advanced users, consumes very little computer resources, powerful for automation.</p>
+                                            <p><span class="highlight-con">Cons:</span> Steep learning curve, requires knowledge of commands, less intuitive.</p>
+                                            <p><strong>Examples:</strong> <span class="highlight-example">Terminal (Linux/macOS), Command Prompt (Windows)</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="os-function-item mb-2 border border-gray-200 rounded-md">
+                                <div class="os-function-header bg-gray-50" onclick="toggleSection(this)">
+                                    <h4 class="text-md font-medium">Maintain security</h4>
+                                    <i class="fas fa-plus icon text-sm"></i>
+                                </div>
+                                <div class="os-function-content text-sm">
+                                    <p>- Manages different <span class="highlight-keyword">user permissions</span> and access levels.</p>
+                                    <p>- Protects user <span class="highlight-keyword">privacy and data</span> integrity.</p>
+                                </div>
+                            </div>
+
+                            <div class="os-function-item mb-2 border border-gray-200 rounded-md">
+                                <div class="os-function-header bg-gray-50" onclick="toggleSection(this)">
+                                    <h4 class="text-md font-medium">Control and management of hardware</h4>
+                                    <i class="fas fa-plus icon text-sm"></i>
+                                </div>
+                                <div class="os-function-content text-sm">
+                                    <p>- Manages and communicates with hardware devices.</p>
+                                    <p>- Makes use of <span class="highlight-keyword">driver programs</span> to interact with specific hardware components.</p>
+                                </div>
+                            </div>
+
+                            <div class="os-function-item mb-2 border border-gray-200 rounded-md">
+                                <div class="os-function-header bg-gray-50" onclick="toggleSection(this)">
+                                    <h4 class="text-md font-medium">Network management</h4>
+                                    <i class="fas fa-plus icon text-sm"></i>
+                                </div>
+                                <div class="os-function-content text-sm">
+                                    <p>- Monitors <span class="highlight-keyword">network traffic</span> and connections.</p>
+                                    <p>- Manages network configurations and protocols.</p>
+                                </div>
+                            </div>
+
+                            <div class="os-function-item mb-2 border border-gray-200 rounded-md">
+                                <div class="os-function-header bg-gray-50" onclick="toggleSection(this)">
+                                    <h4 class="text-md font-medium">File management</h4>
+                                    <i class="fas fa-plus icon text-sm"></i>
+                                </div>
+                                <div class="os-function-content text-sm">
+                                    <p>- Helps users <span class="highlight-keyword">explore files</span> in storage.</p>
+                                    <p>- Manages file creation, deletion, modification, and <span class="highlight-keyword">access to files</span>.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="os-function-item mb-2 border border-gray-200 rounded-md">
+                                <div class="os-function-header bg-gray-50" onclick="toggleSection(this)">
+                                    <h4 class="text-md font-medium">Provide command line interface</h4>
+                                    <i class="fas fa-plus icon text-sm"></i>
+                                </div>
+                                <div class="os-function-content text-sm">
+                                    <p>- Offers a text-based interface for advanced users to interact with the system directly (see comparison above).</p>
+                                </div>
+                            </div>
+
+                            <div class="os-function-item mb-2 border border-gray-200 rounded-md">
+                                <div class="os-function-header bg-gray-50" onclick="toggleSection(this)">
+                                    <h4 class="text-md font-medium">Provide a platform for application programs</h4>
+                                    <i class="fas fa-plus icon text-sm"></i>
+                                </div>
+                                <div class="os-function-content text-sm">
+                                    <p>- Creates an environment where application software can run and access system resources.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="os-function-item mb-2 border border-gray-200 rounded-md">
+                                <div class="os-function-header bg-gray-50" onclick="toggleSection(this)">
+                                    <h4 class="text-md font-medium">Mobile O.S. specific features</h4>
+                                    <i class="fas fa-plus icon text-sm"></i>
+                                </div>
+                                <div class="os-function-content text-sm">
+                                    <p>User interface responding to <span class="highlight-keyword">touch gestures</span>:</p>
+                                    <ul>
+                                        <li><span class="highlight-example">Swipe</span></li>
+                                        <li><span class="highlight-example">Scroll</span></li>
+                                        <li><span class="highlight-example">Click (tap)</span></li>
+                                        <li><span class="highlight-example">Pinch to zoom</span></li>
+                                        <li><span class="highlight-example">Long press</span></li>
+                                        <li><span class="highlight-example">Double click (double tap)</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="summary-box mt-6">
+                            <h5>Operating System Summary</h5>
+                            <ul>
+                                <li>Controls <span class="highlight-keyword">hardware</span></li>
+                                <li>Provides <span class="highlight-keyword">user interface</span></li>
+                                <li>Manages <span class="highlight-keyword">resources</span> (CPU, memory, storage, etc.)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section mt-4">
+                    <div class="subsection-header" onclick="toggleSection(this)">
+                        <h3 class="text-xl md:text-2xl">2. Utility Program</h3>
+                        <i class="fas fa-chevron-down icon"></i>
+                    </div>
+                    <div class="subsection-content">
+                        <p class="mb-3">Utility programs perform specific tasks related to managing and maintaining the computer system. They assist the OS in optimizing performance and security.</p>
+                        <ul class="space-y-2">
+                            <li><strong><span class="highlight-keyword">Antivirus program</span>:</strong> Detects and removes malicious software (viruses, malware).</li>
+                            <li><strong><span class="highlight-keyword">Defragmenter</span> / File defragmenter:</strong> Recombines fragmented files on a storage disk to improve file access speed.</li>
+                            <li><strong><span class="highlight-keyword">Software firewall</span>:</strong> Monitors and controls incoming and outgoing network traffic to protect against unauthorized access.</li>
+                            <li><strong><span class="highlight-keyword">Storage cleaner</span>:</strong> Helps free up disk space by removing unnecessary files (e.g., temporary files, old downloads).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="content-section mt-4">
+                    <div class="subsection-header" onclick="toggleSection(this)">
+                        <h3 class="text-xl md:text-2xl">3. Driver Program</h3>
+                        <i class="fas fa-chevron-down icon"></i>
+                    </div>
+                    <div class="subsection-content">
+                        <p class="mb-3">A <span class="highlight-keyword">driver program</span> (or device driver) is a special type of software that <span class="highlight-keyword">allows the O.S. to control the hardware</span> devices.</p>
+                        <ul class="space-y-2">
+                            <li><strong>Function:</strong> Acts as a translator between the OS and the hardware.</li>
+                            <li><strong>Pre-installed drivers:</strong> Many common devices (e.g., mouse, keyboard) have standard drivers pre-installed or automatically installed by the OS (<span class="highlight-example">Plug-and-Play</span>).</li>
+                            <li><strong>Specific drivers:</strong> Some hardware may require specific driver programs to be installed manually by the user to enable all its features or for optimal performance (e.g., <span class="highlight-example">high-end graphics cards, specialized printers</span>).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2 class="text-2xl md:text-3xl">B. Application Software</h2>
+                <i class="fas fa-chevron-down icon"></i>
+            </div>
+            <div class="section-content">
+                <p class="mb-4"><span class="highlight-keyword">Application software</span> consists of programs designed to perform specific tasks for end-users. Unlike system software, which manages the computer itself, application software is what users interact with directly to accomplish various activities.</p>
+
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="p-4 border border-gray-200 rounded-lg bg-slate-50">
+                        <h4 class="font-semibold text-lg mb-2 text-sky-700">Communication Software</h4>
+                        <ul class="list-disc ml-5 text-gray-600 space-y-1">
+                            <li><span class="highlight-example">Social media applications</span> (e.g., Facebook, Instagram, X)</li>
+                            <li><span class="highlight-example">Web browsers</span> (e.g., Chrome, Firefox, Safari)</li>
+                            <li><span class="highlight-example">AI chatbot software</span> (e.g., ChatGPT, Google Gemini)</li>
+                            <li>Email clients (e.g., Outlook, Gmail)</li>
+                            <li>Messaging apps (e.g., WhatsApp, Telegram)</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-4 border border-gray-200 rounded-lg bg-slate-50">
+                        <h4 class="font-semibold text-lg mb-2 text-emerald-700">Entertainment Software / Gaming Software</h4>
+                         <ul class="list-disc ml-5 text-gray-600 space-y-1">
+                            <li><span class="highlight-example">Video games</span> (PC, console, mobile)</li>
+                            <li><span class="highlight-example">Streaming services</span> (e.g., Netflix, Spotify)</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-4 border border-gray-200 rounded-lg bg-slate-50">
+                        <h4 class="font-semibold text-lg mb-2 text-purple-700">Media Player</h4>
+                        <ul class="list-disc ml-5 text-gray-600 space-y-1">
+                            <li>Software for <span class="highlight-keyword">playing audio and video files</span> (e.g., VLC Media Player, Windows Media Player).</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-4 border border-gray-200 rounded-lg bg-slate-50">
+                        <h4 class="font-semibold text-lg mb-2 text-rose-700">Media Editing Programs</h4>
+                        <ul class="list-disc ml-5 text-gray-600 space-y-1">
+                            <li><strong><span class="highlight-example">Photo editor</span>:</strong> (e.g., Adobe Photoshop, GIMP) - For manipulating digital images.</li>
+                            <li><strong><span class="highlight-example">Video editor</span>:</strong> (e.g., Adobe Premiere Pro, DaVinci Resolve) - For creating and modifying video content.</li>
+                            <li><strong><span class="highlight-example">Audio editor</span>:</strong> (e.g., Audacity, Adobe Audition) - For recording and editing sound.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-center mt-12 mb-6">
+        <p class="text-gray-500 text-sm">Interactive Software Guide &copy; 2024</p>
+    </footer>
+
+    <script>
+        // JavaScript function to toggle visibility of content sections
+        function toggleSection(headerElement) {
+            const contentElement = headerElement.nextElementSibling;
+            const iconElement = headerElement.querySelector('.icon');
+
+            if (contentElement.style.display === "block") {
+                contentElement.style.display = "none";
+                headerElement.classList.remove('expanded');
+                if (headerElement.classList.contains('os-function-header')) {
+                    iconElement.classList.remove('fa-minus');
+                    iconElement.classList.add('fa-plus');
+                } else {
+                     iconElement.classList.remove('fa-chevron-up');
+                     iconElement.classList.add('fa-chevron-down');
+                }
+            } else {
+                contentElement.style.display = "block";
+                headerElement.classList.add('expanded');
+                if (headerElement.classList.contains('os-function-header')) {
+                    iconElement.classList.remove('fa-plus');
+                    iconElement.classList.add('fa-minus');
+                } else {
+                    iconElement.classList.remove('fa-chevron-down');
+                    iconElement.classList.add('fa-chevron-up');
+                }
+            }
+        }
+
+        // JavaScript function to switch tabs in the UI comparison element
+        function showUiTab(tabId, buttonElement) {
+            const tabsContainer = buttonElement.closest('.ui-comparison-tabs');
+            const tabContents = tabsContainer.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            const tabButtons = tabsContainer.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            document.getElementById(tabId).classList.add('active');
+            buttonElement.classList.add('active');
+        }
+
+        // Ensure the first tab is active on page load for any tab components
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize UI comparison tabs
+            const firstUiTabButton = document.querySelector('.ui-comparison-tabs .tab-button');
+            if (firstUiTabButton && !firstUiTabButton.classList.contains('active')) {
+                 // If JS runs before HTML fully parsed active classes, this ensures it.
+                 // However, HTML already sets the first tab/content to active.
+                 // This is more of a fallback or if dynamically generated.
+                 // For this static case, if HTML is correct, direct call isn't strictly needed.
+                 // showUiTab(firstUiTabButton.getAttribute('onclick').match(/'([^']+)'/)[1], firstUiTabButton);
+            }
+            // If there are other tab systems, initialize them here similarly.
+        });
+
+    </script>
+</body>
+</html>

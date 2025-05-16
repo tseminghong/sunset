@@ -47,14 +47,29 @@
             </p>
         </section>
 
+        <!-- Tag Bar Filtering -->
+        <section class="mb-8 flex flex-col items-center">
+            <div id="tag-bar" class="flex flex-wrap gap-2 justify-center">
+                <button class="tag-btn px-3 py-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 font-medium transition hover:bg-indigo-200 active:bg-indigo-300" data-tag="all">All</button>
+                <button class="tag-btn px-3 py-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 font-medium transition hover:bg-indigo-200 active:bg-indigo-300" data-tag="Searching">Searching</button>
+                <button class="tag-btn px-3 py-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 font-medium transition hover:bg-indigo-200 active:bg-indigo-300" data-tag="Sorting">Sorting</button>
+                <button class="tag-btn px-3 py-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 font-medium transition hover:bg-indigo-200 active:bg-indigo-300" data-tag="Merging">Merging</button>
+                <button class="tag-btn px-3 py-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 font-medium transition hover:bg-indigo-200 active:bg-indigo-300" data-tag="Python">Python</button>
+                <button class="tag-btn px-3 py-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 font-medium transition hover:bg-indigo-200 active:bg-indigo-300" data-tag="DSE Exam">DSE Exam</button>
+                <button class="tag-btn px-3 py-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 font-medium transition hover:bg-indigo-200 active:bg-indigo-300" data-tag="Problem Solving">Problem Solving</button>
+                <button class="tag-btn px-3 py-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 font-medium transition hover:bg-indigo-200 active:bg-indigo-300" data-tag="Algorithms">Algorithms</button>
+                <button class="tag-btn px-3 py-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 font-medium transition hover:bg-indigo-200 active:bg-indigo-300" data-tag="Pseudocode">Pseudocode</button>
+            </div>
+        </section>
+
         <section id="resources" class="mb-16">
             <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
                 <span class="mr-2">📚</span> Featured Resources
             </h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div id="resource-cards" class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- S4 Python Algorithms Card -->
-                <a href="s4python.html" class="block">
+                <a href="s4python.html" class="block resource-card" data-tags="Searching,Sorting,Merging,Python">
                     <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover h-full">
                         <div class="h-48 bg-indigo-100 flex items-center justify-center">
                             <div class="text-center p-6">
@@ -86,7 +101,7 @@
                 </a>
 
                 <!-- DSE 2025 Number Game Card -->
-                <a href="DSE_2025(1).html" class="block">
+                <a href="DSE_2025(1).html" class="block resource-card" data-tags="DSE Exam,Problem Solving,Algorithms,Pseudocode">
                     <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover h-full">
                         <div class="h-48 bg-emerald-100 flex items-center justify-center">
                             <div class="text-center p-6">
@@ -153,5 +168,63 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Tag bar filtering
+        const tagButtons = document.querySelectorAll('.tag-btn');
+        let selectedTags = new Set(['all']);
+
+        function updateTagBarUI() {
+            tagButtons.forEach(btn => {
+                if (
+                    (selectedTags.has('all') && btn.dataset.tag === 'all') ||
+                    (!selectedTags.has('all') && selectedTags.has(btn.dataset.tag))
+                ) {
+                    btn.classList.add('bg-indigo-600', 'text-white', 'border-indigo-700');
+                    btn.classList.remove('bg-indigo-50', 'text-indigo-700', 'border-indigo-300');
+                } else {
+                    btn.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-700');
+                    btn.classList.add('bg-indigo-50', 'text-indigo-700', 'border-indigo-300');
+                }
+            });
+        }
+
+        function filterResources() {
+            const cards = document.querySelectorAll('.resource-card');
+            if (selectedTags.has('all') || selectedTags.size === 0) {
+                cards.forEach(card => card.style.display = '');
+            } else {
+                cards.forEach(card => {
+                    const tags = card.getAttribute('data-tags').split(',').map(t => t.trim());
+                    // Show if any selected tag matches
+                    const show = [...selectedTags].some(tag => tags.includes(tag));
+                    card.style.display = show ? '' : 'none';
+                });
+            }
+        }
+
+        tagButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tag = btn.dataset.tag;
+                if (tag === 'all') {
+                    selectedTags = new Set(['all']);
+                } else {
+                    if (selectedTags.has('all')) selectedTags.delete('all');
+                    if (selectedTags.has(tag)) {
+                        selectedTags.delete(tag);
+                    } else {
+                        selectedTags.add(tag);
+                    }
+                    if (selectedTags.size === 0) selectedTags.add('all');
+                }
+                updateTagBarUI();
+                filterResources();
+            });
+        });
+
+        // 初始化
+        updateTagBarUI();
+        filterResources();
+    </script>
 </body>
 </html>

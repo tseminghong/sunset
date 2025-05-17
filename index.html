@@ -369,8 +369,8 @@
             } else {
                 cards.forEach(card => {
                     const tags = card.getAttribute('data-tags').split(',').map(t => t.trim());
-                    // Show if any selected tag matches
-                    const show = [...selectedTags].some(tag => tags.includes(tag));
+                    // Show only if ALL selected tags are present in the card's tags
+                    const show = [...selectedTags].every(tag => tags.includes(tag));
                     card.style.display = show ? '' : 'none';
                 });
             }

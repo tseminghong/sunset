@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Hardware Concepts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .content-section {
+            margin-bottom: 2rem; /* Spacing between sections */
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 0.75rem; /* Rounded corners */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .content-section h2 {
+            font-size: 1.75rem; /* Larger section titles */
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1F2937; /* Darker gray for titles */
+            border-bottom: 2px solid #E5E7EB; /* Subtle separator */
+            padding-bottom: 0.5rem;
+        }
+        .content-section h3 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: #374151; /* Medium gray for sub-titles */
+        }
+        .card {
+            background-color: #F9FAFB; /* Lighter gray for cards */
+            padding: 1rem;
+            border-radius: 0.5rem; /* Rounded corners for cards */
+            margin-bottom: 1rem;
+            border: 1px solid #E5E7EB; /* Light border for cards */
+        }
+        .card ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+        }
+        .card li {
+            margin-bottom: 0.25rem;
+        }
+        .accordion-button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-align: left;
+            background-color: #E5E7EB; /* Light gray for accordion button */
+            border: none;
+            border-radius: 0.375rem; /* Slightly rounded */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .accordion-button:hover {
+            background-color: #D1D5DB; /* Darker gray on hover */
+        }
+        .accordion-content {
+            padding: 1rem;
+            background-color: #F9FAFB;
+            border: 1px solid #E5E7EB;
+            border-top: none;
+            border-radius: 0 0 0.375rem 0.375rem; /* Rounded bottom corners */
+            display: none; /* Hidden by default */
+        }
+        .accordion-content.open {
+            display: block;
+        }
+        .nav-link {
+            display: block;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.375rem;
+            color: #374151; /* Medium gray for nav links */
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .nav-link:hover, .nav-link.active {
+            background-color: #D1D5DB; /* Darker gray for hover/active */
+            color: #1F2937; /* Darker text for hover/active */
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+
+        <nav id="sidebar" class="w-full md:w-64 bg-gray-200 p-4 md:sticky md:top-0 md:h-screen overflow-y-auto transition-transform duration-300 ease-in-out transform md:translate-x-0 -translate-x-full fixed md:relative z-20">
+            <div class="flex justify-between items-center md:block">
+                <h1 class="text-2xl font-bold text-gray-700 mb-6">Hardware Guide</h1>
+                <button id="menu-toggle-close" class="md:hidden text-gray-700 hover:text-gray-900 text-2xl">
+                    &times; </button>
+            </div>
+            <a href="index.html" class="nav-link flex items-center text-blue-700 mb-4 hover:bg-blue-100">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                </svg>
+                Back to Home
+            </a>
+            <a href="#storage" class="nav-link">Storage: SSD vs HDD</a>
+            <a href="#memory" class="nav-link">Memory</a>
+            <a href="#loader" class="nav-link">Loader</a>
+            <a href="#cpu" class="nav-link">CPU</a>
+            <a href="#pointing-devices" class="nav-link">Pointing Devices</a>
+        </nav>
+
+        <button id="menu-toggle-open" class="md:hidden fixed top-4 left-4 bg-gray-800 text-white p-2 rounded-md z-30">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+        </button>
+
+        <main class="flex-1 p-6 md:p-10 bg-gray-100 overflow-y-auto">
+            <section id="intro" class="content-section text-center">
+                <h2 class="text-3xl font-bold text-gray-700">Welcome to the Interactive Hardware Guide!</h2>
+                <p class="mt-2 text-lg text-gray-600">Explore fundamental computer hardware concepts. Use the menu to navigate.</p>
+            </section>
+
+            <section id="storage" class="content-section">
+                <h2>Storage: SSD vs HDD</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="card">
+                        <h3 class="text-xl font-semibold text-blue-600">SSD (Solid State Drive)</h3>
+                        <ul>
+                            <li>Faster data accessing speed</li>
+                            <li>Resistant to shock</li>
+                            <li>Less power consumption</li>
+                            <li>Smaller physical size</li>
+                            <li>Suitable for use as external portable drive</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3 class="text-xl font-semibold text-green-600">HDD (Hard Disk Drive)</h3>
+                        <ul>
+                            <li>Lower cost per unit storage</li>
+                            <li>Easier to recover data (in some cases)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="memory" class="content-section">
+                <h2>Memory</h2>
+                <div>
+                    <button class="accordion-button">
+                        <span>ROM (Read-Only Memory)</span>
+                        <span class="arrow">&#9660;</span> </button>
+                    <div class="accordion-content">
+                        <p>Stores the initial computer startup program (bootup program, program for the fundamental operations of the hardware).</p>
+                        <ul>
+                            <li>Non-volatile: Can store data permanently, even without power.</li>
+                            <li>Difficult to rewrite (Read-Only nature, though some types like EEPROM can be rewritten).</li>
+                            <li>Direct access (Corrected from sequential).</li>
+                            <li>Permanent storage for firmware.</li>
+                            <li>Relatively small storage capacity.</li>
+                            <li>Data remains when power is lost.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button class="accordion-button">
+                        <span>RAM (Random Access Memory)</span>
+                        <span class="arrow">&#9660;</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Used for processing programs and data currently in use (e.g., word processors, web browsers, games).</p>
+                        <ul>
+                            <li>Volatile: Data is lost when power is turned off.</li>
+                            <li>Erasable and rewritable.</li>
+                            <li>Temporary storage for active tasks.</li>
+                            <li>Supports both read and write operations.</li>
+                            <li>Random access / direct access for fast data retrieval.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button class="accordion-button">
+                        <span>Cache Memory</span>
+                        <span class="arrow">&#9660;</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Stores the most frequently used data and instructions for quick access by the CPU.</p>
+                        <ul>
+                            <li>Small in size compared to RAM.</li>
+                            <li>Located very close to or on the processor.</li>
+                            <li>Volatile.</li>
+                            <li>Speeds up data access for the CPU, improving performance.</li>
+                            <li>Extremely fast access times.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button class="accordion-button">
+                        <span>Virtual Memory</span>
+                        <span class="arrow">&#9660;</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>An extension of RAM, utilizing hard disk space to simulate additional main memory.</p>
+                        <ul>
+                            <li>Allows the system to run larger programs or more programs simultaneously than physical RAM alone would allow.</li>
+                            <li>Data is swapped between RAM and the disk (paging/swapping).</li>
+                            <li>Slower performance if the computer relies too heavily on it, due to slower disk access speeds compared to RAM.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="loader" class="content-section">
+                <h2>Loader</h2>
+                <div class="card">
+                    <p>The loader is a crucial part of the operating system responsible for preparing a program for execution.</p>
+                    <ul>
+                        <li>Loads the program from secondary storage (like an HDD or SSD) into main memory (RAM).</li>
+                        <li>Sets the Program Counter (PC) register with the memory address of the first instruction of the program, so the CPU knows where to begin execution.</li>
+                   
+                <div class="card mb-4">
+                    <h3 class="text-lg font-semibold">Multi-Core Processors / Multiple Processors</h3>
+                    <p>Modern CPUs often have multiple cores, or a system might have multiple physical processors. This enables:</p>
+                    <ul>
+                        <li><strong>Parallel Processing:</strong> Multiple tasks or parts of a task execute simultaneously on different cores/processors.</li>
+                        <li><strong>Multi-threading:</strong> A single process can have multiple threads of execution running concurrently.</li>
+                        <li><strong>Multitasking:</strong> The ability to run several programs or processes seemingly at the same time by rapidly switching between them.</li>
+                        <li><strong>Pipelining:</strong> An instruction execution technique where multiple instructions are overlapped in execution, like an assembly line.</li>
+                    </ul>
+                </div>
+
+                <div class="card mb-4">
+                    <h3 class="text-lg font-semibold">CPU Components</h3>
+                    <ul>
+                        <li><strong>CU (Control Unit):</strong> Directs and coordinates most of the operations in the computer. It interprets instructions and generates control signals.</li>
+                        <li><strong>ALU (Arithmetic and Logic Unit):</strong> Performs arithmetic (addition, subtraction) and logical (AND, OR, NOT) operations.</li>
+                        <li><strong>Registers:</strong> Small, high-speed storage locations within the CPU used to temporarily hold data and instructions. Key registers include:
+                            <ul>
+                                <li><strong>IR (Instruction Register):</strong> Holds the current instruction being executed.</li>
+                                <li><strong>ACC (Accumulator):</strong> Stores intermediate arithmetic and logic results.</li>
+                                <li><strong>PC (Program Counter):</strong> Holds the memory address of the next instruction to be fetched.</li>
+                                <li><strong>MAR (Memory Address Register):</strong> Holds the memory address of data to be fetched or stored.</li>
+                                <li><strong>MDR (Memory Data Register):</strong> Holds the data being transferred to or from memory.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card mb-4">
+                    <h3 class="text-lg font-semibold">CPU Cycle (Fetch-Decode-Execute-Store)</h3>
+                    <ol class="list-decimal ml-5">
+                        <li><strong>Fetch:</strong> Retrieve the next instruction from memory (RAM) whose address is in the Program Counter (PC).</li>
+                        <li><strong>Decode:</strong> The Control Unit (CU) interprets the instruction to determine what operation needs to be performed.</li>
+                        <li><strong>Execute:</strong> The Arithmetic Logic Unit (ALU) performs the specified operation (e.g., arithmetic calculation, logical comparison, data movement).</li>
+                        <li><strong>Store:</strong> The results of the execution are saved in registers or written back to main memory.</li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-semibold">CPU Performance Factors</h3>
+                    <ul>
+                        <li><strong>Clock Rate (Clock Speed):</strong> Measured in Gigahertz (GHz), it indicates how many cycles the CPU can perform per second. Higher is generally faster.</li>
+                        <li><strong>Number of Cores:</strong> Multiple cores allow the CPU to handle more tasks simultaneously (parallel processing).</li>
+                        <li><strong>Cache Size/Speed:</strong> Larger and faster cache memory reduces the time spent waiting for data from RAM.</li>
+                        <li><strong>Instruction Set Architecture (ISA):</strong> The design of the instructions the CPU can execute.</li>
+                        <li><strong>Bus Speed/Width:</strong> Affects how quickly data can be moved between the CPU and other components.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="pointing-devices" class="content-section">
+                <h2>Pointing Devices for Accurate Drawing</h2>
+                <div class="card">
+                    <p>These devices allow for precise input, especially useful in graphics applications.</p>
+                    <ul>
+                        <li><strong>Digitizer (or Graphics Tablet):</strong> A flat surface on which the user "draws" with a stylus. The tablet translates the stylus movements into digital signals that the computer can interpret. Offers high precision and pressure sensitivity.</li>
+                        <li><strong>Graphic Tablet:</strong> Often used interchangeably with Digitizer. It's a specific type of digitizer.</li>
+                        </ul>
+                     <img src="https://placehold.co/600x300/E0E7FF/4338CA?text=Graphic+Tablet+Illustration" alt="Graphic Tablet Illustration" class="mt-4 rounded-md w-full max-w-md mx-auto" onerror="this.onerror=null;this.src='https://placehold.co/600x300/CCCCCC/999999?text=Image+Not+Found';">
+                </div>
+            </section>
+
+            <footer class="text-center py-8 text-gray-600 text-sm">
+                <p>&copy; <span id="currentYear"></span> Interactive Hardware Guide. All concepts simplified for learning.</p>
+            </footer>
+
+        </main>
+    </div>
+
+    <script>
+        // JavaScript for Accordion Functionality
+        const accordionButtons = document.querySelectorAll('.accordion-button');
+        accordionButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const accordionContent = button.nextElementSibling;
+                const arrow = button.querySelector('.arrow');
+
+                // Toggle current accordion
+                if (accordionContent.style.display === 'block') {
+                    accordionContent.style.display = 'none';
+                    arrow.innerHTML = '&#9660;'; // Down arrow
+                    button.setAttribute('aria-expanded', 'false');
+                } else {
+                    accordionContent.style.display = 'block';
+                    arrow.innerHTML = '&#9650;'; // Up arrow
+                    button.setAttribute('aria-expanded', 'true');
+                }
+
+                // Optional: Close other accordions when one is opened
+                // accordionButtons.forEach(otherButton => {
+                //     if (otherButton !== button) {
+                //         otherButton.nextElementSibling.style.display = 'none';
+                //         otherButton.querySelector('.arrow').innerHTML = '&#9660;';
+                //         otherButton.setAttribute('aria-expanded', 'false');
+                //     }
+                // });
+            });
+        });
+
+        // JavaScript for Mobile Menu Toggle
+        const menuToggleOpen = document.getElementById('menu-toggle-open');
+        const menuToggleClose = document.getElementById('menu-toggle-close');
+        const sidebar = document.getElementById('sidebar');
+
+        menuToggleOpen.addEventListener('click', () => {
+            sidebar.classList.remove('-translate-x-full');
+            sidebar.classList.add('translate-x-0');
+        });
+
+        menuToggleClose.addEventListener('click', () => {
+            sidebar.classList.remove('translate-x-0');
+            sidebar.classList.add('-translate-x-full');
+        });
+        
+        // Close sidebar when a nav link is clicked (for mobile view)
+        const navLinks = document.querySelectorAll('#sidebar .nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 768) { // md breakpoint in Tailwind
+                    sidebar.classList.remove('translate-x-0');
+                    sidebar.classList.add('-translate-x-full');
+                }
+                // Active link styling
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Smooth scroll for anchor links & active link highlighting
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Highlight active nav link on scroll
+        const sections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 70) { // 70 is an offset
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+
+    </script>
+</body>
+</html>

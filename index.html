@@ -57,21 +57,12 @@
         <section class="mb-8 flex flex-col items-center">
             <div id="tag-bar" class="flex flex-wrap gap-2 justify-center">
                 <button class="tag-btn px-3 py-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 font-medium transition hover:bg-indigo-200 active:bg-indigo-300" data-tag="all">All</button>
-                <button class="tag-btn px-3 py-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 font-medium transition hover:bg-indigo-200 active:bg-indigo-300" data-tag="Searching">Searching</button>
-                <button class="tag-btn px-3 py-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 font-medium transition hover:bg-indigo-200 active:bg-indigo-300" data-tag="Sorting">Sorting</button>
-                <button class="tag-btn px-3 py-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 font-medium transition hover:bg-indigo-200 active:bg-indigo-300" data-tag="Merging">Merging</button>
-                <button class="tag-btn px-3 py-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 font-medium transition hover:bg-indigo-200 active:bg-indigo-300" data-tag="Python">Python</button>
-                <button class="tag-btn px-3 py-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 font-medium transition hover:bg-indigo-200 active:bg-indigo-300" data-tag="DSE Exam">DSE Exam</button>
-                <button class="tag-btn px-3 py-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 font-medium transition hover:bg-indigo-200 active:bg-indigo-300" data-tag="Problem Solving">Problem Solving</button>
                 <button class="tag-btn px-3 py-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 font-medium transition hover:bg-indigo-200 active:bg-indigo-300" data-tag="Algorithms">Algorithms</button>
-                <button class="tag-btn px-3 py-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 font-medium transition hover:bg-indigo-200 active:bg-indigo-300" data-tag="Pseudocode">Pseudocode</button>
-                <button class="tag-btn px-3 py-1 rounded-full border border-pink-300 bg-pink-50 text-pink-700 font-medium transition hover:bg-pink-200 active:bg-pink-300" data-tag="Visualization">Visualization</button>
-                <button class="tag-btn px-3 py-1 rounded-full border border-green-300 bg-green-50 text-green-700 font-medium transition hover:bg-green-200 active:bg-green-300" data-tag="Simulation">Simulation</button>
-                <button class="tag-btn px-3 py-1 rounded-full border border-blue-300 bg-blue-50 text-blue-700 font-medium transition hover:bg-blue-200 active:bg-blue-300" data-tag="Step-by-Step">Step-by-Step</button>
-                <button class="tag-btn px-3 py-1 rounded-full border border-gray-300 bg-gray-50 text-gray-700 font-medium transition hover:bg-gray-200 active:bg-gray-300" data-tag="Self-Study">Self-Study</button>
+                <button class="tag-btn px-3 py-1 rounded-full border border-blue-300 bg-blue-50 text-blue-700 font-medium transition hover:bg-blue-200 active:bg-blue-300" data-tag="SQL">SQL</button>
                 <button class="tag-btn px-3 py-1 rounded-full border border-orange-300 bg-orange-50 text-orange-700 font-medium transition hover:bg-orange-200 active:bg-orange-300" data-tag="HTML">HTML</button>
-                <button class="tag-btn px-3 py-1 rounded-full border border-purple-300 bg-purple-50 text-purple-700 font-medium transition hover:bg-purple-200 active:bg-purple-300" data-tag="Computing Concepts">Computing Concepts</button>
+                <button class="tag-btn px-3 py-1 rounded-full border border-purple-300 bg-purple-50 text-purple-700 font-medium transition hover:bg-purple-200 active:bg-purple-300" data-tag="Software">Software</button>
                 <button class="tag-btn px-3 py-1 rounded-full border border-lime-300 bg-lime-50 text-lime-700 font-medium transition hover:bg-lime-200 active:bg-lime-300" data-tag="Hardware">Hardware</button>
+                <button class="tag-btn px-3 py-1 rounded-full border border-pink-300 bg-pink-50 text-pink-700 font-medium transition hover:bg-pink-200 active:bg-pink-300" data-tag="Visualization">Visualization</button>
             </div>
         </section>
 
@@ -82,7 +73,7 @@
             
             <div id="resource-cards" class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- S4 Python Algorithms Card -->
-                <a href="s4python.html" class="block resource-card" data-tags="Searching,Sorting,Merging,Python">
+                <a href="s4python.html" class="block resource-card" data-tags="Searching,Sorting,Merging,Python,Algorithms">
                     <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover h-full">
                         <div class="h-48 bg-indigo-100 flex items-center justify-center">
                             <div class="text-center p-6">
@@ -96,6 +87,7 @@
                                 Interactive visualizations of searching and sorting algorithms with step-by-step explanations.
                             </p>
                             <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm">Algorithms</span>
                                 <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm">Searching</span>
                                 <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm">Sorting</span>
                                 <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm">Merging</span>
@@ -296,6 +288,39 @@
                         <div class="px-6 pb-4">
                             <div class="flex items-center text-lime-600 font-medium">
                                 Explore hardware concepts
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- SQL Adventure Card -->
+                <a href="sql.html" class="block resource-card" data-tags="SQL,Computing Concepts,Self-Study,Step-by-Step,Visualization">
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover h-full">
+                        <div class="h-48 bg-blue-100 flex items-center justify-center">
+                            <div class="text-center p-6">
+                                <div class="text-5xl mb-2">🗄️</div>
+                                <h3 class="text-xl font-semibold text-blue-800">SQL Adventure</h3>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">SQL Adventure: Interactive Learning Guide</h3>
+                            <p class="text-gray-600 mb-4">
+                                Practice SQL queries, explore database concepts, and test your skills with interactive challenges and instant feedback.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">SQL</span>
+                                <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">Computing Concepts</span>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm">Self-Study</span>
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">Step-by-Step</span>
+                                <span class="px-3 py-1 bg-pink-100 text-pink-800 rounded-full text-sm">Visualization</span>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-4">
+                            <div class="flex items-center text-blue-600 font-medium">
+                                Start SQL Adventure
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                                 </svg>

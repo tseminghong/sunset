@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Adventure: Interactive Learning Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f9ff; /* Lighter blue background */
+        }
+        .content-section {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2.5rem;
+            transition: transform 0.3s ease-in-out;
+        }
+        .content-section:hover {
+            transform: translateY(-5px);
+        }
+        .sql-query {
+            background-color: #1e293b; /* Dark slate for SQL */
+            color: #e2e8f0; /* Light gray text for SQL */
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            margin-bottom: 1rem;
+            border-left: 4px solid #3b82f6; /* Blue accent */
+        }
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .result-table th, .result-table td {
+            border: 1px solid #e5e7eb; /* Lighter gray border */
+            padding: 0.75rem 1rem;
+            text-align: left;
+        }
+        .result-table th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            color: #374151; /* Darker gray for headers */
+        }
+        .interactive-button {
+            background-color: #2563eb; /* Brighter Blue */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-weight: 600; /* Bolder font */
+            transition: all 0.3s ease; /* Smooth transition for all properties */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .interactive-button:hover {
+            background-color: #1d4ed8; /* Darker blue on hover */
+            transform: translateY(-2px); /* Slight lift on hover */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .interactive-button .fa-solid {
+            margin-right: 0.5rem;
+        }
+        .explanation {
+            background-color: #e0f2fe; /* Light sky blue */
+            border-left: 4px solid #0ea5e9; /* Sky blue border */
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+            border-radius: 0.375rem;
+            color: #0c4a6e; /* Darker blue text */
+        }
+        .explanation h5 {
+             color: #0369a1; /* Even darker blue for heading */
+        }
+        .code-highlight { color: #ec4899; font-weight: bold; } /* Pink */
+        .column-highlight { color: #10b981; font-weight: bold; } /* Emerald */
+        .table-highlight { color: #f59e0b; font-weight: bold; } /* Amber */
+        .value-highlight { color: #ef4444; font-weight: bold; } /* Red */
+        
+        .table-container { overflow-x: auto; }
+
+        .quiz-option {
+            display: block;
+            background-color: #f9fafb;
+            border: 1px solid #d1d5db;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+        .quiz-option:hover {
+            background-color: #eff6ff;
+            border-color: #3b82f6;
+        }
+        .quiz-feedback {
+            padding: 0.5rem 1rem;
+            margin-top: 0.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+        }
+        .correct { background-color: #d1fae5; color: #065f46; border-left: 4px solid #10b981;} /* Green */
+        .incorrect { background-color: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444;} /* Red */
+
+        .section-icon {
+            font-size: 1.5em;
+            margin-right: 0.5rem;
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-4xl mx-auto mb-8">
+        <a href="index.html" class="inline-flex items-center text-blue-700 hover:text-blue-900 font-semibold transition-colors mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 20 20" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19V6m0 0L3 13m7-7l7 7" />
+            </svg>
+            Back to Home
+        </a>
+    </div>
+    <header class="text-center mb-16">
+        <h1 class="text-5xl font-bold text-gray-800 mb-3"><i class="fas fa-rocket text-blue-600"></i> SQL Adventure!</h1>
+        <p class="text-xl text-gray-600">Your interactive quest to conquer database queries!</p>
+    </header>
+
+    <main class="max-w-4xl mx-auto">
+        <section id="intro-dbms" class="content-section">
+            <h2 class="text-3xl font-semibold text-gray-700 mb-4"><i class="fas fa-database section-icon"></i>Unlock the Database Vault!</h2>
+            <p class="text-gray-700 mb-3 leading-relaxed">Ever wondered how websites remember your preferences or how stores manage massive inventories? The secret lies in <strong class="text-blue-700">Database Management Systems (DBMS)</strong>! Think of a DBMS as a super-smart librarian for digital information, helping you define, create, maintain, and control access to a treasure trove of data.</p>
+            <h3 class="text-2xl font-medium text-gray-700 my-3"><i class="fas fa-magic-wand-sparkles section-icon text-purple-500"></i>The CRUD Magic Spells:</h3>
+            <ul class="list-none space-y-2 text-gray-700 mb-4">
+                <li><i class="fas fa-plus-circle text-green-500 mr-2"></i><strong>C</strong>reate: Conjure new data into existence.</li>
+                <li><i class="fas fa-book-open text-blue-500 mr-2"></i><strong>R</strong>ead: Peer into the records and retrieve knowledge.</li>
+                <li><i class="fas fa-edit text-yellow-500 mr-2"></i><strong>U</strong>pdate: Transfigure existing data.</li>
+                <li><i class="fas fa-trash-alt text-red-500 mr-2"></i><strong>D</strong>elete: Banish data to the digital void.</li>
+            </ul>
+            <p class="text-gray-700 mb-3 leading-relaxed"><strong class="text-blue-700">SQL (Structured Query Language)</strong> is your enchanted scroll, the universal language for whispering commands to these DBMS librarians. It’s how you'll cast your CRUD spells and perform even more complex data enchantments!</p>
+            <p class="text-gray-700"><strong class="text-red-600"><i class="fas fa-exclamation-triangle mr-1"></i>A Word of Caution:</strong> SQL keywords (<code class="code-highlight">SELECT</code>, <code class="code-highlight">FROM</code>) are like friendly spirits, not caring much about capitalization. However, for clarity in your spellcasting, uppercase is the way of the wise! Names of tables and columns can be picky, so consistency is key.</p>
+        </section>
+
+        <section id="sample-tables" class="content-section">
+            <h2 class="text-3xl font-semibold text-gray-700 mb-4"><i class="fas fa-table section-icon"></i>Meet Your Data Companions</h2>
+            <p class="text-gray-700 mb-4 leading-relaxed">On this adventure, these trusty tables will be your guides. Get to know them well!</p>
+            
+            <h3 class="text-2xl font-medium text-gray-700 mb-2"><i class="fas fa-user-graduate section-icon text-indigo-500"></i>The Student Roster</h3>
+            <p class="text-gray-700 mb-2">Profiles of our brave student adventurers.</p>
+            <div class="table-container">
+                <table id="student-table-display" class="result-table">
+                    <thead><tr><th>StudentID</th><th>Name</th><th>District</th><th>Age</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <h3 class="text-2xl font-medium text-gray-700 mt-8 mb-2"><i class="fas fa-keyboard section-icon text-teal-500"></i>Typing Speed Trials</h3>
+            <p class="text-gray-700 mb-2">Records of their swiftness at the keyboard.</p>
+            <div class="table-container">
+                <table id="typing-scores-table-display" class="result-table">
+                    <thead><tr><th>ScoreID</th><th>StudentID</th><th>Class</th><th>TypingSpeed</th><th>ExamDate</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="group-by" class="content-section">
+            <h2 class="text-3xl font-semibold text-gray-700 mb-4"><i class="fas fa-users-cog section-icon"></i>The Art of Grouping: <code class="code-highlight">GROUP BY</code></h2>
+            <p class="text-gray-700 mb-3 leading-relaxed">The <code class="code-highlight">GROUP BY</code> spell allows you to gather rows with matching traits into powerful summary legions. It's often paired with <strong class="text-blue-700">Aggregate Charms</strong> to reveal insights about each group.</p>
+            
+            <h3 class="text-2xl font-medium text-gray-700 my-3"><i class="fas fa-star section-icon text-yellow-400"></i>Potent Aggregate Charms:</h3>
+            <ul class="list-none space-y-2 text-gray-700 mb-3">
+                <li><i class="fas fa-calculator text-gray-500 mr-2"></i><code class="code-highlight">COUNT()</code>: Tally the members in a group.</li>
+                <li><i class="fas fa-tachometer-alt text-gray-500 mr-2"></i><code class="code-highlight">AVG()</code>: Divine the average essence.</li>
+                <li><i class="fas fa-plus text-gray-500 mr-2"></i><code class="code-highlight">SUM()</code>: Combine their total strength.</li>
+                <li><i class="fas fa-crown text-gray-500 mr-2"></i><code class="code-highlight">MAX()</code>: Uncover the mightiest.</li>
+                <li><i class="fas fa-gem text-gray-500 mr-2"></i><code class="code-highlight">MIN()</code>: Find the most modest.</li>
+            </ul>
+            <p class="text-gray-700 mb-3"><strong class="text-red-600"><i class="fas fa-lightbulb mr-1"></i>Wizard's Wisdom:</strong> If you cast an Aggregate Charm without <code class="code-highlight">GROUP BY</code>, it considers all your data as one grand legion!</p>
+            <p class="text-gray-700 mb-4"><strong class="text-red-600"><i class="fas fa-scroll mr-1"></i>Ancient Scroll Rule:</strong> When using <code class="code-highlight">GROUP BY</code>, any hero (column) in your <code class="code-highlight">SELECT</code> party not under an Aggregate Charm <strong class="text-red-600">must</strong> join the <code class="code-highlight">GROUP BY</code> legion.</p>
+
+            <h3 class="text-2xl font-medium text-gray-700 my-3">Quest 1: District Census</h3>
+            <p class="text-gray-700 mb-2">How many student adventurers hail from each district in our <code class="table-highlight">Student</code> Roster?</p>
+            <div class="sql-query">
+                <code class="code-highlight">SELECT</code> <code class="column-highlight">District</code>, <code class="code-highlight">COUNT(*)</code> <code class="code-highlight">AS</code> <code class="column-highlight">NumberOfStudents</code><br>
+                <code class="code-highlight">FROM</code> <code class="table-highlight">Student</code><br>
+                <code class="code-highlight">GROUP BY</code> <code class="column-highlight">District</code>;
+            </div>
+            <button id="run-query1" class="interactive-button"><i class="fas fa-play"></i>Reveal Answer & Secrets</button>
+            <div id="result-query1" class="mt-4 hidden">
+                <h4 class="text-xl font-medium text-gray-700">The Oracle Speaks:</h4>
+                <div class="table-container"><table id="output-query1" class="result-table"></table></div>
+                <div class="explanation">
+                    <h5 class="font-semibold mb-1 text-lg"><i class="fas fa-book-reader mr-1"></i>Decoding the Spell:</h5>
+                    <ol class="list-decimal list-inside space-y-1">
+                        <li>The spell gazes upon the <code class="table-highlight">Student</code> Roster.</li>
+                        <li>It forms legions based on <code class="column-highlight">District</code>. All from 'Shatin' unite, 'Yuen Long' too, and so forth.</li>
+                        <li>For each legion, <code class="code-highlight">COUNT(*)</code> tallies its members.</li>
+                        <li><code class="code-highlight">AS</code> <code class="column-highlight">NumberOfStudents</code> gives this tally a clear name.</li>
+                        <li>Behold! The <code class="column-highlight">District</code> and its <code class="column-highlight">NumberOfStudents</code> are revealed!</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section id="having-clause" class="content-section">
+            <h2 class="text-3xl font-semibold text-gray-700 mb-4"><i class="fas fa-filter section-icon"></i>The Discerning <code class="code-highlight">HAVING</code> Sieve</h2>
+            <p class="text-gray-700 mb-3 leading-relaxed">The <code class="code-highlight">HAVING</code> sieve is your tool for filtering the legions formed by <code class="code-highlight">GROUP BY</code>. It's like the <code class="code-highlight">WHERE</code> gate, but <code class="code-highlight">WHERE</code> inspects individual adventurers *before* they form legions, while <code class="code-highlight">HAVING</code> judges the legions *after* Aggregate Charms have revealed their power.</p>
+            <p class="text-gray-700 mb-4"><strong class="text-red-600"><i class="fas fa-gavel mr-1"></i>Order of Judgment:</strong> <code class="code-highlight">HAVING</code> delivers its verdict after <code class="code-highlight">GROUP BY</code> and Aggregate Charms have done their work.</p>
+
+            <h3 class="text-2xl font-medium text-gray-700 my-3">Quest 2: Populous Districts Challenge</h3>
+            <p class="text-gray-700 mb-2">From Quest 1, which districts boast a legion of at least two student adventurers?</p>
+            <div class="sql-query">
+                <code class="code-highlight">SELECT</code> <code class="column-highlight">District</code>, <code class="code-highlight">COUNT(*)</code> <code class="code-highlight">AS</code> <code class="column-highlight">NumberOfStudents</code><br>
+                <code class="code-highlight">FROM</code> <code class="table-highlight">Student</code><br>
+                <code class="code-highlight">GROUP BY</code> <code class="column-highlight">District</code><br>
+                <code class="code-highlight">HAVING</code> <code class="code-highlight">COUNT(*)</code> > <code class="value-highlight">1</code>;
+            </div>
+            <button id="run-query2" class="interactive-button"><i class="fas fa-play"></i>Reveal Answer & Secrets</button>
+            <div id="result-query2" class="mt-4 hidden">
+                <h4 class="text-xl font-medium text-gray-700">The Oracle Speaks:</h4>
+                 <div class="table-container"><table id="output-query2" class="result-table"></table></div>
+                <div class="explanation">
+                    <h5 class="font-semibold mb-1 text-lg"><i class="fas fa-book-reader mr-1"></i>Decoding the Spell:</h5>
+                    <ol class="list-decimal list-inside space-y-1">
+                        <li>First, legions are formed by <code class="column-highlight">District</code>, and their numbers tallied, as in Quest 1.</li>
+                        <li>Then, the <code class="code-highlight">HAVING COUNT(*) > 1</code> sieve is applied. Only legions (districts) with more than one adventurer pass.</li>
+                        <li>'Shatin' alone passes this trial in our sample data, for it is the only district with a legion greater than one!</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div id="quiz-having" class="mt-8 pt-6 border-t border-gray-200">
+                <h3 class="text-xl font-semibold text-gray-700 mb-3"><i class="fas fa-question-circle text-purple-500 mr-2"></i>Test Your Wisdom!</h3>
+                <p class="text-gray-600 mb-2">Which SQL clause is used to filter groups created by `GROUP BY`?</p>
+                <div id="options-having" class="space-y-2">
+                    <button class="quiz-option w-full text-left" data-correct="false">A) <code class="code-highlight">WHERE</code></button>
+                    <button class="quiz-option w-full text-left" data-correct="true">B) <code class="code-highlight">HAVING</code></button>
+                    <button class="quiz-option w-full text-left" data-correct="false">C) <code class="code-highlight">FILTER</code></button>
+                </div>
+                <div id="feedback-having" class="quiz-feedback mt-3 hidden"></div>
+            </div>
+        </section>
+
+        <section id="order-by-clause" class="content-section">
+            <h2 class="text-3xl font-semibold text-gray-700 mb-4"><i class="fas fa-sort-amount-down section-icon"></i>The Grand Procession: <code class="code-highlight">ORDER BY</code></h2>
+            <p class="text-gray-700 mb-3 leading-relaxed">The <code class="code-highlight">ORDER BY</code> decree arranges the final assembly of your query's results. You can command an ascending (<code class="code-highlight">ASC</code>, the default) or descending (<code class="code-highlight">DESC</code>) procession based on one or more attributes.</p>
+            <p class="text-gray-700 mb-4"><strong class="text-red-600"><i class="fas fa-flag-checkered mr-1"></i>The Final Flourish:</strong> <code class="code-highlight">ORDER BY</code> is typically the last command executed before the grand reveal of your data.</p>
+
+            <h3 class="text-2xl font-medium text-gray-700 my-3">Quest 3: Ordered District Power</h3>
+            <p class="text-gray-700 mb-2">Let's re-run Quest 2, but this time, arrange the populous districts by their student count, from mightiest to modest.</p>
+            <div class="sql-query">
+                <code class="code-highlight">SELECT</code> <code class="column-highlight">District</code>, <code class="code-highlight">COUNT(*)</code> <code class="code-highlight">AS</code> <code class="column-highlight">NumberOfStudents</code><br>
+                <code class="code-highlight">FROM</code> <code class="table-highlight">Student</code><br>
+                <code class="code-highlight">GROUP BY</code> <code class="column-highlight">District</code><br>
+                <code class="code-highlight">HAVING</code> <code class="code-highlight">COUNT(*)</code> > <code class="value-highlight">1</code><br>
+                <code class="code-highlight">ORDER BY</code> <code class="column-highlight">NumberOfStudents</code> <code class="code-highlight">DESC</code>;
+            </div>
+            <button id="run-query3" class="interactive-button"><i class="fas fa-play"></i>Reveal Answer & Secrets</button>
+            <div id="result-query3" class="mt-4 hidden">
+                <h4 class="text-xl font-medium text-gray-700">The Oracle Speaks:</h4>
+                <div class="table-container"><table id="output-query3" class="result-table"></table></div>
+                <div class="explanation">
+                    <h5 class="font-semibold mb-1 text-lg"><i class="fas fa-book-reader mr-1"></i>Decoding the Spell:</h5>
+                    <ol class="list-decimal list-inside space-y-1">
+                        <li>Legions form by <code class="column-highlight">District</code>, numbers are tallied, and those with more than one member are chosen.</li>
+                        <li>The <code class="code-highlight">ORDER BY NumberOfStudents DESC</code> decree then arranges these chosen legions. <code class="code-highlight">DESC</code> ensures the mightiest (highest count) leads the procession. If many districts met the criteria, they'd march from most students to fewest.</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+        
+        <section id="execution-order" class="content-section">
+            <h2 class="text-3xl font-semibold text-gray-700 mb-4"><i class="fas fa-sitemap section-icon"></i>The Sorcerer's Sequence: Logical Query Processing</h2>
+            <p class="text-gray-700 mb-3 leading-relaxed">Though you pen your SQL spells in a specific order (<code class="code-highlight">SELECT</code>, <code class="code-highlight">FROM</code>, <code class="code-highlight">WHERE</code>...), the DBMS, like a master sorcerer, follows a hidden, logical sequence to bring your query to life. Understanding this inner working makes your spellcraft more potent!</p>
+            <ol class="list-decimal list-inside text-gray-700 space-y-2 pl-4">
+                <li><i class="fas fa-eye text-blue-500 mr-2"></i><code class="code-highlight">FROM</code> (and <code class="code-highlight">JOIN</code>s): Scans the ancient tomes (tables) to gather initial data.</li>
+                <li><i class="fas fa-search text-yellow-500 mr-2"></i><code class="code-highlight">WHERE</code>: Filters individual records based on your criteria.</li>
+                <li><i class="fas fa-object-group text-purple-500 mr-2"></i><code class="code-highlight">GROUP BY</code>: Assembles records into meaningful groups.</li>
+                <li><i class="fas fa-check-double text-green-500 mr-2"></i><code class="code-highlight">HAVING</code>: Further filters these newly formed groups.</li>
+                <li><i class="fas fa-magic text-pink-500 mr-2"></i><code class="code-highlight">SELECT</code>: Chooses the final columns and performs calculations.</li>
+                <li><i class="fas fa-clone text-indigo-500 mr-2"></i><code class="code-highlight">DISTINCT</code>: Vanquishes any duplicate rows from the chosen data.</li>
+                <li><i class="fas fa-stream text-teal-500 mr-2"></i><code class="code-highlight">ORDER BY</code>: Arranges the final results for presentation.</li>
+                <li><i class="fas fa-hand-paper text-red-500 mr-2"></i><code class="code-highlight">LIMIT</code> / <code class="code-highlight">TOP</code>: Presents only a select portion of the results (a tale for another day!).</li>
+            </ol>
+        </section>
+
+        <section id="practice-typing" class="content-section">
+            <h2 class="text-3xl font-semibold text-gray-700 mb-4"><i class="fas fa-laptop-code section-icon"></i>The Typing Trials: Sharpen Your Skills!</h2>
+            <p class="text-gray-700 mb-3 leading-relaxed">Let's consult the <code class="table-highlight">ChineseTypingScores</code> scroll to gauge the average typing prowess of different classes.</p>
+            
+            <h3 class="text-2xl font-medium text-gray-700 my-3">Quest 4: Class Typing Speed Showdown</h3>
+            <div class="sql-query">
+                <code class="code-highlight">SELECT</code> <code class="column-highlight">Class</code>, <code class="code-highlight">AVG</code>(<code class="column-highlight">TypingSpeed</code>) <code class="code-highlight">AS</code> <code class="column-highlight">AverageTypingSpeed</code><br>
+                <code class="code-highlight">FROM</code> <code class="table-highlight">ChineseTypingScores</code><br>
+                <code class="code-highlight">GROUP BY</code> <code class="column-highlight">Class</code>;
+            </div>
+            <button id="run-query4" class="interactive-button"><i class="fas fa-play"></i>Reveal Answer & Secrets</button>
+            <div id="result-query4" class="mt-4 hidden">
+                <h4 class="text-xl font-medium text-gray-700">The Oracle Speaks:</h4>
+                <div class="table-container"><table id="output-query4" class="result-table"></table></div>
+                <div class="explanation">
+                    <h5 class="font-semibold mb-1 text-lg"><i class="fas fa-book-reader mr-1"></i>Decoding the Spell:</h5>
+                    <ol class="list-decimal list-inside space-y-1">
+                        <li>The query delves into the <code class="table-highlight">ChineseTypingScores</code>.</li>
+                        <li>It groups scores by <code class="column-highlight">Class</code>. All '4C' scores huddle, '4D' scores gather, and so on.</li>
+                        <li>For each class group, <code class="code-highlight">AVG(TypingSpeed)</code> divines their average typing speed.</li>
+                        <li>The grand reveal: each <code class="column-highlight">Class</code> and its <code class="column-highlight">AverageTypingSpeed</code>. Averages can be quite precise, often with decimals!</li>
+                    </ol>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-medium text-gray-700 mt-10 mb-3">Challenge Quest: Elite Typists League</h3>
+             <p class="text-gray-700 mb-2">Can you foresee the outcome of this advanced incantation? It seeks classes with an average speed over 60, ordered by their swiftness!</p>
+            <div class="sql-query">
+                <code class="code-highlight">SELECT</code> <code class="column-highlight">Class</code>, <code class="code-highlight">AVG</code>(<code class="column-highlight">TypingSpeed</code>) <code class="code-highlight">AS</code> <code class="column-highlight">AverageTypingSpeed</code><br>
+                <code class="code-highlight">FROM</code> <code class="table-highlight">ChineseTypingScores</code><br>
+                <code class="code-highlight">GROUP BY</code> <code class="column-highlight">Class</code><br>
+                <code class="code-highlight">HAVING</code> <code class="code-highlight">AVG</code>(<code class="column-highlight">TypingSpeed</code>) > <code class="value-highlight">60</code><br>
+                <code class="code-highlight">ORDER BY</code> <code class="column-highlight">AverageTypingSpeed</code> <code class="code-highlight">DESC</code>;
+            </div>
+            <button id="run-query5" class="interactive-button"><i class="fas fa-play"></i>Reveal Answer & Secrets</button>
+            <div id="result-query5" class="mt-4 hidden">
+                <h4 class="text-xl font-medium text-gray-700">The Oracle Speaks:</h4>
+                <div class="table-container"><table id="output-query5" class="result-table"></table></div>
+                <div class="explanation">
+                    <h5 class="font-semibold mb-1 text-lg"><i class="fas fa-book-reader mr-1"></i>Decoding the Spell:</h5>
+                    <ol class="list-decimal list-inside space-y-1">
+                        <li>Scores are grouped by <code class="column-highlight">Class</code>, and average speeds calculated.</li>
+                        <li>The <code class="code-highlight">HAVING AVG(TypingSpeed) > 60</code> sieve filters, admitting only classes whose average speed exceeds 60.</li>
+                        <li><code class="code-highlight">ORDER BY AverageTypingSpeed DESC</code> then arranges these elite classes, the swiftest leading the charge.</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section id="more-concepts" class="content-section">
+            <h2 class="text-3xl font-semibold text-gray-700 mb-6"><i class="fas fa-book-dead section-icon"></i>Forbidden Scrolls: Advanced Database Lore</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-2xl font-medium text-gray-700 mb-2"><i class="fas fa-key text-yellow-500 mr-2"></i>The All-Powerful Primary Keys</h3>
+                    <p class="text-gray-700 mb-3 leading-relaxed">A <strong class="text-blue-700">primary key</strong> is a sacred sigil (a column or set of columns) whose value uniquely identifies each record in a table. Think <code class="column-highlight">StudentID</code> or <code class="column-highlight">ScoreID</code>. They guard data integrity and are the mystical links in relationships between tables.</p>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-medium text-gray-700 mb-2"><i class="fas fa-atom text-purple-500 mr-2"></i>The Essence of Data: Types</h3>
+                    <p class="text-gray-700 mb-3 leading-relaxed">Every column in a table is imbued with a specific data type, dictating the nature of data it can hold:</p>
+                    <ul class="list-none space-y-1 text-gray-700">
+                        <li><i class="fas fa-font text-green-600 mr-1"></i><strong class="text-green-700">TEXT</strong> (VARCHAR): For scrolls of text.</li>
+                        <li><i class="fas fa-hashtag text-green-600 mr-1"></i><strong class="text-green-700">INTEGER</strong>: For whole, indivisible numbers.</li>
+                        <li><i class="fas fa-divide text-green-600 mr-1"></i><strong class="text-green-700">REAL</strong> (FLOAT): For numbers with fractional parts.</li>
+                        <li><i class="fas fa-calendar-alt text-green-600 mr-1"></i><strong class="text-green-700">DATE/TIMESTAMP</strong>: For marking moments in time.</li>
+                        <li><i class="fas fa-toggle-on text-green-600 mr-1"></i><strong class="text-green-700">BOOLEAN</strong>: For truths and falsehoods (Yes/No).</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-medium text-gray-700 mb-2"><i class="fas fa-shield-alt text-red-500 mr-2"></i>Guardian Glyphs: Input Masks</h3>
+                    <p class="text-gray-700 mb-3 leading-relaxed">Though not SQL itself, DBMS and applications use <strong class="text-blue-700">input masks</strong> or <strong class="text-blue-700">format checks</strong> like protective wards. They ensure data entering the vault (e.g., a phone number, date) adheres to a sacred pattern, preserving data purity.</p>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-medium text-gray-700 mb-2"><i class="fas fa-link text-indigo-500 mr-2"></i>The Web of Relationships</h3>
+                    <p class="text-gray-700 mb-3 leading-relaxed">Databases are often constellations of interconnected tables. The <code class="column-highlight">StudentID</code>, for instance, can weave a link between the <code class="table-highlight">Student</code> roster and the <code class="table-highlight">ChineseTypingScores</code>. This allows you to merge data from different realms using <code class="code-highlight">JOIN</code> spells (a powerful magic for another quest!).</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center mt-16 py-10 border-t border-gray-300">
+            <p class="text-lg text-gray-600"><i class="fas fa-hat-wizard text-purple-600"></i> Your SQL adventure has just begun! Keep exploring, practicing, and the database realms will reveal all their secrets to you.</p>
+        </footer>
+    </main>
+
+    <script>
+        // Sample Data (unchanged)
+        const studentData = [
+            { StudentID: 'S1001', Name: 'Alice', District: 'Shatin', Age: 18 },
+            { StudentID: 'S1002', Name: 'Bob', District: 'Yuen Long', Age: 19 },
+            { StudentID: 'S1003', Name: 'Charlie', District: 'Shatin', Age: 17 },
+            { StudentID: 'S1004', Name: 'David', District: 'Tsuen Wan', Age: 18 },
+            { StudentID: 'S1005', Name: 'Eve', District: 'Tuen Mun', Age: 19 }
+        ];
+
+        const typingScoresData = [
+            { ScoreID: 'T1', StudentID: 'S1001', Class: '4C', TypingSpeed: 60, ExamDate: '2023-05-10' },
+            { ScoreID: 'T2', StudentID: 'S1002', Class: '4D', TypingSpeed: 55, ExamDate: '2023-05-10' },
+            { ScoreID: 'T3', StudentID: 'S1003', Class: '4C', TypingSpeed: 70, ExamDate: '2023-05-10' },
+            { ScoreID: 'T4', StudentID: 'S1001', Class: '4C', TypingSpeed: 65, ExamDate: '2023-06-15' },
+            { ScoreID: 'T5', StudentID: 'S1004', Class: '4D', TypingSpeed: 50, ExamDate: '2023-05-10' },
+            { ScoreID: 'T6', StudentID: 'S1005', Class: '4E', TypingSpeed: 75, ExamDate: '2023-05-11' },
+            { ScoreID: 'T7', StudentID: 'S1002', Class: '4D', TypingSpeed: 58, ExamDate: '2023-06-15' }
+        ];
+
+        // Function to populate a table in HTML (unchanged)
+        function populateTable(tableId, data, columns) {
+            const tableBody = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+            if (!tableBody) return;
+            tableBody.innerHTML = ''; 
+            data.forEach(rowData => {
+                const row = tableBody.insertRow();
+                columns.forEach(column => {
+                    const cell = row.insertCell();
+                    cell.textContent = rowData[column];
+                });
+            });
+        }
+        
+        // Function to populate a result table (header + body) (unchanged)
+        function displayQueryResult(tableId, headers, data) {
+            const tableElement = document.getElementById(tableId);
+            tableElement.innerHTML = ''; 
+
+            const thead = tableElement.createTHead();
+            const headerRow = thead.insertRow();
+            headers.forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText;
+                headerRow.appendChild(th);
+            });
+
+            const tbody = tableElement.createTBody();
+            data.forEach(rowData => {
+                const row = tbody.insertRow();
+                headers.forEach(headerKey => { 
+                    const cell = row.insertCell();
+                    let cellValue = rowData[headerKey.toLowerCase().replace(/\s+/g, '')]; 
+                    if (typeof cellValue === 'number' && !Number.isInteger(cellValue)) {
+                        cell.textContent = cellValue.toFixed(2);
+                    } else {
+                        cell.textContent = cellValue;
+                    }
+                });
+            });
+        }
+
+        // Populate sample tables on load
+        document.addEventListener('DOMContentLoaded', () => {
+            populateTable('student-table-display', studentData, ['StudentID', 'Name', 'District', 'Age']);
+            populateTable('typing-scores-table-display', typingScoresData, ['ScoreID', 'StudentID', 'Class', 'TypingSpeed', 'ExamDate']);
+            
+            // Setup for quiz
+            const quizOptionsHaving = document.querySelectorAll('#options-having .quiz-option');
+            const feedbackHaving = document.getElementById('feedback-having');
+            quizOptionsHaving.forEach(option => {
+                option.addEventListener('click', () => {
+                    quizOptionsHaving.forEach(opt => { // Reset styles
+                         opt.classList.remove('correct', 'incorrect', 'bg-green-200', 'border-green-500', 'bg-red-200', 'border-red-500');
+                         opt.disabled = false; // Re-enable other options if multiple clicks were allowed
+                    });
+                    option.disabled = true; // Disable clicked option
+
+                    feedbackHaving.classList.remove('hidden', 'correct', 'incorrect');
+                    if (option.dataset.correct === 'true') {
+                        feedbackHaving.textContent = 'Correct! HAVING is the one!';
+                        feedbackHaving.classList.add('correct');
+                        option.classList.add('bg-green-200', 'border-green-500');
+                    } else {
+                        feedbackHaving.textContent = 'Not quite! WHERE filters before grouping. Try again or check the explanation!';
+                        feedbackHaving.classList.add('incorrect');
+                        option.classList.add('bg-red-200', 'border-red-500');
+                         // Highlight the correct answer
+                        document.querySelector('#options-having .quiz-option[data-correct="true"]').classList.add('bg-green-200', 'border-green-500');
+                    }
+                });
+            });
+
+            // Enhanced button feedback
+            const queryButtons = document.querySelectorAll('.interactive-button');
+            queryButtons.forEach(button => {
+                const originalText = button.innerHTML;
+                button.addEventListener('click', function() {
+                    // Temporarily change text and disable to prevent multiple rapid clicks if needed
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                    this.disabled = true;
+                    
+                    // Simulate processing and then show result
+                    // The actual result display is handled by specific query button listeners
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-check-circle"></i> Results Revealed!';
+                        // Keep it disabled or re-enable after a delay if desired
+                        // For this example, we'll re-enable after a short delay if it's not a quiz button
+                        if (!this.parentElement.id.startsWith('options-')) {
+                             setTimeout(() => {
+                                this.innerHTML = originalText;
+                                this.disabled = false;
+                             }, 2000); // Revert after 2 seconds
+                        }
+                    }, 500); // Short delay to show "processing"
+                });
+            });
+        });
+
+        // --- Query Logic Simulations (unchanged, but button feedback is now general) ---
+
+        document.getElementById('run-query1').addEventListener('click', () => {
+            const grouped = studentData.reduce((acc, student) => {
+                acc[student.District] = (acc[student.District] || 0) + 1;
+                return acc;
+            }, {});
+            const result = Object.entries(grouped).map(([district, count]) => ({ district: district, numberofstudents: count }));
+            displayQueryResult('output-query1', ['District', 'NumberOfStudents'], result);
+            document.getElementById('result-query1').classList.remove('hidden');
+        });
+
+        document.getElementById('run-query2').addEventListener('click', () => {
+            const grouped = studentData.reduce((acc, student) => {
+                acc[student.District] = (acc[student.District] || 0) + 1;
+                return acc;
+            }, {});
+            const result = Object.entries(grouped)
+                .map(([district, count]) => ({ district: district, numberofstudents: count }))
+                .filter(item => item.numberofstudents > 1);
+            displayQueryResult('output-query2', ['District', 'NumberOfStudents'], result);
+            document.getElementById('result-query2').classList.remove('hidden');
+        });
+
+        document.getElementById('run-query3').addEventListener('click', () => {
+            const grouped = studentData.reduce((acc, student) => {
+                acc[student.District] = (acc[student.District] || 0) + 1;
+                return acc;
+            }, {});
+            const result = Object.entries(grouped)
+                .map(([district, count]) => ({ district: district, numberofstudents: count }))
+                .filter(item => item.numberofstudents > 1)
+                .sort((a, b) => b.numberofstudents - a.numberofstudents); 
+            displayQueryResult('output-query3', ['District', 'NumberOfStudents'], result);
+            document.getElementById('result-query3').classList.remove('hidden');
+        });
+
+        document.getElementById('run-query4').addEventListener('click', () => {
+            const classScores = typingScoresData.reduce((acc, score) => {
+                if (!acc[score.Class]) {
+                    acc[score.Class] = { totalSpeed: 0, count: 0 };
+                }
+                acc[score.Class].totalSpeed += score.TypingSpeed;
+                acc[score.Class].count++;
+                return acc;
+            }, {});
+            const result = Object.entries(classScores).map(([className, data]) => ({
+                class: className,
+                averagetypingspeed: data.totalSpeed / data.count
+            }));
+            displayQueryResult('output-query4', ['Class', 'AverageTypingSpeed'], result);
+            document.getElementById('result-query4').classList.remove('hidden');
+        });
+        
+        document.getElementById('run-query5').addEventListener('click', () => {
+            const classScores = typingScoresData.reduce((acc, score) => {
+                if (!acc[score.Class]) {
+                    acc[score.Class] = { totalSpeed: 0, count: 0 };
+                }
+                acc[score.Class].totalSpeed += score.TypingSpeed;
+                acc[score.Class].count++;
+                return acc;
+            }, {});
+            const result = Object.entries(classScores)
+                .map(([className, data]) => ({
+                    class: className,
+                    averagetypingspeed: data.totalSpeed / data.count
+                }))
+                .filter(item => item.averagetypingspeed > 60)
+                .sort((a, b) => b.averagetypingspeed - a.averagetypingspeed); 
+            displayQueryResult('output-query5', ['Class', 'AverageTypingSpeed'], result);
+            document.getElementById('result-query5').classList.remove('hidden');
+        });
+
+    </script>
+</body>
+</html>

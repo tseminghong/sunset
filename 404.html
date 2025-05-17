@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>404 Not Found | HPCSS ICT Revision</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Material 3 Roboto font and Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="apple-touch-icon" href="favicon_io/apple-touch-icon.png">
+    <link rel="manifest" href="favicon_io/site.webmanifest">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        .m3-card {
+            background: #fff;
+            border-radius: 1.5rem;
+            box-shadow: 0 6px 32px 0 rgba(60, 80, 180, 0.10), 0 1.5px 6px 0 rgba(60, 80, 180, 0.08);
+            padding: 2.5rem 2rem;
+            max-width: 420px;
+            width: 100%;
+            margin: auto;
+            transition: box-shadow 0.2s;
+        }
+        .m3-card:hover {
+            box-shadow: 0 12px 48px 0 rgba(60, 80, 180, 0.18), 0 3px 12px 0 rgba(60, 80, 180, 0.12);
+        }
+        .m3-primary {
+            color: #6750A4;
+        }
+        .m3-btn {
+            background: #6750A4;
+            color: #fff;
+            font-weight: 500;
+            border-radius: 2rem;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 8px 0 rgba(103,80,164,0.10);
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .m3-btn:hover {
+            background: #4F378B;
+            box-shadow: 0 4px 16px 0 rgba(103,80,164,0.16);
+        }
+        .m3-icon {
+            font-size: 2.5rem;
+            color: #EADDFF;
+            background: #6750A4;
+            border-radius: 50%;
+            padding: 0.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .m3-404 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            color: #6750A4;
+            letter-spacing: -0.05em;
+            margin-bottom: 0.5rem;
+        }
+        .m3-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #1C1B1F;
+            margin-bottom: 0.5rem;
+        }
+        .m3-desc {
+            color: #49454F;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="w-full py-6 px-4 flex justify-center items-center bg-white/80 shadow-sm">
+        <span class="material-icons-outlined m3-primary mr-2" style="font-size:2rem;">school</span>
+        <span class="text-2xl font-bold m3-primary tracking-tight">HPCSS ICT Revision</span>
+    </header>
+    <main class="flex-1 flex items-center justify-center">
+        <div class="m3-card text-center">
+            <span class="m3-icon material-icons-outlined">error_outline</span>
+            <div class="m3-404">404</div>
+            <div class="m3-title">Page Not Found</div>
+            <div class="m3-desc">
+                Sorry, the page you are looking for does not exist or has been moved.<br>
+                Please check the URL or return to the homepage.
+            </div>
+            <a href="index.html" class="m3-btn">
+                <span class="material-icons-outlined">arrow_back</span>
+                Back to Home
+            </a>
+        </div>
+    </main>
+</body>
+</html>

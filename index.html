@@ -21,70 +21,124 @@
             background: linear-gradient(135deg, #7570c9 0%, #cbb2f7 100%);
         }
 
-        /* Card base styles */
+        /* --- Card Base Styles --- */
         .resource-card {
             position: relative; /* For z-index stacking context */
             z-index: 1;
-            display: block; /* Ensure <a> behaves like a block for layout */
+            display: block; 
         }
 
         .card-scalable-content {
-            /* This div is inside the <a>.resource-card and will be scaled */
-            background-color: white; /* Tailwind bg-white */
-            border-radius: 0.5rem; /* Tailwind rounded-lg */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Tailwind shadow-md */
-            height: 100%; /* Tailwind h-full */
+            background-color: white; 
+            border-radius: 0.5rem; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); 
+            height: 100%; 
             transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
-            overflow: hidden; /* Initially hide overflowing .more-info content */
+            overflow: hidden; 
         }
 
-        /* Hover state for preview, applied to .resource-card (the <a> tag) */
-        .resource-card.preview-active {
+        /* --- Enhanced (Test Style) Hover - Activated by .enhanced-hover-mode on body --- */
+        .enhanced-hover-mode .resource-card.preview-active {
             z-index: 10; /* Bring the whole card to the front */
         }
-
-        .resource-card.preview-active .card-scalable-content {
+        .enhanced-hover-mode .resource-card.preview-active .card-scalable-content {
             transform: scale(1.20); /* Scale up the content wrapper */
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35); /* More prominent shadow */
             overflow: visible; /* Allow scaled content and shadow to be seen */
         }
-
-        /* More Info section styles */
-        .more-info {
+        .enhanced-hover-mode .more-info { /* Base styles for more-info in enhanced mode */
             opacity: 0;
             max-height: 0;
-            overflow: hidden; /* Hidden during transition */
-            /* p-6 and border-t are applied via Tailwind in HTML */
+            overflow: hidden;
             transition: opacity 0.3s ease-in-out 0.1s, max-height 0.4s ease-in-out 0.1s, padding-top 0.3s ease-in-out 0.1s, padding-bottom 0.3s ease-in-out 0.1s;
         }
-
-        .resource-card.preview-active .more-info {
+        .enhanced-hover-mode .resource-card.preview-active .more-info {
             opacity: 1;
             max-height: 500px; /* Adjust as needed for your content */
             overflow-y: auto; /* Add scroll if content exceeds max-height */
-            /* Tailwind p-6 provides padding. If more is needed: */
-            /* padding-top: 1rem; */
-            /* padding-bottom: 1rem; */
         }
-        
-        /* Remove the old .card-hover:hover effect if it was defined,
-           as it could conflict with the new preview-active logic.
-           The .card-hover class can remain if used for other base styles or transitions.
-        */
-        .card-hover:hover {
-           /* Intentionally empty to override previous simple hover effects if any were on this specific class.*/
-           /* The main hover interaction is now driven by adding/removing .preview-active on .resource-card */
+
+        /* --- Simple Hover Effect - Activated by .simple-hover-mode on body --- */
+        .simple-hover-mode .card-scalable-content:hover {
+            transform: translateY(-5px) scale(1.01); /* Subtle lift and scale */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12); /* Slightly more pronounced shadow */
+        }
+        /* Ensure .more-info is completely hidden and non-interactive in simple mode */
+        .simple-hover-mode .more-info {
+            display: none !important; 
+        }
+        /* If preview-active class somehow gets added in simple mode, nullify its effects */
+        .simple-hover-mode .resource-card.preview-active .card-scalable-content {
+            transform: none; /* Reset transform */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Reset to base shadow */
+            overflow: hidden; /* Reset overflow */
+        }
+         /* Re-apply hover for simple mode even if preview-active is present (though it shouldn't be) */
+        .simple-hover-mode .resource-card.preview-active .card-scalable-content:hover {
+             transform: translateY(-5px) scale(1.01);
+             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+        }
+
+
+        /* --- Material 3 Style Toggle Switch --- */
+        .m3-switch {
+            position: relative;
+            display: inline-block;
+            width: 52px; 
+            height: 32px;
+            flex-shrink: 0; /* Prevent switch from shrinking in flex container */
+        }
+        .m3-switch input { /* Hide the actual checkbox */
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .m3-slider { /* The track of the switch */
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #767680; /* Off-state track color (iOS-like gray) */
+            transition: .3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-radius: 34px; /* Fully rounded track */
+        }
+        .m3-slider:before { /* The thumb of the switch */
+            position: absolute;
+            content: "";
+            height: 24px; 
+            width: 24px;  
+            left: 4px;    
+            bottom: 4px;  
+            background-color: white;
+            transition: .3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-radius: 50%; /* Circular thumb */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 1px 1px rgba(0,0,0,0.14); /* Subtle shadow for thumb */
+        }
+        input:checked + .m3-slider {
+            background-color: #7570c9; /* Active state track (your primary purple) */
+        }
+        input:focus-visible + .m3-slider { /* Accessibility focus ring */
+             box-shadow: 0 0 0 2px #cbb2f7; /* Outline with a lighter shade of purple */
+        }
+        input:checked + .m3-slider:before {
+            transform: translateX(20px); /* Moves thumb to the right: (Track width - Thumb width - 2*Padding) = 52 - 24 - 8 = 20 */
         }
 
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
-    <header class="gradient-bg text-white shadow-md">
+<body class="bg-gray-50 min-h-screen"> <header class="gradient-bg text-white shadow-md">
         <div class="container mx-auto px-4 py-6 flex flex-col md:flex-row justify-between items-center">
-            <div>
-                <h1 class="text-3xl font-bold">HPCSS ICT Revision</h1>
+            <div> <h1 class="text-3xl font-bold">HPCSS ICT Revision</h1>
                 <p class="text-indigo-100 mt-1">Interactive learning resources for ICT students</p>
             </div>
+            <div class="flex items-center mt-4 md:mt-0"> 
+                <span class="mr-3 text-sm text-indigo-100 font-medium">Card View:</span>
+                <label class="m3-switch">
+                    <input type="checkbox" id="styleToggle" checked> <span class="m3-slider"></span>
+                </label>
+                <span id="styleToggleLabel" class="ml-2 text-sm text-indigo-100 font-medium w-16 text-left">Enhanced</span> </div>
         </div>
     </header>
 
@@ -115,7 +169,8 @@
             
             <div id="resource-cards" class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <a href="s4python.html" class="resource-card" data-tags="Algorithms">
-                    <div class="card-scalable-content"> <div class="h-48 bg-indigo-100 flex items-center justify-center">
+                    <div class="card-scalable-content">
+                        <div class="h-48 bg-indigo-100 flex items-center justify-center">
                             <div class="text-center p-6">
                                 <div class="text-5xl mb-2">🔍</div>
                                 <h3 class="text-xl font-semibold text-indigo-800">Algorithm Visualizations</h3>
@@ -449,43 +504,70 @@
     </footer>
 
     <script>
-        // Wait for the DOM to be fully loaded before running the script
         document.addEventListener('DOMContentLoaded', () => {
             const resourceCards = document.querySelectorAll('.resource-card');
-            let hoverTimeoutId = null; // To store the timeout ID for mouseleave
-            let currentlyActiveCard = null; // To keep track of the currently expanded card
+            let hoverTimeoutId = null; 
+            let currentlyActiveCard = null;
 
+            // --- Style Toggle Functionality ---
+            const styleToggle = document.getElementById('styleToggle');
+            const styleToggleLabel = document.getElementById('styleToggleLabel');
+            const body = document.body;
+            let currentCardStyle = 'enhanced'; // Default style
+
+            function applyCardStyle() {
+                if (styleToggle.checked) { // Enhanced style
+                    currentCardStyle = 'enhanced';
+                    body.classList.add('enhanced-hover-mode');
+                    body.classList.remove('simple-hover-mode');
+                    styleToggleLabel.textContent = 'Enhanced';
+                } else { // Simple style
+                    currentCardStyle = 'simple';
+                    body.classList.add('simple-hover-mode');
+                    body.classList.remove('enhanced-hover-mode');
+                    styleToggleLabel.textContent = 'Simple';
+                }
+                // Reset any active card when style changes to avoid stuck states
+                if (currentlyActiveCard) {
+                    currentlyActiveCard.classList.remove('preview-active');
+                    currentlyActiveCard = null;
+                }
+            }
+
+            styleToggle.addEventListener('change', applyCardStyle);
+            applyCardStyle(); // Initialize style on page load
+
+            // --- Card Hover Logic (respects currentCardStyle) ---
             resourceCards.forEach(card => {
-                // Event listener for when the mouse enters a card area
-                card.addEventListener('mouseenter', function() { // Using function() to correctly scope 'this'
-                    // Clear any existing timeout to prevent the card from closing if mouse re-enters quickly
-                    clearTimeout(hoverTimeoutId);
-
-                    // If another card is already active, deactivate it immediately
-                    if (currentlyActiveCard && currentlyActiveCard !== this) {
-                        currentlyActiveCard.classList.remove('preview-active');
+                card.addEventListener('mouseenter', function() {
+                    // Only apply enhanced hover logic if in 'enhanced' mode
+                    if (currentCardStyle === 'enhanced') {
+                        clearTimeout(hoverTimeoutId);
+                        // If another card is already active, deactivate it
+                        if (currentlyActiveCard && currentlyActiveCard !== this) {
+                            currentlyActiveCard.classList.remove('preview-active');
+                        }
+                        this.classList.add('preview-active');
+                        currentlyActiveCard = this;
                     }
-
-                    // Add 'preview-active' class to the currently hovered card to trigger expansion
-                    this.classList.add('preview-active');
-                    currentlyActiveCard = this; // Set this card as the currently active one
+                    // For 'simple' mode, CSS :hover handles the effect directly.
                 });
 
-                // Event listener for when the mouse leaves a card area
                 card.addEventListener('mouseleave', function() {
-                    // Set a timeout to remove the 'preview-active' class
-                    // This delay helps prevent flickering if the mouse briefly exits and re-enters
-                    hoverTimeoutId = setTimeout(() => {
-                        this.classList.remove('preview-active');
-                        // If this card was the active one, clear the tracker
-                        if (currentlyActiveCard === this) {
-                            currentlyActiveCard = null;
-                        }
-                    }, 250); // 250 milliseconds delay
+                    // Only apply enhanced hover logic if in 'enhanced' mode
+                    if (currentCardStyle === 'enhanced') {
+                        hoverTimeoutId = setTimeout(() => {
+                            this.classList.remove('preview-active');
+                            if (currentlyActiveCard === this) {
+                                currentlyActiveCard = null;
+                            }
+                        }, 250); // Delay to prevent flickering
+                    }
+                     // For 'simple' mode, CSS :hover handles mouseleave automatically.
                 });
             });
 
-            // Tag bar filtering (existing script from user, ensure it's compatible)
+            // --- Tag Bar Filtering ---
             const tagButtons = document.querySelectorAll('.tag-btn');
             let selectedTags = new Set(['all']);
 
@@ -517,7 +599,6 @@
                         'bg-lime-50', 'text-lime-700', 'border-lime-300',
                         'bg-pink-50', 'text-pink-700', 'border-pink-300'
                     );
-
 
                     if (isActive) {
                         btn.classList.add('text-white');
@@ -575,10 +656,10 @@
 
             function filterResources() {
                 const cards = document.querySelectorAll('.resource-card');
-                // If a card is currently active/expanded, hide it before filtering to avoid layout issues
+                // If a card is currently active/expanded, deactivate it before filtering
                 if (currentlyActiveCard) {
                     currentlyActiveCard.classList.remove('preview-active');
-                    currentlyActiveCard = null; // Reset tracker
+                    currentlyActiveCard = null; 
                 }
 
                 if (selectedTags.has('all') || selectedTags.size === 0) {
@@ -619,7 +700,8 @@
                     filterResources();
                 });
             });
-            // Initialize
+            
+            // Initialize UI components
             updateTagBarUI();
             filterResources();
         });

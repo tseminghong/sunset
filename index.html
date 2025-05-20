@@ -609,7 +609,15 @@
             const styleToggle = document.getElementById('styleToggle');
             const styleToggleLabel = document.getElementById('styleToggleLabel');
             const body = document.body;
-            let currentCardStyle = 'enhanced'; 
+            let currentCardStyle = 'enhanced';
+
+            // --- CACHE LOGIC: Load toggle state from localStorage ---
+            const savedStyle = localStorage.getItem('cardStyle');
+            if (savedStyle === 'simple') {
+                styleToggle.checked = false;
+            } else {
+                styleToggle.checked = true;
+            }
 
             function applyCardStyle() {
                 if (styleToggle.checked) { 
@@ -617,11 +625,13 @@
                     body.classList.add('enhanced-hover-mode');
                     body.classList.remove('simple-hover-mode');
                     styleToggleLabel.textContent = 'Enhanced';
+                    localStorage.setItem('cardStyle', 'enhanced');
                 } else { 
                     currentCardStyle = 'simple';
                     body.classList.add('simple-hover-mode');
                     body.classList.remove('enhanced-hover-mode');
                     styleToggleLabel.textContent = 'Simple';
+                    localStorage.setItem('cardStyle', 'simple');
                 }
                 if (currentlyActiveCard) {
                     currentlyActiveCard.classList.remove('preview-active');

@@ -3,126 +3,414 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Seating Explainer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="favicon_io/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="favicon_io/android-chrome-512x512.png">
-    <link rel="apple-touch-icon" href="favicon_io/apple-touch-icon.png">
-    <link rel="manifest" href="favicon_io/site.webmanifest">
+    <title>Restaurant Seating - M3 Expressive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <style>
+        /* M3 Expressive Theme Colors (Example) */
+        :root {
+            --md-sys-color-primary: #6750A4; /* Deep Purple */
+            --md-sys-color-on-primary: #FFFFFF;
+            --md-sys-color-primary-container: #EADDFF;
+            --md-sys-color-on-primary-container: #21005D;
+            
+            --md-sys-color-secondary: #006A6A; /* Teal */
+            --md-sys-color-on-secondary: #FFFFFF;
+            --md-sys-color-secondary-container: #9CF1F0;
+            --md-sys-color-on-secondary-container: #002020;
+
+            --md-sys-color-tertiary: #FFB800; /* Warm Yellow */
+            --md-sys-color-on-tertiary: #402D00;
+            --md-sys-color-tertiary-container: #FFDEA8;
+            --md-sys-color-on-tertiary-container: #251A00;
+            
+            --md-sys-color-surface: #FFFBFE; /* Light surface */
+            --md-sys-color-on-surface: #1C1B1F; /* Text on light surface */
+            --md-sys-color-surface-variant: #E7E0EC; /* Card backgrounds, slightly off */
+            --md-sys-color-on-surface-variant: #49454F;
+            --md-sys-color-outline: #79747E;
+            
+            --md-sys-color-background: #F8F5FA; /* Page background */
+            --md-sys-color-on-background: #1C1B1F;
+
+            --md-sys-color-error: #B3261E;
+            --md-sys-color-on-error: #FFFFFF;
+
+            --md-sys-shape-corner-extra-small: 4px;
+            --md-sys-shape-corner-small: 8px;
+            --md-sys-shape-corner-medium: 12px;
+            --md-sys-shape-corner-large: 16px;
+            --md-sys-shape-corner-extra-large: 28px;
+            --md-sys-shape-corner-full: 9999px; /* Pill shape */
+
+            --md-sys-elevation-level-0: none;
+            --md-sys-elevation-level-1: 0px 1px 3px 1px rgba(0,0,0,0.15), 0px 1px 2px 0px rgba(0,0,0,0.30);
+            --md-sys-elevation-level-2: 0px 2px 6px 2px rgba(0,0,0,0.15), 0px 1px 2px 0px rgba(0,0,0,0.30);
+            --md-sys-elevation-level-3: 0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.30);
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6; /* Light gray background */
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-background);
+            margin: 0;
+            padding: 16px;
+            line-height: 1.6;
         }
-        .content-card {
-            background-color: white;
-            border-radius: 0.75rem; /* 12px */
-            padding: 1.5rem; /* 24px */
-            margin-bottom: 1.5rem; /* 24px */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+        .container {
+            max-width: 900px;
+            margin: 24px auto;
+            padding: 0 16px;
         }
-        .code-block {
-            background-color: #1f2937; /* Dark gray for code */
-            color: #d1d5db; /* Light gray text for code */
-            padding: 1rem;
-            border-radius: 0.5rem; /* 8px */
-            overflow-x: auto;
-            font-family: monospace;
-        }
-        .interactive-section input[type="number"] {
-            border: 1px solid #d1d5db;
-            padding: 0.5rem;
-            border-radius: 0.375rem; /* 6px */
-            margin-right: 0.5rem;
-        }
-        .interactive-section button {
-            background-color: #3b82f6; /* Blue */
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            font-weight: 500;
-            transition: background-color 0.2s;
-        }
-        .interactive-section button:hover {
-            background-color: #2563eb; /* Darker blue */
-        }
-        .log-entry {
-            padding: 0.25rem 0.5rem;
-            margin-bottom: 0.25rem;
-            border-radius: 0.25rem;
-        }
-        .log-entry.highlight {
-            background-color: #e0f2fe; /* Light blue highlight */
-            border-left: 3px solid #3b82f6;
-        }
-        .zone-card {
-            border: 1px solid #e5e7eb; /* Light gray border */
-            border-radius: 0.5rem;
-            padding: 1rem;
+
+        header {
             text-align: center;
-            background-color: #f9fafb; /* Very light gray */
+            margin-bottom: 48px;
         }
-        .solution {
-            background-color: #eef2ff; /* Light indigo */
-            color: #3730a3; /* Indigo text */
-            padding: 0.75rem;
-            border-radius: 0.375rem;
-            margin-top: 0.5rem;
-            border-left: 4px solid #4f46e5; /* Indigo border */
+
+        header h1 {
+            font-size: 2.8rem; /* Display Small */
+            font-weight: 700;
+            color: var(--md-sys-color-primary);
+            margin-bottom: 8px;
         }
+
+        header p {
+            font-size: 1.2rem; /* Headline Small */
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .content-card {
+            background-color: var(--md-sys-color-surface);
+            border-radius: var(--md-sys-shape-corner-extra-large);
+            padding: 24px;
+            margin-bottom: 32px;
+            box-shadow: var(--md-sys-elevation-level-1);
+            border: 1px solid var(--md-sys-color-outline-variant, #CAC4D0);
+        }
+        
+        .content-card h2 { /* Title Large */
+            font-size: 1.75rem;
+            font-weight: 500;
+            color: var(--md-sys-color-on-surface);
+            margin-top: 0;
+            margin-bottom: 16px;
+        }
+        .content-card h3 { /* Title Medium */
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--md-sys-color-on-surface-variant);
+            margin-top: 24px;
+            margin-bottom: 8px;
+        }
+        .content-card p, .content-card ul { /* Body Large */
+            font-size: 1rem;
+            color: var(--md-sys-color-on-surface);
+            margin-bottom: 12px;
+        }
+        .content-card ul {
+            padding-left: 20px;
+        }
+
+        .code-block {
+            background-color: #26282F; /* Darker, more expressive surface */
+            color: #E0E0E0;
+            padding: 16px;
+            border-radius: var(--md-sys-shape-corner-medium);
+            overflow-x: auto;
+            font-family: 'Roboto Mono', monospace; /* Assuming available or fallback */
+            font-size: 0.875rem;
+            margin: 16px 0;
+            border: 1px solid #444;
+        }
+        .code-block .placeholder { color: var(--md-sys-color-tertiary); font-weight: bold; }
+        .code-block .solution-text { 
+            background-color: rgba(255, 184, 0, 0.2); /* Tertiary container like */
+            color: var(--md-sys-color-on-tertiary-container);
+            padding: 2px 6px;
+            border-radius: var(--md-sys-shape-corner-small);
+            font-weight: 500;
+        }
+         .code-block .hidden .solution-text {
+            background-color: transparent;
+            color: var(--md-sys-color-tertiary); /* Keep placeholder color */
+         }
+
+
+        /* Table Styling */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 1rem;
+            margin-top: 16px;
+            border-radius: var(--md-sys-shape-corner-medium);
+            overflow: hidden; /* For border-radius on table */
+            box-shadow: var(--md-sys-elevation-level-0);
+            border: 1px solid var(--md-sys-color-outline);
         }
         th, td {
-            border: 1px solid #e5e7eb;
-            padding: 0.75rem;
+            padding: 12px 16px;
             text-align: left;
+            border-bottom: 1px solid var(--md-sys-color-outline);
         }
         th {
-            background-color: #f3f4f6;
+            background-color: var(--md-sys-color-surface-variant);
+            color: var(--md-sys-color-on-surface-variant);
+            font-weight: 500; /* Label Large */
+            font-size: 0.875rem;
         }
+        td {
+            background-color: var(--md-sys-color-surface);
+            font-size: 0.875rem; /* Body Medium */
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Zone Visualization Cards */
+        .zone-visualization-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .zone-display-card {
+            background-color: var(--md-sys-color-surface-variant);
+            border-radius: var(--md-sys-shape-corner-large); /* More expressive rounding */
+            padding: 16px;
+            text-align: center;
+            box-shadow: var(--md-sys-elevation-level-1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .zone-display-card .zone-title {
+            font-size: 1.1rem; /* Title Small */
+            font-weight: 500;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+        .zone-display-card .zone-info {
+            font-size: 0.75rem; /* Label Medium */
+            color: var(--md-sys-color-on-surface-variant);
+            margin: 8px 0;
+        }
+        .zone-progress-bar-container {
+            width: 100%;
+            background-color: var(--md-sys-color-primary-container);
+            border-radius: var(--md-sys-shape-corner-full);
+            height: 8px;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+        .zone-progress-bar {
+            height: 100%;
+            background-color: var(--md-sys-color-primary);
+            border-radius: var(--md-sys-shape-corner-full);
+            transition: width 0.3s ease-out;
+        }
+        .zone-occupancy-text {
+            font-size: 0.8rem; /* Label Small */
+            font-weight: 500;
+        }
+
+        /* Interactive Section */
+        .interactive-area {
+            margin-top: 24px;
+            padding: 16px;
+            background-color: var(--md-sys-color-primary-container);
+            border-radius: var(--md-sys-shape-corner-large);
+        }
+        .interactive-area label {
+            font-weight: 500; /* Label Large */
+            color: var(--md-sys-color-on-primary-container);
+            margin-right: 8px;
+            font-size: 0.875rem;
+        }
+        .interactive-area input[type="number"] {
+            padding: 10px 12px;
+            border-radius: var(--md-sys-shape-corner-small);
+            border: 1px solid var(--md-sys-color-outline);
+            background-color: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            margin-right: 12px;
+            width: 80px; /* Fixed width for number input */
+            font-size: 1rem;
+        }
+        .interactive-area input[type="number"]:focus {
+            outline: 2px solid var(--md-sys-color-primary);
+            border-color: var(--md-sys-color-primary);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* M3 Buttons */
+        .m3-button {
+            padding: 10px 24px;
+            border-radius: var(--md-sys-shape-corner-full); /* Pill shape */
+            font-size: 0.875rem; /* Label Large */
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            text-transform: none; /* M3 buttons are typically not all caps */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .m3-button .material-symbols-outlined { font-size: 1.125rem; }
+
+        .m3-button-filled { /* Filled button */
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            box-shadow: var(--md-sys-elevation-level-0);
+        }
+        .m3-button-filled:hover {
+            box-shadow: var(--md-sys-elevation-level-1);
+            background-color: color-mix(in srgb, var(--md-sys-color-primary) 92%, black);
+        }
+        .m3-button-filled:active {
+            box-shadow: var(--md-sys-elevation-level-0);
+             background-color: color-mix(in srgb, var(--md-sys-color-primary) 88%, black);
+        }
+
+        .m3-button-outlined { /* Outlined button */
+            background-color: transparent;
+            color: var(--md-sys-color-primary);
+            border: 1px solid var(--md-sys-color-outline);
+        }
+        .m3-button-outlined:hover {
+            background-color: rgba(var(--md-sys-color-primary-rgb, 103, 80, 164), 0.08); /* Primary with low opacity */
+        }
+        .m3-button-outlined:active {
+            background-color: rgba(var(--md-sys-color-primary-rgb, 103, 80, 164), 0.12);
+        }
+        
+        .m3-button-text { /* Text button */
+            background-color: transparent;
+            color: var(--md-sys-color-primary);
+            padding: 10px 12px; /* Less padding for text buttons */
+        }
+        .m3-button-text:hover {
+             background-color: rgba(var(--md-sys-color-primary-rgb, 103, 80, 164), 0.08);
+        }
+         .m3-button-text:active {
+             background-color: rgba(var(--md-sys-color-primary-rgb, 103, 80, 164), 0.12);
+        }
+
+
+        /* Log Area */
+        .log-area {
+            margin-top: 16px;
+            padding: 12px;
+            background-color: var(--md-sys-color-surface);
+            border-radius: var(--md-sys-shape-corner-medium);
+            max-height: 250px;
+            overflow-y: auto;
+            border: 1px solid var(--md-sys-color-surface-variant);
+        }
+        .log-entry {
+            padding: 6px 10px;
+            margin-bottom: 6px;
+            border-radius: var(--md-sys-shape-corner-small);
+            font-size: 0.8rem; /* Body Small */
+            color: var(--md-sys-color-on-surface-variant);
+            background-color: var(--md-sys-color-surface-variant);
+        }
+        .log-entry.highlight {
+            background-color: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+            border-left: 4px solid var(--md-sys-color-secondary);
+            font-weight: 500;
+        }
+
+        /* Result Area */
+        .result-area {
+            margin-top: 12px;
+            padding: 12px;
+            background-color: var(--md-sys-color-tertiary-container);
+            color: var(--md-sys-color-on-tertiary-container);
+            border-radius: var(--md-sys-shape-corner-medium);
+            font-weight: 500;
+            font-size: 1rem; /* Body Large */
+        }
+        
+        /* Solution Display */
+        .solution-box {
+            background-color: var(--md-sys-color-surface-variant);
+            color: var(--md-sys-color-on-surface-variant);
+            padding: 16px;
+            border-radius: var(--md-sys-shape-corner-large);
+            margin-top: 12px;
+            border-left: 4px solid var(--md-sys-color-tertiary);
+        }
+        .solution-box strong {
+            color: var(--md-sys-color-primary);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 48px;
+            padding: 24px 0;
+            font-size: 0.875rem; /* Label Large */
+            color: var(--md-sys-color-on-surface-variant);
+            border-top: 1px solid var(--md-sys-color-outline);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            body { padding: 8px; }
+            .container { margin: 16px auto; padding: 0 8px; }
+            header h1 { font-size: 2.2rem; }
+            header p { font-size: 1rem; }
+            .content-card { padding: 16px; border-radius: var(--md-sys-shape-corner-large); }
+            .interactive-area input[type="number"] { width: 60px; margin-right: 8px; }
+            .button-group { flex-direction: column; align-items: stretch; }
+            .m3-button { width: 100%; }
+            .zone-visualization-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px;}
+        }
+
     </style>
 </head>
-<body class="p-4 md:p-8">
-    <div class="max-w-4xl mx-auto">
-        <header class="mb-8 text-center">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Interactive Restaurant Seating Explainer</h1>
-            <p class="text-gray-600 mt-2">Understanding the DSE ICT Exam Question</p>
-            <a href="index.html" class="inline-block mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full font-medium transition">
-                ← Back to Home
-            </a>
+<body>
+    <div class="container">
+        <header>
+            <h1>Restaurant Seating Explainer</h1>
+            <p>Material 3 "Expressive" Style</p>
         </header>
 
         <section class="content-card">
-            <h2 class="text-2xl font-semibold text-gray-700 mb-3">Problem Overview</h2>
-            <p class="text-gray-700 leading-relaxed">
+            <h2>Problem Overview</h2>
+            <p>
                 A restaurant allocates 20 two-seat tables across different zones. The system uses global variables to manage seating:
             </p>
-            <ul class="list-disc list-inside mt-2 text-gray-700 space-y-1">
+            <ul>
                 <li><code>cap</code>: An integer array storing the total number of seats in each zone.</li>
                 <li><code>avail</code>: An integer array storing the number of unoccupied seats in each zone.</li>
                 <li><code>zn</code>: An integer storing the total number of zones.</li>
             </ul>
-            <p class="text-gray-700 mt-2 leading-relaxed">
-                We will explore two subprograms: <code>findZone(c)</code> for finding a suitable zone for a given number of customers <code>c</code>, and <code>comZone(c)</code> for combining adjacent empty zones to serve larger groups.
+            <p>
+                We will explore two subprograms: <code>findZone(c)</code> for finding a suitable zone for <code>c</code> customers, and <code>comZone(c)</code> for combining adjacent empty zones.
             </p>
         </section>
 
         <section class="content-card">
-            <h2 class="text-2xl font-semibold text-gray-700 mb-3">Example Data & Zone Status</h2>
-            <p class="text-gray-700">The example uses <code>zn = 9</code> zones (0 to 8).</p>
-            <div class="overflow-x-auto">
+            <h2>Example Data & Zone Status</h2>
+            <p>The example uses <code>zn = 9</code> zones (0 to 8).</p>
+            <div class="table-responsive">
                 <table>
                     <thead>
                         <tr>
-                            <th>i (Zone)</th>
-                            <th>cap[i] (Capacity)</th>
-                            <th>avail[i] (Available)</th>
+                            <th>Zone (i)</th>
+                            <th>Capacity (cap[i])</th>
+                            <th>Available (avail[i])</th>
                             <th>Occupied</th>
                         </tr>
                     </thead>
@@ -130,118 +418,135 @@
                         </tbody>
                 </table>
             </div>
-            <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4" id="zone-visualization">
+            <div class="zone-visualization-grid" id="zone-visualization">
                 </div>
         </section>
 
         <section class="content-card">
-            <h2 class="text-2xl font-semibold text-gray-700 mb-3">Subprogram: <code>findZone(c)</code></h2>
-            <p class="text-gray-700 leading-relaxed">
-                <code>findZone(c)</code> aims to return the smallest zone index <code>i</code> such that <code>avail[i] >= c</code> (the zone has enough available seats for <code>c</code> customers) and <code>avail[i]</code> is the closest value to <code>c</code>. If multiple zones satisfy this with the same minimal <code>avail[i]</code>, the smallest zone index <code>i</code> is chosen. If no such zone is found, it returns -1.
+            <h2>Subprogram: <code>findZone(c)</code></h2>
+            <p>
+                <code>findZone(c)</code> aims to return the smallest zone index <code>i</code> such that <code>avail[i] {'>'}= c</code> (the zone has enough available seats for <code>c</code> customers) and <code>avail[i]</code> is the closest value to <code>c</code>. If multiple zones satisfy this with the same minimal <code>avail[i]</code>, the smallest zone index <code>i</code> is chosen. If no such zone is found, it returns -1.
             </p>
-            <p class="text-gray-700 mt-1 leading-relaxed">Example from document: <code>findZone(4)</code> returns <code>7</code>.</p>
+            <p><em>Example from document: <code>findZone(4)</code> returns <code>7</code>.</em></p>
 
-            <h3 class="text-xl font-semibold text-gray-700 mt-4 mb-2">Pseudocode for <code>findZone(c)</code></h3>
+            <h3>Pseudocode for <code>findZone(c)</code></h3>
             <pre class="code-block">
 findZone(c)
-  zone <span id="findzone-var-init">-1</span>
+  zone &lt;- -1
   for i from 0 to zn-1
     if avail[i] >= c
       if zone == -1
-        <span class="text-yellow-400 font-bold">(a1)</span> <span id="findzone-a1-solution" class="hidden solution-text">zone &lt;- i</span>
-      else if avail[i] &lt; <span class="text-yellow-400 font-bold">(a2)</span> <span id="findzone-a2-solution" class="hidden solution-text">avail[zone]</span>
+        <span class="placeholder">(a1)</span> <span id="findzone-a1-solution-span" class="hidden"><span class="solution-text">zone &lt;- i</span></span>
+      else if avail[i] &lt; <span class="placeholder">(a2)</span> <span id="findzone-a2-solution-span" class="hidden"><span class="solution-text">avail[zone]</span></span>
         zone &lt;- i
   return zone</pre>
 
-            <h3 class="text-xl font-semibold text-gray-700 mt-4 mb-2">Solutions for Part (a)</h3>
-            <p class="text-gray-700"><strong>(a)(i) Return value of <code>findZone(6)</code>:</strong></p>
-            <div class="solution">
-                <code>findZone(6)</code> will return <strong><code>3</code></strong>.
-                <br>Explanation:
-                <ul class="list-disc list-inside text-sm">
-                    <li>Zone 2: avail[2]=7 (>=6). Current best zone=2 (avail=7).</li>
-                    <li>Zone 3: avail[3]=6 (>=6). avail[3]=6 is less than avail[2]=7. New best zone=3 (avail=6).</li>
-                    <li>No other subsequent zone has avail >= 6 and avail < 6.</li>
+            <h3>Solutions for Part (a)</h3>
+            <div class="solution-box">
+                <p><strong>(a)(i) Return value of <code>findZone(6)</code>:</strong> <strong><code>3</code></strong>.</p>
+                <ul style="font-size: 0.9rem;">
+                    <li>Zone 2: avail[2]=7 ({'>'}=6). Current best zone=2 (avail=7).</li>
+                    <li>Zone 3: avail[3]=6 ({'>'}=6). avail[3]=6 is less than avail[2]=7. New best zone=3 (avail=6).</li>
                 </ul>
             </div>
-
-            <p class="text-gray-700 mt-3"><strong>(a)(ii) Missing parts of <code>findZone(c)</code>:</strong></p>
-            <div class="solution">
+            <div class="solution-box">
+                <p><strong>(a)(ii) Missing parts of <code>findZone(c)</code>:</strong></p>
                 (a1): <code>zone &lt;- i</code><br>
                 (a2): <code>avail[zone]</code>
-                <button onclick="toggleSolution('findzone-a1-solution'); toggleSolution('findzone-a2-solution'); this.textContent = (this.textContent === 'Show Pseudocode Solutions' ? 'Hide Pseudocode Solutions' : 'Show Pseudocode Solutions');" class="mt-2 bg-indigo-500 hover:bg-indigo-600 text-white py-1 px-3 rounded text-sm">Show Pseudocode Solutions</button>
+                <button onclick="toggleSolutionVisibility(['findzone-a1-solution-span', 'findzone-a2-solution-span'], this)" class="m3-button m3-button-text" style="margin-top: 8px;">
+                    <span class="material-symbols-outlined">visibility</span> Show Pseudocode Solutions
+                </button>
             </div>
 
-            <div class="interactive-section mt-6">
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">Interactive <code>findZone(c)</code></h3>
-                <label for="findzone-c" class="mr-2 text-gray-700">Number of customers (c):</label>
-                <input type="number" id="findzone-c" value="4" min="1">
-                <button onclick="runFindZone()">Run findZone</button>
-                <button onclick="resetFindZone()" class="ml-2 bg-gray-500 hover:bg-gray-600">Reset</button>
-                <div id="findzone-log" class="mt-3 text-sm space-y-1"></div>
-                <div id="findzone-result" class="mt-2 font-semibold text-gray-800"></div>
+            <div class="interactive-area">
+                <h3>Interactive <code>findZone(c)</code></h3>
+                <div>
+                    <label for="findzone-c">Number of customers (c):</label>
+                    <input type="number" id="findzone-c" value="4" min="1">
+                </div>
+                <div class="button-group">
+                    <button onclick="runFindZone()" class="m3-button m3-button-filled">
+                        <span class="material-symbols-outlined">play_circle</span> Run findZone
+                    </button>
+                    <button onclick="resetFindZone()" class="m3-button m3-button-outlined">
+                         <span class="material-symbols-outlined">refresh</span> Reset
+                    </button>
+                </div>
+                <div id="findzone-log" class="log-area"></div>
+                <div id="findzone-result" class="result-area" style="display: none;"></div>
             </div>
         </section>
 
         <section class="content-card">
-            <h2 class="text-2xl font-semibold text-gray-700 mb-3">Subprogram: <code>comZone(c)</code></h2>
-            <p class="text-gray-700 leading-relaxed">
+            <h2>Subprogram: <code>comZone(c)</code></h2>
+            <p>
                 <code>comZone(c)</code> aims to find and display a sequence of adjacent, completely empty zones (where <code>avail[j] == cap[j]</code>) that can collectively accommodate <code>c</code> customers. It should find the combination starting with the smallest possible zone index <code>i</code>.
             </p>
-            <p class="text-gray-700 mt-1 leading-relaxed">Example from document: <code>comZone(7)</code> will display 'Combine zones: 5 to 7'.</p>
+            <p><em>Example from document: <code>comZone(7)</code> will display 'Combine zones: 5 to 7'.</em></p>
 
-            <h3 class="text-xl font-semibold text-gray-700 mt-4 mb-2">Pseudocode for <code>comZone(c)</code></h3>
+            <h3>Pseudocode for <code>comZone(c)</code></h3>
             <pre class="code-block">
 comZone(c)
   i &lt;- 0
   cnt &lt;- 0
   for j from 0 to zn-1
     if avail[j] == cap[j]
-      cnt &lt;- cnt + <span class="text-yellow-400 font-bold">(b1)</span> <span id="comzone-b1-solution" class="hidden solution-text">avail[j] // or cap[j]</span>
-      if <span class="text-yellow-400 font-bold">(b2)</span> <span id="comzone-b2-solution" class="hidden solution-text">cnt >= c</span>
+      cnt &lt;- cnt + <span class="placeholder">(b1)</span> <span id="comzone-b1-solution-span" class="hidden"><span class="solution-text">avail[j]</span></span> <span style="color: #aaa;">// or cap[j]</span>
+      if <span class="placeholder">(b2)</span> <span id="comzone-b2-solution-span" class="hidden"><span class="solution-text">cnt {'>'}= c</span></span>
         output 'Combine zones: ', i, ' to ', j
         exit comZone
     else
-      cnt &lt;- <span class="text-yellow-400 font-bold">(b3)</span> <span id="comzone-b3-solution" class="hidden solution-text">0</span>
-      i &lt;- <span class="text-yellow-400 font-bold">(b4)</span> <span id="comzone-b4-solution" class="hidden solution-text">j + 1</span>
-  output 'No suitable combination found' // Added for completeness if loop finishes
+      cnt &lt;- <span class="placeholder">(b3)</span> <span id="comzone-b3-solution-span" class="hidden"><span class="solution-text">0</span></span>
+      i &lt;- <span class="placeholder">(b4)</span> <span id="comzone-b4-solution-span" class="hidden"><span class="solution-text">j + 1</span></span>
+  output 'No suitable combination found' <span style="color: #aaa;">// Added for completeness</span>
             </pre>
 
-            <h3 class="text-xl font-semibold text-gray-700 mt-4 mb-2">Solutions for Part (b)</h3>
-            <p class="text-gray-700"><strong>(b) Missing parts of <code>comZone(c)</code>:</strong></p>
-            <div class="solution">
-                (b1): <code>avail[j]</code> (or <code>cap[j]</code>, since they are equal in this condition)<br>
-                (b2): <code>cnt >= c</code><br>
+            <h3>Solutions for Part (b)</h3>
+            <div class="solution-box">
+                <p><strong>(b) Missing parts of <code>comZone(c)</code>:</strong></p>
+                (b1): <code>avail[j]</code> (or <code>cap[j]</code>)<br>
+                (b2): <code>cnt {'>'}= c</code><br>
                 (b3): <code>0</code><br>
                 (b4): <code>j + 1</code>
-                <button onclick="toggleSolution('comzone-b1-solution'); toggleSolution('comzone-b2-solution'); toggleSolution('comzone-b3-solution'); toggleSolution('comzone-b4-solution'); this.textContent = (this.textContent === 'Show Pseudocode Solutions' ? 'Hide Pseudocode Solutions' : 'Show Pseudocode Solutions');" class="mt-2 bg-indigo-500 hover:bg-indigo-600 text-white py-1 px-3 rounded text-sm">Show Pseudocode Solutions</button>
+                <button onclick="toggleSolutionVisibility(['comzone-b1-solution-span', 'comzone-b2-solution-span', 'comzone-b3-solution-span', 'comzone-b4-solution-span'], this)" class="m3-button m3-button-text" style="margin-top: 8px;">
+                    <span class="material-symbols-outlined">visibility</span> Show Pseudocode Solutions
+                </button>
             </div>
 
-            <div class="interactive-section mt-6">
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">Interactive <code>comZone(c)</code></h3>
-                <label for="comzone-c" class="mr-2 text-gray-700">Number of customers (c):</label>
-                <input type="number" id="comzone-c" value="7" min="1">
-                <button onclick="runComZone()">Run comZone</button>
-                <button onclick="resetComZone()" class="ml-2 bg-gray-500 hover:bg-gray-600">Reset</button>
-                <div id="comzone-log" class="mt-3 text-sm space-y-1"></div>
-                <div id="comzone-result" class="mt-2 font-semibold text-gray-800"></div>
+            <div class="interactive-area">
+                <h3>Interactive <code>comZone(c)</code></h3>
+                <div>
+                    <label for="comzone-c">Number of customers (c):</label>
+                    <input type="number" id="comzone-c" value="7" min="1">
+                </div>
+                 <div class="button-group">
+                    <button onclick="runComZone()" class="m3-button m3-button-filled">
+                        <span class="material-symbols-outlined">play_circle</span> Run comZone
+                    </button>
+                    <button onclick="resetComZone()" class="m3-button m3-button-outlined">
+                        <span class="material-symbols-outlined">refresh</span> Reset
+                    </button>
+                </div>
+                <div id="comzone-log" class="log-area"></div>
+                <div id="comzone-result" class="result-area" style="display: none;"></div>
             </div>
         </section>
 
-        <footer class="text-center mt-8 mb-4 text-gray-500 text-sm">
-            Interactive Explainer.
+        <footer>
+            Interactive Explainer - Material 3 Expressive Style &copy; 2025
         </footer>
     </div>
 
     <script>
         // --- Global Data (from the example) ---
-        const cap = [2, 4, 12, 6, 4, 2, 2, 4, 4];
-        const avail = [2, 0, 7, 6, 1, 2, 2, 4, 4];
-        const zn = 9;
+        const CAPACITIES = [2, 4, 12, 6, 4, 2, 2, 4, 4];
+        const AVAILABILITIES = [2, 0, 7, 6, 1, 2, 2, 4, 4];
+        const NUM_ZONES = 9;
 
         // --- Utility to display logs ---
         function logStep(logAreaId, message, isHighlight = false) {
             const logArea = document.getElementById(logAreaId);
+            if (!logArea) return;
             const entry = document.createElement('div');
             entry.textContent = message;
             entry.classList.add('log-entry');
@@ -249,46 +554,76 @@ comZone(c)
                 entry.classList.add('highlight');
             }
             logArea.appendChild(entry);
+            logArea.scrollTop = logArea.scrollHeight; // Auto-scroll
         }
 
-        function clearLog(logAreaId, resultAreaId) {
-            document.getElementById(logAreaId).innerHTML = '';
-            document.getElementById(resultAreaId).innerHTML = '';
-        }
-        
-        function toggleSolution(elementId) {
-            const el = document.getElementById(elementId);
-            if (el) {
-                el.classList.toggle('hidden');
+        function clearLogAndResult(logAreaId, resultAreaId) {
+            const logArea = document.getElementById(logAreaId);
+            const resultArea = document.getElementById(resultAreaId);
+            if (logArea) logArea.innerHTML = '';
+            if (resultArea) {
+                resultArea.innerHTML = '';
+                resultArea.style.display = 'none';
             }
         }
+        
+        function toggleSolutionVisibility(elementIds, button) {
+            let allHidden = true;
+            elementIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.classList.toggle('hidden');
+                    if (!el.classList.contains('hidden')) {
+                        allHidden = false;
+                    }
+                }
+            });
+            const icon = button.querySelector('.material-symbols-outlined');
+            if (allHidden) {
+                button.innerHTML = '<span class="material-symbols-outlined">visibility</span> Show Pseudocode Solutions';
+            } else {
+                button.innerHTML = '<span class="material-symbols-outlined">visibility_off</span> Hide Pseudocode Solutions';
+            }
+        }
+
 
         // --- Zone Data and Visualization ---
         function displayZoneData() {
             const tableBody = document.getElementById('zone-data-table');
             const vizContainer = document.getElementById('zone-visualization');
-            tableBody.innerHTML = ''; // Clear previous
-            vizContainer.innerHTML = ''; // Clear previous
+            if (!tableBody || !vizContainer) return;
 
-            for (let i = 0; i < zn; i++) {
-                const occupied = cap[i] - avail[i];
+            tableBody.innerHTML = ''; 
+            vizContainer.innerHTML = ''; 
+
+            for (let i = 0; i < NUM_ZONES; i++) {
+                const occupied = CAPACITIES[i] - AVAILABILITIES[i];
+                const occupancyPercent = CAPACITIES[i] > 0 ? (occupied / CAPACITIES[i] * 100) : 0;
+
                 // Populate table
                 const row = tableBody.insertRow();
                 row.insertCell().textContent = i;
-                row.insertCell().textContent = cap[i];
-                row.insertCell().textContent = avail[i];
+                row.insertCell().textContent = CAPACITIES[i];
+                row.insertCell().textContent = AVAILABILITIES[i];
                 row.insertCell().textContent = occupied;
 
                 // Populate visualization
                 const zoneDiv = document.createElement('div');
-                zoneDiv.classList.add('zone-card');
+                zoneDiv.classList.add('zone-display-card');
+                
+                let occupancyColorStyle = 'color: var(--md-sys-color-secondary);'; // Default green-ish (Teal)
+                if (occupancyPercent > 75) occupancyColorStyle = 'color: var(--md-sys-color-error);'; // Red
+                else if (occupancyPercent > 50) occupancyColorStyle = 'color: var(--md-sys-color-tertiary);'; // Yellow
+
                 zoneDiv.innerHTML = `
-                    <p class="font-semibold text-gray-700">Zone ${i}</p>
-                    <p class="text-xs text-gray-500">Cap: ${cap[i]}</p>
-                    <p class="text-xs text-gray-500">Avail: ${avail[i]}</p>
-                    <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1">
-                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: ${(occupied / cap[i] * 100) || 0}%"></div>
+                    <p class="zone-title">Zone ${i}</p>
+                    <p class="zone-info">Cap: ${CAPACITIES[i]} | Avail: ${AVAILABILITIES[i]}</p>
+                    <div class="zone-progress-bar-container">
+                        <div class="zone-progress-bar" style="width: ${occupancyPercent}%;"></div>
                     </div>
+                    <p class="zone-occupancy-text" style="${occupancyColorStyle}">
+                        ${occupied} / ${CAPACITIES[i]} Occupied
+                    </p>
                 `;
                 vizContainer.appendChild(zoneDiv);
             }
@@ -296,78 +631,95 @@ comZone(c)
 
         // --- findZone(c) Logic ---
         function findZoneAlgorithm(c_customers) {
-            let currentZone = -1;
+            let currentSelectedZone = -1;
             const logAreaId = 'findzone-log';
             logStep(logAreaId, `Executing findZone(c=${c_customers})`);
-            logStep(logAreaId, `Initial: zone = -1`);
+            logStep(logAreaId, `Initial: selected_zone = -1`);
 
-            for (let i = 0; i < zn; i++) {
-                logStep(logAreaId, `--- Iteration i = ${i} ---`, true);
-                logStep(logAreaId, `avail[${i}] = ${avail[i]}`);
-                if (avail[i] >= c_customers) {
-                    logStep(logAreaId, `Condition: avail[${i}] (${avail[i]}) >= c (${c_customers}) is TRUE.`);
-                    if (currentZone === -1) {
-                        currentZone = i;
-                        logStep(logAreaId, `Condition: zone == -1 is TRUE. Update zone = ${i}. (Current best avail: ${avail[currentZone]})`);
-                    } else if (avail[i] < avail[currentZone]) {
-                        logStep(logAreaId, `Condition: avail[${i}] (${avail[i]}) < avail[zone] (${avail[currentZone]}) is TRUE. Update zone = ${i}. (Current best avail: ${avail[i]})`);
-                        currentZone = i;
+            for (let i = 0; i < NUM_ZONES; i++) {
+                logStep(logAreaId, `--- Iteration for Zone i = ${i} ---`, true);
+                logStep(logAreaId, `Checking Zone ${i}: avail[${i}] = ${AVAILABILITIES[i]}, cap[${i}] = ${CAPACITIES[i]}`);
+                if (AVAILABILITIES[i] >= c_customers) {
+                    logStep(logAreaId, `Zone ${i} has enough seats (avail[${i}] = ${AVAILABILITIES[i]} >= c = ${c_customers}).`);
+                    if (currentSelectedZone === -1) {
+                        currentSelectedZone = i;
+                        logStep(logAreaId, `Selected_zone was -1. Setting selected_zone = ${i}. (Current best avail: ${AVAILABILITIES[currentSelectedZone]})`);
+                    } else if (AVAILABILITIES[i] < AVAILABILITIES[currentSelectedZone]) {
+                        currentSelectedZone = i;
+                        logStep(logAreaId, `avail[${i}] (${AVAILABILITIES[i]}) < avail[selected_zone] (${AVAILABILITIES[currentSelectedZone]}). New selected_zone = ${i}. (Current best avail: ${AVAILABILITIES[i]})`);
+                    } else if (AVAILABILITIES[i] === AVAILABILITIES[currentSelectedZone]) {
+                        logStep(logAreaId, `avail[${i}] (${AVAILABILITIES[i]}) == avail[selected_zone] (${AVAILABILITIES[currentSelectedZone]}). Keeping selected_zone = ${currentSelectedZone} (smallest index).`);
                     } else {
-                        logStep(logAreaId, `Condition: avail[${i}] (${avail[i]}) < avail[zone] (${avail[currentZone]}) is FALSE. Zone remains ${currentZone}.`);
+                        logStep(logAreaId, `avail[${i}] (${AVAILABILITIES[i]}) > avail[selected_zone] (${AVAILABILITIES[currentSelectedZone]}). No change to selected_zone.`);
                     }
                 } else {
-                    logStep(logAreaId, `Condition: avail[${i}] (${avail[i]}) >= c (${c_customers}) is FALSE.`);
+                    logStep(logAreaId, `Zone ${i} does NOT have enough seats (avail[${i}] = ${AVAILABILITIES[i]} < c = ${c_customers}).`);
                 }
             }
             logStep(logAreaId, `--- Loop Finished ---`, true);
-            logStep(logAreaId, `Return zone = ${currentZone}.`);
-            return currentZone;
+            logStep(logAreaId, `Final selected_zone = ${currentSelectedZone}.`);
+            return currentSelectedZone;
         }
 
         function runFindZone() {
-            clearLog('findzone-log', 'findzone-result');
-            const c = parseInt(document.getElementById('findzone-c').value);
+            clearLogAndResult('findzone-log', 'findzone-result');
+            const cInput = document.getElementById('findzone-c');
+            const resultArea = document.getElementById('findzone-result');
+            const c = parseInt(cInput.value);
+
             if (isNaN(c) || c < 1) {
-                document.getElementById('findzone-result').textContent = "Please enter a valid number of customers (c >= 1).";
+                resultArea.textContent = "Please enter a valid number of customers (c >= 1).";
+                resultArea.style.display = 'block';
+                resultArea.style.backgroundColor = 'var(--md-sys-color-error-container)';
+                resultArea.style.color = 'var(--md-sys-color-on-error-container)';
                 return;
             }
             const resultZone = findZoneAlgorithm(c);
-            document.getElementById('findzone-result').textContent = `Result: findZone(${c}) returns ${resultZone}.`;
+            resultArea.textContent = `Result: findZone(${c}) returns ${resultZone}.`;
+            resultArea.style.display = 'block';
+            resultArea.style.backgroundColor = 'var(--md-sys-color-tertiary-container)';
+            resultArea.style.color = 'var(--md-sys-color-on-tertiary-container)';
         }
 
         function resetFindZone() {
-            clearLog('findzone-log', 'findzone-result');
+            clearLogAndResult('findzone-log', 'findzone-result');
             document.getElementById('findzone-c').value = "4";
         }
 
         // --- comZone(c) Logic ---
         function comZoneAlgorithm(c_customers) {
-            let startZoneIndex = 0; // 'i' in pseudocode
-            let currentCount = 0;   // 'cnt' in pseudocode
+            let startZoneIndex = 0; 
+            let currentSeatCount = 0;   
             const logAreaId = 'comzone-log';
             logStep(logAreaId, `Executing comZone(c=${c_customers})`);
-            logStep(logAreaId, `Initial: i = ${startZoneIndex}, cnt = ${currentCount}`);
+            logStep(logAreaId, `Initial: start_zone_idx (i) = ${startZoneIndex}, current_seat_count (cnt) = ${currentSeatCount}`);
 
-            for (let j = 0; j < zn; j++) {
-                logStep(logAreaId, `--- Iteration j = ${j} ---`, true);
-                logStep(logAreaId, `Zone ${j}: avail[${j}]=${avail[j]}, cap[${j}]=${cap[j]}`);
-                if (avail[j] === cap[j]) { // Zone j is completely empty
-                    logStep(logAreaId, `Condition: avail[${j}] == cap[${j}] is TRUE (Zone ${j} is empty).`);
-                    currentCount += avail[j]; // (b1)
-                    logStep(logAreaId, `Update: cnt = cnt + avail[${j}] = ${currentCount}.`);
-                    if (currentCount >= c_customers) { // (b2)
-                        logStep(logAreaId, `Condition: cnt (${currentCount}) >= c (${c_customers}) is TRUE.`);
+            for (let j = 0; j < NUM_ZONES; j++) {
+                logStep(logAreaId, `--- Iteration for Zone j = ${j} ---`, true);
+                logStep(logAreaId, `Checking Zone ${j}: avail[${j}]=${AVAILABILITIES[j]}, cap[${j}]=${CAPACITIES[j]}`);
+                if (AVAILABILITIES[j] === CAPACITIES[j]) { 
+                    logStep(logAreaId, `Zone ${j} is completely empty (avail[${j}] == cap[${j}]).`);
+                    if (currentSeatCount === 0) { 
+                        startZoneIndex = j;
+                        logStep(logAreaId, `This is the start of a new potential sequence. Set start_zone_idx (i) = ${j}.`);
+                    }
+                    currentSeatCount += AVAILABILITIES[j]; 
+                    logStep(logAreaId, `Adding seats from Zone ${j}. New current_seat_count (cnt) = ${currentSeatCount}.`);
+                    
+                    if (currentSeatCount >= c_customers) { 
+                        logStep(logAreaId, `Current_seat_count (${currentSeatCount}) >= c (${c_customers}). Condition met.`);
                         const resultMessage = `Combine zones: ${startZoneIndex} to ${j}`;
-                        logStep(logAreaId, `Output: "${resultMessage}". Exit subprogram.`);
+                        logStep(logAreaId, `Output: "${resultMessage}". Exiting subprogram.`);
                         return resultMessage;
                     } else {
-                        logStep(logAreaId, `Condition: cnt (${currentCount}) >= c (${c_customers}) is FALSE.`);
+                        logStep(logAreaId, `Current_seat_count (${currentSeatCount}) < c (${c_customers}). Continue accumulating.`);
                     }
-                } else { // Zone j is not empty, or breaks sequence
-                    logStep(logAreaId, `Condition: avail[${j}] == cap[${j}] is FALSE (Zone ${j} is not empty or sequence broken).`);
-                    currentCount = 0; // (b3)
-                    startZoneIndex = j + 1; // (b4)
-                    logStep(logAreaId, `Update: cnt = 0. Potential next start i = ${startZoneIndex}.`);
+                } else { 
+                    logStep(logAreaId, `Zone ${j} is NOT completely empty or breaks the adjacent empty sequence.`);
+                    currentSeatCount = 0; 
+                    // Per pseudocode: i <- j + 1. This resets the start of the potential sequence.
+                    startZoneIndex = j + 1; 
+                    logStep(logAreaId, `Resetting: current_seat_count (cnt) = 0. Potential next start_zone_idx (i) = ${startZoneIndex}.`);
                 }
             }
             logStep(logAreaId, `--- Loop Finished ---`, true);
@@ -377,28 +729,38 @@ comZone(c)
         }
 
         function runComZone() {
-            clearLog('comzone-log', 'comzone-result');
-            const c = parseInt(document.getElementById('comzone-c').value);
-             if (isNaN(c) || c < 1) {
-                document.getElementById('comzone-result').textContent = "Please enter a valid number of customers (c >= 1).";
+            clearLogAndResult('comzone-log', 'comzone-result');
+            const cInput = document.getElementById('comzone-c');
+            const resultArea = document.getElementById('comzone-result');
+            const c = parseInt(cInput.value);
+
+            if (isNaN(c) || c < 1) {
+                resultArea.textContent = "Please enter a valid number of customers (c >= 1).";
+                resultArea.style.display = 'block';
+                resultArea.style.backgroundColor = 'var(--md-sys-color-error-container)';
+                resultArea.style.color = 'var(--md-sys-color-on-error-container)';
                 return;
             }
             const resultMessage = comZoneAlgorithm(c);
-            document.getElementById('comzone-result').textContent = `Result: ${resultMessage}`;
+            resultArea.textContent = `Result: ${resultMessage}`;
+            resultArea.style.display = 'block';
+            resultArea.style.backgroundColor = 'var(--md-sys-color-tertiary-container)';
+            resultArea.style.color = 'var(--md-sys-color-on-tertiary-container)';
         }
 
         function resetComZone() {
-            clearLog('comzone-log', 'comzone-result');
+            clearLogAndResult('comzone-log', 'comzone-result');
             document.getElementById('comzone-c').value = "7";
         }
-
 
         // --- Initial Setup ---
         window.onload = () => {
             displayZoneData();
-            // Set initial values for interactive parts if needed, or trigger a default run.
-            // For example, pre-fill solutions for the pseudocode blanks if desired on load,
-            // but the button toggle is probably better.
+            // Add :root variables for RGB versions of colors if needed by JS/CSS color-mix for older browser support
+            // For simplicity, relying on modern browser color-mix here.
+            const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--md-sys-color-primary').trim();
+            // Example: Convert hex to RGB if needed for JS, or define RGB vars in CSS
+            // For rgba() in JS, you'd parse hex. For CSS color-mix, direct var usage is fine.
         };
     </script>
 </body>

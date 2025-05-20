@@ -18,22 +18,22 @@
             scroll-behavior: smooth;
         }
         .card-hover {
+            /* Smooth transition for transform and box-shadow properties */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            /* Enhanced hover effect for a "preview" feel:
+                - translateY(-10px): Lifts the card up more.
+                - scale(1.03): Makes the card slightly larger.
+                - box-shadow: Increases shadow depth for a more pronounced pop-out effect.
+            */
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+            background: linear-gradient(135deg, #7570c9 0%, #cbb2f7 100%);
         }
     </style>
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="favicon_io/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="favicon_io/android-chrome-512x512.png">
-    <link rel="apple-touch-icon" href="favicon_io/apple-touch-icon.png">
-    <link rel="manifest" href="favicon_io/site.webmanifest">
 </head>
 <body class="bg-gray-50 min-h-screen">
     <header class="gradient-bg text-white shadow-md">
@@ -53,7 +53,6 @@
             </p>
         </section>
 
-        <!-- Tag Bar Filtering -->
         <section class="mb-8 flex flex-col items-center">
             <div id="tag-bar" class="flex flex-wrap gap-2 justify-center">
                 <button class="tag-btn px-3 py-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 font-medium transition hover:bg-indigo-200 active:bg-indigo-300" data-tag="all">All</button>
@@ -72,7 +71,6 @@
             </h2>
             
             <div id="resource-cards" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- S4 Python Algorithms Card -->
                 <a href="s4python.html" class="block resource-card" data-tags="Algorithms">
                     <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover h-full">
                         <div class="h-48 bg-indigo-100 flex items-center justify-center">
@@ -101,7 +99,6 @@
                     </div>
                 </a>
 
-                <!-- DSE 2025 Number Game Card -->
                 <a href="DSE_2025(1).html" class="block resource-card" data-tags="Algorithms">
                     <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover h-full">
                         <div class="h-48 bg-emerald-100 flex items-center justify-center">
@@ -158,7 +155,6 @@
                     </div>
                 </a>
 
-                <!-- HTML & CSS Learning Card -->
                 <a href="html_learning.html" class="block resource-card" data-tags="HTML,Visualization">
                     <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover h-full">
                         <div class="h-48 bg-orange-100 flex items-center justify-center">
@@ -188,7 +184,6 @@
                     </div>
                 </a>
 
-                <!-- Processing Modes Card -->
                 <a href="proccessing_mode.html" class="block resource-card" data-tags="Visualization">
                     <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover h-full">
                         <div class="h-48 bg-purple-100 flex items-center justify-center">
@@ -217,7 +212,6 @@
                     </div>
                 </a>
 
-                <!-- Software Guide Card -->
                 <a href="software.html" class="block resource-card" data-tags="Software">
                     <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover h-full">
                         <div class="h-48 bg-cyan-100 flex items-center justify-center">
@@ -246,7 +240,6 @@
                     </div>
                 </a>
 
-                <!-- Hardware Guide Card -->
                 <a href="hardware.html" class="block resource-card" data-tags="Hardware">
                     <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover h-full">
                         <div class="h-48 bg-lime-100 flex items-center justify-center">
@@ -275,7 +268,6 @@
                     </div>
                 </a>
 
-                <!-- SQL Adventure Card -->
                 <a href="sql.html" class="block resource-card" data-tags="SQL,Visualization">
                     <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover h-full">
                         <div class="h-48 bg-blue-100 flex items-center justify-center">
@@ -349,18 +341,90 @@
 
         function updateTagBarUI() {
             tagButtons.forEach(btn => {
-                if (
-                    (selectedTags.has('all') && btn.dataset.tag === 'all') ||
-                    (!selectedTags.has('all') && selectedTags.has(btn.dataset.tag))
-                ) {
-                    btn.classList.add('bg-indigo-600', 'text-white', 'border-indigo-700');
-                    btn.classList.remove('bg-indigo-50', 'text-indigo-700', 'border-indigo-300');
+                const tag = btn.dataset.tag;
+                // Determine if the button should be active based on selectedTags
+                let isActive = false;
+                if (selectedTags.has('all') && tag === 'all') {
+                    isActive = true;
+                } else if (!selectedTags.has('all') && selectedTags.has(tag)) {
+                    isActive = true;
+                }
+
+                // Update button styles based on its active state and specific tag color
+                // Reset classes first
+                btn.classList.remove(
+                    'bg-indigo-600', 'text-white', 'border-indigo-700', // 'all' and default active
+                    'bg-blue-600', 'border-blue-700',   // SQL active
+                    'bg-orange-600', 'border-orange-700', // HTML active
+                    'bg-purple-600', 'border-purple-700', // Software active
+                    'bg-lime-600', 'border-lime-700',   // Hardware active
+                    'bg-pink-600', 'border-pink-700'    // Visualization active
+                );
+                // Remove base non-active classes that might conflict
+                 btn.classList.remove(
+                    'bg-indigo-50', 'text-indigo-700', 'border-indigo-300',
+                    'bg-blue-50', 'text-blue-700', 'border-blue-300',
+                    'bg-orange-50', 'text-orange-700', 'border-orange-300',
+                    'bg-purple-50', 'text-purple-700', 'border-purple-300',
+                    'bg-lime-50', 'text-lime-700', 'border-lime-300',
+                    'bg-pink-50', 'text-pink-700', 'border-pink-300'
+                );
+
+
+                if (isActive) {
+                    btn.classList.add('text-white');
+                    switch (tag) {
+                        case 'all':
+                        case 'Algorithms': // Algorithms uses indigo like 'all'
+                            btn.classList.add('bg-indigo-600', 'border-indigo-700');
+                            break;
+                        case 'SQL':
+                            btn.classList.add('bg-blue-600', 'border-blue-700');
+                            break;
+                        case 'HTML':
+                            btn.classList.add('bg-orange-600', 'border-orange-700');
+                            break;
+                        case 'Software':
+                            btn.classList.add('bg-purple-600', 'border-purple-700');
+                            break;
+                        case 'Hardware':
+                            btn.classList.add('bg-lime-600', 'border-lime-700');
+                            break;
+                        case 'Visualization':
+                            btn.classList.add('bg-pink-600', 'border-pink-700');
+                            break;
+                        default: // Fallback to indigo if a new tag is somehow missed
+                             btn.classList.add('bg-indigo-600', 'border-indigo-700');
+                    }
                 } else {
-                    btn.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-700');
-                    btn.classList.add('bg-indigo-50', 'text-indigo-700', 'border-indigo-300');
+                    // Apply original non-active styles based on tag
+                    switch (tag) {
+                        case 'all':
+                        case 'Algorithms':
+                            btn.classList.add('bg-indigo-50', 'text-indigo-700', 'border-indigo-300');
+                            break;
+                        case 'SQL':
+                            btn.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-300');
+                            break;
+                        case 'HTML':
+                            btn.classList.add('bg-orange-50', 'text-orange-700', 'border-orange-300');
+                            break;
+                        case 'Software':
+                            btn.classList.add('bg-purple-50', 'text-purple-700', 'border-purple-300');
+                            break;
+                        case 'Hardware':
+                            btn.classList.add('bg-lime-50', 'text-lime-700', 'border-lime-300');
+                            break;
+                        case 'Visualization':
+                             btn.classList.add('bg-pink-50', 'text-pink-700', 'border-pink-300');
+                            break;
+                        default: // Fallback for base style
+                            btn.classList.add('bg-gray-50', 'text-gray-700', 'border-gray-300');
+                    }
                 }
             });
         }
+
 
         function filterResources() {
             const cards = document.querySelectorAll('.resource-card');
@@ -368,10 +432,16 @@
                 cards.forEach(card => card.style.display = '');
             } else {
                 cards.forEach(card => {
-                    const tags = card.getAttribute('data-tags').split(',').map(t => t.trim());
-                    // Show only if ALL selected tags are present in the card's tags
-                    const show = [...selectedTags].every(tag => tags.includes(tag));
-                    card.style.display = show ? '' : 'none';
+                    const cardTagsAttr = card.getAttribute('data-tags');
+                    if (cardTagsAttr) {
+                        const tags = cardTagsAttr.split(',').map(t => t.trim());
+                        // Show if ANY of the selected tags are present in the card's tags
+                        // To match ALL selected tags, use: [...selectedTags].every(tag => tags.includes(tag));
+                        const show = [...selectedTags].some(tag => tags.includes(tag));
+                        card.style.display = show ? '' : 'none';
+                    } else {
+                        card.style.display = 'none'; // Hide cards with no tags if filtering by specific tags
+                    }
                 });
             }
         }
@@ -380,15 +450,24 @@
             btn.addEventListener('click', () => {
                 const tag = btn.dataset.tag;
                 if (tag === 'all') {
+                    // If 'all' is already selected and clicked again, do nothing or deselect all.
+                    // Current behavior: re-select 'all' if it was the only one, or switch to 'all'.
                     selectedTags = new Set(['all']);
                 } else {
-                    if (selectedTags.has('all')) selectedTags.delete('all');
+                    // If 'all' was selected, clear it and start with the new tag.
+                    if (selectedTags.has('all')) {
+                        selectedTags.clear();
+                    }
+                    // Toggle the clicked tag.
                     if (selectedTags.has(tag)) {
                         selectedTags.delete(tag);
                     } else {
                         selectedTags.add(tag);
                     }
-                    if (selectedTags.size === 0) selectedTags.add('all');
+                    // If no tags are selected, default to 'all'.
+                    if (selectedTags.size === 0) {
+                        selectedTags.add('all');
+                    }
                 }
                 updateTagBarUI();
                 filterResources();
@@ -398,5 +477,6 @@
         updateTagBarUI();
         filterResources();
     </script>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" xintegrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"9428879d1bda4a36","version":"2025.4.0-1-g37f21b1","r":1,"token":"0fe33a310fa94a55b730ffa3693f0762","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}}}' crossorigin="anonymous"></script>
 </body>
 </html>

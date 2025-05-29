@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" class=""> <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HPCSS ICT Revision Hub - Inspired Design</title>
@@ -14,48 +13,131 @@
     <link rel="manifest" href="favicon_io/site.webmanifest">
 
     <style>
+        :root {
+            /* Light Theme Variables */
+            --primary-color: #4A90E2;
+            --primary-hover-color: #357ABD;
+            --text-primary-color: #212529;
+            --text-secondary-color: #6c757d;
+            --text-muted-color: #868e96;
+            --body-bg-color: #f8f9fa;
+            --card-bg-color: #FFFFFF;
+            --card-shadow-color: rgba(0, 0, 0, 0.1);
+            --card-hover-shadow-color: rgba(0, 0, 0, 0.15);
+            --section-shadow-color: rgba(0, 0, 0, 0.08); /* Slightly different shadow for sections */
+            --border-color: #dee2e6;
+            --header-bg-color: var(--card-bg-color);
+            --footer-bg-color: #e9ecef;
+            --modal-bg-color: var(--card-bg-color);
+            --modal-backdrop-bg-color: rgba(0, 0, 0, 0.6);
+            --tag-btn-bg-color: var(--card-bg-color);
+            --tag-btn-text-color: var(--text-secondary-color);
+            --tag-btn-border-color: var(--border-color);
+            --tag-btn-active-bg-color: var(--primary-color);
+            --tag-btn-active-text-color: #FFFFFF;
+            --loader-track-color: #E8DEF8;
+            --loader-bar-color: var(--primary-color);
+            --m3-switch-track-off-color: #ced4da;
+            --m3-switch-thumb-off-bg-color: white;
+            --m3-switch-thumb-off-border-color: #ced4da;
+            --m3-switch-track-on-color: var(--primary-color);
+            --m3-switch-thumb-on-bg-color: #FFFFFF;
+            --m3-switch-thumb-on-border-color: var(--primary-color);
+            --m3-switch-focus-shadow-color: rgba(74, 144, 226, 0.5);
+            --hero-gradient-from: #E0E7FF; 
+            --hero-gradient-to: #EFF6FF;   
+            --cta-gradient-from: #4F46E5; 
+            --cta-gradient-to: #3B82F6; 
+            --svg-icon-color: var(--text-secondary-color);
+            --link-color: var(--primary-color);
+            --link-hover-color: var(--primary-hover-color);
+            --cta-main-button-bg: white;
+            --cta-main-button-text: var(--primary-color);
+            --cta-main-button-hover-bg: #f1f5f9; /* Tailwind gray-100 */
+        }
+
+        .dark-theme {
+            /* Dark Theme Variables */
+            --primary-color: #5E9BEF; 
+            --primary-hover-color: #7BAEF4;
+            --text-primary-color: #EAEAEA;
+            --text-secondary-color: #A0A0A0;
+            --text-muted-color: #718096;
+            --body-bg-color: #1A202C; 
+            --card-bg-color: #2D3748; 
+            --card-shadow-color: rgba(0, 0, 0, 0.3);
+            --card-hover-shadow-color: rgba(0, 0, 0, 0.4);
+            --section-shadow-color: rgba(0, 0, 0, 0.25);
+            --border-color: #4A5568; 
+            --header-bg-color: var(--card-bg-color);
+            --footer-bg-color: #222938; 
+            --modal-bg-color: var(--card-bg-color);
+            --modal-backdrop-bg-color: rgba(0, 0, 0, 0.75);
+            --tag-btn-bg-color: #3E4C5F; 
+            --tag-btn-text-color: var(--text-secondary-color);
+            --tag-btn-border-color: #5A6678;
+            --tag-btn-active-bg-color: var(--primary-color);
+            --tag-btn-active-text-color: #1A202C; 
+            --loader-track-color: #4A5568;
+            --loader-bar-color: var(--primary-color);
+            --m3-switch-track-off-color: #4A5568;
+            --m3-switch-thumb-off-bg-color: #A0AEC0; 
+            --m3-switch-thumb-off-border-color: #4A5568;
+            --m3-switch-track-on-color: var(--primary-color);
+            --m3-switch-thumb-on-bg-color: #1A202C;
+            --m3-switch-thumb-on-border-color: var(--primary-color);
+            --m3-switch-focus-shadow-color: rgba(94, 155, 239, 0.5);
+            --hero-gradient-from: #2D3748;
+            --hero-gradient-to: #1A202C;
+            --cta-gradient-from: #3E4C5F;
+            --cta-gradient-to: #2D3748;
+            --svg-icon-color: var(--text-secondary-color);
+            --link-color: var(--primary-color);
+            --link-hover-color: var(--primary-hover-color);
+            --cta-main-button-bg: var(--card-bg-color); /* Eg. gray-800 */
+            --cta-main-button-text: var(--primary-color); /* Lighter blue */
+            --cta-main-button-hover-bg: var(--body-bg-color); /* Eg. gray-900 */
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             scroll-behavior: smooth;
-            background-color: #f8f9fa; /* Light neutral background */
-            color: #343a40; /* Darker text for readability */
+            background-color: var(--body-bg-color);
+            color: var(--text-primary-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* --- Theme Colors (Inspired by "Study Central") --- */
-        :root {
-            --primary-color: #4A90E2; /* A nice blue, similar to "Enroll Now" */
-            --primary-hover-color: #357ABD;
-            --text-primary: #212529;
-            --text-secondary: #6c757d;
-            --card-bg: #FFFFFF;
-            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --card-hover-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
-            --border-color: #dee2e6;
-        }
-
-        /* --- Header --- */
         .main-header {
-            background-color: var(--card-bg);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            background-color: var(--header-bg-color);
+            box-shadow: 0 2px 4px var(--card-shadow-color);
+            transition: background-color 0.3s ease;
         }
         .nav-link {
-            color: var(--text-secondary);
+            color: var(--text-secondary-color);
             transition: color 0.2s ease-in-out;
         }
         .nav-link:hover, .nav-link.active {
             color: var(--primary-color);
             font-weight: 500;
         }
-        .enroll-btn {
+        .enroll-btn { /* General purpose primary action button */
             background-color: var(--primary-color);
-            color: white;
+            color: white; 
             transition: background-color 0.2s ease-in-out;
+        }
+        .dark-theme .enroll-btn { /* Text color for enroll-btn in dark theme */
+             color: var(--text-primary-color); 
         }
         .enroll-btn:hover {
             background-color: var(--primary-hover-color);
         }
+        .theme-toggle-btn {
+            color: var(--text-secondary-color);
+        }
+        .theme-toggle-btn:hover {
+            color: var(--primary-color);
+        }
 
-        /* --- Material 3 Style Toggle Switch (Kept from original, slightly restyled) --- */
         .m3-switch {
             position: relative; display: inline-block;
             width: 48px; height: 28px; flex-shrink: 0;
@@ -64,174 +146,170 @@
         .m3-slider {
             position: absolute; cursor: pointer;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #ced4da; /* Adjusted off state */
+            background-color: var(--m3-switch-track-off-color);
             transition: .3s cubic-bezier(0.25, 0.8, 0.25, 1);
             border-radius: 14px;
         }
-        .m3-slider:before { /* Thumb */
+        .m3-slider:before { 
             position: absolute; content: "";
             height: 20px; width: 20px;
             left: 4px; bottom: 4px;
-            background-color: white;
-            border: 1px solid #ced4da;
+            background-color: var(--m3-switch-thumb-off-bg-color);
+            border: 1px solid var(--m3-switch-thumb-off-border-color);
             transition: .3s cubic-bezier(0.25, 0.8, 0.25, 1);
             border-radius: 50%;
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
         input:checked + .m3-slider {
-            background-color: var(--primary-color);
+            background-color: var(--m3-switch-track-on-color);
         }
         input:checked + .m3-slider:before {
-            background-color: #FFFFFF;
-            border-color: var(--primary-color);
+            background-color: var(--m3-switch-thumb-on-bg-color);
+            border-color: var(--m3-switch-thumb-on-border-color);
             transform: translateX(20px);
         }
         input:focus-visible + .m3-slider {
-             box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.5); /* Lighter primary for focus */
+             box-shadow: 0 0 0 2px var(--m3-switch-focus-shadow-color);
         }
 
-        /* --- Tag Filter Buttons --- */
         .tag-btn {
-            padding: 0.5rem 1.25rem;
-            border-radius: 20px;
-            font-weight: 500;
-            font-size: 0.875rem;
-            line-height: 1.25rem;
-            transition: all 0.2s ease-out;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            background-color: var(--card-bg);
+            padding: 0.5rem 1.25rem; border-radius: 20px; font-weight: 500; font-size: 0.875rem;
+            line-height: 1.25rem; transition: all 0.2s ease-out;
+            border: 1px solid var(--tag-btn-border-color);
+            color: var(--tag-btn-text-color);
+            background-color: var(--tag-btn-bg-color);
         }
         .tag-btn:hover {
             border-color: var(--primary-color);
             color: var(--primary-color);
         }
         .tag-btn.active {
-            background-color: var(--primary-color);
-            color: #FFFFFF;
-            border-color: var(--primary-color);
+            background-color: var(--tag-btn-active-bg-color);
+            color: var(--tag-btn-active-text-color);
+            border-color: var(--tag-btn-active-bg-color);
         }
-        .tag-btn[data-tag="Algorithms"].inactive { background-color: #e9f3fe; color: #2c5282;}
-        .tag-btn[data-tag="SQL"].inactive { background-color: #e6fffa; color: #234e52;}
-        .tag-btn[data-tag="HTML"].inactive { background-color: #fffaf0; color: #744210;}
 
-
-        /* --- Resource Card Base Styles --- */
         .resource-card {
             position: relative; z-index: 1; display: block;
             border-radius: 1rem;
-            background-color: var(--card-bg);
-            box-shadow: var(--card-shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: var(--card-bg-color);
+            box-shadow: 0 4px 6px var(--card-shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
             height: 100%; 
             display: flex;
             flex-direction: column;
         }
         .card-image-placeholder {
             height: 180px; 
-            background-color: #e9ecef; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-top-left-radius: 1rem;
-            border-top-right-radius: 1rem;
+            background-color: var(--footer-bg-color); 
+            display: flex; align-items: center; justify-content: center;
+            border-top-left-radius: 1rem; border-top-right-radius: 1rem;
             overflow: hidden;
+            transition: background-color 0.3s ease;
         }
         .card-image-placeholder svg {
-            width: 60px;
-            height: 60px;
-            color: var(--text-secondary);
+            width: 60px; height: 60px;
+            color: var(--svg-icon-color);
+            transition: color 0.3s ease;
         }
         .card-content-wrapper { 
-            padding: 1.5rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            padding: 1.5rem; flex-grow: 1; display: flex;
+            flex-direction: column; justify-content: space-between;
         }
-        .card-title { color: var(--text-primary); }
-        .card-description { color: var(--text-secondary); font-size: 0.9rem; }
+        .card-title { color: var(--text-primary-color); transition: color 0.3s ease;}
+        .card-description { color: var(--text-secondary-color); font-size: 0.9rem; transition: color 0.3s ease;}
         .card-tags span {
-            background-color: #e9ecef;
-            color: var(--text-secondary);
+            background-color: var(--footer-bg-color); 
+            color: var(--text-secondary-color);
             font-size: 0.75rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         .card-link {
-            color: var(--primary-color);
+            color: var(--link-color);
             transition: color 0.2s ease;
         }
-        .card-link:hover {
-            color: var(--primary-hover-color);
-        }
+        .card-link:hover { color: var(--link-hover-color); }
 
         .enhanced-hover-mode .resource-card.preview-active {
-            z-index: 10;
-            transform: scale(1.05); 
-            box-shadow: var(--card-hover-shadow);
+            z-index: 10; transform: scale(1.05); 
+            box-shadow: 0 8px 12px var(--card-hover-shadow-color);
         }
         .more-info {
-            opacity: 0;
-            max-height: 0;
-            overflow: hidden;
+            opacity: 0; max-height: 0; overflow: hidden;
             transition: opacity 0.35s ease-in-out 0.1s, max-height 0.45s ease-in-out 0.1s, padding-top 0.35s ease-in-out 0.1s, padding-bottom 0.35s ease-in-out 0.1s;
-            background-color: #f8f9fa; 
-            border-bottom-left-radius: 1rem;
-            border-bottom-right-radius: 1rem;
+            background-color: var(--body-bg-color); 
+            border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem;
             border-top: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
         .enhanced-hover-mode .resource-card.preview-active .more-info {
-            opacity: 1;
-            max-height: 500px; 
-            padding: 1.5rem; 
-            overflow-y: auto;
+            opacity: 1; max-height: 500px; 
+            padding: 1.5rem; overflow-y: auto;
         }
 
         .simple-hover-mode .resource-card:hover {
             transform: translateY(-5px);
-            box-shadow: var(--card-hover-shadow);
+            box-shadow: 0 8px 12px var(--card-hover-shadow-color);
         }
-        .simple-hover-mode .more-info {
-            display: none !important;
-        }
+        .simple-hover-mode .more-info { display: none !important; }
         .simple-hover-mode .resource-card.preview-active {
-            transform: none;
-            box-shadow: var(--card-shadow);
+            transform: none; box-shadow: 0 4px 6px var(--card-shadow-color);
         }
          .simple-hover-mode .resource-card.preview-active:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--card-hover-shadow);
+            transform: translateY(-5px); box-shadow: 0 8px 12px var(--card-hover-shadow-color);
         }
 
-        .section-title { color: var(--text-primary); }
-        .welcome-title { color: var(--text-primary); }
-        .welcome-subtitle { color: var(--text-secondary); }
-
+        .section-title { color: var(--text-primary-color); transition: color 0.3s ease;}
+        .welcome-title { color: var(--text-primary-color); transition: color 0.3s ease;}
+        .welcome-subtitle { color: var(--text-secondary-color); transition: color 0.3s ease;}
+        
+        .hero-section {
+            background-image: linear-gradient(to right, var(--hero-gradient-from), var(--hero-gradient-to));
+            transition: background-image 0.3s ease; /* This won't transition gradient smoothly, but colors will switch */
+        }
+        .cta-section {
+            background-image: linear-gradient(to right, var(--cta-gradient-from), var(--cta-gradient-to));
+            transition: background-image 0.3s ease;
+        }
+        .cta-main-button { /* Specific button for CTA section */
+            background-color: var(--cta-main-button-bg);
+            color: var(--cta-main-button-text);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .cta-main-button:hover {
+            background-color: var(--cta-main-button-hover-bg);
+        }
+        
+        .testimonial-section { /* Class for the testimonials section wrapper */
+            background-color: var(--card-bg-color);
+            box-shadow: 0 6px 12px var(--section-shadow-color); /* Using section shadow */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
         .testimonial-card {
-            background-color: var(--card-bg);
-            border-radius: 1rem;
-            box-shadow: var(--card-shadow);
+            background-color: var(--card-bg-color); /* Cards within section also use card-bg */
+            border-radius: 1rem; /* Keep individual card radius if section has padding */
+            box-shadow: 0 4px 6px var(--card-shadow-color); /* Keep individual card shadow */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
         .testimonial-avatar {
             width: 60px; height: 60px; border-radius: 50%; object-fit: cover;
         }
 
         .main-footer {
-            background-color: #e9ecef; 
-            color: var(--text-secondary);
+            background-color: var(--footer-bg-color); 
+            color: var(--text-secondary-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         .footer-link {
-            color: var(--text-secondary);
+            color: var(--text-secondary-color);
             transition: color 0.2s ease;
         }
-        .footer-link:hover {
-            color: var(--primary-color);
-        }
+        .footer-link:hover { color: var(--primary-color); }
 
         .loader-m3 {
-            border: 4px solid #E8DEF8; 
-            border-top: 4px solid var(--primary-color); 
-            border-radius: 50%;
-            width: 48px; height: 48px;
+            border: 4px solid var(--loader-track-color); 
+            border-top: 4px solid var(--loader-bar-color); 
+            border-radius: 50%; width: 48px; height: 48px;
             animation: spin-m3 1s linear infinite;
         }
         @keyframes spin-m3 {
@@ -239,36 +317,45 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* --- Modal Styles --- */
         .modal {
             transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
         }
-        .modal.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-        .modal.flex { /* Use flex for centering when visible */
-            opacity: 1;
-            visibility: visible;
-        }
-        .modal-content {
-            max-height: 90vh; /* Ensure modal doesn't overflow viewport height */
+        .modal.hidden { opacity: 0; visibility: hidden; }
+        .modal.flex { opacity: 1; visibility: visible; }
+        .modal-content-container { 
+            max-height: 90vh; 
+            background-color: var(--modal-bg-color);
+            transition: background-color 0.3s ease;
         }
         .modal-body p, .modal-body ul {
-            margin-bottom: 1rem;
-            line-height: 1.6;
+            margin-bottom: 1rem; line-height: 1.6;
+            color: var(--text-secondary-color);
+            transition: color 0.3s ease;
         }
          .modal-body h5 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-top: 1.25rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
+            font-size: 1.1rem; font-weight: 600;
+            margin-top: 1.25rem; margin-bottom: 0.5rem;
+            color: var(--text-primary-color);
+            transition: color 0.3s ease;
         }
+        .modal-header, .modal-footer {
+            border-color: var(--border-color);
+            transition: border-color 0.3s ease;
+        }
+        .modal-header h3 {
+            color: var(--text-primary-color);
+            transition: color 0.3s ease;
+        }
+        .modal-close-icon { 
+             color: var(--text-muted-color);
+        }
+        .modal-close-icon:hover {
+            color: var(--text-primary-color);
+        }
+
     </style>
 </head>
-<body class="min-h-screen">
-
+<body class="min-h-screen"> 
     <div id="loading-overlay" style="position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:rgba(248,249,250,0.95);transition:opacity 0.5s cubic-bezier(0.4,0,0.2,1);">
         <div style="display:flex;flex-direction:column;align-items:center;">
             <div class="loader-m3 mb-4"></div>
@@ -287,13 +374,18 @@
                     <a href="#testimonials" class="nav-link">Testimonials</a>
                 </nav>
                 <div class="flex items-center space-x-4">
+                    <button id="theme-toggle" title="Toggle theme" class="theme-toggle-btn p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                        <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                        <svg id="theme-icon-system" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    </button>
                      <div class="flex items-center">
-                        <span class="mr-2 text-sm text-gray-600 font-medium">Card View:</span>
+                        <span class="mr-2 text-sm font-medium" style="color: var(--text-secondary-color)">Card View:</span>
                         <label class="m3-switch">
                             <input type="checkbox" id="styleToggle" checked>
                             <span class="m3-slider"></span>
                         </label>
-                        <span id="styleToggleLabel" class="ml-2 text-sm text-gray-600 font-medium w-16 text-left">Enhanced</span>
+                        <span id="styleToggleLabel" class="ml-2 text-sm font-medium w-16 text-left" style="color: var(--text-secondary-color)">Enhanced</span>
                     </div>
                     <a href="#resources" class="enroll-btn px-6 py-2 rounded-full text-sm font-semibold hidden sm:block">Explore All</a>
                     <button class="md:hidden text-gray-600 hover:text-blue-600" id="mobileMenuButton">
@@ -301,7 +393,7 @@
                     </button>
                 </div>
             </div>
-            <div id="mobileMenu" class="hidden md:hidden py-2 border-t border-gray-200">
+            <div id="mobileMenu" class="hidden md:hidden py-2 border-t" style="border-color: var(--border-color)">
                 <a href="#" class="block nav-link active py-2">Home</a>
                 <a href="#resources" class="block nav-link py-2">Resources</a>
                 <a href="#about" class="block nav-link py-2">About</a>
@@ -312,7 +404,7 @@
     </header>
 
     <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <section class="text-center py-12 md:py-16 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 mb-12 md:mb-16">
+        <section class="hero-section text-center py-12 md:py-16 rounded-xl mb-12 md:mb-16">
             <h1 class="welcome-title text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">Welcome to the ICT Revision Hub</h1>
             <p class="welcome-subtitle text-lg sm:text-xl max-w-3xl mx-auto mb-8">
                 Your central place for interactive ICT learning materials, designed to help you excel.
@@ -629,7 +721,7 @@
             </div>
         </section>
 
-        <section id="about" class="py-12 md:py-16 bg-blue-50 rounded-xl mb-16 md:mb-20">
+        <section id="about" class="py-12 md:py-16 rounded-xl mb-16 md:mb-20 about-section" style="background-color: var(--hero-gradient-from);"> 
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl sm:text-4xl font-bold card-title mb-6 text-center">About These Resources</h2>
                 <div class="max-w-3xl mx-auto text-center card-description space-y-4">
@@ -648,19 +740,19 @@
                         These materials supplement classroom learning and can be used for self-study or revision.
                     </p>
                     <div class="mt-6 flex flex-col sm:flex-row justify-center items-center gap-4">
-                        <button id="openTermsModal" class="text-sm font-medium py-2 px-4 rounded-md transition-colors duration-150 ease-in-out text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">View Terms of Use</button>
-                        <button id="openPrivacyModal" class="text-sm font-medium py-2 px-4 rounded-md transition-colors duration-150 ease-in-out text-white bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75">View Privacy Policy</button>
+                        <button id="openTermsModal" class="text-sm font-medium py-2 px-4 rounded-md transition-colors duration-150 ease-in-out text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 dark:bg-sky-600 dark:hover:bg-sky-700">View Terms of Use</button>
+                        <button id="openPrivacyModal" class="text-sm font-medium py-2 px-4 rounded-md transition-colors duration-150 ease-in-out text-white bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75 dark:bg-slate-600 dark:hover:bg-slate-700">View Privacy Policy</button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="text-center py-12 md:py-16 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-600 text-white">
+        <section class="cta-section text-center py-12 md:py-16 rounded-xl text-white">
             <h2 class="text-3xl sm:text-4xl font-bold mb-6">Ready to Start Your Learning Journey?</h2>
             <p class="text-lg sm:text-xl max-w-2xl mx-auto mb-8">
                 Dive into our comprehensive resources and take your ICT knowledge to the next level.
             </p>
-            <a href="#resources" class="bg-white text-blue-600 hover:bg-gray-100 px-10 py-3 rounded-full text-lg font-semibold transition-colors duration-200">Browse All Resources</a>
+            <a href="#resources" class="cta-main-button px-10 py-3 rounded-full text-lg font-semibold transition-colors duration-200">Browse All Resources</a>
         </section>
     </main>
 
@@ -669,7 +761,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
                 <div>
                     <h3 class="text-xl font-bold card-title mb-3">HPCSS ICT Hub</h3>
-                    <p class="text-sm">Expressive learning resources for ICT students.</p>
+                    <p class="text-sm card-description">Expressive learning resources for ICT students.</p>
                 </div>
                 <div>
                     <h4 class="text-md font-semibold card-title mb-3">Quick Links</h4>
@@ -689,27 +781,33 @@
                     </ul>
                 </div>
                  <div>
-                    <h4 class="text-md font-semibold card-title mb-3">Card View Mode</h4>
-                     <div class="flex items-center mt-1">
-                        <span class="mr-3 text-sm font-medium">Style:</span>
+                    <h4 class="text-md font-semibold card-title mb-3">Preferences</h4>
+                     <div class="flex items-center mt-1 mb-2">
+                        <span class="mr-3 text-sm font-medium">Card View:</span>
                         <label class="m3-switch">
                             <input type="checkbox" id="styleToggleFooter" checked> <span class="m3-slider"></span>
                         </label>
                         <span id="styleToggleLabelFooter" class="ml-2 text-sm font-medium w-16 text-left">Enhanced</span>
                     </div>
+                    <div class="flex items-center mt-1">
+                        <span class="mr-3 text-sm font-medium">Theme:</span>
+                        <button id="theme-toggle-footer" title="Toggle theme" class="theme-toggle-btn p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                           </button>
+                         <span id="theme-toggle-label-footer" class="ml-2 text-sm font-medium">System</span>
+                    </div>
                 </div>
             </div>
-            <div class="border-t border-gray-300 pt-8 text-center">
-                <p class="text-sm">&copy; 2025 HPCSS ICT Revision Materials. All rights reserved.</p>
+            <div class="border-t pt-8 text-center" style="border-color: var(--border-color);">
+                <p class="text-sm card-description">&copy; 2025 HPCSS ICT Revision Materials. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <div id="termsModal" class="modal fixed inset-0 z-[100] hidden items-center justify-center bg-black bg-opacity-60 p-4">
-        <div class="modal-content rounded-lg bg-white shadow-xl w-full max-w-2xl transform transition-all duration-300 ease-out scale-95 opacity-0">
-            <div class="flex justify-between items-center p-5 border-b border-gray-200">
-                <h3 class="text-xl font-semibold text-gray-800">Terms of Use</h3>
-                <button class="modal-close text-gray-400 hover:text-gray-600 text-3xl leading-none">&times;</button>
+    <div id="termsModal" class="modal fixed inset-0 z-[100] hidden items-center justify-center bg-black bg-opacity-60 p-4" style="background-color: var(--modal-backdrop-bg-color);">
+        <div class="modal-content-container rounded-lg shadow-xl w-full max-w-2xl transform transition-all duration-300 ease-out scale-95 opacity-0">
+            <div class="modal-header flex justify-between items-center p-5 border-b">
+                <h3 class="text-xl font-semibold">Terms of Use</h3>
+                <button class="modal-close modal-close-icon text-3xl leading-none">&times;</button>
             </div>
             <div class="modal-body p-5 overflow-y-auto">
                 <h5>1. Acceptance of Terms</h5>
@@ -728,24 +826,24 @@
                 <p>HPCSS ICT Revision Hub reserves the right to modify these terms at any time. Your decision to continue to visit and make use of the Service after such changes have been made constitutes your formal acceptance of the new Terms of Use.</p>
                 <p><em>Last updated: May 29, 2025</em></p>
             </div>
-            <div class="flex justify-end items-center p-5 border-t border-gray-200">
-                <button class="modal-close-btn rounded bg-blue-500 px-6 py-2 text-white hover:bg-blue-600 transition-colors">Close</button>
+            <div class="modal-footer flex justify-end items-center p-5 border-t">
+                <button class="modal-close-btn rounded px-6 py-2 text-white transition-colors enroll-btn">Close</button>
             </div>
         </div>
     </div>
 
-    <div id="privacyModal" class="modal fixed inset-0 z-[100] hidden items-center justify-center bg-black bg-opacity-60 p-4">
-        <div class="modal-content rounded-lg bg-white shadow-xl w-full max-w-2xl transform transition-all duration-300 ease-out scale-95 opacity-0">
-            <div class="flex justify-between items-center p-5 border-b border-gray-200">
-                <h3 class="text-xl font-semibold text-gray-800">Privacy Policy</h3>
-                <button class="modal-close text-gray-400 hover:text-gray-600 text-3xl leading-none">&times;</button>
+    <div id="privacyModal" class="modal fixed inset-0 z-[100] hidden items-center justify-center bg-black bg-opacity-60 p-4" style="background-color: var(--modal-backdrop-bg-color);">
+        <div class="modal-content-container rounded-lg shadow-xl w-full max-w-2xl transform transition-all duration-300 ease-out scale-95 opacity-0">
+            <div class="modal-header flex justify-between items-center p-5 border-b">
+                <h3 class="text-xl font-semibold">Privacy Policy</h3>
+                <button class="modal-close modal-close-icon text-3xl leading-none">&times;</button>
             </div>
             <div class="modal-body p-5 overflow-y-auto">
                 <h5>1. Information We Collect</h5>
                 <p>We may collect personal identification information from Users in a variety of ways, including, but not limited to, when Users visit our site, register on the site, subscribe to a newsletter, and in connection with other activities, services, features or resources we make available on our Service. Users may be asked for, as appropriate, name, email address. We will collect personal identification information from Users only if they voluntarily submit such information to us.</p>
                 <h5>2. How We Use Collected Information</h5>
                 <p>HPCSS ICT Revision Hub may collect and use Users personal information for the following purposes:
-                    <ul>
+                    <ul class="list-disc list-inside ml-4">
                         <li>To improve customer service: Information you provide helps us respond to your customer service requests and support needs more efficiently.</li>
                         <li>To personalize user experience: We may use information in the aggregate to understand how our Users as a group use the services and resources provided on our Service.</li>
                         <li>To send periodic emails: We may use the email address to send User information and updates pertaining to their order. It may also be used to respond to their inquiries, questions, and/or other requests.</li>
@@ -761,8 +859,8 @@
                 <p>By using this Service, you signify your acceptance of this policy. If you do not agree to this policy, please do not use our Service. Your continued use of the Service following the posting of changes to this policy will be deemed your acceptance of those changes.</p>
                 <p><em>Last updated: May 29, 2025</em></p>
             </div>
-            <div class="flex justify-end items-center p-5 border-t border-gray-200">
-                <button class="modal-close-btn rounded bg-blue-500 px-6 py-2 text-white hover:bg-blue-600 transition-colors">Close</button>
+            <div class="modal-footer flex justify-end items-center p-5 border-t">
+                <button class="modal-close-btn rounded px-6 py-2 text-white transition-colors enroll-btn">Close</button>
             </div>
         </div>
     </div>
@@ -770,7 +868,101 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // --- Mobile Menu Toggle ---
+        const docElement = document.documentElement; 
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleFooterBtn = document.getElementById('theme-toggle-footer');
+        const themeIconLight = document.getElementById('theme-icon-light');
+        const themeIconDark = document.getElementById('theme-icon-dark');
+        const themeIconSystem = document.getElementById('theme-icon-system');
+        const themeToggleLabelFooter = document.getElementById('theme-toggle-label-footer');
+
+        const THEME_KEY = 'themePreference';
+        const LIGHT = 'light';
+        const DARK = 'dark';
+        const SYSTEM = 'system';
+
+        let currentThemeMode = localStorage.getItem(THEME_KEY) || SYSTEM;
+
+        function updateButtonIcons(themeToSet) {
+            if(themeIconLight) themeIconLight.classList.add('hidden');
+            if(themeIconDark) themeIconDark.classList.add('hidden');
+            if(themeIconSystem) themeIconSystem.classList.add('hidden');
+
+            let activeIconInHeader;
+            let activeIconForFooter;
+            let footerLabelText = 'System';
+
+            if (themeToSet === LIGHT) {
+                activeIconInHeader = themeIconLight;
+                activeIconForFooter = themeIconLight; // Keep separate for clarity if they diverge
+                footerLabelText = 'Light';
+            } else if (themeToSet === DARK) {
+                activeIconInHeader = themeIconDark;
+                activeIconForFooter = themeIconDark;
+                footerLabelText = 'Dark';
+            } else { // SYSTEM
+                activeIconInHeader = themeIconSystem;
+                activeIconForFooter = themeIconSystem; 
+                // For system, reflect the actual current system state in the icon for the header
+                 if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    if(themeIconDark && themeToggleBtn) themeIconDark.classList.remove('hidden'); else if(themeIconLight && themeToggleBtn) themeIconLight.classList.add('hidden');
+                    if(themeIconDark && themeToggleFooterBtn) activeIconForFooter = themeIconDark; else if(themeIconLight && themeToggleFooterBtn) activeIconForFooter = themeIconLight;
+                } else {
+                    if(themeIconLight && themeToggleBtn) themeIconLight.classList.remove('hidden'); else if(themeIconDark && themeToggleBtn) themeIconDark.classList.add('hidden');
+                    if(themeIconLight && themeToggleFooterBtn) activeIconForFooter = themeIconLight; else if(themeIconDark && themeToggleFooterBtn) activeIconForFooter = themeIconDark;
+                }
+            }
+            
+            if (activeIconInHeader && themeToSet !== SYSTEM && themeToggleBtn) activeIconInHeader.classList.remove('hidden');
+            else if (themeToggleBtn && themeToSet === SYSTEM && activeIconInHeader) activeIconInHeader.classList.remove('hidden');
+
+
+            if (themeToggleFooterBtn) {
+                 // Ensure only one icon is visible in the footer button
+                let footerIconHTML = '';
+                if (themeToSet === LIGHT && themeIconLight) footerIconHTML = themeIconLight.outerHTML.replace(' hidden', '');
+                else if (themeToSet === DARK && themeIconDark) footerIconHTML = themeIconDark.outerHTML.replace(' hidden', '');
+                else if (themeToSet === SYSTEM && themeIconSystem) footerIconHTML = themeIconSystem.outerHTML.replace(' hidden', '');
+                themeToggleFooterBtn.innerHTML = footerIconHTML || 'Sys'; // Fallback text
+            }
+            if (themeToggleLabelFooter) {
+                themeToggleLabelFooter.textContent = footerLabelText;
+            }
+        }
+
+        function applyTheme(theme) {
+            let effectiveTheme = theme;
+            if (theme === SYSTEM) {
+                effectiveTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? DARK : LIGHT;
+            }
+
+            if (effectiveTheme === DARK) {
+                docElement.classList.add('dark-theme');
+            } else {
+                docElement.classList.remove('dark-theme');
+            }
+            updateButtonIcons(theme); 
+        }
+        
+        function cycleTheme() {
+            if (currentThemeMode === LIGHT) currentThemeMode = DARK;
+            else if (currentThemeMode === DARK) currentThemeMode = SYSTEM;
+            else currentThemeMode = LIGHT;
+            
+            localStorage.setItem(THEME_KEY, currentThemeMode);
+            applyTheme(currentThemeMode);
+        }
+
+        if (themeToggleBtn) themeToggleBtn.addEventListener('click', cycleTheme);
+        if (themeToggleFooterBtn) themeToggleFooterBtn.addEventListener('click', cycleTheme);
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (localStorage.getItem(THEME_KEY) === SYSTEM || !localStorage.getItem(THEME_KEY)) {
+                applyTheme(SYSTEM);
+            }
+        });
+        applyTheme(currentThemeMode);
+
         const mobileMenuButton = document.getElementById('mobileMenuButton');
         const mobileMenu = document.getElementById('mobileMenu');
         if (mobileMenuButton && mobileMenu) {
@@ -779,7 +971,6 @@
             });
         }
 
-        // --- Card Interaction Logic ---
         const resourceCards = document.querySelectorAll('.resource-card'); 
         let hoverTimeoutId = null;
         let currentlyActiveCard = null;
@@ -788,7 +979,7 @@
         const styleToggleFooter = document.getElementById('styleToggleFooter'); 
         const styleToggleLabel = document.getElementById('styleToggleLabel');
         const styleToggleLabelFooter = document.getElementById('styleToggleLabelFooter');
-        const body = document.body;
+        const body = document.body; 
         let currentCardStyle = 'enhanced'; 
 
         function syncToggles(source) {
@@ -800,12 +991,12 @@
         if(styleToggle) styleToggle.addEventListener('change', () => { syncToggles(styleToggle); applyCardStyle(); });
         if(styleToggleFooter) styleToggleFooter.addEventListener('change', () => { syncToggles(styleToggleFooter); applyCardStyle(); });
 
-        const savedStyle = localStorage.getItem('cardStyle');
+        const savedCardStyle = localStorage.getItem('cardStyle'); 
         if (styleToggle){ 
-            if (savedStyle === 'simple') {
+            if (savedCardStyle === 'simple') {
                 styleToggle.checked = false;
                 if(styleToggleFooter) styleToggleFooter.checked = false;
-            } else {
+            } else { 
                 styleToggle.checked = true; 
                  if(styleToggleFooter) styleToggleFooter.checked = true;
             }
@@ -835,7 +1026,7 @@
                 currentlyActiveCard = null;
             }
         }
-        applyCardStyle();
+        applyCardStyle(); 
 
         resourceCards.forEach(card => {
             card.addEventListener('mouseenter', function() {
@@ -860,7 +1051,6 @@
             });
         });
 
-        // --- Tag Filtering Logic ---
         const tagButtons = document.querySelectorAll('.tag-btn'); 
         let selectedTags = new Set(['all']); 
 
@@ -868,28 +1058,17 @@
             tagButtons.forEach(btn => {
                 const tag = btn.dataset.tag;
                 btn.classList.remove('active'); 
-                
-                let isActive = false;
-                if (selectedTags.has('all') && tag === 'all') {
-                    isActive = true;
-                } else if (!selectedTags.has('all') && selectedTags.has(tag)) {
-                    isActive = true;
-                }
-
-                if (isActive) {
-                    btn.classList.add('active');
-                }
+                let isActive = (selectedTags.has('all') && tag === 'all') || (!selectedTags.has('all') && selectedTags.has(tag));
+                if (isActive) btn.classList.add('active');
             });
         }
 
         function filterResources() {
             const cards = document.querySelectorAll('.resource-card'); 
-
             if (currentlyActiveCard) {
                 currentlyActiveCard.classList.remove('preview-active');
                 currentlyActiveCard = null;
             }
-
             if (selectedTags.has('all') || selectedTags.size === 0) {
                 cards.forEach(card => card.style.display = ''); 
             } else {
@@ -909,43 +1088,29 @@
         tagButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 const tag = btn.dataset.tag;
-                if (tag === 'all') {
-                    selectedTags = new Set(['all']);
-                } else {
-                    if (selectedTags.has('all')) { 
-                        selectedTags.clear();
-                    }
-                    if (selectedTags.has(tag)) {
-                        selectedTags.delete(tag);
-                    } else {
-                        selectedTags.add(tag);
-                    }
-                    if (selectedTags.size === 0) {
-                        selectedTags.add('all');
-                    }
+                if (tag === 'all') selectedTags = new Set(['all']);
+                else {
+                    if (selectedTags.has('all')) selectedTags.clear();
+                    selectedTags.has(tag) ? selectedTags.delete(tag) : selectedTags.add(tag);
+                    if (selectedTags.size === 0) selectedTags.add('all');
                 }
-                updateTagBarUI();
-                filterResources();
+                updateTagBarUI(); filterResources();
             });
         });
-        updateTagBarUI();
-        filterResources();
+        updateTagBarUI(); filterResources();
 
-        // --- Modal Logic ---
         const termsModal = document.getElementById('termsModal');
         const privacyModal = document.getElementById('privacyModal');
         const openTermsButtons = [document.getElementById('openTermsModal'), document.getElementById('openTermsModalFooter')];
         const openPrivacyButtons = [document.getElementById('openPrivacyModal'), document.getElementById('openPrivacyModalFooter')];
-        
         const allModals = [termsModal, privacyModal];
         
         function openModal(modal) {
             if (modal) {
                 modal.classList.remove('hidden');
-                // Trigger reflow to enable transition
                 modal.offsetWidth; 
                 modal.classList.add('flex');
-                const modalContent = modal.querySelector('.modal-content');
+                const modalContent = modal.querySelector('.modal-content-container');
                 if (modalContent) {
                     modalContent.classList.remove('scale-95', 'opacity-0');
                     modalContent.classList.add('scale-100', 'opacity-100');
@@ -956,60 +1121,44 @@
 
         function closeModal(modal) {
             if (modal) {
-                const modalContent = modal.querySelector('.modal-content');
+                const modalContent = modal.querySelector('.modal-content-container');
                 if (modalContent) {
                     modalContent.classList.remove('scale-100', 'opacity-100');
                     modalContent.classList.add('scale-95', 'opacity-0');
                 }
-                // Wait for transition before hiding
                 setTimeout(() => {
                     modal.classList.add('hidden');
                     modal.classList.remove('flex');
-                    // Check if any other modal is open before re-enabling body scroll
                     const isAnyModalOpen = allModals.some(m => m && !m.classList.contains('hidden'));
-                    if (!isAnyModalOpen) {
-                        document.body.style.overflow = '';
-                    }
-                }, 300); // Match transition duration
+                    if (!isAnyModalOpen) document.body.style.overflow = '';
+                }, 300); 
             }
         }
 
-        openTermsButtons.forEach(btn => {
-            if (btn) btn.addEventListener('click', () => openModal(termsModal));
-        });
-        openPrivacyButtons.forEach(btn => {
-            if (btn) btn.addEventListener('click', () => openModal(privacyModal));
-        });
+        openTermsButtons.forEach(btn => { if (btn) btn.addEventListener('click', () => openModal(termsModal)); });
+        openPrivacyButtons.forEach(btn => { if (btn) btn.addEventListener('click', () => openModal(privacyModal)); });
 
         allModals.forEach(modal => {
             if (modal) {
                 const closeButtons = modal.querySelectorAll('.modal-close, .modal-close-btn');
-                closeButtons.forEach(button => {
-                    button.addEventListener('click', () => closeModal(modal));
-                });
-                // Close on backdrop click
-                modal.addEventListener('click', (event) => {
-                    if (event.target === modal) {
-                        closeModal(modal);
-                    }
-                });
+                closeButtons.forEach(button => button.addEventListener('click', () => closeModal(modal)));
+                modal.addEventListener('click', (event) => { if (event.target === modal) closeModal(modal); });
             }
         });
         
         window.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
-                allModals.forEach(modal => {
-                    if (modal && !modal.classList.contains('hidden')) {
-                        closeModal(modal);
-                    }
-                });
+                allModals.forEach(modal => { if (modal && !modal.classList.contains('hidden')) closeModal(modal); });
             }
         });
 
-    });
+    }); 
 
     window.addEventListener('load', function() { 
         const overlay = document.getElementById('loading-overlay');
+        const mainLoadingOverlayBg = document.documentElement.classList.contains('dark-theme') ? 'rgba(26, 32, 44, 0.95)' : 'rgba(248, 249, 250, 0.95)';
+        if(overlay) overlay.style.background = mainLoadingOverlayBg;
+
         if (overlay) {
             overlay.style.opacity = '0';
             setTimeout(() => overlay.style.display = 'none', 500); 

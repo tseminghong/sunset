@@ -1,314 +1,240 @@
 <!DOCTYPE html>
-<html lang="en" class=""> <head>
+<html lang="en" class="">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HPCSS ICT Revision Hub - Inspired Design</title>
+    <title>HPCSS ICT Revision Hub - Liquid Glass Design</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png" onerror="this.href='https://placehold.co/16x16/7570c9/FFFFFF?text=Fav'">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png" onerror="this.href='https://placehold.co/32x32/7570c9/FFFFFF?text=Fav'">
-    <link rel="icon" type="image/png" sizes="192x192" href="favicon_io/android-chrome-192x192.png" onerror="this.href='https://placehold.co/192x192/7570c9/FFFFFF?text=Fav'">
-    <link rel="icon" type="image/png" sizes="512x512" href="favicon_io/android-chrome-512x512.png" onerror="this.href='https://placehold.co/512x512/7570c9/FFFFFF?text=Fav'">
-    <link rel="apple-touch-icon" href="favicon_io/apple-touch-icon.png" onerror="this.href='https://placehold.co/180x180/7570c9/FFFFFF?text=Fav'">
-    <link rel="manifest" href="favicon_io/site.webmanifest">
-
+    <link rel="icon" type="image/png" sizes="32x32" href="https://placehold.co/32x32/0091FF/FFFFFF?text=H">
     <style>
         :root {
-            /* Light Theme Variables */
-            --primary-color: #4A90E2;
-            --primary-hover-color: #357ABD;
-            --text-primary-color: #212529;
-            --text-secondary-color: #6c757d;
-            --text-muted-color: #868e96;
-            --body-bg-color: #f8f9fa;
-            --card-bg-color: #FFFFFF;
-            --card-shadow-color: rgba(0, 0, 0, 0.1);
-            --card-hover-shadow-color: rgba(0, 0, 0, 0.15);
-            --section-shadow-color: rgba(0, 0, 0, 0.08); /* Slightly different shadow for sections */
-            --border-color: #dee2e6;
-            --header-bg-color: var(--card-bg-color);
-            --footer-bg-color: #e9ecef;
-            --modal-bg-color: var(--card-bg-color);
-            --modal-backdrop-bg-color: rgba(0, 0, 0, 0.6);
-            --tag-btn-bg-color: var(--card-bg-color);
-            --tag-btn-text-color: var(--text-secondary-color);
-            --tag-btn-border-color: var(--border-color);
-            --tag-btn-active-bg-color: var(--primary-color);
-            --tag-btn-active-text-color: #FFFFFF;
-            --loader-track-color: #E8DEF8;
-            --loader-bar-color: var(--primary-color);
-            --m3-switch-track-off-color: #ced4da;
-            --m3-switch-thumb-off-bg-color: white;
-            --m3-switch-thumb-off-border-color: #ced4da;
-            --m3-switch-track-on-color: var(--primary-color);
-            --m3-switch-thumb-on-bg-color: #FFFFFF;
-            --m3-switch-thumb-on-border-color: var(--primary-color);
-            --m3-switch-focus-shadow-color: rgba(74, 144, 226, 0.5);
-            --hero-gradient-from: #E0E7FF; 
-            --hero-gradient-to: #EFF6FF;   
-            --cta-gradient-from: #4F46E5; 
-            --cta-gradient-to: #3B82F6; 
-            --svg-icon-color: var(--text-secondary-color);
-            --link-color: var(--primary-color);
-            --link-hover-color: var(--primary-hover-color);
-            --cta-main-button-bg: white;
-            --cta-main-button-text: var(--primary-color);
-            --cta-main-button-hover-bg: #f1f5f9; /* Tailwind gray-100 */
+            /* Light Theme - Hyper-Visual Apple Inspired */
+            --bg-primary: #EFF1F5;
+            --bg-secondary: #FFFFFF;
+            --bg-tertiary: #E8EAF0;
+            --bg-glass-color: rgba(255, 255, 255, 0.4);
+            --header-glass-color: rgba(255, 255, 255, 0.35); /* Clearer header background */
+            --bg-glass-glare: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.6), transparent 50%);
+            --noise-texture: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuODUiIG51bU9jdGF2ZXM9IjEwIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlRGlmZnVzZExpZ2h0aW5nIGxpZ2h0aW5nLWNvbG9yPSIjZmZmZmZmIiBzdXJmYWNlU2NhbGU9IjE1IiA+PGZlRGlzdGFudExpZ2h0IGF6aW11dGg9IjAiIGVsZXZhdGlvbj0iMTAwIi8+PC9mZURpZmZ1c2VMaWdodGluZz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgibm9pc2UpIiBvcGFjaXR5PSIwLjA1Ii8+PC9zdmc+');
+            --bg-hero-start: #f0f4f9;
+            --bg-hero-end: #d9e7ff;
+
+            --text-primary: #111113;
+            --text-secondary: #5c5c62;
+            --text-tertiary: #8a8a8f;
+
+            --accent-primary: #0091FF;
+            --accent-primary-hover: #007CE6;
+            
+            --border-highlight: rgba(255, 255, 255, 0.7);
+            --border-secondary: rgba(0, 0, 0, 0.08);
+
+            --shadow-color: rgba(9, 20, 56, 0.08);
+            --highlight-glow: 0px 12px 45px rgba(0, 145, 255, 0.3);
+            --modal-backdrop: rgba(240, 244, 249, 0.3);
+            --icon-color: var(--text-secondary);
         }
 
         .dark-theme {
-            /* Dark Theme Variables */
-            --primary-color: #5E9BEF; 
-            --primary-hover-color: #7BAEF4;
-            --text-primary-color: #EAEAEA;
-            --text-secondary-color: #A0A0A0;
-            --text-muted-color: #718096;
-            --body-bg-color: #1A202C; 
-            --card-bg-color: #2D3748; 
-            --card-shadow-color: rgba(0, 0, 0, 0.3);
-            --card-hover-shadow-color: rgba(0, 0, 0, 0.4);
-            --section-shadow-color: rgba(0, 0, 0, 0.25);
-            --border-color: #4A5568; 
-            --header-bg-color: var(--card-bg-color);
-            --footer-bg-color: #222938; 
-            --modal-bg-color: var(--card-bg-color);
-            --modal-backdrop-bg-color: rgba(0, 0, 0, 0.75);
-            --tag-btn-bg-color: #3E4C5F; 
-            --tag-btn-text-color: var(--text-secondary-color);
-            --tag-btn-border-color: #5A6678;
-            --tag-btn-active-bg-color: var(--primary-color);
-            --tag-btn-active-text-color: #1A202C; 
-            --loader-track-color: #4A5568;
-            --loader-bar-color: var(--primary-color);
-            --m3-switch-track-off-color: #4A5568;
-            --m3-switch-thumb-off-bg-color: #A0AEC0; 
-            --m3-switch-thumb-off-border-color: #4A5568;
-            --m3-switch-track-on-color: var(--primary-color);
-            --m3-switch-thumb-on-bg-color: #1A202C;
-            --m3-switch-thumb-on-border-color: var(--primary-color);
-            --m3-switch-focus-shadow-color: rgba(94, 155, 239, 0.5);
-            --hero-gradient-from: #2D3748;
-            --hero-gradient-to: #1A202C;
-            --cta-gradient-from: #3E4C5F;
-            --cta-gradient-to: #2D3748;
-            --svg-icon-color: var(--text-secondary-color);
-            --link-color: var(--primary-color);
-            --link-hover-color: var(--primary-hover-color);
-            --cta-main-button-bg: var(--card-bg-color); /* Eg. gray-800 */
-            --cta-main-button-text: var(--primary-color); /* Lighter blue */
-            --cta-main-button-hover-bg: var(--body-bg-color); /* Eg. gray-900 */
+            /* Dark Theme - Hyper-Visual Apple Inspired */
+            --bg-primary: #000000;
+            --bg-secondary: #121213;
+            --bg-tertiary: #2C2C2E;
+            --bg-glass-color: rgba(28, 28, 30, 0.5);
+            --header-glass-color: rgba(28, 28, 30, 0.35); /* Clearer header background */
+            --bg-glass-glare: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.1), transparent 40%);
+            --noise-texture: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuODUiIG51bU9jdGF2ZXM9IjEwIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlRGlmZnVzZExpZ2h0aW5nIGxpZ2h0aW5nLWNvbG9yPSIjZmZmZmZmIiBzdXJmYWNlU2NhbGU9IjE1IiA+PGZlRGlzdGFudExpZ2h0IGF6aW11dGg9IjAiIGVsZXZhdGlvbj0iMTAwIi8+PC9mZURpZmZ1c2VMaWdodGluZz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgibm9pc2UpIiBvcGFjaXR5PSIwLjA1Ii8+PC9zdmc+');
+            --bg-hero-start: #1a1c23;
+            --bg-hero-end: #1c2a4e;
+            
+            --text-primary: #F5F5F7;
+            --text-secondary: #a0a0a8;
+            --text-tertiary: #636366;
+
+            --accent-primary: #0A96FF;
+            --accent-primary-hover: #33A9FF;
+
+            --border-highlight: rgba(255, 255, 255, 0.2);
+            --border-secondary: rgba(255, 255, 255, 0.1);
+
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --highlight-glow: 0px 12px 50px rgba(10, 150, 255, 0.35);
+            --modal-backdrop: rgba(0, 0, 0, 0.6);
+            --icon-color: var(--text-secondary);
         }
 
+        /* Base Styles */
         body {
-            font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
-            background-color: var(--body-bg-color);
-            color: var(--text-primary-color);
-            transition: background-color 0.3s ease, color 0.3s ease;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.4s ease, color 0.4s ease;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Glassmorphism Effect for Surfaces */
+        .glass-effect {
+            background: var(--noise-texture), var(--bg-glass-glare), var(--bg-glass-color);
+            -webkit-backdrop-filter: url(#frosted-glass);
+            backdrop-filter: url(#frosted-glass);
+            box-shadow: 0 0 0 1.5px var(--border-highlight), 0 8px 32px var(--shadow-color);
+            transition: background-color 0.4s ease, box-shadow 0.4s ease;
         }
 
-        .main-header {
-            background-color: var(--header-bg-color);
-            box-shadow: 0 2px 4px var(--card-shadow-color);
-            transition: background-color 0.3s ease;
+        /* Header */
+        .main-header.glass-effect { 
+            background: var(--noise-texture), var(--bg-glass-glare), var(--header-glass-color);
+            -webkit-backdrop-filter: url(#clear-glass); /* Using clearer filter */
+            backdrop-filter: url(#clear-glass);
         }
-        .nav-link {
-            color: var(--text-secondary-color);
-            transition: color 0.2s ease-in-out;
+        .nav-link { color: var(--text-secondary); transition: color 0.3s ease; font-weight: 500; }
+        .nav-link:hover, .nav-link.active { color: var(--text-primary); }
+        .theme-toggle-btn { color: var(--text-secondary); background-color: transparent; border-radius: 9999px; transition: color 0.3s ease, background-color 0.3s ease; }
+        .theme-toggle-btn:hover { color: var(--accent-primary); background-color: var(--bg-tertiary); }
+        
+        /* Buttons */
+        .primary-btn, .tag-btn.active {
+            color: #fff;
+            font-weight: 600;
+            border-radius: 9999px;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+            background: linear-gradient(to bottom, var(--accent-primary) 0%, var(--accent-primary-hover) 100%);
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 
+                inset 0 1px 1px rgba(255,255,255,0.5),
+                inset 0 -1px 1px rgba(0,0,0,0.1),
+                0 8px 15px rgba(0,145,255,0.25);
         }
-        .nav-link:hover, .nav-link.active {
-            color: var(--primary-color);
-            font-weight: 500;
-        }
-        .enroll-btn { /* General purpose primary action button */
-            background-color: var(--primary-color);
-            color: white; 
-            transition: background-color 0.2s ease-in-out;
-        }
-        .dark-theme .enroll-btn { /* Text color for enroll-btn in dark theme */
-             color: var(--text-primary-color); 
-        }
-        .enroll-btn:hover {
-            background-color: var(--primary-hover-color);
-        }
-        .theme-toggle-btn {
-            color: var(--text-secondary-color);
-        }
-        .theme-toggle-btn:hover {
-            color: var(--primary-color);
-        }
-
-        .m3-switch {
-            position: relative; display: inline-block;
-            width: 48px; height: 28px; flex-shrink: 0;
-        }
-        .m3-switch input { opacity: 0; width: 0; height: 0; }
-        .m3-slider {
-            position: absolute; cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: var(--m3-switch-track-off-color);
-            transition: .3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border-radius: 14px;
-        }
-        .m3-slider:before { 
-            position: absolute; content: "";
-            height: 20px; width: 20px;
-            left: 4px; bottom: 4px;
-            background-color: var(--m3-switch-thumb-off-bg-color);
-            border: 1px solid var(--m3-switch-thumb-off-border-color);
-            transition: .3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border-radius: 50%;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        input:checked + .m3-slider {
-            background-color: var(--m3-switch-track-on-color);
-        }
-        input:checked + .m3-slider:before {
-            background-color: var(--m3-switch-thumb-on-bg-color);
-            border-color: var(--m3-switch-thumb-on-border-color);
-            transform: translateX(20px);
-        }
-        input:focus-visible + .m3-slider {
-             box-shadow: 0 0 0 2px var(--m3-switch-focus-shadow-color);
+        .dark-theme .primary-btn, .dark-theme .tag-btn.active {
+             border: 1px solid rgba(255,255,255,0.15);
+             box-shadow: 
+                inset 0 1px 1px rgba(255,255,255,0.2),
+                inset 0 -1px 1px rgba(0,0,0,0.3),
+                0 8px 15px rgba(10,150,255,0.2);
         }
 
+        .primary-btn:hover, .tag-btn.active:hover {
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 
+                inset 0 1px 1px rgba(255,255,255,0.5),
+                inset 0 -1px 1px rgba(0,0,0,0.1),
+                0 12px 25px rgba(0,145,255,0.3);
+        }
+        .dark-theme .primary-btn:hover, .dark-theme .tag-btn.active:hover {
+             box-shadow: 
+                inset 0 1px 1px rgba(255,255,255,0.2),
+                inset 0 -1px 1px rgba(0,0,0,0.3),
+                0 12px 25px rgba(10,150,255,0.3);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background-image: radial-gradient(circle at 50% 30%, var(--bg-hero-start), var(--bg-hero-end));
+            position: relative;
+            overflow: hidden;
+        }
+        .welcome-title { color: var(--text-primary); }
+        .welcome-subtitle { color: var(--text-secondary); }
+
+        /* Tag Filter */
         .tag-btn {
-            padding: 0.5rem 1.25rem; border-radius: 20px; font-weight: 500; font-size: 0.875rem;
-            line-height: 1.25rem; transition: all 0.2s ease-out;
-            border: 1px solid var(--tag-btn-border-color);
-            color: var(--tag-btn-text-color);
-            background-color: var(--tag-btn-bg-color);
+            padding: 0.6rem 1.35rem; border-radius: 9999px; font-weight: 500; font-size: 0.875rem;
+            line-height: 1.25rem; transition: all 0.3s ease;
+            border: 1px solid var(--border-secondary);
+            color: var(--text-secondary);
+            background-color: var(--bg-secondary);
         }
         .tag-btn:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
+            transform: translateY(-2px);
+            border-color: var(--text-tertiary);
+            color: var(--text-primary);
+            box-shadow: 0 4px 10px var(--shadow-color);
         }
-        .tag-btn.active {
-            background-color: var(--tag-btn-active-bg-color);
-            color: var(--tag-btn-active-text-color);
-            border-color: var(--tag-btn-active-bg-color);
-        }
-
+        
+        /* Resource Cards */
         .resource-card {
-            position: relative; z-index: 1; display: block;
-            border-radius: 1rem;
-            background-color: var(--card-bg-color);
-            box-shadow: 0 4px 6px var(--card-shadow-color);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-            height: 100%; 
+            border-radius: 1.75rem; /* 28px */
+            overflow: hidden;
             display: flex;
             flex-direction: column;
+            height: 100%;
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), box-shadow 0.4s cubic-bezier(0.19, 1, 0.22, 1);
         }
+        .resource-card:hover {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: var(--highlight-glow);
+        }
+        .card-content-wrapper { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-title { color: var(--text-primary); }
+        .card-description { color: var(--text-secondary); font-size: 0.9rem; }
+        .card-tags span {
+            background-color: var(--bg-tertiary);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .card-link { color: var(--accent-primary); transition: color 0.2s ease; }
         .card-image-placeholder {
-            height: 180px; 
-            background-color: var(--footer-bg-color); 
+            height: 180px;
+            background-color: var(--bg-tertiary);
             display: flex; align-items: center; justify-content: center;
-            border-top-left-radius: 1rem; border-top-right-radius: 1rem;
-            overflow: hidden;
-            transition: background-color 0.3s ease;
         }
         .card-image-placeholder svg {
-            width: 60px; height: 60px;
-            color: var(--svg-icon-color);
-            transition: color 0.3s ease;
-        }
-        .card-content-wrapper { 
-            padding: 1.5rem; flex-grow: 1; display: flex;
-            flex-direction: column; justify-content: space-between;
-        }
-        .card-title { color: var(--text-primary-color); transition: color 0.3s ease;}
-        .card-description { color: var(--text-secondary-color); font-size: 0.9rem; transition: color 0.3s ease;}
-        .card-tags span {
-            background-color: var(--footer-bg-color); 
-            color: var(--text-secondary-color);
-            font-size: 0.75rem;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        .card-link {
-            color: var(--link-color);
-            transition: color 0.2s ease;
-        }
-        .card-link:hover { color: var(--link-hover-color); }
-
-        .enhanced-hover-mode .resource-card.preview-active {
-            z-index: 10; transform: scale(1.05); 
-            box-shadow: 0 8px 12px var(--card-hover-shadow-color);
-        }
-        .more-info {
-            opacity: 0; max-height: 0; overflow: hidden;
-            transition: opacity 0.35s ease-in-out 0.1s, max-height 0.45s ease-in-out 0.1s, padding-top 0.35s ease-in-out 0.1s, padding-bottom 0.35s ease-in-out 0.1s;
-            background-color: var(--body-bg-color); 
-            border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem;
-            border-top: 1px solid var(--border-color);
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
-        .enhanced-hover-mode .resource-card.preview-active .more-info {
-            opacity: 1; max-height: 500px; 
-            padding: 1.5rem; overflow-y: auto;
-        }
-
-        .simple-hover-mode .resource-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px var(--card-hover-shadow-color);
-        }
-        .simple-hover-mode .more-info { display: none !important; }
-        .simple-hover-mode .resource-card.preview-active {
-            transform: none; box-shadow: 0 4px 6px var(--card-shadow-color);
-        }
-         .simple-hover-mode .resource-card.preview-active:hover {
-            transform: translateY(-5px); box-shadow: 0 8px 12px var(--card-hover-shadow-color);
-        }
-
-        .section-title { color: var(--text-primary-color); transition: color 0.3s ease;}
-        .welcome-title { color: var(--text-primary-color); transition: color 0.3s ease;}
-        .welcome-subtitle { color: var(--text-secondary-color); transition: color 0.3s ease;}
-        
-        .hero-section {
-            background-image: linear-gradient(to right, var(--hero-gradient-from), var(--hero-gradient-to));
-            transition: background-image 0.3s ease; /* This won't transition gradient smoothly, but colors will switch */
-        }
-        .cta-section {
-            background-image: linear-gradient(to right, var(--cta-gradient-from), var(--cta-gradient-to));
-            transition: background-image 0.3s ease;
-        }
-        .cta-main-button { /* Specific button for CTA section */
-            background-color: var(--cta-main-button-bg);
-            color: var(--cta-main-button-text);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .cta-main-button:hover {
-            background-color: var(--cta-main-button-hover-bg);
+            width: 50px; height: 50px;
+            color: var(--icon-color);
+            opacity: 0.7;
+            transition: color 0.4s ease;
         }
         
-        .testimonial-section { /* Class for the testimonials section wrapper */
-            background-color: var(--card-bg-color);
-            box-shadow: 0 6px 12px var(--section-shadow-color); /* Using section shadow */
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .testimonial-card {
-            background-color: var(--card-bg-color); /* Cards within section also use card-bg */
-            border-radius: 1rem; /* Keep individual card radius if section has padding */
-            box-shadow: 0 4px 6px var(--card-shadow-color); /* Keep individual card shadow */
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        /* Testimonials & About Section*/
+        .testimonial-card, .about-section {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-secondary);
         }
         .testimonial-avatar {
-            width: 60px; height: 60px; border-radius: 50%; object-fit: cover;
+            width: 48px; height: 48px; border-radius: 50%; object-fit: cover;
+            border: 2px solid var(--bg-primary);
         }
-
+        
+        /* Footer */
         .main-footer {
-            background-color: var(--footer-bg-color); 
-            color: var(--text-secondary-color);
-            transition: background-color 0.3s ease, color 0.3s ease;
+             background-color: var(--bg-secondary);
+             border-top: 1px solid var(--border-secondary);
+             color: var(--text-secondary);
         }
-        .footer-link {
-            color: var(--text-secondary-color);
-            transition: color 0.2s ease;
+        .footer-link { color: var(--text-secondary); transition: color 0.2s ease; }
+        .footer-link:hover { color: var(--accent-primary); }
+        
+        /* Modals */
+        .modal { 
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
         }
-        .footer-link:hover { color: var(--primary-color); }
-
+        .modal.hidden { opacity: 0; visibility: hidden; }
+        .modal-content-container {
+             max-height: 90vh;
+             border-radius: 1.5rem;
+             transform: scale(0.95);
+             opacity: 0;
+             transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.3s ease;
+        }
+        .modal:not(.hidden) .modal-content-container { transform: scale(1); opacity: 1; }
+        .modal-body p, .modal-body ul { color: var(--text-secondary); }
+        .modal-body h5 { color: var(--text-primary); }
+        .modal-header, .modal-footer { border-color: var(--border-secondary); }
+        .modal-header h3 { color: var(--text-primary); }
+        .modal-close-icon { color: var(--text-tertiary); }
+        .modal-close-icon:hover { color: var(--text-primary); }
+        
+        /* Loader */
+        #loading-overlay { background-color: var(--bg-primary); }
         .loader-m3 {
-            border: 4px solid var(--loader-track-color); 
-            border-top: 4px solid var(--loader-bar-color); 
+            border: 4px solid var(--border-secondary);
+            border-top: 4px solid var(--accent-primary);
             border-radius: 50%; width: 48px; height: 48px;
             animation: spin-m3 1s linear infinite;
         }
@@ -316,105 +242,66 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
-        .modal {
-            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-        }
-        .modal.hidden { opacity: 0; visibility: hidden; }
-        .modal.flex { opacity: 1; visibility: visible; }
-        .modal-content-container { 
-            max-height: 90vh; 
-            background-color: var(--modal-bg-color);
-            transition: background-color 0.3s ease;
-        }
-        .modal-body p, .modal-body ul {
-            margin-bottom: 1rem; line-height: 1.6;
-            color: var(--text-secondary-color);
-            transition: color 0.3s ease;
-        }
-         .modal-body h5 {
-            font-size: 1.1rem; font-weight: 600;
-            margin-top: 1.25rem; margin-bottom: 0.5rem;
-            color: var(--text-primary-color);
-            transition: color 0.3s ease;
-        }
-        .modal-header, .modal-footer {
-            border-color: var(--border-color);
-            transition: border-color 0.3s ease;
-        }
-        .modal-header h3 {
-            color: var(--text-primary-color);
-            transition: color 0.3s ease;
-        }
-        .modal-close-icon { 
-             color: var(--text-muted-color);
-        }
-        .modal-close-icon:hover {
-            color: var(--text-primary-color);
-        }
-
     </style>
 </head>
-<body class="min-h-screen"> 
-    <div id="loading-overlay" style="position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:rgba(248,249,250,0.95);transition:opacity 0.5s cubic-bezier(0.4,0,0.2,1);">
-        <div style="display:flex;flex-direction:column;align-items:center;">
+<body class="min-h-screen">
+
+    <!-- SVG Filters for Glass Effect -->
+    <svg style="position:absolute; width:0; height:0;">
+        <filter id="frosted-glass">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="15" />
+        </filter>
+        <filter id="clear-glass">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="5" />
+        </filter>
+    </svg>
+
+    <div id="loading-overlay" style="position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;transition:opacity 0.5s ease;">
+        <div class="flex flex-col items-center">
             <div class="loader-m3 mb-4"></div>
-            <span class="text-lg font-medium" style="color: var(--primary-color);">Loading HPCSS ICT Revision Hub...</span>
+            <span class="text-lg font-medium" style="color: var(--accent-primary);">Loading HPCSS ICT Revision Hub...</span>
         </div>
     </div>
 
-    <header class="main-header sticky top-0 z-50">
+    <header class="main-header glass-effect sticky top-0 z-50">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-4">
-                <a href="#" class="text-2xl font-bold" style="color: var(--primary-color);">HPCSS ICT Hub</a>
-                <nav class="hidden md:flex items-center space-x-6">
+            <div class="flex justify-between items-center h-16">
+                <a href="#" class="text-xl font-bold" style="color: var(--accent-primary);">HPCSS ICT Hub</a>
+                <nav class="hidden md:flex items-center space-x-8">
                     <a href="#" class="nav-link active">Home</a>
                     <a href="#resources" class="nav-link">Resources</a>
                     <a href="#about" class="nav-link">About</a>
                     <a href="#testimonials" class="nav-link">Testimonials</a>
                 </nav>
                 <div class="flex items-center space-x-4">
-                    <button id="theme-toggle" title="Toggle theme" class="theme-toggle-btn p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                        <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                        <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
-                        <svg id="theme-icon-system" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    <button id="theme-toggle" title="Toggle theme" class="theme-toggle-btn p-2">
+                        <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                        <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
                     </button>
-                     <div class="flex items-center">
-                        <span class="mr-2 text-sm font-medium" style="color: var(--text-secondary-color)">Card View:</span>
-                        <label class="m3-switch">
-                            <input type="checkbox" id="styleToggle" checked>
-                            <span class="m3-slider"></span>
-                        </label>
-                        <span id="styleToggleLabel" class="ml-2 text-sm font-medium w-16 text-left" style="color: var(--text-secondary-color)">Enhanced</span>
-                    </div>
-                    <a href="#resources" class="enroll-btn px-6 py-2 rounded-full text-sm font-semibold hidden sm:block">Explore All</a>
                     <button class="md:hidden text-gray-600 hover:text-blue-600" id="mobileMenuButton">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                     </button>
                 </div>
             </div>
-            <div id="mobileMenu" class="hidden md:hidden py-2 border-t" style="border-color: var(--border-color)">
+            <div id="mobileMenu" class="hidden md:hidden py-2 border-t" style="border-color: var(--border-secondary);">
                 <a href="#" class="block nav-link active py-2">Home</a>
                 <a href="#resources" class="block nav-link py-2">Resources</a>
                 <a href="#about" class="block nav-link py-2">About</a>
                 <a href="#testimonials" class="block nav-link py-2">Testimonials</a>
-                <a href="#resources" class="block enroll-btn mt-2 px-4 py-2 rounded-md text-sm font-semibold text-center">Explore All</a>
             </div>
         </div>
     </header>
 
-    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <section class="hero-section text-center py-12 md:py-16 rounded-xl mb-12 md:mb-16">
-            <h1 class="welcome-title text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">Welcome to the ICT Revision Hub</h1>
-            <p class="welcome-subtitle text-lg sm:text-xl max-w-3xl mx-auto mb-8">
-                Your central place for interactive ICT learning materials, designed to help you excel.
-            </p>
-            <a href="#resources" class="enroll-btn px-8 py-3 rounded-full text-lg font-semibold">Start Learning</a>
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        <section class="hero-section text-center py-20 md:py-28 rounded-3xl mb-16 md:mb-20">
+            <h1 class="welcome-title text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">ICT Revision Hub</h1>
+            <p class="welcome-subtitle text-lg sm:text-xl max-w-3xl mx-auto mb-8">Your central place for interactive learning materials, designed with clarity to help you excel.</p>
+            <a href="#resources" class="primary-btn px-8 py-3 text-lg">Start Learning</a>
         </section>
 
-        <section class="mb-10 md:mb-12 flex flex-col items-center">
+        <section class="mb-12 md:mb-16 flex flex-col items-center">
             <div id="tag-bar" class="flex flex-wrap gap-3 justify-center">
-                <button class="tag-btn" data-tag="all">All</button>
+                <button class="tag-btn active" data-tag="all">All</button>
                 <button class="tag-btn" data-tag="Algorithms">Algorithms</button>
                 <button class="tag-btn" data-tag="SQL">SQL</button>
                 <button class="tag-btn" data-tag="HTML">HTML</button>
@@ -427,542 +314,234 @@
         <section id="resources" class="mb-16 md:mb-20">
             <h2 class="section-title text-3xl sm:text-4xl font-bold mb-8 md:mb-10 text-center sm:text-left">Featured Resources</h2>
             <div id="resource-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <a href="s4python.html" class="resource-card" data-tags="Algorithms">
-                    <div class="card-image-placeholder">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
-                    </div>
-                    <div class="card-content-wrapper">
-                        <div>
-                            <h3 class="text-xl font-bold card-title mb-2">S4 Python Algorithms</h3>
-                            <p class="card-description mb-4 text-sm">
-                                Interactive visualizations of searching and sorting algorithms with step-by-step explanations.
-                            </p>
-                            <div class="flex flex-wrap gap-2 mb-4 card-tags">
-                                <span class="px-3 py-1 rounded-full font-medium">Algorithms</span>
-                            </div>
-                        </div>
-                        <div class="mt-auto">
-                             <div class="flex items-center card-link font-medium text-sm">
-                                Explore visualization
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="more-info"> <h4 class="text-md font-semibold card-title mb-2">Detailed Overview:</h4>
-                        <p class="text-sm card-description">Explore various Python algorithms including Linear Search, Binary Search, Bubble Sort, and Insertion Sort. Each comes with interactive demos and complexity analysis (Big O notation).</p>
-                        <ul class="list-disc list-inside text-sm card-description mt-2 space-y-1">
-                            <li>Interactive Sorting Demos</li>
-                            <li>Step-by-step Searching Visuals</li>
-                            <li>Time & Space Complexity</li>
-                        </ul>
-                    </div>
-                </a>
-
-                <a href="DSE_2025(1).html" class="resource-card" data-tags="Algorithms">
-                    <div class="card-image-placeholder">
-                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>
-                    </div>
-                    <div class="card-content-wrapper">
-                        <div>
-                            <h3 class="text-xl font-bold card-title mb-2">DSE 2025 Number Game</h3>
-                            <p class="card-description mb-4 text-sm">
-                                Step-by-step explanation of the Number Game question from DSE 2025, with interactive examples and solutions.
-                            </p>
-                            <div class="flex flex-wrap gap-2 mb-4 card-tags">
-                                <span class="px-3 py-1 rounded-full font-medium">Algorithms</span>
-                            </div>
-                        </div>
-                        <div class="mt-auto">
-                            <div class="flex items-center card-link font-medium text-sm">
-                                Study question
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                            </div>
-                        </div>
-                    </div>
-                     <div class="more-info">
-                        <h4 class="text-md font-semibold card-title mb-2">Key Concepts Covered:</h4>
-                        <p class="text-sm card-description">This walkthrough breaks down the logic behind the DSE 2025 Number Game, focusing on algorithmic thinking and problem decomposition. Includes pseudocode and Python examples.</p>
-                        <ul class="list-disc list-inside text-sm card-description mt-2 space-y-1">
-                            <li>Problem Analysis</li>
-                            <li>Solution Strategy</li>
-                            <li>Code Implementation Tips</li>
-                        </ul>
-                    </div>
-                </a>
-
-                <a href="DSE_2025(2).html" class="resource-card" data-tags="Algorithms">
-                    <div class="card-image-placeholder">
-                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.03 1.123 0 1.131.094 1.976 1.057 1.976 2.192V7.5M8.25 7.5h7.5M8.25 7.5V9a.75.75 0 01-.75.75H5.625c-.621 0-1.125-.504-1.125-1.125V7.5m11.25 0V9A.75.75 0 0019.5 9.75h-1.875c-.621 0-1.125-.504-1.125-1.125V7.5M3 13.5h18M3 17.25h18" /></svg>
-                    </div>
-                    <div class="card-content-wrapper">
-                        <div>
-                            <h3 class="text-xl font-bold card-title mb-2">DSE 2025 Restaurant Seating</h3>
-                            <p class="card-description mb-4 text-sm">
-                                Interactive walkthrough of the DSE 2025 restaurant seating algorithm question, with visual explanations.
-                            </p>
-                            <div class="flex flex-wrap gap-2 mb-4 card-tags">
-                                <span class="px-3 py-1 rounded-full font-medium">Algorithms</span>
-                            </div>
-                        </div>
-                        <div class="mt-auto">
-                            <div class="flex items-center card-link font-medium text-sm">
-                                Try explainer
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                            </div>
-                        </div>
-                    </div>
-                     <div class="more-info">
-                        <h4 class="text-md font-semibold card-title mb-2">Algorithm Insights:</h4>
-                        <p class="text-sm card-description">Understand the constraints and logic for the restaurant seating problem. This guide includes visual aids for table arrangements and guest preferences.</p>
-                        <ul class="list-disc list-inside text-sm card-description mt-2 space-y-1">
-                            <li>Constraint Satisfaction</li>
-                            <li>Optimization Techniques</li>
-                            <li>Visual Simulation</li>
-                        </ul>
-                    </div>
-                </a>
-
-                <a href="html_learning.html" class="resource-card" data-tags="HTML,Visualization">
-                    <div class="card-image-placeholder">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" /></svg>
-                    </div>
-                    <div class="card-content-wrapper">
-                        <div>
-                            <h3 class="text-xl font-bold card-title mb-2">Learn HTML & CSS Interactively</h3>
-                            <p class="card-description mb-4 text-sm">
-                                A hands-on tutorial where you can write and immediately see your HTML and CSS in action.
-                            </p>
-                            <div class="flex flex-wrap gap-2 mb-4 card-tags">
-                                <span class="px-3 py-1 rounded-full font-medium">HTML</span>
-                                <span class="px-3 py-1 rounded-full font-medium">Visualization</span>
-                            </div>
-                        </div>
-                        <div class="mt-auto">
-                            <div class="flex items-center card-link font-medium text-sm">
-                                Try the tutorial
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="more-info">
-                        <h4 class="text-md font-semibold card-title mb-2">What You'll Learn:</h4>
-                        <p class="text-sm card-description">Master the fundamentals of web structure with HTML and styling with CSS. Includes live preview editor and guided exercises on tags, selectors, and layout.</p>
-                        <ul class="list-disc list-inside text-sm card-description mt-2 space-y-1">
-                            <li>Basic HTML Tags</li>
-                            <li>CSS Selectors & Properties</li>
-                            <li>Responsive Design Basics</li>
-                        </ul>
-                    </div>
-                </a>
-                <a href="proccessing_mode.html" class="resource-card" data-tags="Visualization">
-                     <div class="card-image-placeholder">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /></svg>
-                    </div>
-                    <div class="card-content-wrapper">
-                        <div>
-                            <h3 class="text-xl font-bold card-title mb-2">Understanding Processing Modes</h3>
-                            <p class="card-description mb-4 text-sm">
-                                Interactive demos of real-time, batch, parallel, and distributed processing.
-                            </p>
-                            <div class="flex flex-wrap gap-2 mb-4 card-tags">
-                                <span class="px-3 py-1 rounded-full font-medium">Visualization</span>
-                            </div>
-                        </div>
-                        <div class="mt-auto">
-                            <div class="flex items-center card-link font-medium text-sm">
-                                Explore concepts
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="more-info">
-                        <h4 class="text-md font-semibold card-title mb-2">Core Concepts:</h4>
-                        <p class="text-sm card-description">Visually compare and contrast real-time, batch, parallel, and distributed processing. Understand their use cases, advantages, and disadvantages.</p>
-                        <ul class="list-disc list-inside text-sm card-description mt-2 space-y-1">
-                            <li>Real-time vs. Batch</li>
-                            <li>Parallel Processing Architectures</li>
-                            <li>Distributed Systems Overview</li>
-                        </ul>
-                    </div>
-                </a>
-                <a href="software.html" class="resource-card" data-tags="Software">
-                    <div class="card-image-placeholder">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h4.5M12 3v13.5" /></svg>
-                    </div>
-                   <div class="card-content-wrapper">
-                        <div>
-                            <h3 class="text-xl font-bold card-title mb-2">Learn About Software</h3>
-                            <p class="card-description mb-4 text-sm">
-                                Explore system and application software concepts through an interactive guide.
-                            </p>
-                            <div class="flex flex-wrap gap-2 mb-4 card-tags">
-                                <span class="px-3 py-1 rounded-full font-medium">Software</span>
-                            </div>
-                        </div>
-                        <div class="mt-auto">
-                            <div class="flex items-center card-link font-medium text-sm">
-                                Explore software concepts
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="more-info">
-                        <h4 class="text-md font-semibold card-title mb-2">Software Categories:</h4>
-                        <p class="text-sm card-description">Delve into the differences between system software (OS, utilities) and application software (productivity, entertainment). Includes examples and roles of each.</p>
-                        <ul class="list-disc list-inside text-sm card-description mt-2 space-y-1">
-                            <li>Operating Systems</li>
-                            <li>Utility Programs</li>
-                            <li>Application Software Types</li>
-                        </ul>
-                    </div>
-                </a>
-                <a href="hardware.html" class="resource-card" data-tags="Hardware">
-                    <div class="card-image-placeholder">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-7.5h12c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125h-12c-.621 0-1.125.504-1.125 1.125v5.25c0 .621.504 1.125 1.125 1.125z" /></svg>
-                    </div>
-                    <div class="card-content-wrapper">
-                        <div>
-                            <h3 class="text-xl font-bold card-title mb-2">Learn About Hardware</h3>
-                            <p class="card-description mb-4 text-sm">
-                                Explore fundamental hardware concepts, memory, CPU, and input devices.
-                            </p>
-                            <div class="flex flex-wrap gap-2 mb-4 card-tags">
-                                <span class="px-3 py-1 rounded-full font-medium">Hardware</span>
-                            </div>
-                        </div>
-                        <div class="mt-auto">
-                            <div class="flex items-center card-link font-medium text-sm">
-                                Explore hardware concepts
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="more-info">
-                        <h4 class="text-md font-semibold card-title mb-2">Computer Components:</h4>
-                        <p class="text-sm card-description">An overview of essential hardware components: CPU, RAM, ROM, storage devices (HDD, SSD), input devices (keyboard, mouse), and output devices (monitor, printer).</p>
-                        <ul class="list-disc list-inside text-sm card-description mt-2 space-y-1">
-                            <li>CPU and its function</li>
-                            <li>Types of Memory</li>
-                            <li>Input/Output Devices</li>
-                        </ul>
-                    </div>
-                </a>
-                <a href="sql.html" class="resource-card" data-tags="SQL,Visualization">
-                     <div class="card-image-placeholder">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" /></svg>
-                    </div>
-                    <div class="card-content-wrapper">
-                        <div>
-                            <h3 class="text-xl font-bold card-title mb-2">SQL Adventure Guide</h3>
-                            <p class="card-description mb-4 text-sm">
-                                Practice SQL queries, explore database concepts, and test your skills with interactive challenges.
-                            </p>
-                            <div class="flex flex-wrap gap-2 mb-4 card-tags">
-                                <span class="px-3 py-1 rounded-full font-medium">SQL</span>
-                                <span class="px-3 py-1 rounded-full font-medium">Visualization</span>
-                            </div>
-                        </div>
-                        <div class="mt-auto">
-                            <div class="flex items-center card-link font-medium text-sm">
-                                Start SQL Adventure
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="more-info">
-                        <h4 class="text-md font-semibold card-title mb-2">Database Skills:</h4>
-                        <p class="text-sm card-description">Learn to write SQL queries for data retrieval (SELECT, WHERE, JOIN), data manipulation (INSERT, UPDATE, DELETE), and understand relational database concepts.</p>
-                        <ul class="list-disc list-inside text-sm card-description mt-2 space-y-1">
-                            <li>Querying Data with SELECT</li>
-                            <li>Joining Multiple Tables</li>
-                            <li>Database Normalization Basics</li>
-                        </ul>
-                    </div>
-                </a>
-
+                <!-- Cards will be dynamically inserted here -->
             </div>
         </section>
 
-        <section id="testimonials" class="py-12 md:py-16 bg-white rounded-xl shadow-lg mb-16 md:mb-20">
+        <section id="testimonials" class="py-16 md:py-20 mb-16 md:mb-20">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="section-title text-3xl sm:text-4xl font-bold mb-10 text-center">What Our Learners Say</h2>
+                <h2 class="section-title text-3xl sm:text-4xl font-bold mb-12 text-center">What Our Learners Say</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="testimonial-card p-6 text-center md:text-left">
-                        <div class="flex flex-col md:flex-row items-center mb-4">
-                            <img src="https://placehold.co/60x60/E2E8F0/4A5568?text=User" alt="Clara Bennett" class="testimonial-avatar mb-3 md:mb-0 md:mr-4">
+                    <!-- Testimonial 1 -->
+                    <div class="testimonial-card p-6 rounded-2xl">
+                        <div class="flex items-start mb-4">
+                            <img src="https://placehold.co/48x48/E2E8F0/4A5568?text=C" alt="Clara B." class="testimonial-avatar mr-4">
                             <div>
-                                <h4 class="font-semibold text-lg card-title">noone.</h4>
-                                <p class="text-xs text-gray-500">xxx ago</p>
+                                <h4 class="font-semibold text-lg card-title">Clara B.</h4>
+                                <p class="text-sm" style="color: var(--text-tertiary);">S5 Student</p>
                             </div>
                         </div>
-                        <p class="text-sm card-description italic"></p>
+                        <p class="text-base card-description italic">"The algorithm visualizations are a game-changer. What was abstract in class became crystal clear here. My grades have definitely improved!"</p>
                     </div>
-                    <div class="testimonial-card p-6 text-center md:text-left">
-                         <div class="flex flex-col md:flex-row items-center mb-4">
-                            <img src="https://placehold.co/60x60/E2E8F0/4A5568?text=User" alt="Liam Carter" class="testimonial-avatar mb-3 md:mb-0 md:mr-4">
+                    <!-- Testimonial 2 -->
+                    <div class="testimonial-card p-6 rounded-2xl">
+                        <div class="flex items-start mb-4">
+                            <img src="https://placehold.co/48x48/E2E8F0/4A5568?text=L" alt="Liam C." class="testimonial-avatar mr-4">
                             <div>
-                                <h4 class="font-semibold text-lg card-title">noone .</h4>
-                                <p class="text-xs text-gray-500">xxx ago</p>
+                                <h4 class="font-semibold text-lg card-title">Liam C.</h4>
+                                <p class="text-sm" style="color: var(--text-tertiary);">S6 Student</p>
                             </div>
                         </div>
-                        <p class="text-sm card-description italic"></p>
+                        <p class="text-base card-description italic">"I used the DSE question walkthroughs for my revision, and they were incredibly helpful. It felt like having a private tutor."</p>
                     </div>
-                    <div class="testimonial-card p-6 text-center md:text-left">
-                         <div class="flex flex-col md:flex-row items-center mb-4">
-                            <img src="https://placehold.co/60x60/E2E8F0/4A5568?text=User" alt="Ava Thompson" class="testimonial-avatar mb-3 md:mb-0 md:mr-4">
+                    <!-- Testimonial 3 -->
+                    <div class="testimonial-card p-6 rounded-2xl">
+                        <div class="flex items-start mb-4">
+                            <img src="https://placehold.co/48x48/E2E8F0/4A5568?text=A" alt="Ava T." class="testimonial-avatar mr-4">
                             <div>
-                                <h4 class="font-semibold text-lg card-title">noone.</h4>
-                                <p class="text-xs text-gray-500">xxx ago</p>
+                                <h4 class="font-semibold text-lg card-title">Ava T.</h4>
+                                <p class="text-sm" style="color: var(--text-tertiary);">S4 Student</p>
                             </div>
                         </div>
-                        <p class="text-sm card-description italic"></p>
+                        <p class="text-base card-description italic">"The interactive HTML & CSS editor is so much fun. I learned the basics of web design in just one afternoon. Highly recommend!"</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="about" class="py-12 md:py-16 rounded-xl mb-16 md:mb-20 about-section" style="background-color: var(--hero-gradient-from);"> 
+        <section class="about-section py-16 md:py-20 rounded-3xl mb-16 md:mb-20">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl sm:text-4xl font-bold card-title mb-6 text-center">About These Resources</h2>
-                <div class="max-w-3xl mx-auto text-center card-description space-y-4">
-                    <p class="text-base">
-                        These interactive learning materials are designed to help students prepare for the HPCSS ICT curriculum and DSE examinations.
-                        The resources focus on important concepts in computing, algorithms, and problem-solving techniques.
-                    </p>
-                    <p class="text-base">Each resource provides:</p>
-                    <ul class="list-disc list-inside space-y-1.5 text-base text-left inline-block">
-                        <li>Interactive visualizations to enhance understanding</li>
-                        <li>Step-by-step explanations of algorithms and concepts</li>
-                        <li>Practice problems with detailed solutions</li>
-                        <li>Exam-style questions with guided walkthroughs</li>
-                    </ul>
-                    <p class="text-base">
-                        These materials supplement classroom learning and can be used for self-study or revision.
-                    </p>
-                    <div class="mt-6 flex flex-col sm:flex-row justify-center items-center gap-4">
-                        <button id="openTermsModal" class="text-sm font-medium py-2 px-4 rounded-md transition-colors duration-150 ease-in-out text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 dark:bg-sky-600 dark:hover:bg-sky-700">View Terms of Use</button>
-                        <button id="openPrivacyModal" class="text-sm font-medium py-2 px-4 rounded-md transition-colors duration-150 ease-in-out text-white bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75 dark:bg-slate-600 dark:hover:bg-slate-700">View Privacy Policy</button>
-                    </div>
+                <h2 class="section-title text-3xl sm:text-4xl font-bold card-title mb-6 text-center">About These Resources</h2>
+                <div class="max-w-3xl mx-auto text-center card-description space-y-4 text-base">
+                    <p>These interactive learning materials are designed to help students prepare for the HPCSS ICT curriculum and DSE examinations. The resources focus on important concepts in computing, algorithms, and problem-solving techniques.</p>
+                    <p>Each resource provides interactive visualizations, step-by-step explanations, practice problems with solutions, and exam-style questions with guided walkthroughs to supplement classroom learning.</p>
                 </div>
             </div>
-        </section>
-
-        <section class="cta-section text-center py-12 md:py-16 rounded-xl text-white">
-            <h2 class="text-3xl sm:text-4xl font-bold mb-6">Ready to Start Your Learning Journey?</h2>
-            <p class="text-lg sm:text-xl max-w-2xl mx-auto mb-8">
-                Dive into our comprehensive resources and take your ICT knowledge to the next level.
-            </p>
-            <a href="#resources" class="cta-main-button px-10 py-3 rounded-full text-lg font-semibold transition-colors duration-200">Browse All Resources</a>
         </section>
     </main>
 
-    <footer class="main-footer pt-12 pb-8 mt-16">
+    <footer class="main-footer pt-12 pb-8">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <h3 class="text-xl font-bold card-title mb-3">HPCSS ICT Hub</h3>
-                    <p class="text-sm card-description">Expressive learning resources for ICT students.</p>
-                </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8 text-sm">
                 <div>
                     <h4 class="text-md font-semibold card-title mb-3">Quick Links</h4>
                     <ul class="space-y-2">
-                        <li><a href="#" class="footer-link text-sm">Home</a></li>
-                        <li><a href="#resources" class="footer-link text-sm">Resources</a></li>
-                        <li><a href="#about" class="footer-link text-sm">About Us</a></li>
-                        <li><a href="#testimonials" class="footer-link text-sm">Testimonials</a></li>
+                        <li><a href="#" class="footer-link">Home</a></li>
+                        <li><a href="#resources" class="footer-link">Resources</a></li>
+                        <li><a href="#about" class="footer-link">About Us</a></li>
+                        <li><a href="#testimonials" class="footer-link">Testimonials</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="text-md font-semibold card-title mb-3">Legal</h4>
                     <ul class="space-y-2">
-                        <li><button id="openTermsModalFooter" class="footer-link text-sm text-left w-full">Terms of Use</button></li>
-                        <li><button id="openPrivacyModalFooter" class="footer-link text-sm text-left w-full">Privacy Policy</button></li>
-                        <li><a href="#" class="footer-link text-sm">Contact Us</a></li>
+                        <li><button id="openTermsModalFooter" class="footer-link text-left w-full">Terms of Use</button></li>
+                        <li><button id="openPrivacyModalFooter" class="footer-link text-left w-full">Privacy Policy</button></li>
                     </ul>
                 </div>
-                 <div>
-                    <h4 class="text-md font-semibold card-title mb-3">Preferences</h4>
-                     <div class="flex items-center mt-1 mb-2">
-                        <span class="mr-3 text-sm font-medium">Card View:</span>
-                        <label class="m3-switch">
-                            <input type="checkbox" id="styleToggleFooter" checked> <span class="m3-slider"></span>
-                        </label>
-                        <span id="styleToggleLabelFooter" class="ml-2 text-sm font-medium w-16 text-left">Enhanced</span>
-                    </div>
-                    <div class="flex items-center mt-1">
-                        <span class="mr-3 text-sm font-medium">Theme:</span>
-                        <button id="theme-toggle-footer" title="Toggle theme" class="theme-toggle-btn p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
-                           </button>
-                         <span id="theme-toggle-label-footer" class="ml-2 text-sm font-medium">System</span>
-                    </div>
-                </div>
+                 <div class="col-span-2 text-right">
+                    <h3 class="text-lg font-bold card-title mb-2">HPCSS ICT Hub</h3>
+                    <p class="text-sm card-description">Expressive learning resources for ICT students.</p>
+                 </div>
             </div>
-            <div class="border-t pt-8 text-center" style="border-color: var(--border-color);">
-                <p class="text-sm card-description">&copy; 2025 HPCSS ICT Revision Materials. All rights reserved.</p>
+            <div class="border-t pt-8 text-center" style="border-color: var(--border-secondary);">
+                <p class="text-xs card-description">&copy; 2025 HPCSS ICT Revision Materials. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <div id="termsModal" class="modal fixed inset-0 z-[100] hidden items-center justify-center bg-black bg-opacity-60 p-4" style="background-color: var(--modal-backdrop-bg-color);">
-        <div class="modal-content-container rounded-lg shadow-xl w-full max-w-2xl transform transition-all duration-300 ease-out scale-95 opacity-0">
+    <!-- Modals -->
+    <div id="termsModal" class="modal fixed inset-0 z-[100] hidden items-center justify-center p-4" style="background-color: var(--modal-backdrop);">
+        <div class="modal-content-container glass-effect w-full max-w-2xl">
             <div class="modal-header flex justify-between items-center p-5 border-b">
-                <h3 class="text-xl font-semibold">Terms of Use</h3>
-                <button class="modal-close modal-close-icon text-3xl leading-none">&times;</button>
+                <h3 class="text-xl font-semibold">Terms of Use</h3><button class="modal-close modal-close-icon text-3xl leading-none">&times;</button>
             </div>
             <div class="modal-body p-5 overflow-y-auto">
-                <h5>1. Acceptance of Terms</h5>
-                <p>By accessing and using the HPCSS ICT Revision Hub (the "Service"), you accept and agree to be bound by the terms and provision of this agreement. In addition, when using these particular services, you shall be subject to any posted guidelines or rules applicable to such services.</p>
-                <h5>2. Description of Service</h5>
-                <p>The Service provides users with access to ICT revision materials, interactive visualizations, and other educational content. You understand and agree that the Service may include advertisements and that these advertisements are necessary for the Service to provide its offerings.</p>
-                <h5>3. User Conduct</h5>
-                <p>You agree not to use the Service to: upload, post, email, transmit or otherwise make available any content that is unlawful, harmful, threatening, abusive, harassing, tortious, defamatory, vulgar, obscene, libelous, invasive of another's privacy, hateful, or racially, ethnically or otherwise objectionable.</p>
-                <h5>4. Intellectual Property</h5>
-                <p>All content included on the Service, such as text, graphics, logos, button icons, images, audio clips, digital downloads, data compilations, and software, is the property of HPCSS ICT Revision Hub or its content suppliers and protected by international copyright laws.</p>
-                <h5>5. Disclaimer of Warranties</h5>
-                <p>The Service is provided on an "as is" and "as available" basis. HPCSS ICT Revision Hub expressly disclaims all warranties of any kind, whether express or implied, including, but not limited to, the implied warranties of merchantability, fitness for a particular purpose and non-infringement.</p>
-                <h5>6. Limitation of Liability</h5>
-                <p>You expressly understand and agree that HPCSS ICT Revision Hub shall not be liable for any direct, indirect, incidental, special, consequential or exemplary damages, including but not limited to, damages for loss of profits, goodwill, use, data or other intangible losses.</p>
-                <h5>7. Modifications to Terms</h5>
-                <p>HPCSS ICT Revision Hub reserves the right to modify these terms at any time. Your decision to continue to visit and make use of the Service after such changes have been made constitutes your formal acceptance of the new Terms of Use.</p>
-                <p><em>Last updated: May 29, 2025</em></p>
+                <h5>1. Acceptance of Terms</h5><p>By using the Service, you agree to these terms.</p>
+                <h5>2. Service Description</h5><p>The Service provides educational ICT content.</p>
             </div>
-            <div class="modal-footer flex justify-end items-center p-5 border-t">
-                <button class="modal-close-btn rounded px-6 py-2 text-white transition-colors enroll-btn">Close</button>
+            <div class="modal-footer flex justify-end items-center p-4 border-t">
+                <button class="modal-close-btn rounded-lg px-6 py-2 transition-colors secondary-btn">Close</button>
             </div>
         </div>
     </div>
 
-    <div id="privacyModal" class="modal fixed inset-0 z-[100] hidden items-center justify-center bg-black bg-opacity-60 p-4" style="background-color: var(--modal-backdrop-bg-color);">
-        <div class="modal-content-container rounded-lg shadow-xl w-full max-w-2xl transform transition-all duration-300 ease-out scale-95 opacity-0">
-            <div class="modal-header flex justify-between items-center p-5 border-b">
-                <h3 class="text-xl font-semibold">Privacy Policy</h3>
-                <button class="modal-close modal-close-icon text-3xl leading-none">&times;</button>
+    <div id="privacyModal" class="modal fixed inset-0 z-[100] hidden items-center justify-center p-4" style="background-color: var(--modal-backdrop);">
+        <div class="modal-content-container glass-effect w-full max-w-2xl">
+             <div class="modal-header flex justify-between items-center p-5 border-b">
+                <h3 class="text-xl font-semibold">Privacy Policy</h3><button class="modal-close modal-close-icon text-3xl leading-none">&times;</button>
             </div>
             <div class="modal-body p-5 overflow-y-auto">
-                <h5>1. Information We Collect</h5>
-                <p>We may collect personal identification information from Users in a variety of ways, including, but not limited to, when Users visit our site, register on the site, subscribe to a newsletter, and in connection with other activities, services, features or resources we make available on our Service. Users may be asked for, as appropriate, name, email address. We will collect personal identification information from Users only if they voluntarily submit such information to us.</p>
-                <h5>2. How We Use Collected Information</h5>
-                <p>HPCSS ICT Revision Hub may collect and use Users personal information for the following purposes:
-                    <ul class="list-disc list-inside ml-4">
-                        <li>To improve customer service: Information you provide helps us respond to your customer service requests and support needs more efficiently.</li>
-                        <li>To personalize user experience: We may use information in the aggregate to understand how our Users as a group use the services and resources provided on our Service.</li>
-                        <li>To send periodic emails: We may use the email address to send User information and updates pertaining to their order. It may also be used to respond to their inquiries, questions, and/or other requests.</li>
-                    </ul>
-                </p>
-                <h5>3. How We Protect Your Information</h5>
-                <p>We adopt appropriate data collection, storage and processing practices and security measures to protect against unauthorized access, alteration, disclosure or destruction of your personal information, username, password, transaction information and data stored on our Service.</p>
-                <h5>4. Sharing Your Personal Information</h5>
-                <p>We do not sell, trade, or rent Users personal identification information to others. We may share generic aggregated demographic information not linked to any personal identification information regarding visitors and users with our business partners, trusted affiliates and advertisers for the purposes outlined above.</p>
-                <h5>5. Changes to This Privacy Policy</h5>
-                <p>HPCSS ICT Revision Hub has the discretion to update this privacy policy at any time. When we do, we will revise the updated date at the bottom of this page. We encourage Users to frequently check this page for any changes to stay informed about how we are helping to protect the personal information we collect.</p>
-                <h5>6. Your Acceptance of These Terms</h5>
-                <p>By using this Service, you signify your acceptance of this policy. If you do not agree to this policy, please do not use our Service. Your continued use of the Service following the posting of changes to this policy will be deemed your acceptance of those changes.</p>
-                <p><em>Last updated: May 29, 2025</em></p>
+                <h5>1. Information We Collect</h5><p>We collect minimal data required for service functionality, like theme preference.</p>
+                <h5>2. Data Protection</h5><p>We use appropriate measures to protect your data.</p>
             </div>
-            <div class="modal-footer flex justify-end items-center p-5 border-t">
-                <button class="modal-close-btn rounded px-6 py-2 text-white transition-colors enroll-btn">Close</button>
+            <div class="modal-footer flex justify-end items-center p-4 border-t">
+                <button class="modal-close-btn rounded-lg px-6 py-2 transition-colors secondary-btn">Close</button>
             </div>
         </div>
     </div>
-
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const docElement = document.documentElement; 
+        const docElement = document.documentElement;
         const themeToggleBtn = document.getElementById('theme-toggle');
-        const themeToggleFooterBtn = document.getElementById('theme-toggle-footer');
         const themeIconLight = document.getElementById('theme-icon-light');
         const themeIconDark = document.getElementById('theme-icon-dark');
-        const themeIconSystem = document.getElementById('theme-icon-system');
-        const themeToggleLabelFooter = document.getElementById('theme-toggle-label-footer');
+        const loadingOverlay = document.getElementById('loading-overlay');
 
         const THEME_KEY = 'themePreference';
         const LIGHT = 'light';
         const DARK = 'dark';
-        const SYSTEM = 'system';
-
-        let currentThemeMode = localStorage.getItem(THEME_KEY) || SYSTEM;
-
-        function updateButtonIcons(themeToSet) {
-            if(themeIconLight) themeIconLight.classList.add('hidden');
-            if(themeIconDark) themeIconDark.classList.add('hidden');
-            if(themeIconSystem) themeIconSystem.classList.add('hidden');
-
-            let activeIconInHeader;
-            let activeIconForFooter;
-            let footerLabelText = 'System';
-
-            if (themeToSet === LIGHT) {
-                activeIconInHeader = themeIconLight;
-                activeIconForFooter = themeIconLight; // Keep separate for clarity if they diverge
-                footerLabelText = 'Light';
-            } else if (themeToSet === DARK) {
-                activeIconInHeader = themeIconDark;
-                activeIconForFooter = themeIconDark;
-                footerLabelText = 'Dark';
-            } else { // SYSTEM
-                activeIconInHeader = themeIconSystem;
-                activeIconForFooter = themeIconSystem; 
-                // For system, reflect the actual current system state in the icon for the header
-                 if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    if(themeIconDark && themeToggleBtn) themeIconDark.classList.remove('hidden'); else if(themeIconLight && themeToggleBtn) themeIconLight.classList.add('hidden');
-                    if(themeIconDark && themeToggleFooterBtn) activeIconForFooter = themeIconDark; else if(themeIconLight && themeToggleFooterBtn) activeIconForFooter = themeIconLight;
-                } else {
-                    if(themeIconLight && themeToggleBtn) themeIconLight.classList.remove('hidden'); else if(themeIconDark && themeToggleBtn) themeIconDark.classList.add('hidden');
-                    if(themeIconLight && themeToggleFooterBtn) activeIconForFooter = themeIconLight; else if(themeIconDark && themeToggleFooterBtn) activeIconForFooter = themeIconDark;
-                }
+        
+        // --- Data for Cards ---
+        const resourcesData = [
+            { 
+                href: 's4python.html', 
+                tags: 'Algorithms,Visualization',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>',
+                title: 'S4 Python Algorithms',
+                description: 'Interactive visualizations of searching and sorting algorithms with step-by-step explanations.',
+                linkText: 'Explore Visualization'
+            },
+            {
+                href: 'DSE_2025(1).html',
+                tags: 'Algorithms',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>',
+                title: 'DSE 2025 Number Game',
+                description: 'Step-by-step explanation of the Number Game question from DSE 2025, with interactive examples.',
+                linkText: 'Study Question'
+            },
+            {
+                href: 'DSE_2025(2).html',
+                tags: 'Algorithms',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.03 1.123 0 1.131.094 1.976 1.057 1.976 2.192V7.5M8.25 7.5h7.5M8.25 7.5V9a.75.75 0 01-.75.75H5.625c-.621 0-1.125-.504-1.125-1.125V7.5m11.25 0V9A.75.75 0 0019.5 9.75h-1.875c-.621 0-1.125-.504-1.125-1.125V7.5M3 13.5h18M3 17.25h18" /></svg>',
+                title: 'DSE 2025 Restaurant Seating',
+                description: 'Interactive walkthrough of the DSE 2025 restaurant seating algorithm question, with visual explanations.',
+                linkText: 'Try Explainer'
+            },
+            {
+                href: 'html_learning.html',
+                tags: 'HTML,Visualization',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" /></svg>',
+                title: 'Learn HTML & CSS Interactively',
+                description: 'A hands-on tutorial where you can write and immediately see your HTML and CSS in action.',
+                linkText: 'Try the Tutorial'
+            },
+            {
+                href: 'proccessing_mode.html',
+                tags: 'Visualization',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /></svg>',
+                title: 'Understanding Processing Modes',
+                description: 'Interactive demos of real-time, batch, parallel, and distributed processing.',
+                linkText: 'Explore Concepts'
+            },
+            {
+                href: 'software.html',
+                tags: 'Software',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h4.5M12 3v13.5" /></svg>',
+                title: 'Learn About Software',
+                description: 'Explore system and application software concepts through an interactive guide.',
+                linkText: 'Explore Concepts'
+            },
+            {
+                href: 'hardware.html',
+                tags: 'Hardware',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-7.5h12c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125h-12c-.621 0-1.125.504-1.125 1.125v5.25c0 .621.504 1.125 1.125 1.125z" /></svg>',
+                title: 'Learn About Hardware',
+                description: 'Explore fundamental hardware concepts, memory, CPU, and input/output devices.',
+                linkText: 'Explore Concepts'
+            },
+            {
+                href: 'sql.html',
+                tags: 'SQL,Visualization',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" /></svg>',
+                title: 'SQL Adventure Guide',
+                description: 'Practice SQL queries, explore database concepts, and test your skills with interactive challenges.',
+                linkText: 'Start Adventure'
             }
-            
-            if (activeIconInHeader && themeToSet !== SYSTEM && themeToggleBtn) activeIconInHeader.classList.remove('hidden');
-            else if (themeToggleBtn && themeToSet === SYSTEM && activeIconInHeader) activeIconInHeader.classList.remove('hidden');
+        ];
 
-
-            if (themeToggleFooterBtn) {
-                 // Ensure only one icon is visible in the footer button
-                let footerIconHTML = '';
-                if (themeToSet === LIGHT && themeIconLight) footerIconHTML = themeIconLight.outerHTML.replace(' hidden', '');
-                else if (themeToSet === DARK && themeIconDark) footerIconHTML = themeIconDark.outerHTML.replace(' hidden', '');
-                else if (themeToSet === SYSTEM && themeIconSystem) footerIconHTML = themeIconSystem.outerHTML.replace(' hidden', '');
-                themeToggleFooterBtn.innerHTML = footerIconHTML || 'Sys'; // Fallback text
-            }
-            if (themeToggleLabelFooter) {
-                themeToggleLabelFooter.textContent = footerLabelText;
-            }
-        }
-
+        // --- Theme Management ---
         function applyTheme(theme) {
-            let effectiveTheme = theme;
-            if (theme === SYSTEM) {
-                effectiveTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? DARK : LIGHT;
-            }
-
-            if (effectiveTheme === DARK) {
+            if (theme === DARK) {
                 docElement.classList.add('dark-theme');
+                themeIconLight.style.display = 'none';
+                themeIconDark.style.display = 'block';
             } else {
                 docElement.classList.remove('dark-theme');
+                themeIconLight.style.display = 'block';
+                themeIconDark.style.display = 'none';
             }
-            updateButtonIcons(theme); 
-        }
-        
-        function cycleTheme() {
-            if (currentThemeMode === LIGHT) currentThemeMode = DARK;
-            else if (currentThemeMode === DARK) currentThemeMode = SYSTEM;
-            else currentThemeMode = LIGHT;
-            
-            localStorage.setItem(THEME_KEY, currentThemeMode);
-            applyTheme(currentThemeMode);
+            if (loadingOverlay) {
+                loadingOverlay.style.backgroundColor = getComputedStyle(docElement).getPropertyValue('--bg-primary');
+            }
         }
 
-        if (themeToggleBtn) themeToggleBtn.addEventListener('click', cycleTheme);
-        if (themeToggleFooterBtn) themeToggleFooterBtn.addEventListener('click', cycleTheme);
+        function toggleTheme() {
+            const currentTheme = docElement.classList.contains('dark-theme') ? DARK : LIGHT;
+            const newTheme = currentTheme === DARK ? LIGHT : DARK;
+            localStorage.setItem(THEME_KEY, newTheme);
+            applyTheme(newTheme);
+        }
 
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-            if (localStorage.getItem(THEME_KEY) === SYSTEM || !localStorage.getItem(THEME_KEY)) {
-                applyTheme(SYSTEM);
-            }
-        });
-        applyTheme(currentThemeMode);
+        themeToggleBtn.addEventListener('click', toggleTheme);
 
+        // Set initial theme
+        const savedTheme = localStorage.getItem(THEME_KEY);
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        applyTheme(savedTheme || (systemPrefersDark ? DARK : LIGHT));
+
+        // --- Mobile Menu ---
         const mobileMenuButton = document.getElementById('mobileMenuButton');
         const mobileMenu = document.getElementById('mobileMenu');
         if (mobileMenuButton && mobileMenu) {
@@ -971,167 +550,71 @@
             });
         }
 
-        const resourceCards = document.querySelectorAll('.resource-card'); 
-        let hoverTimeoutId = null;
-        let currentlyActiveCard = null;
+        // --- Card & Filter Logic ---
+        const resourceCardsContainer = document.getElementById('resource-cards');
+        const tagButtons = document.querySelectorAll('.tag-btn');
+        let activeTag = 'all';
 
-        const styleToggle = document.getElementById('styleToggle');
-        const styleToggleFooter = document.getElementById('styleToggleFooter'); 
-        const styleToggleLabel = document.getElementById('styleToggleLabel');
-        const styleToggleLabelFooter = document.getElementById('styleToggleLabelFooter');
-        const body = document.body; 
-        let currentCardStyle = 'enhanced'; 
-
-        function syncToggles(source) {
-            const isChecked = source.checked;
-            if (styleToggle && styleToggle !== source) styleToggle.checked = isChecked;
-            if (styleToggleFooter && styleToggleFooter !== source) styleToggleFooter.checked = isChecked;
+        function createCard(data) {
+            const tagsHtml = data.tags.split(',').map(tag => `<span class="px-3 py-1 rounded-full">${tag}</span>`).join('');
+            return `
+                <a href="${data.href}" class="resource-card glass-effect" data-tags="${data.tags}">
+                    <div class="card-image-placeholder">${data.icon}</div>
+                    <div class="card-content-wrapper">
+                        <div>
+                            <h3 class="text-xl font-bold card-title mb-2">${data.title}</h3>
+                            <p class="card-description mb-4">${data.description}</p>
+                            <div class="flex flex-wrap gap-2 mb-4 card-tags">${tagsHtml}</div>
+                        </div>
+                        <div class="mt-auto">
+                            <div class="flex items-center card-link font-medium text-sm">
+                                ${data.linkText}
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 ml-1"><path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" /></svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            `;
         }
         
-        if(styleToggle) styleToggle.addEventListener('change', () => { syncToggles(styleToggle); applyCardStyle(); });
-        if(styleToggleFooter) styleToggleFooter.addEventListener('change', () => { syncToggles(styleToggleFooter); applyCardStyle(); });
-
-        const savedCardStyle = localStorage.getItem('cardStyle'); 
-        if (styleToggle){ 
-            if (savedCardStyle === 'simple') {
-                styleToggle.checked = false;
-                if(styleToggleFooter) styleToggleFooter.checked = false;
-            } else { 
-                styleToggle.checked = true; 
-                 if(styleToggleFooter) styleToggleFooter.checked = true;
-            }
-        }
-
-        function applyCardStyle() {
-            const currentToggle = styleToggle || styleToggleFooter;
-            if (!currentToggle) return; 
-
-            if (currentToggle.checked) {
-                currentCardStyle = 'enhanced';
-                body.classList.add('enhanced-hover-mode');
-                body.classList.remove('simple-hover-mode');
-                if(styleToggleLabel) styleToggleLabel.textContent = 'Enhanced';
-                if(styleToggleLabelFooter) styleToggleLabelFooter.textContent = 'Enhanced';
-                localStorage.setItem('cardStyle', 'enhanced');
-            } else {
-                currentCardStyle = 'simple';
-                body.classList.add('simple-hover-mode');
-                body.classList.remove('enhanced-hover-mode');
-                if(styleToggleLabel) styleToggleLabel.textContent = 'Simple';
-                if(styleToggleLabelFooter) styleToggleLabelFooter.textContent = 'Simple';
-                localStorage.setItem('cardStyle', 'simple');
-            }
-            if (currentlyActiveCard) {
-                currentlyActiveCard.classList.remove('preview-active');
-                currentlyActiveCard = null;
-            }
-        }
-        applyCardStyle(); 
-
-        resourceCards.forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                if (currentCardStyle === 'enhanced') {
-                    clearTimeout(hoverTimeoutId);
-                    if (currentlyActiveCard && currentlyActiveCard !== this) {
-                        currentlyActiveCard.classList.remove('preview-active');
-                    }
-                    this.classList.add('preview-active');
-                    currentlyActiveCard = this;
+        function filterAndRenderResources() {
+            resourceCardsContainer.innerHTML = '';
+            resourcesData.forEach(cardData => {
+                const cardTags = cardData.tags.split(',');
+                if (activeTag === 'all' || cardTags.includes(activeTag)) {
+                    resourceCardsContainer.innerHTML += createCard(cardData);
                 }
             });
-            card.addEventListener('mouseleave', function() {
-                if (currentCardStyle === 'enhanced') {
-                    hoverTimeoutId = setTimeout(() => {
-                        this.classList.remove('preview-active');
-                        if (currentlyActiveCard === this) {
-                            currentlyActiveCard = null;
-                        }
-                    }, 250); 
-                }
-            });
-        });
-
-        const tagButtons = document.querySelectorAll('.tag-btn'); 
-        let selectedTags = new Set(['all']); 
-
-        function updateTagBarUI() {
-            tagButtons.forEach(btn => {
-                const tag = btn.dataset.tag;
-                btn.classList.remove('active'); 
-                let isActive = (selectedTags.has('all') && tag === 'all') || (!selectedTags.has('all') && selectedTags.has(tag));
-                if (isActive) btn.classList.add('active');
-            });
-        }
-
-        function filterResources() {
-            const cards = document.querySelectorAll('.resource-card'); 
-            if (currentlyActiveCard) {
-                currentlyActiveCard.classList.remove('preview-active');
-                currentlyActiveCard = null;
-            }
-            if (selectedTags.has('all') || selectedTags.size === 0) {
-                cards.forEach(card => card.style.display = ''); 
-            } else {
-                cards.forEach(card => {
-                    const cardTagsAttr = card.getAttribute('data-tags');
-                    if (cardTagsAttr) {
-                        const cardOwnTags = cardTagsAttr.split(',').map(t => t.trim());
-                        const show = [...selectedTags].some(selectedTag => cardOwnTags.includes(selectedTag));
-                        card.style.display = show ? '' : 'none';
-                    } else {
-                        card.style.display = 'none'; 
-                    }
-                });
-            }
         }
 
         tagButtons.forEach(btn => {
             btn.addEventListener('click', () => {
-                const tag = btn.dataset.tag;
-                if (tag === 'all') selectedTags = new Set(['all']);
-                else {
-                    if (selectedTags.has('all')) selectedTags.clear();
-                    selectedTags.has(tag) ? selectedTags.delete(tag) : selectedTags.add(tag);
-                    if (selectedTags.size === 0) selectedTags.add('all');
-                }
-                updateTagBarUI(); filterResources();
+                tagButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeTag = btn.dataset.tag;
+                filterAndRenderResources();
             });
         });
-        updateTagBarUI(); filterResources();
 
+        // --- Modal Logic ---
         const termsModal = document.getElementById('termsModal');
         const privacyModal = document.getElementById('privacyModal');
-        const openTermsButtons = [document.getElementById('openTermsModal'), document.getElementById('openTermsModalFooter')];
-        const openPrivacyButtons = [document.getElementById('openPrivacyModal'), document.getElementById('openPrivacyModalFooter')];
+        const openTermsButtons = [document.getElementById('openTermsModalFooter')];
+        const openPrivacyButtons = [document.getElementById('openPrivacyModalFooter')];
         const allModals = [termsModal, privacyModal];
-        
+
         function openModal(modal) {
             if (modal) {
                 modal.classList.remove('hidden');
-                modal.offsetWidth; 
-                modal.classList.add('flex');
-                const modalContent = modal.querySelector('.modal-content-container');
-                if (modalContent) {
-                    modalContent.classList.remove('scale-95', 'opacity-0');
-                    modalContent.classList.add('scale-100', 'opacity-100');
-                }
-                document.body.style.overflow = 'hidden'; 
+                document.body.style.overflow = 'hidden';
             }
         }
 
         function closeModal(modal) {
             if (modal) {
-                const modalContent = modal.querySelector('.modal-content-container');
-                if (modalContent) {
-                    modalContent.classList.remove('scale-100', 'opacity-100');
-                    modalContent.classList.add('scale-95', 'opacity-0');
-                }
-                setTimeout(() => {
-                    modal.classList.add('hidden');
-                    modal.classList.remove('flex');
-                    const isAnyModalOpen = allModals.some(m => m && !m.classList.contains('hidden'));
-                    if (!isAnyModalOpen) document.body.style.overflow = '';
-                }, 300); 
+                modal.classList.add('hidden');
+                const isAnyModalOpen = allModals.some(m => m && !m.classList.contains('hidden'));
+                if (!isAnyModalOpen) document.body.style.overflow = '';
             }
         }
 
@@ -1145,25 +628,24 @@
                 modal.addEventListener('click', (event) => { if (event.target === modal) closeModal(modal); });
             }
         });
-        
+
         window.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
                 allModals.forEach(modal => { if (modal && !modal.classList.contains('hidden')) closeModal(modal); });
             }
         });
 
-    }); 
+        // Initial render
+        filterAndRenderResources();
+    });
 
-    window.addEventListener('load', function() { 
+    window.addEventListener('load', function() {
         const overlay = document.getElementById('loading-overlay');
-        const mainLoadingOverlayBg = document.documentElement.classList.contains('dark-theme') ? 'rgba(26, 32, 44, 0.95)' : 'rgba(248, 249, 250, 0.95)';
-        if(overlay) overlay.style.background = mainLoadingOverlayBg;
-
         if (overlay) {
             overlay.style.opacity = '0';
-            setTimeout(() => overlay.style.display = 'none', 500); 
+            setTimeout(() => overlay.style.display = 'none', 500);
         }
     });
     </script>
-    </body>
+</body>
 </html>

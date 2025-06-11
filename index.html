@@ -13,8 +13,8 @@
             --bg-primary: #EFF1F5;
             --bg-secondary: #FFFFFF;
             --bg-tertiary: #E8EAF0;
-            --bg-glass-color: rgba(255, 255, 255, 0.4);
-            --header-glass-color: rgba(255, 255, 255, 0.35); /* Clearer header background */
+            --bg-glass-color: rgba(255, 255, 255, 0.45);
+            --header-glass-color: rgba(255, 255, 255, 0.4); /* Clearer header background */
             --bg-glass-glare: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.6), transparent 50%);
             --noise-texture: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuODUiIG51bU9jdGF2ZXM9IjEwIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlRGlmZnVzZExpZ2h0aW5nIGxpZ2h0aW5nLWNvbG9yPSIjZmZmZmZmIiBzdXJmYWNlU2NhbGU9IjE1IiA+PGZlRGlzdGFudExpZ2h0IGF6aW11dGg9IjAiIGVsZXZhdGlvbj0iMTAwIi8+PC9mZURpZmZ1c2VMaWdodGluZz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgibm9pc2UpIiBvcGFjaXR5PSIwLjA1Ii8+PC9zdmc+');
             --bg-hero-start: #f0f4f9;
@@ -42,7 +42,7 @@
             --bg-secondary: #121213;
             --bg-tertiary: #2C2C2E;
             --bg-glass-color: rgba(28, 28, 30, 0.5);
-            --header-glass-color: rgba(28, 28, 30, 0.35); /* Clearer header background */
+            --header-glass-color: rgba(28, 28, 30, 0.4); /* Clearer header background */
             --bg-glass-glare: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.1), transparent 40%);
             --noise-texture: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuODUiIG51bU9jdGF2ZXM9IjEwIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlRGlmZnVzZExpZ2h0aW5nIGxpZ2h0aW5nLWNvbG9yPSIjZmZmZmZmIiBzdXJmYWNlU2NhbGU9IjE1IiA+PGZlRGlzdGFudExpZ2h0IGF6aW11dGg9IjAiIGVsZXZhdGlvbj0iMTAwIi8+PC9mZURpZmZ1c2VMaWdodGluZz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgibm9pc2UpIiBvcGFjaXR5PSIwLjA1Ii8+PC9zdmc+');
             --bg-hero-start: #1a1c23;
@@ -65,6 +65,9 @@
         }
 
         /* Base Styles */
+        html, body {
+            overscroll-behavior: none; /* Disable default browser overscroll behavior */
+        }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: var(--bg-primary);
@@ -73,12 +76,20 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
+
+        #scroll-container {
+            width: 100%;
+            will-change: transform;
+        }
+        #scroll-container.is-bouncing {
+            transition: transform 0.5s cubic-bezier(0.2, 1.5, 0.7, 1);
+        }
         
         /* Glassmorphism Effect for Surfaces */
         .glass-effect {
             background: var(--noise-texture), var(--bg-glass-glare), var(--bg-glass-color);
-            -webkit-backdrop-filter: url(#frosted-glass);
-            backdrop-filter: url(#frosted-glass);
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
             box-shadow: 0 0 0 1.5px var(--border-highlight), 0 8px 32px var(--shadow-color);
             transition: background-color 0.4s ease, box-shadow 0.4s ease;
         }
@@ -86,8 +97,8 @@
         /* Header */
         .main-header.glass-effect { 
             background: var(--noise-texture), var(--bg-glass-glare), var(--header-glass-color);
-            -webkit-backdrop-filter: url(#clear-glass); /* Using clearer filter */
-            backdrop-filter: url(#clear-glass);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
         }
         .nav-link { color: var(--text-secondary); transition: color 0.3s ease; font-weight: 500; }
         .nav-link:hover, .nav-link.active { color: var(--text-primary); }
@@ -99,35 +110,15 @@
             color: #fff;
             font-weight: 600;
             border-radius: 9999px;
-            text-shadow: 0 1px 1px rgba(0,0,0,0.2);
-            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-            background: linear-gradient(to bottom, var(--accent-primary) 0%, var(--accent-primary-hover) 100%);
-            border: 1px solid rgba(255,255,255,0.4);
-            box-shadow: 
-                inset 0 1px 1px rgba(255,255,255,0.5),
-                inset 0 -1px 1px rgba(0,0,0,0.1),
-                0 8px 15px rgba(0,145,255,0.25);
-        }
-        .dark-theme .primary-btn, .dark-theme .tag-btn.active {
-             border: 1px solid rgba(255,255,255,0.15);
-             box-shadow: 
-                inset 0 1px 1px rgba(255,255,255,0.2),
-                inset 0 -1px 1px rgba(0,0,0,0.3),
-                0 8px 15px rgba(10,150,255,0.2);
+            transition: all 0.3s ease;
+            background-color: var(--accent-primary);
+            box-shadow: 0 4px 15px rgba(0,125,255,0.2);
         }
 
         .primary-btn:hover, .tag-btn.active:hover {
-            transform: scale(1.05) translateY(-3px);
-            box-shadow: 
-                inset 0 1px 1px rgba(255,255,255,0.5),
-                inset 0 -1px 1px rgba(0,0,0,0.1),
-                0 12px 25px rgba(0,145,255,0.3);
-        }
-        .dark-theme .primary-btn:hover, .dark-theme .tag-btn.active:hover {
-             box-shadow: 
-                inset 0 1px 1px rgba(255,255,255,0.2),
-                inset 0 -1px 1px rgba(0,0,0,0.3),
-                0 12px 25px rgba(10,150,255,0.3);
+            background-color: var(--accent-primary-hover);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,125,255,0.3);
         }
 
         /* Hero Section */
@@ -148,7 +139,6 @@
             background-color: var(--bg-secondary);
         }
         .tag-btn:hover {
-            transform: translateY(-2px);
             border-color: var(--text-tertiary);
             color: var(--text-primary);
             box-shadow: 0 4px 10px var(--shadow-color);
@@ -161,12 +151,25 @@
             display: flex;
             flex-direction: column;
             height: 100%;
-            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), box-shadow 0.4s cubic-bezier(0.19, 1, 0.22, 1);
         }
-        .resource-card:hover {
-            transform: translateY(-12px) scale(1.03);
-            box-shadow: var(--highlight-glow);
+
+        /* Apple Watch Scroll Effect - Applied via JS */
+        @media (max-width: 767px) {
+            #resource-cards {
+                perspective: 1000px;
+            }
+            .resource-card {
+                /* Set a base transition for when the effect is removed/added */
+                transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            }
         }
+        @media (min-width: 768px) {
+             .resource-card:hover {
+                transform: scale(1.03);
+                box-shadow: var(--highlight-glow);
+            }
+        }
+        
         .card-content-wrapper { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
         .card-title { color: var(--text-primary); }
         .card-description { color: var(--text-secondary); font-size: 0.9rem; }
@@ -229,7 +232,71 @@
         .modal-header h3 { color: var(--text-primary); }
         .modal-close-icon { color: var(--text-tertiary); }
         .modal-close-icon:hover { color: var(--text-primary); }
+
+        /* Floating Search Bar */
+        #search-container {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 0;
+            right: 0;
+            z-index: 40;
+            display: flex;
+            justify-content: center;
+            padding: 0 1rem;
+        }
+        #search-bar {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 9999px;
+            padding: 0.5rem 0.75rem 0.5rem 3rem;
+        }
+        #search-icon-wrapper {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-tertiary);
+        }
+        #search-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        #search-input::placeholder {
+            color: var(--text-tertiary);
+            font-weight: 500;
+        }
+
         
+        /* Theme Transition */
+        #theme-transition-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            pointer-events: none;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+        }
+        #theme-droplet {
+            width: 32px; /* same as theme icon container */
+            height: 32px;
+            border-radius: 50%;
+            transform: scale(0);
+            will-change: transform;
+            --droplet-bg: #EFF1F5;
+            background: var(--noise-texture), var(--bg-glass-glare), var(--droplet-bg);
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 0 0 1.5px var(--border-highlight), 0 8px 32px var(--shadow-color);
+        }
+        #theme-droplet.animate {
+            transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
         /* Loader */
         #loading-overlay { background-color: var(--bg-primary); }
         .loader-m3 {
@@ -251,10 +318,12 @@
         <filter id="frosted-glass">
             <feGaussianBlur in="SourceGraphic" stdDeviation="15" />
         </filter>
-        <filter id="clear-glass">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="5" />
-        </filter>
     </svg>
+
+    <!-- Theme Transition Overlay -->
+    <div id="theme-transition-overlay">
+        <div id="theme-droplet"></div>
+    </div>
 
     <div id="loading-overlay" style="position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;transition:opacity 0.5s ease;">
         <div class="flex flex-col items-center">
@@ -262,143 +331,155 @@
             <span class="text-lg font-medium" style="color: var(--accent-primary);">Loading HPCSS ICT Revision Hub...</span>
         </div>
     </div>
-
-    <header class="main-header glass-effect sticky top-0 z-50">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="#" class="text-xl font-bold" style="color: var(--accent-primary);">HPCSS ICT Hub</a>
-                <nav class="hidden md:flex items-center space-x-8">
-                    <a href="#" class="nav-link active">Home</a>
-                    <a href="#resources" class="nav-link">Resources</a>
-                    <a href="#about" class="nav-link">About</a>
-                    <a href="#testimonials" class="nav-link">Testimonials</a>
-                </nav>
-                <div class="flex items-center space-x-4">
-                    <button id="theme-toggle" title="Toggle theme" class="theme-toggle-btn p-2">
-                        <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                        <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
-                    </button>
-                    <button class="md:hidden text-gray-600 hover:text-blue-600" id="mobileMenuButton">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                    </button>
-                </div>
-            </div>
-            <div id="mobileMenu" class="hidden md:hidden py-2 border-t" style="border-color: var(--border-secondary);">
-                <a href="#" class="block nav-link active py-2">Home</a>
-                <a href="#resources" class="block nav-link py-2">Resources</a>
-                <a href="#about" class="block nav-link py-2">About</a>
-                <a href="#testimonials" class="block nav-link py-2">Testimonials</a>
-            </div>
-        </div>
-    </header>
-
-    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <section class="hero-section text-center py-20 md:py-28 rounded-3xl mb-16 md:mb-20">
-            <h1 class="welcome-title text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">ICT Revision Hub</h1>
-            <p class="welcome-subtitle text-lg sm:text-xl max-w-3xl mx-auto mb-8">Your central place for interactive learning materials, designed with clarity to help you excel.</p>
-            <a href="#resources" class="primary-btn px-8 py-3 text-lg">Start Learning</a>
-        </section>
-
-        <section class="mb-12 md:mb-16 flex flex-col items-center">
-            <div id="tag-bar" class="flex flex-wrap gap-3 justify-center">
-                <button class="tag-btn active" data-tag="all">All</button>
-                <button class="tag-btn" data-tag="Algorithms">Algorithms</button>
-                <button class="tag-btn" data-tag="SQL">SQL</button>
-                <button class="tag-btn" data-tag="HTML">HTML</button>
-                <button class="tag-btn" data-tag="Software">Software</button>
-                <button class="tag-btn" data-tag="Hardware">Hardware</button>
-                <button class="tag-btn" data-tag="Visualization">Visualization</button>
-            </div>
-        </section>
-
-        <section id="resources" class="mb-16 md:mb-20">
-            <h2 class="section-title text-3xl sm:text-4xl font-bold mb-8 md:mb-10 text-center sm:text-left">Featured Resources</h2>
-            <div id="resource-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Cards will be dynamically inserted here -->
-            </div>
-        </section>
-
-        <section id="testimonials" class="py-16 md:py-20 mb-16 md:mb-20" style="display: none;">
+    
+    <div id="scroll-container">
+        <header class="main-header glass-effect sticky top-0 z-50">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="section-title text-3xl sm:text-4xl font-bold mb-12 text-center">What Our Learners Say</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Testimonial 1 -->
-                <div class="testimonial-card p-6 rounded-2xl">
-                <div class="flex items-start mb-4">
-                    <img src="https://placehold.co/48x48/E2E8F0/4A5568?text=C" alt="Clara B." class="testimonial-avatar mr-4">
-                    <div>
-                    <h4 class="font-semibold text-lg card-title">Clara B.</h4>
-                    <p class="text-sm" style="color: var(--text-tertiary);">S5 Student</p>
+                <div class="flex justify-between items-center h-16">
+                    <a href="#" class="text-xl font-bold" style="color: var(--accent-primary);">HPCSS ICT Hub</a>
+                    <nav class="hidden md:flex items-center space-x-8">
+                        <a href="#" class="nav-link active">Home</a>
+                        <a href="#resources" class="nav-link">Resources</a>
+                        <a href="#about" class="nav-link">About</a>
+                        <a href="#testimonials" class="nav-link">Testimonials</a>
+                    </nav>
+                    <div class="flex items-center space-x-4">
+                        <button id="theme-toggle" title="Toggle theme" class="theme-toggle-btn p-2">
+                            <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                            <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                        </button>
+                        <button class="md:hidden text-gray-600 hover:text-blue-600" id="mobileMenuButton">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                        </button>
                     </div>
                 </div>
-                <p class="text-base card-description italic">"The algorithm visualizations are a game-changer. What was abstract in class became crystal clear here. My grades have definitely improved!"</p>
-                </div>
-                <!-- Testimonial 2 -->
-                <div class="testimonial-card p-6 rounded-2xl">
-                <div class="flex items-start mb-4">
-                    <img src="https://placehold.co/48x48/E2E8F0/4A5568?text=L" alt="Liam C." class="testimonial-avatar mr-4">
-                    <div>
-                    <h4 class="font-semibold text-lg card-title">Liam C.</h4>
-                    <p class="text-sm" style="color: var(--text-tertiary);">S6 Student</p>
-                    </div>
-                </div>
-                <p class="text-base card-description italic">"I used the DSE question walkthroughs for my revision, and they were incredibly helpful. It felt like having a private tutor."</p>
-                </div>
-                <!-- Testimonial 3 -->
-                <div class="testimonial-card p-6 rounded-2xl">
-                <div class="flex items-start mb-4">
-                    <img src="https://placehold.co/48x48/E2E8F0/4A5568?text=A" alt="Ava T." class="testimonial-avatar mr-4">
-                    <div>
-                    <h4 class="font-semibold text-lg card-title">Ava T.</h4>
-                    <p class="text-sm" style="color: var(--text-tertiary);">S4 Student</p>
-                    </div>
-                </div>
-                <p class="text-base card-description italic">"The interactive HTML & CSS editor is so much fun. I learned the basics of web design in just one afternoon. Highly recommend!"</p>
+                <div id="mobileMenu" class="hidden md:hidden py-2 border-t" style="border-color: var(--border-secondary);">
+                    <a href="#" class="block nav-link active py-2">Home</a>
+                    <a href="#resources" class="block nav-link py-2">Resources</a>
+                    <a href="#about" class="block nav-link py-2">About</a>
+                    <a href="#testimonials" class="block nav-link py-2">Testimonials</a>
                 </div>
             </div>
-            </div>
-        </section>
+        </header>
 
-        <section class="about-section py-16 md:py-20 rounded-3xl mb-16 md:mb-20">
+        <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+            <section class="hero-section text-center py-20 md:py-28 rounded-3xl mb-16 md:mb-20">
+                <h1 class="welcome-title text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">ICT Revision Hub</h1>
+                <p class="welcome-subtitle text-lg sm:text-xl max-w-3xl mx-auto mb-8">Your central place for interactive learning materials, designed with clarity to help you excel.</p>
+                <a href="#resources" class="primary-btn px-8 py-3 text-lg">Start Learning</a>
+            </section>
+
+            <section class="mb-12 md:mb-16 flex flex-col items-center">
+                <div id="tag-bar" class="flex flex-wrap gap-3 justify-center">
+                    <button class="tag-btn active" data-tag="all">All</button>
+                    <button class="tag-btn" data-tag="Algorithms">Algorithms</button>
+                    <button class="tag-btn" data-tag="SQL">SQL</button>
+                    <button class="tag-btn" data-tag="HTML">HTML</button>
+                    <button class="tag-btn" data-tag="Software">Software</button>
+                    <button class="tag-btn" data-tag="Hardware">Hardware</button>
+                    <button class="tag-btn" data-tag="Visualization">Visualization</button>
+                </div>
+            </section>
+
+            <section id="resources" class="mb-16 md:mb-20">
+                <h2 class="section-title text-3xl sm:text-4xl font-bold mb-8 md:mb-10 text-center sm:text-left">Featured Resources</h2>
+                <div id="resource-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Cards will be dynamically inserted here -->
+                </div>
+            </section>
+
+            <section id="testimonials" class="py-16 md:py-20 mb-16 md:mb-20">
+                <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <h2 class="section-title text-3xl sm:text-4xl font-bold mb-12 text-center">What Our Learners Say</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Testimonial 1 -->
+                        <div class="testimonial-card p-6 rounded-2xl">
+                            <div class="flex items-start mb-4">
+                                <img src="https://placehold.co/48x48/E2E8F0/4A5568?text=C" alt="Clara B." class="testimonial-avatar mr-4">
+                                <div>
+                                    <h4 class="font-semibold text-lg card-title">Clara B.</h4>
+                                    <p class="text-sm" style="color: var(--text-tertiary);">S5 Student</p>
+                                </div>
+                            </div>
+                            <p class="text-base card-description italic">"The algorithm visualizations are a game-changer. What was abstract in class became crystal clear here. My grades have definitely improved!"</p>
+                        </div>
+                        <!-- Testimonial 2 -->
+                        <div class="testimonial-card p-6 rounded-2xl">
+                            <div class="flex items-start mb-4">
+                                <img src="https://placehold.co/48x48/E2E8F0/4A5568?text=L" alt="Liam C." class="testimonial-avatar mr-4">
+                                <div>
+                                    <h4 class="font-semibold text-lg card-title">Liam C.</h4>
+                                    <p class="text-sm" style="color: var(--text-tertiary);">S6 Student</p>
+                                </div>
+                            </div>
+                            <p class="text-base card-description italic">"I used the DSE question walkthroughs for my revision, and they were incredibly helpful. It felt like having a private tutor."</p>
+                        </div>
+                        <!-- Testimonial 3 -->
+                        <div class="testimonial-card p-6 rounded-2xl">
+                            <div class="flex items-start mb-4">
+                                <img src="https://placehold.co/48x48/E2E8F0/4A5568?text=A" alt="Ava T." class="testimonial-avatar mr-4">
+                                <div>
+                                    <h4 class="font-semibold text-lg card-title">Ava T.</h4>
+                                    <p class="text-sm" style="color: var(--text-tertiary);">S4 Student</p>
+                                </div>
+                            </div>
+                            <p class="text-base card-description italic">"The interactive HTML & CSS editor is so much fun. I learned the basics of web design in just one afternoon. Highly recommend!"</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="about-section py-16 md:py-20 rounded-3xl mb-16 md:mb-20">
+                <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <h2 class="section-title text-3xl sm:text-4xl font-bold card-title mb-6 text-center">About These Resources</h2>
+                    <div class="max-w-3xl mx-auto text-center card-description space-y-4 text-base">
+                        <p>These interactive learning materials are designed to help students prepare for the HPCSS ICT curriculum and DSE examinations. The resources focus on important concepts in computing, algorithms, and problem-solving techniques.</p>
+                        <p>Each resource provides interactive visualizations, step-by-step explanations, practice problems with solutions, and exam-style questions with guided walkthroughs to supplement classroom learning.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="main-footer pt-12 pb-8">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="section-title text-3xl sm:text-4xl font-bold card-title mb-6 text-center">About These Resources</h2>
-                <div class="max-w-3xl mx-auto text-center card-description space-y-4 text-base">
-                    <p>These interactive learning materials are designed to help students prepare for the HPCSS ICT curriculum and DSE examinations. The resources focus on important concepts in computing, algorithms, and problem-solving techniques.</p>
-                    <p>Each resource provides interactive visualizations, step-by-step explanations, practice problems with solutions, and exam-style questions with guided walkthroughs to supplement classroom learning.</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8 text-sm">
+                    <div>
+                        <h4 class="text-md font-semibold card-title mb-3">Quick Links</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="footer-link">Home</a></li>
+                            <li><a href="#resources" class="footer-link">Resources</a></li>
+                            <li><a href="#about" class="footer-link">About Us</a></li>
+                            <li><a href="#testimonials" class="footer-link">Testimonials</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-md font-semibold card-title mb-3">Legal</h4>
+                        <ul class="space-y-2">
+                            <li><button id="openTermsModalFooter" class="footer-link text-left w-full">Terms of Use</button></li>
+                            <li><button id="openPrivacyModalFooter" class="footer-link text-left w-full">Privacy Policy</button></li>
+                        </ul>
+                    </div>
+                     <div class="col-span-2 text-right">
+                        <h3 class="text-lg font-bold card-title mb-2">HPCSS ICT Hub</h3>
+                        <p class="text-sm card-description">Expressive learning resources for ICT students.</p>
+                     </div>
+                </div>
+                <div class="border-t pt-8 text-center" style="border-color: var(--border-secondary);">
+                    <p class="text-xs card-description">&copy; 2025 HPCSS ICT Revision Materials. All rights reserved.</p>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <footer class="main-footer pt-12 pb-8">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8 text-sm">
-                <div>
-                    <h4 class="text-md font-semibold card-title mb-3">Quick Links</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="footer-link">Home</a></li>
-                        <li><a href="#resources" class="footer-link">Resources</a></li>
-                        <li><a href="#about" class="footer-link">About Us</a></li>
-                        <li><a href="#testimonials" class="footer-link">Testimonials</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-md font-semibold card-title mb-3">Legal</h4>
-                    <ul class="space-y-2">
-                        <li><button id="openTermsModalFooter" class="footer-link text-left w-full">Terms of Use</button></li>
-                        <li><button id="openPrivacyModalFooter" class="footer-link text-left w-full">Privacy Policy</button></li>
-                    </ul>
-                </div>
-                 <div class="col-span-2 text-right">
-                    <h3 class="text-lg font-bold card-title mb-2">HPCSS ICT Hub</h3>
-                    <p class="text-sm card-description">Expressive learning resources for ICT students.</p>
-                 </div>
+        </footer>
+    </div>
+    
+    <!-- Floating Search Bar -->
+    <div id="search-container">
+        <div id="search-bar" class="glass-effect relative">
+            <div id="search-icon-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg>
             </div>
-            <div class="border-t pt-8 text-center" style="border-color: var(--border-secondary);">
-                <p class="text-xs card-description">&copy; 2025 HPCSS ICT Revision Materials. All rights reserved.</p>
-            </div>
+            <input type="text" id="search-input" placeholder="Search resources...">
         </div>
-    </footer>
+    </div>
 
     <!-- Modals -->
     <div id="termsModal" class="modal fixed inset-0 z-[100] hidden items-center justify-center p-4" style="background-color: var(--modal-backdrop);">
@@ -438,6 +519,8 @@
         const themeIconLight = document.getElementById('theme-icon-light');
         const themeIconDark = document.getElementById('theme-icon-dark');
         const loadingOverlay = document.getElementById('loading-overlay');
+        const droplet = document.getElementById('theme-droplet');
+        const dropletOverlay = document.getElementById('theme-transition-overlay');
 
         const THEME_KEY = 'themePreference';
         const LIGHT = 'light';
@@ -512,8 +595,9 @@
         ];
 
         // --- Theme Management ---
-        function applyTheme(theme) {
-            if (theme === DARK) {
+        function setInitialThemeUI() {
+            const currentTheme = localStorage.getItem(THEME_KEY) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? DARK : LIGHT);
+            if (currentTheme === DARK) {
                 docElement.classList.add('dark-theme');
                 themeIconLight.style.display = 'none';
                 themeIconDark.style.display = 'block';
@@ -522,24 +606,49 @@
                 themeIconLight.style.display = 'block';
                 themeIconDark.style.display = 'none';
             }
-            if (loadingOverlay) {
-                loadingOverlay.style.backgroundColor = getComputedStyle(docElement).getPropertyValue('--bg-primary');
-            }
         }
+        
+        let isTransitioning = false;
 
-        function toggleTheme() {
-            const currentTheme = docElement.classList.contains('dark-theme') ? DARK : LIGHT;
-            const newTheme = currentTheme === DARK ? LIGHT : DARK;
-            localStorage.setItem(THEME_KEY, newTheme);
-            applyTheme(newTheme);
+        function toggleThemeWithDroplet(event) {
+            if (isTransitioning) return;
+            isTransitioning = true;
+
+            const isDark = docElement.classList.contains('dark-theme');
+            const newTheme = isDark ? LIGHT : DARK;
+            
+            // Get color for the droplet
+             droplet.style.setProperty('--droplet-bg', getComputedStyle(docElement).getPropertyValue(newTheme === DARK ? '--bg-primary' : '--bg-primary').trim());
+
+            
+            // Get position of the click
+            const rect = themeToggleBtn.getBoundingClientRect();
+            droplet.style.top = `${rect.top + rect.height / 2}px`;
+            droplet.style.left = `${rect.left + rect.width / 2}px`;
+
+            dropletOverlay.style.pointerEvents = 'auto';
+            droplet.classList.add('animate');
+            
+            const endScale = Math.hypot(window.innerWidth, window.innerHeight) / droplet.offsetWidth;
+            droplet.style.transform = `scale(${endScale})`;
+
+            droplet.addEventListener('transitionend', function onTransitionEnd() {
+                // Apply the new theme class
+                docElement.classList.toggle('dark-theme');
+                setInitialThemeUI();
+                localStorage.setItem(THEME_KEY, newTheme);
+
+                // Reset for next time
+                droplet.style.transform = 'scale(0)';
+                droplet.classList.remove('animate');
+                dropletOverlay.style.pointerEvents = 'none';
+                isTransitioning = false;
+                
+                droplet.removeEventListener('transitionend', onTransitionEnd);
+            }, { once: true });
         }
-
-        themeToggleBtn.addEventListener('click', toggleTheme);
-
-        // Set initial theme
-        const savedTheme = localStorage.getItem(THEME_KEY);
-        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        applyTheme(savedTheme || (systemPrefersDark ? DARK : LIGHT));
+        
+        themeToggleBtn.addEventListener('click', toggleThemeWithDroplet);
 
         // --- Mobile Menu ---
         const mobileMenuButton = document.getElementById('mobileMenuButton');
@@ -553,6 +662,7 @@
         // --- Card & Filter Logic ---
         const resourceCardsContainer = document.getElementById('resource-cards');
         const tagButtons = document.querySelectorAll('.tag-btn');
+        const searchInput = document.getElementById('search-input');
         let activeTag = 'all';
 
         function createCard(data) {
@@ -577,14 +687,19 @@
             `;
         }
         
-        function filterAndRenderResources() {
+        function updateVisibleCards() {
+            const searchTerm = searchInput.value.toLowerCase();
             resourceCardsContainer.innerHTML = '';
             resourcesData.forEach(cardData => {
                 const cardTags = cardData.tags.split(',');
-                if (activeTag === 'all' || cardTags.includes(activeTag)) {
+                const tagMatch = activeTag === 'all' || cardTags.includes(activeTag);
+                const textMatch = cardData.title.toLowerCase().includes(searchTerm) || cardData.description.toLowerCase().includes(searchTerm);
+                
+                if (tagMatch && textMatch) {
                     resourceCardsContainer.innerHTML += createCard(cardData);
                 }
             });
+            handleScrollAndResize(); 
         }
 
         tagButtons.forEach(btn => {
@@ -592,9 +707,89 @@
                 tagButtons.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 activeTag = btn.dataset.tag;
-                filterAndRenderResources();
+                updateVisibleCards();
             });
         });
+        
+        searchInput.addEventListener('input', updateVisibleCards);
+
+        // --- Effects ---
+        const scrollContainer = document.getElementById('scroll-container');
+        let ticking = false;
+        let isOverscrolling = false;
+        let startY = 0;
+        let pullDistance = 0;
+
+        function handleScrollAndResize() {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const cards = document.querySelectorAll('#resource-cards .resource-card');
+                    if (window.innerWidth >= 768) {
+                        cards.forEach(card => {
+                            card.style.transform = '';
+                            card.style.opacity = '';
+                            card.style.transition = 'transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s cubic-bezier(0.19, 1, 0.22, 1)';
+                        });
+                    } else {
+                         const viewportCenterY = window.innerHeight / 2;
+                        const maxDistance = window.innerHeight / 2;
+                        cards.forEach(card => {
+                            const cardRect = card.getBoundingClientRect();
+                            const cardCenterY = cardRect.top + cardRect.height / 2;
+                            const distance = Math.abs(viewportCenterY - cardCenterY);
+                            const ratio = Math.min(distance / maxDistance, 1);
+                            const scale = 1 - (ratio * 0.2);
+                            const opacity = 1 - (ratio * 0.7);
+                            const rotation = (cardCenterY - viewportCenterY) / maxDistance * -15;
+                            card.style.transform = `scale(${scale}) rotateX(${rotation}deg)`;
+                            card.style.opacity = opacity;
+                            card.style.transition = 'opacity 0.2s linear, transform 0.2s linear';
+                        });
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+
+        function handleTouchStart(e) {
+            if (e.target.closest('.modal')) return;
+            startY = e.touches[0].pageY;
+            isOverscrolling = false;
+            scrollContainer.classList.remove('is-bouncing');
+        }
+
+        function handleTouchMove(e) {
+            if (e.target.closest('.modal')) return;
+            const currentY = e.touches[0].pageY;
+            const deltaY = currentY - startY;
+            const atTop = window.scrollY === 0;
+            const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2; // -2 tolerance
+
+            if ((atTop && deltaY > 0) || (atBottom && deltaY < 0)) {
+                if (!e.cancelable) return;
+                e.preventDefault();
+                isOverscrolling = true;
+                pullDistance = deltaY * 0.4; // Damping factor
+                scrollContainer.style.transform = `translateY(${pullDistance}px)`;
+            }
+        }
+        
+        function handleTouchEnd() {
+            if (isOverscrolling) {
+                scrollContainer.classList.add('is-bouncing');
+                scrollContainer.style.transform = 'translateY(0)';
+                isOverscrolling = false;
+                pullDistance = 0;
+            }
+        }
+
+        window.addEventListener('scroll', handleScrollAndResize);
+        window.addEventListener('resize', handleScrollAndResize);
+        window.addEventListener('touchstart', handleTouchStart, { passive: false });
+        window.addEventListener('touchmove', handleTouchMove, { passive: false });
+        window.addEventListener('touchend', handleTouchEnd);
+
 
         // --- Modal Logic ---
         const termsModal = document.getElementById('termsModal');
@@ -635,8 +830,9 @@
             }
         });
 
-        // Initial render
-        filterAndRenderResources();
+        // Initial setup
+        setInitialThemeUI();
+        updateVisibleCards();
     });
 
     window.addEventListener('load', function() {

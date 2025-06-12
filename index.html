@@ -113,6 +113,7 @@
             transition: all 0.3s ease;
             background-color: var(--accent-primary);
             box-shadow: 0 4px 15px rgba(0,125,255,0.2);
+            display: inline-block;
         }
 
         .primary-btn:hover, .tag-btn.active:hover {
@@ -213,11 +214,18 @@
         
         /* Modals */
         .modal { 
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            display: flex; /* Changed from grid to flex */
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0s 0.3s;
             -webkit-backdrop-filter: blur(8px);
             backdrop-filter: blur(8px);
         }
-        .modal.hidden { opacity: 0; visibility: hidden; }
+        .modal.is-open { 
+            visibility: visible;
+            opacity: 1;
+            transition: opacity 0.3s ease, visibility 0s;
+        }
         .modal-content-container {
              max-height: 90vh;
              border-radius: 1.5rem;
@@ -225,13 +233,37 @@
              opacity: 0;
              transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.3s ease;
         }
-        .modal:not(.hidden) .modal-content-container { transform: scale(1); opacity: 1; }
+        .modal.is-open .modal-content-container { 
+            transform: scale(1);
+            opacity: 1;
+        }
         .modal-body p, .modal-body ul { color: var(--text-secondary); }
         .modal-body h5 { color: var(--text-primary); }
-        .modal-header, .modal-footer { border-color: var(--border-secondary); }
         .modal-header h3 { color: var(--text-primary); }
         .modal-close-icon { color: var(--text-tertiary); }
         .modal-close-icon:hover { color: var(--text-primary); }
+
+        /* macOS Controls */
+        .macos-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+        }
+        .macos-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        .macos-dot-red { background-color: #ff5f57; }
+        .macos-dot-yellow { background-color: #febc2e; }
+        .macos-dot-green { background-color: #28c840; }
+        .dark-theme .macos-dot { border-color: rgba(255,255,255,0.1); }
+
 
         /* Floating Search Bar */
         #search-container {
@@ -482,32 +514,20 @@
     </div>
 
     <!-- Modals -->
-    <div id="termsModal" class="modal fixed inset-0 z-[100] hidden items-center justify-center p-4" style="background-color: var(--modal-backdrop);">
-        <div class="modal-content-container glass-effect w-full max-w-2xl">
-            <div class="modal-header flex justify-between items-center p-5 border-b">
-                <h3 class="text-xl font-semibold">Terms of Use</h3><button class="modal-close modal-close-icon text-3xl leading-none">&times;</button>
+     <div id="visit-popup" class="modal fixed inset-0 z-[100] items-center justify-center p-4">
+        <div class="modal-content-container glass-effect w-full max-w-md rounded-2xl overflow-hidden">
+            <div class="p-4 relative">
+                <div class="macos-controls">
+                    <button class="macos-dot macos-dot-red modal-close"></button>
+                    <button class="macos-dot macos-dot-yellow modal-close"></button>
+                    <button class="macos-dot macos-dot-green modal-close"></button>
+                </div>
             </div>
-            <div class="modal-body p-5 overflow-y-auto">
-                <h5>1. Acceptance of Terms</h5><p>By using the Service, you agree to these terms.</p>
-                <h5>2. Service Description</h5><p>The Service provides educational ICT content.</p>
-            </div>
-            <div class="modal-footer flex justify-end items-center p-4 border-t">
-                <button class="modal-close-btn rounded-lg px-6 py-2 transition-colors secondary-btn">Close</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="privacyModal" class="modal fixed inset-0 z-[100] hidden items-center justify-center p-4" style="background-color: var(--modal-backdrop);">
-        <div class="modal-content-container glass-effect w-full max-w-2xl">
-             <div class="modal-header flex justify-between items-center p-5 border-b">
-                <h3 class="text-xl font-semibold">Privacy Policy</h3><button class="modal-close modal-close-icon text-3xl leading-none">&times;</button>
-            </div>
-            <div class="modal-body p-5 overflow-y-auto">
-                <h5>1. Information We Collect</h5><p>We collect minimal data required for service functionality, like theme preference.</p>
-                <h5>2. Data Protection</h5><p>We use appropriate measures to protect your data.</p>
-            </div>
-            <div class="modal-footer flex justify-end items-center p-4 border-t">
-                <button class="modal-close-btn rounded-lg px-6 py-2 transition-colors secondary-btn">Close</button>
+            <div class="p-6 pt-2 text-center">
+                 <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/359550/header.jpg?t=1700676993" class="w-full h-auto object-cover rounded-lg mb-4" alt="Rainbow Six Siege">
+                <h3 class="text-2xl font-bold card-title mb-2">Rainbow Six Siege is Free!</h3>
+                <p class="card-description mb-4">Jump into intense tactical combat for free this weekend.</p>
+                <a href="https://store.steampowered.com/app/359550/Tom_Clancys_Rainbow_Six_Siege/" target="_blank" rel="noopener noreferrer" class="primary-btn px-6 py-2 w-full modal-close">Awesome!</a>
             </div>
         </div>
     </div>
@@ -617,9 +637,9 @@
             const isDark = docElement.classList.contains('dark-theme');
             const newTheme = isDark ? LIGHT : DARK;
             
-            // Get color for the droplet
-             droplet.style.setProperty('--droplet-bg', getComputedStyle(docElement).getPropertyValue(newTheme === DARK ? '--bg-primary' : '--bg-primary').trim());
-
+            // Set the droplet color to the TARGET theme's background
+            const newBgColor = newTheme === DARK ? '#000000' : '#EFF1F5';
+            droplet.style.setProperty('--droplet-bg', newBgColor);
             
             // Get position of the click
             const rect = themeToggleBtn.getBoundingClientRect();
@@ -634,7 +654,11 @@
 
             droplet.addEventListener('transitionend', function onTransitionEnd() {
                 // Apply the new theme class
-                docElement.classList.toggle('dark-theme');
+                if (newTheme === DARK) {
+                    docElement.classList.add('dark-theme');
+                } else {
+                    docElement.classList.remove('dark-theme');
+                }
                 setInitialThemeUI();
                 localStorage.setItem(THEME_KEY, newTheme);
 
@@ -792,43 +816,50 @@
 
 
         // --- Modal Logic ---
-        const termsModal = document.getElementById('termsModal');
-        const privacyModal = document.getElementById('privacyModal');
-        const openTermsButtons = [document.getElementById('openTermsModalFooter')];
-        const openPrivacyButtons = [document.getElementById('openPrivacyModalFooter')];
-        const allModals = [termsModal, privacyModal];
-
+        const visitPopup = document.getElementById('visit-popup');
+        
         function openModal(modal) {
             if (modal) {
-                modal.classList.remove('hidden');
+                modal.classList.add('is-open');
                 document.body.style.overflow = 'hidden';
             }
         }
 
         function closeModal(modal) {
             if (modal) {
-                modal.classList.add('hidden');
-                const isAnyModalOpen = allModals.some(m => m && !m.classList.contains('hidden'));
+                modal.classList.remove('is-open');
+                const isAnyModalOpen = document.querySelector('.modal.is-open');
                 if (!isAnyModalOpen) document.body.style.overflow = '';
             }
         }
+        
+        // Setup for Visit Popup
+        if (visitPopup) {
+            const closeButtons = visitPopup.querySelectorAll('.modal-close');
+            closeButtons.forEach(button => button.addEventListener('click', (e) => {
+                // Prevent anchor tag from firing if it's also a close button
+                if (button.tagName === 'A') {
+                   // Let the link work, but still close the modal
+                } else {
+                   e.preventDefault();
+                }
+                closeModal(visitPopup);
+            }));
+            
+            visitPopup.addEventListener('click', (event) => {
+                if(event.target === visitPopup) {
+                    closeModal(visitPopup);
+                }
+            });
 
-        openTermsButtons.forEach(btn => { if (btn) btn.addEventListener('click', () => openModal(termsModal)); });
-        openPrivacyButtons.forEach(btn => { if (btn) btn.addEventListener('click', () => openModal(privacyModal)); });
-
-        allModals.forEach(modal => {
-            if (modal) {
-                const closeButtons = modal.querySelectorAll('.modal-close, .modal-close-btn');
-                closeButtons.forEach(button => button.addEventListener('click', () => closeModal(modal)));
-                modal.addEventListener('click', (event) => { if (event.target === modal) closeModal(modal); });
+            if (!sessionStorage.getItem('visited')) {
+                setTimeout(() => {
+                    openModal(visitPopup);
+                    sessionStorage.setItem('visited', 'true');
+                }, 2000);
             }
-        });
+        }
 
-        window.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') {
-                allModals.forEach(modal => { if (modal && !modal.classList.contains('hidden')) closeModal(modal); });
-            }
-        });
 
         // Initial setup
         setInitialThemeUI();

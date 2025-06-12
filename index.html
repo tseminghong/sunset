@@ -154,23 +154,14 @@
             height: 100%;
         }
 
-        /* Apple Watch Scroll Effect - Applied via JS */
-        @media (max-width: 767px) {
-            #resource-cards {
-                perspective: 1000px;
-            }
-            .resource-card {
-                /* Set a base transition for when the effect is removed/added */
-                transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-            }
-        }
+        /* Only desktop hover effects */
         @media (min-width: 768px) {
              .resource-card:hover {
                 transform: scale(1.03);
                 box-shadow: var(--highlight-glow);
             }
         }
-        
+
         .card-content-wrapper { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
         .card-title { color: var(--text-primary); }
         .card-description { color: var(--text-secondary); font-size: 0.9rem; }
@@ -420,7 +411,7 @@
                 </div>
             </section>
 
-            <section id="testimonials" class="py-16 md:py-20 mb-16 md:mb-20">
+            <section id="testimonials" class="py-16 md:py-20 mb-16 md:mb-20" style="display: none;">
                 <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                     <h2 class="section-title text-3xl sm:text-4xl font-bold mb-12 text-center">What Our Learners Say</h2>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -607,7 +598,7 @@
             {
                 href: 'sql.html',
                 tags: 'SQL,Visualization',
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" /></svg>',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path fill-rule="evenodd" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" /></svg>',
                 title: 'SQL Adventure Guide',
                 description: 'Practice SQL queries, explore database concepts, and test your skills with interactive challenges.',
                 linkText: 'Start Adventure'
@@ -737,28 +728,11 @@
             if (!ticking) {
                 window.requestAnimationFrame(() => {
                     const cards = document.querySelectorAll('#resource-cards .resource-card');
-                    if (window.innerWidth >= 768) {
-                        cards.forEach(card => {
-                            card.style.transform = '';
-                            card.style.opacity = '';
-                            card.style.transition = 'transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s cubic-bezier(0.19, 1, 0.22, 1)';
-                        });
-                    } else {
-                         const viewportCenterY = window.innerHeight / 2;
-                        const maxDistance = window.innerHeight / 2;
-                        cards.forEach(card => {
-                            const cardRect = card.getBoundingClientRect();
-                            const cardCenterY = cardRect.top + cardRect.height / 2;
-                            const distance = Math.abs(viewportCenterY - cardCenterY);
-                            const ratio = Math.min(distance / maxDistance, 1);
-                            const scale = 1 - (ratio * 0.2);
-                            const opacity = 1 - (ratio * 0.7);
-                            const rotation = (cardCenterY - viewportCenterY) / maxDistance * -15;
-                            card.style.transform = `scale(${scale}) rotateX(${rotation}deg)`;
-                            card.style.opacity = opacity;
-                            card.style.transition = 'opacity 0.2s linear, transform 0.2s linear';
-                        });
-                    }
+                    // Reset any transforms on all cards
+                    cards.forEach(card => {
+                        card.style.transform = '';
+                        card.style.opacity = '';
+                    });
                     ticking = false;
                 });
                 ticking = true;

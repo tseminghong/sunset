@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HPCSS ICT Revision Hub - Liquid Glass Design</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://placehold.co/32x32/0091FF/FFFFFF?text=H">
+    <style>
+        :root {
+            /* Light Theme - Hyper-Visual Apple Inspired */
+            --bg-primary: #EFF1F5;
+            --bg-secondary: #FFFFFF;
+            --bg-tertiary: #E8EAF0;
+            --bg-glass-color: rgba(255, 255, 255, 0.45);
+            --header-glass-color: rgba(255, 255, 255, 0.4); /* Clearer header background */
+            --bg-glass-glare: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.6), transparent 50%);
+            --noise-texture: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuODUiIG51bU9jdGF2ZXM9IjEwIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlRGlmZnVzZExpZ2h0aW5nIGxpZ2h0aW5nLWNvbG9yPSIjZmZmZmZmIiBzdXJmYWNlU2NhbGU9IjE1IiA+PGZlRGlzdGFudExpZ2h0IGF6aW11dGg9IjAiIGVsZXZhdGlvbj0iMTAwIi8+PC9mZURpZmZ1c2VMaWdodGluZz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgibm9pc2UpIiBvcGFjaXR5PSIwLjA1Ii8+PC9zdmc+');
+            --bg-hero-start: #f0f4f9;
+            --bg-hero-end: #d9e7ff;
+
+            --text-primary: #111113;
+            --text-secondary: #5c5c62;
+            --text-tertiary: #8a8a8f;
+
+            --accent-primary: #0091FF;
+            --accent-primary-hover: #007CE6;
+            
+            --border-highlight: rgba(255, 255, 255, 0.7);
+            --border-secondary: rgba(0, 0, 0, 0.08);
+
+            --shadow-color: rgba(9, 20, 56, 0.08);
+            --highlight-glow: 0px 12px 45px rgba(0, 145, 255, 0.3);
+            --modal-backdrop: rgba(240, 244, 249, 0.3);
+            --icon-color: var(--text-secondary);
+        }
+
+        .dark-theme {
+            /* Dark Theme - Hyper-Visual Apple Inspired */
+            --bg-primary: #000000;
+            --bg-secondary: #121213;
+            --bg-tertiary: #2C2C2E;
+            --bg-glass-color: rgba(28, 28, 30, 0.5);
+            --header-glass-color: rgba(28, 28, 30, 0.4); /* Clearer header background */
+            --bg-glass-glare: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.1), transparent 40%);
+            --noise-texture: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuODUiIG51bU9jdGF2ZXM9IjEwIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlRGlmZnVzZExpZ2h0aW5nIGxpZ2h0aW5nLWNvbG9yPSIjZmZmZmZmIiBzdXJmYWNlU2NhbGU9IjE1IiA+PGZlRGlzdGFudExpZ2h0IGF6aW11dGg9IjAiIGVsZXZhdGlvbj0iMTAwIi8+PC9mZURpZmZ1c2VMaWdodGluZz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgibm9pc2UpIiBvcGFjaXR5PSIwLjA1Ii8+PC9zdmc+');
+            --bg-hero-start: #1a1c23;
+            --bg-hero-end: #1c2a4e;
+            
+            --text-primary: #F5F5F7;
+            --text-secondary: #a0a0a8;
+            --text-tertiary: #636366;
+
+            --accent-primary: #0A96FF;
+            --accent-primary-hover: #33A9FF;
+
+            --border-highlight: rgba(255, 255, 255, 0.2);
+            --border-secondary: rgba(255, 255, 255, 0.1);
+
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --highlight-glow: 0px 12px 50px rgba(10, 150, 255, 0.35);
+            --modal-backdrop: rgba(0, 0, 0, 0.6);
+            --icon-color: var(--text-secondary);
+        }
+
+        /* Base Styles */
+        html, body {
+            overscroll-behavior: none; /* Disable default browser overscroll behavior */
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.4s ease, color 0.4s ease;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        #scroll-container {
+            width: 100%;
+            will-change: transform;
+        }
+        #scroll-container.is-bouncing {
+            transition: transform 0.5s cubic-bezier(0.2, 1.5, 0.7, 1);
+        }
+        
+        /* Glassmorphism Effect for Surfaces */
+        .glass-effect {
+            background: var(--noise-texture), var(--bg-glass-glare), var(--bg-glass-color);
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 0 0 1.5px var(--border-highlight), 0 8px 32px var(--shadow-color);
+            transition: background-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        /* Header */
+        .main-header.glass-effect { 
+            background: var(--noise-texture), var(--bg-glass-glare), var(--header-glass-color);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+        }
+        .nav-link { color: var(--text-secondary); transition: color 0.3s ease; font-weight: 500; }
+        .nav-link:hover, .nav-link.active { color: var(--text-primary); }
+        .theme-toggle-btn { color: var(--text-secondary); background-color: transparent; border-radius: 9999px; transition: color 0.3s ease, background-color 0.3s ease; }
+        .theme-toggle-btn:hover { color: var(--accent-primary); background-color: var(--bg-tertiary); }
+        
+        /* Buttons */
+        .primary-btn, .tag-btn.active {
+            color: #fff;
+            font-weight: 600;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            background-color: var(--accent-primary);
+            box-shadow: 0 4px 15px rgba(0,125,255,0.2);
+            display: inline-block;
+        }
+
+        .primary-btn:hover, .tag-btn.active:hover {
+            background-color: var(--accent-primary-hover);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,125,255,0.3);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background-image: radial-gradient(circle at 50% 30%, var(--bg-hero-start), var(--bg-hero-end));
+            position: relative;
+            overflow: hidden;
+        }
+        .welcome-title { color: var(--text-primary); }
+        .welcome-subtitle { color: var(--text-secondary); }
+
+        /* Tag Filter */
+        .tag-btn {
+            padding: 0.6rem 1.35rem; border-radius: 9999px; font-weight: 500; font-size: 0.875rem;
+            line-height: 1.25rem; transition: all 0.3s ease;
+            border: 1px solid var(--border-secondary);
+            color: var(--text-secondary);
+            background-color: var(--bg-secondary);
+        }
+        .tag-btn:hover {
+            border-color: var(--text-tertiary);
+            color: var(--text-primary);
+            box-shadow: 0 4px 10px var(--shadow-color);
+        }
+        
+        /* Resource Cards */
+        .resource-card {
+            border-radius: 1.75rem; /* 28px */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        /* Apple Watch Scroll Effect - Applied via JS */
+        @media (max-width: 767px) {
+            #resource-cards {
+                perspective: 1000px;
+            }
+            .resource-card {
+                /* Set a base transition for when the effect is removed/added */
+                transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            }
+        }
+        @media (min-width: 768px) {
+             .resource-card:hover {
+                transform: scale(1.03);
+                box-shadow: var(--highlight-glow);
+            }
+        }
+        
+        .card-content-wrapper { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-title { color: var(--text-primary); }
+        .card-description { color: var(--text-secondary); font-size: 0.9rem; }
+        .card-tags span {
+            background-color: var(--bg-tertiary);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .card-link { color: var(--accent-primary); transition: color 0.2s ease; }
+        .card-image-placeholder {
+            height: 180px;
+            background-color: var(--bg-tertiary);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .card-image-placeholder svg {
+            width: 50px; height: 50px;
+            color: var(--icon-color);
+            opacity: 0.7;
+            transition: color 0.4s ease;
+        }
+        
+        /* Testimonials & About Section*/
+        .testimonial-card, .about-section {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-secondary);
+        }
+        .testimonial-avatar {
+            width: 48px; height: 48px; border-radius: 50%; object-fit: cover;
+            border: 2px solid var(--bg-primary);
+        }
+        
+        /* Footer */
+        .main-footer {
+             background-color: var(--bg-secondary);
+             border-top: 1px solid var(--border-secondary);
+             color: var(--text-secondary);
+        }
+        .footer-link { color: var(--text-secondary); transition: color 0.2s ease; }
+        .footer-link:hover { color: var(--accent-primary); }
+        
+        /* Modals */
+        .modal { 
+            display: flex;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0s 0.3s;
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+        }
+        .modal.is-open { 
+            visibility: visible;
+            opacity: 1;
+            transition: opacity 0.3s ease, visibility 0s;
+        }
+        .modal-content-container {
+             max-height: 90vh;
+             border-radius: 1.5rem;
+             transform: scale(0.95);
+             opacity: 0;
+             transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.3s ease;
+        }
+        .modal.is-open .modal-content-container { 
+            transform: scale(1);
+            opacity: 1;
+        }
+        .modal-body p, .modal-body ul { color: var(--text-secondary); }
+        .modal-body h5 { color: var(--text-primary); }
+        .modal-header h3 { color: var(--text-primary); }
+        .modal-close-icon { color: var(--text-tertiary); }
+        .modal-close-icon:hover { color: var(--text-primary); }
+
+        /* macOS Controls */
+        .macos-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+        }
+        .macos-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        .macos-dot-red { background-color: #ff5f57; }
+        .macos-dot-yellow { background-color: #febc2e; }
+        .macos-dot-green { background-color: #28c840; }
+        .dark-theme .macos-dot { border-color: rgba(255,255,255,0.1); }
+
+
+        /* Floating Search Bar */
+        #search-container {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 0;
+            right: 0;
+            z-index: 40;
+            display: flex;
+            justify-content: center;
+            padding: 0 1rem;
+        }
+        #search-bar {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 9999px;
+            padding: 0.5rem 0.75rem 0.5rem 3rem;
+        }
+        #search-icon-wrapper {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-tertiary);
+        }
+        #search-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        #search-input::placeholder {
+            color: var(--text-tertiary);
+            font-weight: 500;
+        }
+
+        
+        /* Theme Transition */
+        #theme-transition-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            pointer-events: none;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+        }
+        #theme-droplet {
+            width: 32px; /* same as theme icon container */
+            height: 32px;
+            border-radius: 50%;
+            transform: scale(0);
+            will-change: transform;
+            --droplet-bg: #EFF1F5;
+            background: var(--noise-texture), var(--bg-glass-glare), var(--droplet-bg);
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 0 0 1.5px var(--border-highlight), 0 8px 32px var(--shadow-color);
+        }
+        #theme-droplet.animate {
+            transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
+        /* Loader */
+        #loading-overlay { background-color: var(--bg-primary); }
+        .loader-m3 {
+            border: 4px solid var(--border-secondary);
+            border-top: 4px solid var(--accent-primary);
+            border-radius: 50%; width: 48px; height: 48px;
+            animation: spin-m3 1s linear infinite;
+        }
+        @keyframes spin-m3 {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- SVG Filters for Glass Effect -->
+    <svg style="position:absolute; width:0; height:0;">
+        <filter id="frosted-glass">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="15" />
+        </filter>
+    </svg>
+
+    <!-- Theme Transition Overlay -->
+    <div id="theme-transition-overlay">
+        <div id="theme-droplet"></div>
+    </div>
+
+    <div id="loading-overlay" style="position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;transition:opacity 0.5s ease;">
+        <div class="flex flex-col items-center">
+            <div class="loader-m3 mb-4"></div>
+            <span class="text-lg font-medium" style="color: var(--accent-primary);">載入中...</span>
+        </div>
+    </div>
+    
+    <div id="scroll-container">
+        <header class="main-header glass-effect sticky top-0 z-50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <a href="#" class="text-xl font-bold" style="color: var(--accent-primary);">格致寶院・算術玄樞</a>
+                    <nav class="hidden md:flex items-center space-x-8">
+                        <a href="#" class="nav-link active">中庭</a>
+                        <a href="#resources" class="nav-link">典藏</a>
+                        <a href="#about" class="nav-link">緣起</a>
+                        <a href="#testimonials" class="nav-link">雅言</a>
+                    </nav>
+                    <div class="flex items-center space-x-4">
+                        <button id="theme-toggle" title="Toggle theme" class="theme-toggle-btn p-2">
+                            <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                            <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                        </button>
+                        <button class="md:hidden text-gray-600 hover:text-blue-600" id="mobileMenuButton">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                        </button>
+                    </div>
+                </div>
+                <div id="mobileMenu" class="hidden md:hidden py-2 border-t" style="border-color: var(--border-secondary);">
+                    <a href="#" class="block nav-link active py-2">中庭</a>
+                    <a href="#resources" class="block nav-link py-2">典藏</a>
+                    <a href="#about" class="block nav-link py-2">緣起</a>
+                    <a href="#testimonials" class="block nav-link py-2">雅言</a>
+                </div>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+            <section class="hero-section text-center py-20 md:py-28 rounded-3xl mb-16 md:mb-20">
+                <h1 class="welcome-title text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">資訊科技・溫習中樞</h1>
+                <p class="welcome-subtitle text-lg sm:text-xl max-w-3xl mx-auto mb-8">此乃互動學習之要地，設計明晰，助爾卓越。</p>
+                <a href="#resources" class="primary-btn px-8 py-3 text-lg">啟程向學</a>
+            </section>
+
+            <section class="mb-12 md:mb-16 flex flex-col items-center">
+                <div id="tag-bar" class="flex flex-wrap gap-3 justify-center">
+                    <button class="tag-btn active" data-tag="all">全部</button>
+                    <button class="tag-btn" data-tag="Algorithms">算法</button>
+                    <button class="tag-btn" data-tag="SQL">查詢</button>
+                    <button class="tag-btn" data-tag="HTML">網頁</button>
+                    <button class="tag-btn" data-tag="Software">軟件</button>
+                    <button class="tag-btn" data-tag="Hardware">硬件</button>
+                    <button class="tag-btn" data-tag="Visualization">圖解</button>
+                </div>
+            </section>
+
+            <section id="resources" class="mb-16 md:mb-20">
+                <h2 class="section-title text-3xl sm:text-4xl font-bold mb-8 md:mb-10 text-center sm:text-left">精選典藏</h2>
+                <div id="resource-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Cards will be dynamically inserted here -->
+                </div>
+            </section>
+
+            <section id="testimonials" class="py-16 md:py-20 mb-16 md:mb-20">
+                <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <h2 class="section-title text-3xl sm:text-4xl font-bold mb-12 text-center">學子雅言</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Testimonial 1 -->
+                        <div class="testimonial-card p-6 rounded-2xl">
+                            <div class="flex items-start mb-4">
+                                <img src="https://placehold.co/48x48/E2E8F0/4A5568?text=C" alt="Clara B." class="testimonial-avatar mr-4">
+                                <div>
+                                    <h4 class="font-semibold text-lg card-title">陳生</h4>
+                                    <p class="text-sm" style="color: var(--text-tertiary);">中五學子</p>
+                                </div>
+                            </div>
+                            <p class="text-base card-description italic">「算法圖解，變革之作。課中之惑，豁然開朗。吾績，亦因之大進。」</p>
+                        </div>
+                        <!-- Testimonial 2 -->
+                        <div class="testimonial-card p-6 rounded-2xl">
+                            <div class="flex items-start mb-4">
+                                <img src="https://placehold.co/48x48/E2E8F0/4A5568?text=L" alt="Liam C." class="testimonial-avatar mr-4">
+                                <div>
+                                    <h4 class="font-semibold text-lg card-title">李生</h4>
+                                    <p class="text-sm" style="color: var(--text-tertiary);">中六學子</p>
+                                </div>
+                            </div>
+                            <p class="text-base card-description italic">「余嘗用文憑試題解，獲益良多，如親臨良師之教誨。」</p>
+                        </div>
+                        <!-- Testimonial 3 -->
+                        <div class="testimonial-card p-6 rounded-2xl">
+                            <div class="flex items-start mb-4">
+                                <img src="https://placehold.co/48x48/E2E8F0/4A5568?text=A" alt="Ava T." class="testimonial-avatar mr-4">
+                                <div>
+                                    <h4 class="font-semibold text-lg card-title">林生</h4>
+                                    <p class="text-sm" style="color: var(--text-tertiary);">中四學子</p>
+                                </div>
+                            </div>
+                            <p class="text-base card-description italic">「網頁互動編纂，趣味盎然。僅一下午，即窺網頁設計之堂奧。極薦之。」</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="about-section py-16 md:py-20 rounded-3xl mb-16 md:mb-20">
+                <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <h2 class="section-title text-3xl sm:text-4xl font-bold card-title mb-6 text-center">典藏緣起</h2>
+                    <div class="max-w-3xl mx-auto text-center card-description space-y-4 text-base">
+                        <p>此互動典藏，乃為助學子備考文憑試而設。其所藏，皆為算學、算法及解題之要義。</p>
+                        <p>各典籍皆備互動圖解、步步詳析、練習題解，以輔課堂所學，亦可供自習之用。</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="main-footer pt-12 pb-8">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8 text-sm">
+                    <div>
+                        <h4 class="text-md font-semibold card-title mb-3">捷徑</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="footer-link">中庭</a></li>
+                            <li><a href="#resources" class="footer-link">典藏</a></li>
+                            <li><a href="#about" class="footer-link">緣起</a></li>
+                            <li><a href="#testimonials" class="footer-link">雅言</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-md font-semibold card-title mb-3">規章</h4>
+                        <ul class="space-y-2">
+                            <li><button id="openTermsModalFooter" class="footer-link text-left w-full">使用條款</button></li>
+                            <li><button id="openPrivacyModalFooter" class="footer-link text-left w-full">私隱政策</button></li>
+                        </ul>
+                    </div>
+                     <div class="col-span-2 text-right">
+                        <h3 class="text-lg font-bold card-title mb-2">格致寶院・算術玄樞</h3>
+                        <p class="text-sm card-description">為資訊科技學子而備之學習典藏。</p>
+                     </div>
+                </div>
+                <div class="border-t pt-8 text-center" style="border-color: var(--border-secondary);">
+                    <p class="text-xs card-description">&copy; 二零二五 寶血格致書院資訊科技溫習典藏。版權所有。</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Floating Search Bar -->
+    <div id="search-container">
+        <div id="search-bar" class="glass-effect relative">
+            <div id="search-icon-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg>
+            </div>
+            <input type="text" id="search-input" placeholder="尋典...">
+        </div>
+    </div>
+
+    <!-- Modals -->
+     <div id="visit-popup" class="modal fixed inset-0 z-[100] items-center justify-center p-4">
+        <div class="modal-content-container glass-effect w-full max-w-md rounded-2xl overflow-hidden">
+            <div class="p-4 relative">
+                <div class="macos-controls">
+                    <button class="macos-dot macos-dot-red modal-close"></button>
+                    <button class="macos-dot macos-dot-yellow modal-close"></button>
+                    <button class="macos-dot macos-dot-green modal-close"></button>
+                </div>
+            </div>
+            <div class="p-6 pt-2 text-center">
+                 <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/359550/header.jpg?t=1700676993" class="w-full h-auto object-cover rounded-lg mb-4" alt="Rainbow Six Siege">
+                <h3 class="text-2xl font-bold card-title mb-2">《虹彩六號》今夕免費！</h3>
+                <p class="card-description mb-4">週末激戰，分文不取，速來體驗。</p>
+                <a href="https://store.steampowered.com/app/359550/Tom_Clancys_Rainbow_Six_Siege/" target="_blank" rel="noopener noreferrer" class="primary-btn px-6 py-2 w-full modal-close">甚善！</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const docElement = document.documentElement;
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIconLight = document.getElementById('theme-icon-light');
+        const themeIconDark = document.getElementById('theme-icon-dark');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const droplet = document.getElementById('theme-droplet');
+        const dropletOverlay = document.getElementById('theme-transition-overlay');
+
+        const THEME_KEY = 'themePreference';
+        const LIGHT = 'light';
+        const DARK = 'dark';
+        
+        // --- Data for Cards ---
+        const resourcesData = [
+            { 
+                href: 's4python.html', 
+                tags: 'Algorithms,Visualization',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>',
+                title: '中四・蟒語算法',
+                description: '算法之互動圖解，附以詳盡闡釋。',
+                linkText: '探尋圖解'
+            },
+            {
+                href: 'DSE_2025(1).html',
+                tags: 'Algorithms',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>',
+                title: '文憑試題・數字遊戲',
+                description: '詳解文憑試題，附以互動範例。',
+                linkText: '研習試題'
+            },
+            {
+                href: 'DSE_2025(2).html',
+                tags: 'Algorithms',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.03 1.123 0 1.131.094 1.976 1.057 1.976 2.192V7.5M8.25 7.5h7.5M8.25 7.5V9a.75.75 0 01-.75.75H5.625c-.621 0-1.125-.504-1.125-1.125V7.5m11.25 0V9A.75.75 0 0019.5 9.75h-1.875c-.621 0-1.125-.504-1.125-1.125V7.5M3 13.5h18M3 17.25h18" /></svg>',
+                title: '文憑試題・餐廳席位',
+                description: '互動演繹餐廳席位算法，附以圖解。',
+                linkText: '試之詳解'
+            },
+            {
+                href: 'html_learning.html',
+                tags: 'HTML,Visualization',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" /></svg>',
+                title: '互動學習・網頁設計',
+                description: '親手編寫網頁，即時預覽，習其精髓。',
+                linkText: '試之教程'
+            },
+            {
+                href: 'proccessing_mode.html',
+                tags: 'Visualization',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /></svg>',
+                title: '解構・處理模式',
+                description: '即時、批處理、並行及分佈式處理之互動演示。',
+                linkText: '探究其理'
+            },
+            {
+                href: 'software.html',
+                tags: 'Software',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h4.5M12 3v13.5" /></svg>',
+                title: '軟件之學',
+                description: '以互動指南，探究系統與應用軟件之概念。',
+                linkText: '探究軟件'
+            },
+            {
+                href: 'hardware.html',
+                tags: 'Hardware',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-7.5h12c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125h-12c-.621 0-1.125.504-1.125 1.125v5.25c0 .621.504 1.125 1.125 1.125z" /></svg>',
+                title: '硬件之學',
+                description: '探究硬件、內存、處理器及輸入設備之基石。',
+                linkText: '探究硬件'
+            },
+            {
+                href: 'sql.html',
+                tags: 'SQL,Visualization',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" /></svg>',
+                title: '數據庫查詢指南',
+                description: '練習查詢語句，探索數據庫概念，以互動挑戰試煉技能。',
+                linkText: '開啟旅程'
+            }
+        ];
+
+        // --- Theme Management ---
+        function applyThemeUI(theme) {
+            if (theme === DARK) {
+                docElement.classList.add('dark-theme');
+                themeIconLight.style.display = 'none';
+                themeIconDark.style.display = 'block';
+            } else {
+                docElement.classList.remove('dark-theme');
+                themeIconLight.style.display = 'block';
+                themeIconDark.style.display = 'none';
+            }
+        }
+        
+        let isTransitioning = false;
+
+        function handleThemeToggle() {
+            if (isTransitioning) return;
+            isTransitioning = true;
+
+            const isDark = docElement.classList.contains('dark-theme');
+            const newTheme = isDark ? LIGHT : DARK;
+            
+            const newBgColor = newTheme === DARK ? '#000000' : '#EFF1F5';
+            droplet.style.setProperty('--droplet-bg', newBgColor);
+            
+            const rect = themeToggleBtn.getBoundingClientRect();
+            droplet.style.top = `${rect.top + rect.height / 2}px`;
+            droplet.style.left = `${rect.left + rect.width / 2}px`;
+
+            dropletOverlay.style.pointerEvents = 'auto';
+            droplet.classList.add('animate');
+            
+            const endScale = Math.hypot(window.innerWidth, window.innerHeight) / droplet.offsetWidth;
+            droplet.style.transform = `scale(${endScale})`;
+
+            droplet.addEventListener('transitionend', function onTransitionEnd() {
+                applyThemeUI(newTheme);
+                localStorage.setItem(THEME_KEY, newTheme);
+
+                droplet.style.transform = 'scale(0)';
+                droplet.classList.remove('animate');
+                dropletOverlay.style.pointerEvents = 'none';
+                isTransitioning = false;
+                
+            }, { once: true });
+        }
+        
+        themeToggleBtn.addEventListener('click', handleThemeToggle);
+
+        // --- Mobile Menu ---
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        // --- Card & Filter Logic ---
+        const resourceCardsContainer = document.getElementById('resource-cards');
+        const tagButtons = document.querySelectorAll('.tag-btn');
+        const searchInput = document.getElementById('search-input');
+        let activeTag = 'all';
+
+        function createCard(data) {
+            const tagsHtml = data.tags.split(',').map(tag => `<span class="px-3 py-1 rounded-full">${tag}</span>`).join('');
+            return `
+                <a href="${data.href}" class="resource-card glass-effect" data-tags="${data.tags}">
+                    <div class="card-image-placeholder">${data.icon}</div>
+                    <div class="card-content-wrapper">
+                        <div>
+                            <h3 class="text-xl font-bold card-title mb-2">${data.title}</h3>
+                            <p class="card-description mb-4">${data.description}</p>
+                            <div class="flex flex-wrap gap-2 mb-4 card-tags">${tagsHtml}</div>
+                        </div>
+                        <div class="mt-auto">
+                            <div class="flex items-center card-link font-medium text-sm">
+                                ${data.linkText}
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 ml-1"><path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" /></svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            `;
+        }
+        
+        function updateVisibleCards() {
+            const searchTerm = searchInput.value.toLowerCase();
+            resourceCardsContainer.innerHTML = '';
+            resourcesData.forEach(cardData => {
+                const cardTags = cardData.tags.split(',');
+                const tagMatch = activeTag === 'all' || cardTags.includes(activeTag);
+                const textMatch = cardData.title.toLowerCase().includes(searchTerm) || cardData.description.toLowerCase().includes(searchTerm);
+                
+                if (tagMatch && textMatch) {
+                    resourceCardsContainer.innerHTML += createCard(cardData);
+                }
+            });
+            handleScrollAndResize(); 
+        }
+
+        tagButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tagButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeTag = btn.dataset.tag;
+                updateVisibleCards();
+            });
+        });
+        
+        searchInput.addEventListener('input', updateVisibleCards);
+
+        // --- Effects ---
+        const scrollContainer = document.getElementById('scroll-container');
+        let ticking = false;
+        let isOverscrolling = false;
+        let startY = 0;
+        let pullDistance = 0;
+
+        function handleScrollAndResize() {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const cards = document.querySelectorAll('#resource-cards .resource-card');
+                    if (window.innerWidth >= 768) {
+                        cards.forEach(card => {
+                            card.style.transform = '';
+                            card.style.opacity = '';
+                            card.style.transition = 'transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s cubic-bezier(0.19, 1, 0.22, 1)';
+                        });
+                    } else {
+                         const viewportCenterY = window.innerHeight / 2;
+                        const maxDistance = window.innerHeight / 2;
+                        cards.forEach(card => {
+                            const cardRect = card.getBoundingClientRect();
+                            const cardCenterY = cardRect.top + cardRect.height / 2;
+                            const distance = Math.abs(viewportCenterY - cardCenterY);
+                            const ratio = Math.min(distance / maxDistance, 1);
+                            const scale = 1 - (ratio * 0.2);
+                            const opacity = 1 - (ratio * 0.7);
+                            const rotation = (cardCenterY - viewportCenterY) / maxDistance * -15;
+                            card.style.transform = `scale(${scale}) rotateX(${rotation}deg)`;
+                            card.style.opacity = opacity;
+                            card.style.transition = 'opacity 0.2s linear, transform 0.2s linear';
+                        });
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+
+        function handleTouchStart(e) {
+            if (e.target.closest('.modal')) return;
+            startY = e.touches[0].pageY;
+            isOverscrolling = false;
+            scrollContainer.classList.remove('is-bouncing');
+        }
+
+        function handleTouchMove(e) {
+            if (e.target.closest('.modal')) return;
+            const currentY = e.touches[0].pageY;
+            const deltaY = currentY - startY;
+            const atTop = window.scrollY === 0;
+            const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2; // -2 tolerance
+
+            if ((atTop && deltaY > 0) || (atBottom && deltaY < 0)) {
+                if (!e.cancelable) return;
+                e.preventDefault();
+                isOverscrolling = true;
+                pullDistance = deltaY * 0.4; // Damping factor
+                scrollContainer.style.transform = `translateY(${pullDistance}px)`;
+            }
+        }
+        
+        function handleTouchEnd() {
+            if (isOverscrolling) {
+                scrollContainer.classList.add('is-bouncing');
+                scrollContainer.style.transform = 'translateY(0)';
+                isOverscrolling = false;
+                pullDistance = 0;
+            }
+        }
+
+        window.addEventListener('scroll', handleScrollAndResize);
+        window.addEventListener('resize', handleScrollAndResize);
+        window.addEventListener('touchstart', handleTouchStart, { passive: false });
+        window.addEventListener('touchmove', handleTouchMove, { passive: false });
+        window.addEventListener('touchend', handleTouchEnd);
+
+
+        // --- Modal Logic ---
+        const visitPopup = document.getElementById('visit-popup');
+        
+        function openModal(modal) {
+            if (modal) {
+                modal.classList.add('is-open');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(modal) {
+            if (modal) {
+                modal.classList.remove('is-open');
+                const isAnyModalOpen = document.querySelector('.modal.is-open');
+                if (!isAnyModalOpen) document.body.style.overflow = '';
+            }
+        }
+        
+        // Setup for Visit Popup
+        if (visitPopup) {
+            const closeButtons = visitPopup.querySelectorAll('.modal-close');
+            closeButtons.forEach(button => button.addEventListener('click', (e) => {
+                // Prevent anchor tag from firing if it's also a close button
+                if (button.tagName === 'A') {
+                   // Let the link work, but still close the modal
+                } else {
+                   e.preventDefault();
+                }
+                closeModal(visitPopup);
+            }));
+            
+            visitPopup.addEventListener('click', (event) => {
+                if(event.target === visitPopup) {
+                    closeModal(visitPopup);
+                }
+            });
+
+            if (!sessionStorage.getItem('visited')) {
+                setTimeout(() => {
+                    openModal(visitPopup);
+                    sessionStorage.setItem('visited', 'true');
+                }, 2000);
+            }
+        }
+
+
+        // Initial setup
+        const initialTheme = localStorage.getItem(THEME_KEY) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? DARK : LIGHT);
+        applyThemeUI(initialTheme);
+        updateVisibleCards();
+    });
+
+    window.addEventListener('load', function() {
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) {
+            overlay.style.opacity = '0';
+            setTimeout(() => overlay.style.display = 'none', 500);
+        }
+    });
+    </script>
+</body>
+</html>

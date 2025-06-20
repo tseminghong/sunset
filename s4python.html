@@ -3,1476 +3,1366 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S4 Python Algorithms - Liquid Glass</title>
+    <title>S4 - Material 3 Expressive Design</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&family=SF+Pro+Text:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            --glass-backdrop: blur(20px);
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --glass-highlight: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%);
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            overflow-x: hidden;
+            font-family: 'Roboto Flex', 'Inter', sans-serif; /* Prioritize Roboto Flex for M3 feel */
+            scroll-behavior: smooth;
+            background-color: #f8fafc; /* slate-50, M3 Surface */
+        }
+        .container {
+             background-color: #ffffff; /* M3 Surface */
+             border-radius: 28px; /* M3 Large radius */
+             box-shadow: 0 4px 12px 0 rgba(0,0,0,0.07), 0 2px 4px 0 rgba(0,0,0,0.05); /* M3 Elevation 1-2 */
         }
 
-        .glass-container {
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-backdrop);
-            -webkit-backdrop-filter: var(--glass-backdrop);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            box-shadow: var(--glass-shadow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .glass-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: var(--glass-highlight);
-            z-index: 1;
-        }
-
-        .glass-button {
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-backdrop);
-            -webkit-backdrop-filter: var(--glass-backdrop);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 12px 24px;
-            font-weight: 500;
-            color: white;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .glass-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--glass-highlight);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: -1;
-        }
-
-        .glass-button:hover::before {
-            opacity: 1;
-        }
-
-        .glass-button:active {
-            transform: scale(0.98);
-        }
-
-        .glass-button.active {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .glass-input {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            padding: 12px 16px;
-            color: white;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .glass-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .glass-input:focus {
-            outline: none;
-            border-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
-        }
-
-        .floating-element {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(2deg); }
-        }
-
-        .morphing-blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(20px);
-            opacity: 0.3;
-            animation: morph 8s ease-in-out infinite;
-        }
-
-        @keyframes morph {
-            0%, 100% { 
-                border-radius: 50% 50% 50% 50%;
-                transform: scale(1) rotate(0deg);
-            }
-            25% { 
-                border-radius: 60% 40% 30% 70%;
-                transform: scale(1.1) rotate(90deg);
-            }
-            50% { 
-                border-radius: 30% 70% 70% 30%;
-                transform: scale(0.9) rotate(180deg);
-            }
-            75% { 
-                border-radius: 70% 30% 50% 50%;
-                transform: scale(1.05) rotate(270deg);
-            }
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 24px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .glass-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .visualization-3d {
-            perspective: 1000px;
-            transform-style: preserve-3d;
-        }
-
-        .array-element-3d {
-            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            padding: 16px;
-            margin: 8px;
-            color: white;
+        .tab-button {
+            padding: 0.75rem 1.5rem; /* M3 Tab padding */
+            border-radius: 9999px 9999px 0 0; /* Pill shape top for active, or use full pill */
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
             font-weight: 600;
-            font-size: 18px;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            transform-style: preserve-3d;
+            border-bottom: 2px solid transparent;
+        }
+        .tab-button.active {
+            background-color: #e0e7ff; /* indigo-200, M3 Secondary Container */
+            color: #3730a3; /* indigo-800, M3 On Secondary Container */
+            border-bottom-color: #4f46e5; /* indigo-600 */
+        }
+        .tab-button:not(.active):hover {
+            background-color: #f1f5f9; /* slate-100 */
+            color: #4f46e5; /* indigo-600 */
+        }
+
+        .sub-tab-button {
+            padding: 0.65rem 1.25rem;
+            border-radius: 8px 8px 0 0; /* Slightly less rounded for sub-tabs */
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            font-weight: 500;
+             border: 1px solid transparent;
+             border-bottom: none;
+        }
+        .sub-tab-button.active {
+            background-color: #ffffff; /* Surface */
+            color: #4f46e5; /* Primary */
+            border-color: #cbd5e1; /* slate-300 */
+            border-bottom-color: #ffffff; /* To make it look connected */
             position: relative;
-            min-width: 60px;
-            min-height: 60px;
+            top: 1px; /* Overlap the main border */
+        }
+         .sub-tab-button:not(.active):hover {
+            background-color: #f1f5f9; /* slate-100 */
+            color: #4f46e5;
+        }
+
+
+        .array-bar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            justify-content: flex-end;
+            position: relative; /* For value positioning */
+        }
+        .array-bar {
+            background-color: #38bdf8; /* sky-400, M3 Secondary */
+            margin: 0 2px;
+            text-align: center;
+            color: #0f172a; /* slate-900 or white depending on contrast */
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 6px 6px 0 0; /* Rounded tops */
+            transition: height 0.3s ease, background-color 0.3s ease, border 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            min-width: 24px; /* M3 min touch target / spacing */
+            padding-top: 5px;
+            position: relative;
+        }
+        .bar-value {
+            color: #334155; /* slate-700 */
+            font-size: 0.7rem;
+            margin-bottom: 2px;
+            position: absolute;
+            bottom: 100%; /* Position above the bar */
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            background-color: rgba(255,255,255,0.8);
+            padding: 1px 3px;
+            border-radius: 3px;
+        }
+        /* Vertical text can be tricky, consider if it's truly needed or if numbers above bars are better */
+        .array-bar span { /* If used for internal text, not recommended with .bar-value */
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            padding-bottom: 4px;
+        }
+
+        .highlight-compare { background-color: #f59e0b !important; /* amber-500 */ }
+        .highlight-swap { background-color: #ec4899 !important; /* pink-500 */ }
+        .highlight-min-idx { border: 3px solid #d97706 !important; /* amber-600 */ box-sizing: border-box; }
+        .highlight-current-i { border: 3px solid #6366f1 !important; /* indigo-500 */ box-sizing: border-box; }
+        .highlight-sorted { background-color: #34d399 !important; /* emerald-400 */ }
+        
+        .code-block {
+            background-color: #1e293b; /* slate-800, M3 Dark Surface */
+            color: #cbd5e1; /* slate-300 */
+            padding: 1rem;
+            border-radius: 0.75rem; /* M3 Medium radius */
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.875rem;
+            position: relative;
+        }
+        .code-block .code-line {
+            display: block;
+            padding: 0.1rem 0.5rem;
+            margin: 0 -0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            cursor: help;
+        }
+        .code-block .code-line.highlighted {
+            background-color: #334155; /* slate-700 */
+            color: #f1f5f9; /* slate-100 */
+        }
+        .visualization-area {
+            min-height: 256px;
+            background-color: #e2e8f0; /* slate-200 */
+            border-radius: 0.75rem; /* M3 medium radius */
+        }
+        #codeExplanationPopup {
+            pointer-events: none;
+            max-width: 280px;
+            word-wrap: break-word;
+            background-color: #334155; /* slate-700, M3 Dark Surface variant for popups */
+            color: #f1f5f9; /* slate-100 */
+            border-radius: 0.5rem; /* M3 Small radius */
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); /* M3 Elevation 2 */
+        }
+
+        /* Search visualization styles */
+        .search-step {
+            padding: 10px; /* M3 consistent padding */
+            border-radius: 8px; /* M3 small-medium radius */
+            margin: 4px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: 1px solid #cbd5e1; /* slate-300 */
+            min-width: 48px; /* M3 touch target */
+            min-height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-
-        .array-element-3d::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 50%);
-            border-radius: 12px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        .search-current {
+            background-color: #7dd3fc; /* sky-300 */
+            color: #0c4a6e; /* sky-800 */
+            border-color: #38bdf8; /* sky-400 */
+            transform: scale(1.05);
+        }
+        .search-found {
+            background-color: #6ee7b7; /* emerald-300 */
+            color: #047857; /* emerald-700 */
+            border-color: #34d399; /* emerald-400 */
+            transform: scale(1.1); font-weight: bold;
+        }
+        .search-mid { /* For Binary Search Midpoint */
+            background-color: #fcd34d; /* amber-300 */
+            color: #b45309; /* amber-700 */
+            border-color: #f59e0b; /* amber-500 */
+        }
+        .search-range { /* For Binary Search Active Range */
+            /* border-bottom: 3px solid #4f46e5; */ /* indigo-600 */
+            outline: 2px solid #818cf8; /* indigo-400 */
+            outline-offset: 2px;
+        }
+        .search-eliminated {
+            text-decoration: line-through;
+            color: #94a3b8; /* slate-400 */
+            background-color: #f1f5f9; /* slate-100 */
+            opacity: 0.7;
         }
 
-        .array-element-3d:hover::before {
-            opacity: 1;
-        }
-
-        .highlight-compare {
-            background: linear-gradient(135deg, rgba(251, 191, 36, 0.3) 0%, rgba(245, 158, 11, 0.1) 100%);
-            border-color: rgba(251, 191, 36, 0.5);
-            transform: translateZ(20px) rotateX(15deg);
-            box-shadow: 0 10px 20px rgba(251, 191, 36, 0.3);
-        }
-
-        .highlight-swap {
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.3) 0%, rgba(219, 39, 119, 0.1) 100%);
-            border-color: rgba(236, 72, 153, 0.5);
-            transform: translateZ(30px) rotateY(15deg);
-            box-shadow: 0 15px 30px rgba(236, 72, 153, 0.4);
-        }
-
-        .highlight-found {
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.3) 0%, rgba(22, 163, 74, 0.1) 100%);
-            border-color: rgba(34, 197, 94, 0.5);
-            transform: translateZ(40px) scale(1.1);
-            box-shadow: 0 20px 40px rgba(34, 197, 94, 0.5);
-        }
-
-        .highlight-current {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(37, 99, 235, 0.1) 100%);
-            border-color: rgba(59, 130, 246, 0.5);
-            transform: translateZ(25px) rotateX(10deg);
-            box-shadow: 0 12px 24px rgba(59, 130, 246, 0.4);
-        }
-
-        .highlight-sorted {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.3) 0%, rgba(5, 150, 105, 0.1) 100%);
-            border-color: rgba(16, 185, 129, 0.5);
-            transform: translateZ(15px);
-            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
-        }
-
-        .code-glass {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 24px;
-            font-family: 'SF Mono', Consolas, monospace;
-            color: rgba(255, 255, 255, 0.9);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .code-line {
-            padding: 8px 12px;
-            margin: 2px 0;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            cursor: help;
-            position: relative;
-        }
-
-        .code-line:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(8px);
-        }
-
-        .code-line.highlighted {
-            background: linear-gradient(90deg, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.1) 100%);
-            border-left: 3px solid rgba(59, 130, 246, 0.8);
-            transform: translateX(8px);
-        }
-
-        .nav-glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 8px;
-            display: flex;
-            gap: 8px;
-            margin-bottom: 32px;
-        }
-
-        .tab-glass {
-            background: transparent;
-            border: none;
-            border-radius: 12px;
-            padding: 12px 24px;
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tab-glass.active {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .tab-glass::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            border-radius: 12px;
-        }
-
-        .tab-glass:hover::before {
-            opacity: 1;
-        }
-
-        .status-glass {
-            background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 16px;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
-            margin-top: 16px;
-        }
-
-        .popup-glass {
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            padding: 12px 16px;
-            color: white;
-            font-size: 14px;
-            max-width: 300px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-        }
-
-        .back-button {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            padding: 12px 20px;
-            color: white;
-            text-decoration: none;
+        /* M3-like Button Styles */
+        .btn {
+            padding: 0.625rem 1.5rem; /* 10px 24px */
+            border-radius: 9999px; /* Full pill shape */
+            font-weight: 600;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            font-weight: 500;
+            justify-content: center;
+            text-align: center;
+            border: 1px solid transparent;
         }
-
-        .back-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        .btn:hover {
+            box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06); /* M3 Elevation on hover */
         }
-
-        .liquid-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
+        .btn:active {
+            transform: scale(0.98);
         }
-
-        .section-container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 32px;
-            margin: 24px 0;
-            position: relative;
-        }
-
-        .details-glass {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            overflow: hidden;
-            margin: 16px 0;
-        }
-
-        .details-glass summary {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 16px 24px;
+        .btn-primary {
+            background-color: #4f46e5; /* indigo-600 */
             color: white;
-            font-weight: 600;
+        }
+        .btn-primary:hover {
+            background-color: #4338ca; /* indigo-700 */
+        }
+        .btn-secondary { /* Tonal Button */
+            background-color: #e0e7ff; /* indigo-200 */
+            color: #3730a3; /* indigo-800 */
+        }
+        .btn-secondary:hover {
+            background-color: #c7d2fe; /* indigo-300 */
+        }
+        .btn-tertiary { /* Outlined Button */
+            background-color: transparent;
+            color: #c026d3; /* fuchsia-600 */
+            border-color: #c026d3; /* fuchsia-600 */
+        }
+        .btn-tertiary:hover {
+            background-color: #fdf2f8; /* pink-50 */
+        }
+         .btn-success {
+            background-color: #10b981; /* emerald-500 */
+            color: white;
+        }
+        .btn-success:hover {
+            background-color: #059669; /* emerald-600 */
+        }
+        .btn-danger { /* Can be filled or outlined */
+            background-color: #ef4444; /* red-500 */
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #dc2626; /* red-600 */
+        }
+
+        .input-field {
+            padding: 0.75rem 1rem; /* M3 Input padding */
+            border: 1px solid #cbd5e1; /* slate-300 */
+            border-radius: 0.5rem; /* M3 Small-Medium radius */
+            box-shadow: inset 0 1px 2px 0 rgba(0,0,0,0.05);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .input-field:focus {
+            border-color: #4f46e5; /* indigo-600 */
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3); /* Focus ring */
+            outline: none;
+        }
+
+        /* Details/Summary M3 like */
+        details > summary {
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
             cursor: pointer;
+            transition: background-color 0.2s ease;
+            list-style: none; /* Remove default marker */
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #4f46e5; /* indigo-600 */
+        }
+        details > summary:hover {
+            background-color: #eef2ff; /* indigo-50 */
+        }
+        details > summary::-webkit-details-marker { display: none; } /* Hide Safari marker */
+        details[open] > summary {
+            background-color: #e0e7ff; /* indigo-100 */
+        }
+        .details-icon {
+             transition: transform 0.3s ease;
+        }
+        details[open] .details-icon {
+            transform: rotate(180deg);
         }
 
-        .details-glass summary:hover {
-            background: rgba(255, 255, 255, 0.15);
+        /* Table M3 Styling */
+        .m3-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 0.75rem; /* Rounded corners for the table container if needed */
+            overflow: hidden; /* For rounded corners on table itself */
+            font-size: 0.875rem;
+        }
+        .m3-table th, .m3-table td {
+            border: 1px solid #e2e8f0; /* slate-200 */
+            padding: 0.75rem 1rem; /* M3 cell padding */
+            text-align: left;
+        }
+        .m3-table th {
+            background-color: #f1f5f9; /* slate-100, M3 Table Header */
+            font-weight: 600;
+            color: #1e293b; /* slate-800 */
+        }
+        .m3-table tbody tr:nth-child(even) {
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .m3-table tbody tr:hover {
+            background-color: #f0f9ff; /* sky-50 */
         }
 
-        .details-glass[open] summary {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .merge-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-            margin: 24px 0;
-        }
-
-        @media (max-width: 768px) {
-            .glass-container {
-                margin: 16px;
-                padding: 20px;
-            }
-            
-            .nav-glass {
-                flex-direction: column;
-                gap: 4px;
-            }
-            
-            .tab-glass {
-                padding: 12px 16px;
-            }
-            
-            .merge-grid {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon_io/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon_io/android-chrome-512x512.png">
+    <link rel="apple-touch-icon" href="favicon_io/apple-touch-icon.png">
+    <link rel="manifest" href="favicon_io/site.webmanifest">
 </head>
-<body>
-    <!-- Liquid Background -->
-    <div class="liquid-bg">
-        <div class="morphing-blob w-96 h-96 bg-purple-400 absolute top-20 -left-20"></div>
-        <div class="morphing-blob w-80 h-80 bg-blue-400 absolute top-40 right-10"></div>
-        <div class="morphing-blob w-64 h-64 bg-pink-400 absolute bottom-20 left-20"></div>
-        <div class="morphing-blob w-72 h-72 bg-indigo-400 absolute bottom-10 -right-10"></div>
-    </div>
+<body class="min-h-screen flex flex-col items-center py-8 px-4">
+    <div class="container mx-auto p-6 sm:p-8 w-full max-w-5xl">
+        <div class="flex justify-start mb-6">
+            <a href="index.html" class="inline-flex items-center text-indigo-600 hover:text-indigo-800 transition-colors duration-200 font-medium py-2 px-3 rounded-lg hover:bg-indigo-50">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                </svg>
+                Back to Home
+            </a>
+        </div>
+        <header class="mb-10">
+            <h1 class="text-5xl font-bold text-center text-indigo-700">ICT Python S4</h1>
+            <p class="text-center text-slate-600 mt-3 text-lg">Learn Python step-by-step with interactive visualizations!</p>
+        </header>
 
-    <div class="min-h-screen p-4 md:p-8">
-        <div class="max-w-6xl mx-auto">
-            <!-- Back Button -->
-            <div class="mb-8">
-                <a href="index.html" class="back-button">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M19 12H5M12 19l-7-7 7-7"/>
-                    </svg>
-                    Back to Home
-                </a>
-            </div>
+        <nav class="mb-8 flex justify-center border-b border-slate-300">
+            <button id="showSorting" class="tab-button active">Sorting</button>
+            <button id="showSearching" class="tab-button">Searching</button>
+            <button id="showMerge" class="tab-button">Merge</button>
+        </nav>
 
-            <!-- Main Container -->
-            <div class="glass-container">
-                <!-- Header -->
-                <header class="text-center mb-12 floating-element">
-                    <h1 class="text-5xl md:text-6xl font-bold text-white mb-4" style="font-family: 'SF Pro Display', sans-serif;">
-                        Python Algorithms
-                    </h1>
-                    <p class="text-xl text-white/80 max-w-2xl mx-auto">
-                        Experience interactive algorithm visualizations with beautiful 3D animations
-                    </p>
+        <main>
+            <section id="sortingSection" class="sort-section">
+                <header class="mb-6">
+                    <h2 class="text-3xl font-semibold text-slate-800">Sorting Algorithms</h2>
                 </header>
+                <article class="prose max-w-none text-slate-700 mb-6 leading-relaxed">
+                    <p>Sorting algorithms are used to arrange elements of a list in a specific order (ascending or descending). Below are two common sorting algorithms: Selection Sort and Bubble Sort.</p>
+                </article>
 
-                <!-- Main Navigation -->
-                <nav class="nav-glass justify-center">
-                    <button id="showSorting" class="tab-glass active">
-                        <span>🔄</span> Sorting
-                    </button>
-                    <button id="showSearching" class="tab-glass">
-                        <span>🔍</span> Searching
-                    </button>
-                    <button id="showMerge" class="tab-glass">
-                        <span>🔗</span> Merge
-                    </button>
+                <nav class="mb-8 flex justify-center border-b border-slate-300 -mt-px"> <button id="showSelectionSort" class="sub-tab-button active">Selection Sort</button>
+                    <button id="showBubbleSort" class="sub-tab-button">Bubble Sort</button>
                 </nav>
 
-                <!-- Sorting Section -->
-                <section id="sortingSection" class="section-container">
-                    <h2 class="text-3xl font-bold text-white mb-6">Sorting Algorithms</h2>
-                    <p class="text-white/80 mb-8 text-lg leading-relaxed">
-                        Discover how sorting algorithms organize data through mesmerizing 3D visualizations.
-                    </p>
+                <section id="selectionSortSection" class="sort-subsection">
+                    <header class="mb-6">
+                    <h3 class="text-2xl font-semibold text-slate-800">Selection Sort</h3>
+                    </header>
+                    <article class="prose max-w-none text-slate-700 mb-6 leading-relaxed">
+                    <p>Selection sort is an in-place comparison sorting algorithm. It has an O(n<sup>2</sup>) time complexity, making it inefficient on large lists but simple to understand and implement.</p>
+                    <p><strong>How it works:</strong></p>
+                    <ol class="list-decimal list-inside">
+                        <li>The list is divided into two parts: a sorted sublist (initially empty) and an unsorted sublist (initially the entire list).</li>
+                        <li>The algorithm repeatedly finds the smallest (or largest, for descending order) element from the unsorted sublist.</li>
+                        <li>It then swaps this smallest element with the first element of the unsorted sublist.</li>
+                        <li>The boundary of the sorted sublist is moved one element to the right.</li>
+                        <li>This process continues until the entire list is sorted.</li>
+                    </ol>
+                    </article>
 
-                    <!-- Sorting Sub-navigation -->
-                    <nav class="nav-glass justify-center mb-8">
-                        <button id="showSelectionSort" class="tab-glass active">
-                            Selection Sort
-                        </button>
-                        <button id="showBubbleSort" class="tab-glass">
-                            Bubble Sort
-                        </button>
-                    </nav>
+                    <details class="mb-6 group">
+                        <summary>
+                            Python Code
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 ml-auto details-icon transform transition-transform">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </summary>
+                        <pre id="selectionSortCodeBlock" class="code-block mt-2">...</pre> </details>
 
-                    <!-- Selection Sort -->
-                    <div id="selectionSortSection" class="glass-card">
-                        <h3 class="text-2xl font-semibold text-white mb-4">Selection Sort</h3>
-                        <p class="text-white/80 mb-6">
-                            Watch as the algorithm repeatedly finds the minimum element and places it in its correct position.
-                        </p>
-
-                        <details class="details-glass">
-                            <summary>
-                                <span>Python Code</span>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M6 9l6 6 6-6"/>
-                                </svg>
-                            </summary>
-                            <div class="code-glass">
-                                <pre id="selectionSortCodeBlock"><code>
-<span class="code-line" data-line-number="0" data-explanation="Defines the selection_sort function">def selection_sort(arr):</span>
-<span class="code-line" data-line-number="1" data-explanation="Gets the number of elements">    n = len(arr)</span>
-<span class="code-line" data-line-number="2" data-explanation="Outer loop boundary">    for i in range(n):</span>
-<span class="code-line" data-line-number="3" data-explanation="Assume current element is minimum">        min_idx = i</span>
-<span class="code-line" data-line-number="4" data-explanation="Find actual minimum in unsorted part">        for j in range(i + 1, n):</span>
-<span class="code-line" data-line-number="5" data-explanation="Compare with current minimum">            if arr[j] < arr[min_idx]:</span>
-<span class="code-line" data-line-number="6" data-explanation="Update minimum index">                min_idx = j</span>
-<span class="code-line" data-line-number="7" data-explanation="Swap elements">        arr[i], arr[min_idx] = arr[min_idx], arr[i]</span>
-<span class="code-line" data-line-number="8" data-explanation="Return sorted array">    return arr</span>
-                                </code></pre>
-                            </div>
-                        </details>
-
-                        <div class="mt-8">
-                            <h4 class="text-xl font-semibold text-white mb-4">Try it yourself!</h4>
-                            <div class="space-y-4 mb-6">
-                                <div>
-                                    <label class="block text-white/80 mb-2">Enter numbers (comma-separated):</label>
-                                    <input type="text" id="selectionInput" class="glass-input w-full" value="5,1,9,3,7,4,6,2,8">
-                                </div>
-                                <div class="flex flex-wrap gap-3">
-                                    <button id="startSelectionSort" class="glass-button">✨ Visualize</button>
-                                    <button id="nextSelectionStep" class="glass-button" disabled>▶️ Next Step</button>
-                                    <button id="resetSelectionSort" class="glass-button" disabled>🔄 Reset</button>
-                                </div>
-                            </div>
-                            <div id="selectionViz" class="visualization-3d bg-white/5 rounded-2xl p-8 min-h-[200px] flex flex-wrap justify-center items-end gap-2">
-                                <p class="text-white/60 self-center">3D visualization will appear here</p>
-                            </div>
-                            <div id="selectionStatus" class="status-glass">
-                                Enter an array and click "Visualize" to begin
-                            </div>
+                    <div class="interactive-area mt-6 p-6 border border-slate-300 rounded-xl bg-slate-50 shadow-sm">
+                    <h3 class="text-xl font-semibold text-slate-700 mb-4">Try it yourself!</h3>
+                    <div class="mb-4">
+                        <label for="selectionInput" class="block text-sm font-medium text-slate-700 mb-1">Enter numbers (comma-separated):</label>
+                        <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+                        <input type="text" id="selectionInput" class="input-field flex-grow" value="5,1,9,3,7,4,6,2,8">
+                        <button id="startSelectionSort" class="btn btn-primary">Visualize</button>
                         </div>
                     </div>
-
-                    <!-- Bubble Sort -->
-                    <div id="bubbleSortSection" class="glass-card hidden">
-                        <h3 class="text-2xl font-semibold text-white mb-4">Bubble Sort</h3>
-                        <p class="text-white/80 mb-6">
-                            Observe how larger elements "bubble up" to their correct positions through adjacent swaps.
-                        </p>
-
-                        <details class="details-glass">
-                            <summary>
-                                <span>Python Code</span>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M6 9l6 6 6-6"/>
-                                </svg>
-                            </summary>
-                            <div class="code-glass">
-                                <pre id="bubbleSortCodeBlock"><code>
-<span class="code-line" data-line-number="0" data-explanation="Defines the bubble_sort function">def bubble_sort(arr):</span>
-<span class="code-line" data-line-number="1" data-explanation="Gets the number of elements">    n = len(arr)</span>
-<span class="code-line" data-line-number="2" data-explanation="Outer loop for passes">    for i in range(n - 1):</span>
-<span class="code-line" data-line-number="3" data-explanation="Flag for optimization">        swapped = False</span>
-<span class="code-line" data-line-number="4" data-explanation="Inner loop for comparisons">        for j in range(0, n - i - 1):</span>
-<span class="code-line" data-line-number="5" data-explanation="Compare adjacent elements">            if arr[j] > arr[j + 1]:</span>
-<span class="code-line" data-line-number="6" data-explanation="Swap if out of order">                arr[j], arr[j + 1] = arr[j + 1], arr[j]</span>
-<span class="code-line" data-line-number="7" data-explanation="Mark that swap occurred">                swapped = True</span>
-<span class="code-line" data-line-number="8" data-explanation="Early termination if sorted">        if not swapped:</span>
-<span class="code-line" data-line-number="9" data-explanation="Exit if no swaps">            break</span>
-<span class="code-line" data-line-number="10" data-explanation="Return sorted array">    return arr</span>
-                                </code></pre>
-                            </div>
-                        </details>
-
-                        <div class="mt-8">
-                            <h4 class="text-xl font-semibold text-white mb-4">Try it yourself!</h4>
-                            <div class="space-y-4 mb-6">
-                                <div>
-                                    <label class="block text-white/80 mb-2">Enter numbers (comma-separated):</label>
-                                    <input type="text" id="bubbleInput" class="glass-input w-full" value="8,2,6,4,5,9,1,3,7">
-                                </div>
-                                <div class="flex flex-wrap gap-3">
-                                    <button id="startBubbleSort" class="glass-button">✨ Visualize</button>
-                                    <button id="nextBubbleStep" class="glass-button" disabled>▶️ Next Step</button>
-                                    <button id="resetBubbleSort" class="glass-button" disabled>🔄 Reset</button>
-                                </div>
-                            </div>
-                            <div id="bubbleViz" class="visualization-3d bg-white/5 rounded-2xl p-8 min-h-[200px] flex flex-wrap justify-center items-end gap-2">
-                                <p class="text-white/60 self-center">3D visualization will appear here</p>
-                            </div>
-                            <div id="bubbleStatus" class="status-glass">
-                                Enter an array and click "Visualize" to begin
-                            </div>
-                        </div>
+                    <div class="controls mb-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+                        <button id="nextSelectionStep" class="btn btn-success" disabled>Next Step</button>
+                        <button id="resetSelectionSort" class="btn btn-danger" disabled>Reset</button>
+                    </div>
+                    <div id="selectionViz" class="visualization-area p-4 flex items-end justify-center space-x-1 overflow-x-auto w-full">
+                        <p class="text-slate-500 self-center">Visualization will appear here.</p>
+                    </div>
+                    <p id="selectionStatus" class="status-text mt-4 text-sm text-slate-600 min-h-[40px] bg-slate-100 p-3 rounded-lg border border-slate-200">Enter an array and click "Visualize".</p>
                     </div>
                 </section>
 
-                <!-- Searching Section -->
-                <section id="searchingSection" class="section-container hidden">
-                    <h2 class="text-3xl font-bold text-white mb-6">Searching Algorithms</h2>
-                    <p class="text-white/80 mb-8 text-lg leading-relaxed">
-                        Explore how different search algorithms locate elements with stunning visual effects.
-                    </p>
-
-                    <!-- Searching Sub-navigation -->
-                    <nav class="nav-glass justify-center mb-8">
-                        <button id="showLinearSearch" class="tab-glass active">
-                            Linear Search
-                        </button>
-                        <button id="showBinarySearch" class="tab-glass">
-                            Binary Search
-                        </button>
-                        <button id="showSearchComparison" class="tab-glass">
-                            Comparison
-                        </button>
-                    </nav>
-
-                    <!-- Linear Search -->
-                    <div id="linearSearchSection" class="glass-card">
-                        <h3 class="text-2xl font-semibold text-white mb-4">Linear Search</h3>
-                        <p class="text-white/80 mb-6">
-                            Experience sequential searching with beautiful 3D element highlighting.
-                        </p>
-
-                        <details class="details-glass">
-                            <summary>
-                                <span>Python Code</span>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M6 9l6 6 6-6"/>
-                                </svg>
-                            </summary>
-                            <div class="code-glass">
-                                <pre id="linearSearchCodeBlock"><code>
-<span class="code-line" data-line-number="0" data-explanation="Define linear search function">def linear_search(arr, target):</span>
-<span class="code-line" data-line-number="1" data-explanation="Iterate through each element">    for i in range(len(arr)):</span>
-<span class="code-line" data-line-number="2" data-explanation="Check if current element matches target">        if arr[i] == target:</span>
-<span class="code-line" data-line-number="3" data-explanation="Return index if found">            return i</span>
-<span class="code-line" data-line-number="4" data-explanation="Return -1 if not found">    return -1</span>
-                                </code></pre>
-                            </div>
-                        </details>
-
-                        <div class="mt-8">
-                            <h4 class="text-xl font-semibold text-white mb-4">Try it yourself!</h4>
-                            <div class="space-y-4 mb-6">
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div class="md:col-span-2">
-                                        <label class="block text-white/80 mb-2">Array:</label>
-                                        <input type="text" id="linearSearchInput" class="glass-input w-full" value="5,1,9,3,7,4,6,2,8">
-                                    </div>
-                                    <div>
-                                        <label class="block text-white/80 mb-2">Target:</label>
-                                        <input type="text" id="linearSearchTarget" class="glass-input w-full" value="7">
-                                    </div>
-                                </div>
-                                <div class="flex flex-wrap gap-3">
-                                    <button id="startLinearSearch" class="glass-button">🔍 Search</button>
-                                    <button id="nextLinearSearchStep" class="glass-button" disabled>▶️ Next</button>
-                                    <button id="resetLinearSearch" class="glass-button" disabled>🔄 Reset</button>
-                                </div>
-                            </div>
-                            <div id="linearSearchViz" class="visualization-3d bg-white/5 rounded-2xl p-8 min-h-[200px] flex flex-wrap justify-center items-center gap-4">
-                                <p class="text-white/60">3D search visualization will appear here</p>
-                            </div>
-                            <div id="linearSearchStatus" class="status-glass">
-                                Enter array and target, then click "Search"
+                <section id="bubbleSortSection" class="sort-subsection hidden">
+                     <header class="mb-6">
+                    <h3 class="text-2xl font-semibold text-slate-800">Bubble Sort</h3>
+                    </header>
+                    <article class="prose max-w-none text-slate-700 mb-6 leading-relaxed">
+                        <p>Bubble Sort is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted. Although the algorithm is simple, it is too slow and impractical for most problems.</p>
+                        <p><strong>How it works:</strong></p>
+                        <ol class="list-decimal list-inside">
+                            <li>Starting from the first element, compare it with the next element.</li>
+                            <li>If the current element is greater than the next element, swap them.</li>
+                            <li>Continue this process for all adjacent pairs in the current pass. After the first pass, the largest element will "bubble up" to its correct position at the end of the list.</li>
+                            <li>Repeat the passes. In each subsequent pass, the next largest element bubbles up.</li>
+                            <li>The algorithm can be optimized: if a pass completes with no swaps, the list is sorted, and the algorithm can terminate early.</li>
+                        </ol>
+                    </article>
+                     <details class="mb-6 group">
+                        <summary>
+                            Python Code
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 ml-auto details-icon transform transition-transform">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </summary>
+                        <pre id="bubbleSortCodeBlock" class="code-block mt-2">...</pre> </details>
+                    <div class="interactive-area mt-6 p-6 border border-slate-300 rounded-xl bg-slate-50 shadow-sm">
+                        <h3 class="text-xl font-semibold text-slate-700 mb-4">Try it yourself!</h3>
+                        <div class="mb-4">
+                            <label for="bubbleInput" class="block text-sm font-medium text-slate-700 mb-1">Enter numbers (comma-separated):</label>
+                            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+                                <input type="text" id="bubbleInput" class="input-field flex-grow" value="8,2,6,4,5,9,1,3,7">
+                                <button id="startBubbleSort" class="btn btn-primary">Visualize</button>
                             </div>
                         </div>
+                        <div class="controls mb-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+                            <button id="nextBubbleStep" class="btn btn-success" disabled>Next Step</button>
+                            <button id="resetBubbleSort" class="btn btn-danger" disabled>Reset</button>
+                        </div>
+                        <div id="bubbleViz" class="visualization-area p-4 flex items-end justify-center space-x-1 overflow-x-auto w-full">
+                            <p class="text-slate-500 self-center">Visualization will appear here.</p>
+                        </div>
+                        <p id="bubbleStatus" class="status-text mt-4 text-sm text-slate-600 min-h-[40px] bg-slate-100 p-3 rounded-lg border border-slate-200">Enter an array and click "Visualize".</p>
                     </div>
+                </section>
+            </section>
 
-                    <!-- Binary Search -->
-                    <div id="binarySearchSection" class="glass-card hidden">
-                        <h3 class="text-2xl font-semibold text-white mb-4">Binary Search</h3>
-                        <p class="text-white/80 mb-6">
-                            Watch the divide-and-conquer strategy unfold in beautiful 3D space.
-                        </p>
-
-                        <details class="details-glass">
-                            <summary>
-                                <span>Python Code</span>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M6 9l6 6 6-6"/>
-                                </svg>
-                            </summary>
-                            <div class="code-glass">
-                                <pre id="binarySearchCodeBlock"><code>
-<span class="code-line" data-line-number="0" data-explanation="Define binary search function">def binary_search(arr, target):</span>
-<span class="code-line" data-line-number="1" data-explanation="Initialize left boundary">    left, right = 0, len(arr) - 1</span>
-<span class="code-line" data-line-number="2" data-explanation="Continue while search space exists">    while left <= right:</span>
-<span class="code-line" data-line-number="3" data-explanation="Calculate middle index">        mid = (left + right) // 2</span>
-<span class="code-line" data-line-number="4" data-explanation="Check if middle element is target">        if arr[mid] == target:</span>
-<span class="code-line" data-line-number="5" data-explanation="Return index if found">            return mid</span>
-<span class="code-line" data-line-number="6" data-explanation="Search left half if target is smaller">        elif arr[mid] > target:</span>
-<span class="code-line" data-line-number="7" data-explanation="Update right boundary">            right = mid - 1</span>
-<span class="code-line" data-line-number="8" data-explanation="Search right half if target is larger">        else:</span>
-<span class="code-line" data-line-number="9" data-explanation="Update left boundary">            left = mid + 1</span>
-<span class="code-line" data-line-number="10" data-explanation="Return -1 if not found">    return -1</span>
-                                </code></pre>
-                            </div>
-                        </details>
-
-                        <div class="mt-8">
-                            <h4 class="text-xl font-semibold text-white mb-4">Try it yourself!</h4>
-                            <div class="space-y-4 mb-6">
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div class="md:col-span-2">
-                                        <label class="block text-white/80 mb-2">Array (will be sorted):</label>
-                                        <input type="text" id="binarySearchInput" class="glass-input w-full" value="2,4,5,9,12,15,19,23,25">
-                                    </div>
-                                    <div>
-                                        <label class="block text-white/80 mb-2">Target:</label>
-                                        <input type="text" id="binarySearchTarget" class="glass-input w-full" value="15">
-                                    </div>
-                                </div>
-                                <div class="flex flex-wrap gap-3">
-                                    <button id="startBinarySearch" class="glass-button">🎯 Search</button>
-                                    <button id="nextBinarySearchStep" class="glass-button" disabled>▶️ Next</button>
-                                    <button id="resetBinarySearch" class="glass-button" disabled>🔄 Reset</button>
-                                </div>
-                            </div>
-                            <div id="binarySearchViz" class="visualization-3d bg-white/5 rounded-2xl p-8 min-h-[200px] flex flex-wrap justify-center items-center gap-4">
-                                <p class="text-white/60">3D binary search visualization will appear here</p>
-                            </div>
-                            <div id="binarySearchStatus" class="status-glass">
-                                Enter array and target, then click "Search"
+            <section id="searchingSection" class="search-section hidden">
+                <header class="mb-6">
+                    <h2 class="text-3xl font-semibold text-slate-800">Searching Algorithms</h2>
+                </header>
+                
+                <nav class="mb-8 flex justify-center border-b border-slate-300 -mt-px">
+                    <button id="showLinearSearch" class="sub-tab-button active">Linear Search</button>
+                    <button id="showBinarySearch" class="sub-tab-button">Binary Search</button>
+                    <button id="showSearchComparison" class="sub-tab-button">Comparison</button>
+                </nav>
+                
+                <div id="linearSearchSection" class="search-subsection">
+                     <article class="prose max-w-none text-slate-700 mb-6 leading-relaxed">
+                        <p>Linear search (also called sequential search) is the simplest searching algorithm. It sequentially checks each element of the list until it finds the target or reaches the end of the list.</p>
+                        <p><strong>How it works:</strong></p>
+                        <ol class="list-decimal list-inside">
+                            <li>Start from the first element of the list</li>
+                            <li>Compare the current element with the target</li>
+                            <li>If the current element matches the target, return its index</li>
+                            <li>If the current element doesn't match, move to the next element</li>
+                            <li>Repeat steps 2-4 until the element is found or the end of the list is reached</li>
+                            <li>If the target is not found, return -1</li>
+                        </ol>
+                    </article>
+                    <details class="mb-6 group">
+                        <summary>
+                            Python Code
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 ml-auto details-icon transform transition-transform">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </summary>
+                        <pre id="linearSearchCodeBlock" class="code-block mt-2">...</pre> </details>
+                    <div class="interactive-area mt-6 p-6 border border-slate-300 rounded-xl bg-slate-50 shadow-sm">
+                        <h3 class="text-xl font-semibold text-slate-700 mb-4">Try it yourself!</h3>
+                        <div class="mb-4">
+                            <label for="linearSearchInput" class="block text-sm font-medium text-slate-700 mb-1">Enter numbers (comma-separated):</label>
+                            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+                                <input type="text" id="linearSearchInput" class="input-field flex-grow" value="5,1,9,3,7,4,6,2,8">
+                                <input type="text" id="linearSearchTarget" placeholder="Target" class="input-field w-28 sm:w-32" value="7">
+                                <button id="startLinearSearch" class="btn btn-primary">Visualize</button>
                             </div>
                         </div>
+                        <div class="controls mb-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+                            <button id="nextLinearSearchStep" class="btn btn-success" disabled>Next Step</button>
+                            <button id="resetLinearSearch" class="btn btn-danger" disabled>Reset</button>
+                        </div>
+                        <div id="linearSearchViz" class="visualization-area bg-slate-200 rounded-lg p-4 w-full">
+                            <p class="text-slate-500 self-center">Visualization will appear here.</p>
+                        </div>
+                        <p id="linearSearchStatus" class="status-text mt-4 text-sm text-slate-600 min-h-[40px] bg-slate-100 p-3 rounded-lg border border-slate-200">Enter an array and target, then click "Visualize".</p>
                     </div>
-
-                    <!-- Search Comparison -->
-                    <div id="searchComparisonSection" class="glass-card hidden">
-                        <h3 class="text-2xl font-semibold text-white mb-6">Algorithm Comparison</h3>
-                        
+                </div>
+                
+                <div id="binarySearchSection" class="search-subsection hidden">
+                    <article class="prose max-w-none text-slate-700 mb-6 leading-relaxed">
+                        <p>Binary search is a more efficient search algorithm that works on sorted arrays. It repeatedly divides the search range in half until the target is found or the range is empty.</p>
+                        <p><strong>How it works:</strong></p>
+                        <ol class="list-decimal list-inside">
+                            <li>Start with the middle element of the sorted array</li>
+                            <li>If the target equals the middle element, return its index</li>
+                            <li>If the target is less than the middle element, search the left half</li>
+                            <li>If the target is greater than the middle element, search the right half</li>
+                            <li>Repeat steps 1-4 until the target is found or the search range is empty</li>
+                            <li>If the search range becomes empty, return -1</li>
+                        </ol>
+                        <p><strong>Note:</strong> Binary search requires a sorted array to work correctly.</p>
+                    </article>
+                    <details class="mb-6 group">
+                        <summary>
+                            Python Code
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 ml-auto details-icon transform transition-transform">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </summary>
+                        <pre id="binarySearchCodeBlock" class="code-block mt-2">...</pre> </details>
+                     <div class="interactive-area mt-6 p-6 border border-slate-300 rounded-xl bg-slate-50 shadow-sm">
+                        <h3 class="text-xl font-semibold text-slate-700 mb-4">Try it yourself!</h3>
+                        <div class="mb-4">
+                            <label for="binarySearchInput" class="block text-sm font-medium text-slate-700 mb-1">Enter numbers (comma-separated, will be sorted):</label>
+                            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+                                <input type="text" id="binarySearchInput" class="input-field flex-grow" value="2,4,5,9,12,15,19,23,25,28,31,37,40,50,52">
+                                <input type="text" id="binarySearchTarget" placeholder="Target" class="input-field w-28 sm:w-32" value="15">
+                                <button id="startBinarySearch" class="btn btn-primary">Visualize</button>
+                            </div>
+                        </div>
+                        <div class="controls mb-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+                            <button id="nextBinarySearchStep" class="btn btn-success" disabled>Next Step</button>
+                            <button id="resetBinarySearch" class="btn btn-danger" disabled>Reset</button>
+                        </div>
+                        <div id="binarySearchViz" class="visualization-area bg-slate-200 rounded-lg p-4 w-full">
+                            <p class="text-slate-500 self-center">Visualization will appear here.</p>
+                        </div>
+                        <p id="binarySearchStatus" class="status-text mt-4 text-sm text-slate-600 min-h-[40px] bg-slate-100 p-3 rounded-lg border border-slate-200">Enter a sorted array and target, then click "Visualize".</p>
+                    </div>
+                </div>
+                
+                <div id="searchComparisonSection" class="search-subsection hidden">
+                    <article class="prose max-w-none text-slate-700 mb-6 leading-relaxed">
+                        <h3 class="text-xl font-semibold text-slate-800 mb-4">Comparison of Search Algorithms</h3>
                         <div class="overflow-x-auto">
-                            <table class="w-full text-white/90">
+                            <table class="m3-table">
                                 <thead>
-                                    <tr class="border-b border-white/20">
-                                        <th class="text-left p-4 font-semibold">Feature</th>
-                                        <th class="text-left p-4 font-semibold">Linear Search</th>
-                                        <th class="text-left p-4 font-semibold">Binary Search</th>
+                                    <tr>
+                                        <th>Feature</th>
+                                        <th>Linear Search</th>
+                                        <th>Binary Search</th>
                                     </tr>
                                 </thead>
-                                <tbody class="space-y-2">
-                                    <tr class="border-b border-white/10">
-                                        <td class="p-4 font-medium">Time Complexity</td>
-                                        <td class="p-4 text-white/80">O(n)</td>
-                                        <td class="p-4 text-white/80">O(log n)</td>
+                                <tbody>
+                                    <tr>
+                                        <td class="font-medium">Data Structure</td>
+                                        <td>Can search on multiple-dimensional arrays, in a sequential way.</td>
+                                        <td>Can only search over a one-dimensional array with sorted data.</td>
                                     </tr>
-                                    <tr class="border-b border-white/10">
-                                        <td class="p-4 font-medium">Data Requirement</td>
-                                        <td class="p-4 text-white/80">Any order</td>
-                                        <td class="p-4 text-white/80">Must be sorted</td>
+                                    <tr>
+                                        <td class="font-medium">Performance</td>
+                                        <td>Slower in search. O(n) time complexity.</td>
+                                        <td>Much faster in search. O(log n) time complexity.</td>
                                     </tr>
-                                    <tr class="border-b border-white/10">
-                                        <td class="p-4 font-medium">Best for</td>
-                                        <td class="p-4 text-white/80">Small datasets</td>
-                                        <td class="p-4 text-white/80">Large sorted datasets</td>
+                                    <tr>
+                                        <td class="font-medium">Multiple Matches</td>
+                                        <td>All targets can be found (by continuing the search).</td>
+                                        <td>Only one target will be found. (Need to scan forward and backward for more matches.)</td>
+                                    </tr>
+                                     <tr>
+                                        <td class="font-medium">Pre-processing</td>
+                                        <td>No pre-processing required.</td>
+                                        <td>Data must be sorted first.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-medium">Best for</td>
+                                        <td>Small datasets or unsorted data.</td>
+                                        <td>Large sorted datasets.</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
+                    </article>
+                </div>
+            </section>
+
+            <section id="mergeSection" class="merge-section hidden">
+                 <header class="mb-6">
+                    <h2 class="text-3xl font-semibold text-slate-800">Merge Algorithm</h2>
+                </header>
+                <article class="prose max-w-none text-slate-700 mb-6 leading-relaxed">
+                    <p>Merging is the process of combining two or more sorted lists into a third sorted list. It's a fundamental operation used in merge sort and many other algorithms.</p>
+                    <p><strong>How it works:</strong></p>
+                    <ol class="list-decimal list-inside">
+                        <li>Set the subscripts i, j and k to 0 (for arrays A, B, and C).</li>
+                        <li>As long as neither array is exhausted, compare the current elements of both arrays.</li>
+                        <li>If A[i] < B[j], copy A[i] to C[k] and increment i and k. Otherwise, copy B[j] to C[k] and increment j and k.</li>
+                        <li>When one of the arrays has been completely transferred to C, copy the remainder of the other array to C.</li>
+                    </ol>
+                    <p><strong>Note:</strong> The merge algorithm only works for sorted arrays.</p>
+                </article>
+                
+                <details class="mb-6 group">
+                    <summary>
+                        Python Code
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 ml-auto details-icon transform transition-transform">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                        </svg>
+                    </summary>
+                    <pre id="mergeCodeBlock" class="code-block mt-2">...</pre> </details>
+                
+                <div class="interactive-area mt-6 p-6 border border-slate-300 rounded-xl bg-slate-50 shadow-sm">
+                    <h3 class="text-xl font-semibold text-slate-700 mb-4">Try it yourself!</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="arrayA" class="block text-sm font-medium text-slate-700 mb-1">Array A (comma-separated, will be sorted):</label>
+                            <input type="text" id="arrayA" class="input-field w-full" value="13,15,28,29">
+                        </div>
+                        <div>
+                            <label for="arrayB" class="block text-sm font-medium text-slate-700 mb-1">Array B (comma-separated, will be sorted):</label>
+                            <input type="text" id="arrayB" class="input-field w-full" value="10,12,16">
+                        </div>
                     </div>
-                </section>
-
-                <!-- Merge Section -->
-                <section id="mergeSection" class="section-container hidden">
-                    <h2 class="text-3xl font-bold text-white mb-6">Merge Algorithm</h2>
-                    <p class="text-white/80 mb-8 text-lg leading-relaxed">
-                        Watch two sorted arrays combine into one with elegant 3D transitions.
-                    </p>
-
-                    <div class="glass-card">
-                        <details class="details-glass">
-                            <summary>
-                                <span>Python Code</span>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M6 9l6 6 6-6"/>
-                                </svg>
-                            </summary>
-                            <div class="code-glass">
-                                <pre id="mergeCodeBlock"><code>
-<span class="code-line" data-line-number="0" data-explanation="Define merge function">def merge(arr1, arr2):</span>
-<span class="code-line" data-line-number="1" data-explanation="Initialize result array">    result = []</span>
-<span class="code-line" data-line-number="2" data-explanation="Initialize pointers">    i = j = 0</span>
-<span class="code-line" data-line-number="3" data-explanation="Compare elements from both arrays">    while i < len(arr1) and j < len(arr2):</span>
-<span class="code-line" data-line-number="4" data-explanation="Choose smaller element">        if arr1[i] <= arr2[j]:</span>
-<span class="code-line" data-line-number="5" data-explanation="Add from first array">            result.append(arr1[i])</span>
-<span class="code-line" data-line-number="6" data-explanation="Move first pointer">            i += 1</span>
-<span class="code-line" data-line-number="7" data-explanation="Add from second array">        else:</span>
-<span class="code-line" data-line-number="8" data-explanation="Add element from second array">            result.append(arr2[j])</span>
-<span class="code-line" data-line-number="9" data-explanation="Move second pointer">            j += 1</span>
-<span class="code-line" data-line-number="10" data-explanation="Add remaining elements">    result.extend(arr1[i:])</span>
-<span class="code-line" data-line-number="11" data-explanation="Add remaining elements">    result.extend(arr2[j:])</span>
-<span class="code-line" data-line-number="12" data-explanation="Return merged array">    return result</span>
-                                </code></pre>
+                    <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 mb-4">
+                        <button id="startMerge" class="btn btn-primary">Visualize</button>
+                        <button id="nextMergeStep" class="btn btn-success" disabled>Next Step</button>
+                        <button id="resetMerge" class="btn btn-danger" disabled>Reset</button>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <h4 class="text-center font-medium text-slate-700 mb-2">Array A</h4>
+                            <div id="arrayAViz" class="visualization-area bg-slate-200 rounded-lg p-4 flex justify-center items-center min-h-[150px] overflow-x-auto">
+                                <p class="text-slate-500">Array A will appear here.</p>
                             </div>
-                        </details>
-
-                        <div class="mt-8">
-                            <h4 class="text-xl font-semibold text-white mb-4">Try it yourself!</h4>
-                            <div class="space-y-4 mb-6">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-white/80 mb-2">Array A:</label>
-                                        <input type="text" id="arrayA" class="glass-input w-full" value="13,15,28,29">
-                                    </div>
-                                    <div>
-                                        <label class="block text-white/80 mb-2">Array B:</label>
-                                        <input type="text" id="arrayB" class="glass-input w-full" value="10,12,16">
-                                    </div>
-                                </div>
-                                <div class="flex flex-wrap gap-3">
-                                    <button id="startMerge" class="glass-button">🔗 Merge</button>
-                                    <button id="nextMergeStep" class="glass-button" disabled>▶️ Next</button>
-                                    <button id="resetMerge" class="glass-button" disabled>🔄 Reset</button>
-                                </div>
+                        </div>
+                        <div>
+                            <h4 class="text-center font-medium text-slate-700 mb-2">Array B</h4>
+                            <div id="arrayBViz" class="visualization-area bg-slate-200 rounded-lg p-4 flex justify-center items-center min-h-[150px] overflow-x-auto">
+                                <p class="text-slate-500">Array B will appear here.</p>
                             </div>
-                            
-                            <div class="merge-grid">
-                                <div>
-                                    <h5 class="text-lg font-semibold text-white mb-4 text-center">Array A</h5>
-                                    <div id="arrayAViz" class="visualization-3d bg-white/5 rounded-2xl p-6 min-h-[150px] flex flex-wrap justify-center items-center gap-2">
-                                        <p class="text-white/60">Array A will appear here</p>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h5 class="text-lg font-semibold text-white mb-4 text-center">Array B</h5>
-                                    <div id="arrayBViz" class="visualization-3d bg-white/5 rounded-2xl p-6 min-h-[150px] flex flex-wrap justify-center items-center gap-2">
-                                        <p class="text-white/60">Array B will appear here</p>
-                                    </div>
-                                </div>
-                                <div class="md:col-span-2">
-                                    <h5 class="text-lg font-semibold text-white mb-4 text-center">Merged Array C</h5>
-                                    <div id="arrayCViz" class="visualization-3d bg-white/5 rounded-2xl p-6 min-h-[150px] flex flex-wrap justify-center items-center gap-2">
-                                        <p class="text-white/60">Merged result will appear here</p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div id="mergeStatus" class="status-glass">
-                                Enter arrays and click "Merge" to begin
+                        </div>
+                        <div>
+                            <h4 class="text-center font-medium text-slate-700 mb-2">Merged Array C</h4>
+                            <div id="arrayCViz" class="visualization-area bg-slate-200 rounded-lg p-4 flex justify-center items-center min-h-[150px] overflow-x-auto">
+                                <p class="text-slate-500">Merged array will appear here.</p>
                             </div>
                         </div>
                     </div>
-                </section>
-            </div>
-        </div>
+                    <p id="mergeStatus" class="status-text mt-4 text-sm text-slate-600 min-h-[40px] bg-slate-100 p-3 rounded-lg border border-slate-200">Enter arrays and click "Visualize".</p>
+                </div>
+
+                <div class="mt-8 p-6 border border-slate-300 rounded-xl bg-slate-50">
+                    <h3 class="text-xl font-semibold text-slate-700 mb-4">How to handle unsorted arrays?</h3>
+                    <div class="prose max-w-none text-slate-700">
+                        <p>The merge algorithm assumes that both input arrays are already sorted. If you have unsorted arrays, you have two options:</p>
+                        <ol class="list-decimal list-inside">
+                            <li><strong>Sort before merging:</strong> First sort each array individually using algorithms like Bubble Sort, Selection Sort, or Merge Sort, then apply the merge algorithm.</li>
+                            <li><strong>Merge and sort:</strong> Concatenate the arrays and then sort the result using a sorting algorithm. However, this approach doesn't take advantage of any existing order in the arrays.</li>
+                        </ol>
+                        <p class="mt-4">For example, to handle unsorted arrays in Python:</p>
+                        <pre class="code-block"><code>
+# Option 1: Sort before merging
+def merge_unsorted(A, B):
+    sorted_A = sorted(A)
+    sorted_B = sorted(B)
+    return merge(sorted_A, sorted_B)
+
+# Option 2: Concatenate and sort
+def concat_and_sort(A, B):
+    return sorted(A + B)
+                        </code></pre>
+                        <p class="mt-4">The first approach (sort then merge) is often more efficient when the arrays are large, as the merge operation is O(n), while sorting is O(n log n). The total complexity would be O(n log n), which is the same as sorting the concatenated array, but with better constants in practice.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
 
-    <!-- Code Explanation Popup -->
-    <div id="codeExplanationPopup" class="popup-glass fixed hidden pointer-events-none z-50">
-        Explanation will appear here
+    <footer class="text-center mt-12 mb-6">
+        <p class="text-slate-500 text-sm">&copy; <span id="currentYear"></span> ICT Learning. Happy coding!</p>
+    </footer>
+
+    <div id="codeExplanationPopup" class="hidden fixed z-50 p-3 text-sm shadow-xl">
+        Explanation
     </div>
 
-    <script>
-        // Global state objects
-        let selectionSortData = { steps: [], currentStep: 0, originalArray: [], isSorting: false, codeBlockId: 'selectionSortCodeBlock' };
-        let bubbleSortData = { steps: [], currentStep: 0, originalArray: [], isSorting: false, codeBlockId: 'bubbleSortCodeBlock' };
-        let linearSearchData = { steps: [], currentStep: 0, array: [], target: null, isSearching: false, codeBlockId: 'linearSearchCodeBlock' };
-        let binarySearchData = { steps: [], currentStep: 0, array: [], target: null, isSearching: false, codeBlockId: 'binarySearchCodeBlock' };
-        let mergeData = { steps: [], currentStep: 0, arrayA: [], arrayB: [], arrayC: [], isMerging: false, codeBlockId: 'mergeCodeBlock' };
+<script>
+    // JavaScript content (largely the same, but ensure Python code blocks have their content)
+    // The Python code inside <pre> tags was replaced with "..." for brevity in the HTML above.
+    // You'll need to re-insert your Python code snippets into the respective <pre id="...CodeBlock"> tags.
 
-        // DOM Elements
-        const mainSortingSection = document.getElementById('sortingSection');
-        const mainSearchingSection = document.getElementById('searchingSection');
-        const mainMergeSection = document.getElementById('mergeSection');
-        const codeExplanationPopup = document.getElementById('codeExplanationPopup');
+    // Example for one code block (repeat for others: bubbleSortCodeBlock, linearSearchCodeBlock, etc.)
+    document.getElementById('selectionSortCodeBlock').innerHTML = `<code>
+    <span class="code-line" data-line-number="0" data-explanation="Defines the selection_sort function that takes a list 'arr' as input.">def selection_sort(arr):</span>
+    <span class="code-line" data-line-number="1" data-explanation="Gets the number of elements in the list.">    n = len(arr)</span>
+    <span class="code-line" data-line-number="2" data-explanation="Comment: The outer loop will iterate through the list to place elements in sorted order.">    # Traverse through all array elements</span>
+    <span class="code-line" data-line-number="3" data-explanation="Outer loop: Iterates from the first element to the last. 'i' is the boundary of the sorted part.">    for i in range(n):</span>
+    <span class="code-line" data-line-number="4" data-explanation="Comment: This section finds the smallest element in the unsorted part.">        # Find the minimum element</span>
+    <span class="code-line" data-line-number="5" data-explanation="Assumes the current element at index 'i' is the minimum of the unsorted part.">        min_idx = i</span>
+    <span class="code-line" data-line-number="6" data-explanation="Inner loop: Iterates through the unsorted part of the list (from i+1 to end).">        for j in range(i + 1, n):</span>
+    <span class="code-line" data-line-number="7" data-explanation="Compares the current element 'arr[j]' with the current minimum 'arr[min_idx]'.">            if arr[j] &lt; arr[min_idx]:</span>
+    <span class="code-line" data-line-number="8" data-explanation="If 'arr[j]' is smaller, it becomes the new minimum, so update 'min_idx'.">                min_idx = j</span>
+    <span class="code-line" data-line-number="9" data-explanation="End of inner loop for finding the minimum.">        </span>
+    <span class="code-line" data-line-number="10" data-explanation="Comment: Swaps the found minimum with the first element of the unsorted part.">        # Swap the found minimum element</span>
+    <span class="code-line" data-line-number="11" data-explanation="Swaps the element at 'i' with the element at 'min_idx'.">        arr[i], arr[min_idx] = arr[min_idx], arr[i]</span>
+    <span class="code-line" data-line-number="12" data-explanation="Returns the sorted list.">    return arr</span>
+    </code>`;
+     document.getElementById('bubbleSortCodeBlock').innerHTML = `<code>
+    <span class="code-line" data-line-number="0" data-explanation="Defines the bubble_sort function that takes a list 'arr' as input.">def bubble_sort(arr):</span>
+    <span class="code-line" data-line-number="1" data-explanation="Gets the number of elements in the list.">    n = len(arr)</span>
+    <span class="code-line" data-line-number="2" data-explanation="Comment: The outer loop controls the number of passes.">    # Traverse through all array elements</span>
+    <span class="code-line" data-line-number="3" data-explanation="Outer loop: Iterates n-1 times. After each pass, one more element is in its final sorted position.">    for i in range(n - 1):</span>
+    <span class="code-line" data-line-number="4" data-explanation="Flag to check if any swaps occurred in the current pass (for optimization).">        swapped = False</span>
+    <span class="code-line" data-line-number="5" data-explanation="Comment: Elements at the end of the list are already sorted from previous passes.">        # Last i elements are already in place</span>
+    <span class="code-line" data-line-number="6" data-explanation="Inner loop: Compares adjacent elements in the unsorted part of the list.">        for j in range(0, n - i - 1):</span>
+    <span class="code-line" data-line-number="7" data-explanation="Comment: Iterating through pairs to compare.">            # Traverse the array from 0 to n-i-1</span>
+    <span class="code-line" data-line-number="8" data-explanation="Comment: Condition for swapping.">            # Swap if the element found is greater</span>
+    <span class="code-line" data-line-number="9" data-explanation="Compares the current element 'arr[j]' with the next element 'arr[j+1]'.">            if arr[j] > arr[j + 1]:</span>
+    <span class="code-line" data-line-number="10" data-explanation="If 'arr[j]' is greater, swap it with 'arr[j+1]'.">                arr[j], arr[j + 1] = arr[j + 1], arr[j]</span>
+    <span class="code-line" data-line-number="11" data-explanation="Set 'swapped' to True because a swap occurred.">                swapped = True</span>
+    <span class="code-line" data-line-number="12" data-explanation="Comment: Optimization check.">        # If no two elements were swapped</span>
+    <span class="code-line" data-line-number="13" data-explanation="If no swaps happened in this pass, the list is sorted.">        if not swapped:</span>
+    <span class="code-line" data-line-number="14" data-explanation="Exit the outer loop early as the list is sorted.">            break</span>
+    <span class="code-line" data-line-number="15" data-explanation="Returns the sorted list.">    return arr</span>
+    </code>`;
+    document.getElementById('linearSearchCodeBlock').innerHTML = `<code>
+<span class="code-line" data-line-number="0" data-explanation="Defines the LinearSearch function that takes a list and a target value as input.">def LinearSearch(list, target):</span>
+<span class="code-line" data-line-number="1" data-explanation="Starts a loop that iterates through each index of the list.">  for i in range(len(list)):</span>
+<span class="code-line" data-line-number="2" data-explanation="Checks if the current element equals the target value.">      if list[i] == target:</span>
+<span class="code-line" data-line-number="3" data-explanation="If target is found, returns its index position.">        return i</span>
+<span class="code-line" data-line-number="4" data-explanation="If the entire list was searched and target wasn't found, returns -1.">    return -1</span>
+    </code>`;
+    document.getElementById('binarySearchCodeBlock').innerHTML = `<code>
+<span class="code-line" data-line-number="0" data-explanation="Defines the BinarySearch function that takes a list and a target value as input.">def BinarySearch(list, target):</span>
+<span class="code-line" data-line-number="1" data-explanation="Initializes the first index of the search range.">    first = 0</span>
+<span class="code-line" data-line-number="2" data-explanation="Initializes the last index of the search range.">    last = len(list) - 1</span>
+<span class="code-line" data-line-number="3" data-explanation="Sets the initial location to -1 (not found).">    location = -1</span>
+<span class="code-line" data-line-number="4" data-explanation="Loop continues as long as there are elements to search and target hasn't been found.">    while first <= last and location == -1:</span>
+<span class="code-line" data-line-number="5" data-explanation="Calculates the middle index of the current search range.">        mid = (first + last) // 2</span>
+<span class="code-line" data-line-number="6" data-explanation="Checks if the middle element equals the target.">        if target == list[mid]:</span>
+<span class="code-line" data-line-number="7" data-explanation="If target is found, sets its location to the middle index.">            location = mid</span>
+<span class="code-line" data-line-number="8" data-explanation="If target is less than the middle element, searches in the left half.">        elif target < list[mid]:</span>
+<span class="code-line" data-line-number="9" data-explanation="Updates the last index to search only the left half.">            last = mid - 1</span>
+<span class="code-line" data-line-number="10" data-explanation="If target is greater than the middle element, searches in the right half.">        else:</span>
+<span class="code-line" data-line-number="11" data-explanation="Updates the first index to search only the right half.">            first = mid + 1</span>
+<span class="code-line" data-line-number="12" data-explanation="Returns the location of the target (index if found, -1 if not found).">    return location</span>
+    </code>`;
+    document.getElementById('mergeCodeBlock').innerHTML = `<code>
+<span class="code-line" data-line-number="0" data-explanation="Defines the merge function that takes two sorted arrays as input.">def merge(A, B):</span>
+<span class="code-line" data-line-number="1" data-explanation="Creates an empty result array to store merged elements.">    C = []</span>
+<span class="code-line" data-line-number="2" data-explanation="Initialize index for first array.">    i = 0</span>
+<span class="code-line" data-line-number="3" data-explanation="Initialize index for second array.">    j = 0</span>
+<span class="code-line" data-line-number="4" data-explanation="Loop continues until we reach the end of either array.">    while i < len(A) and j < len(B):</span>
+<span class="code-line" data-line-number="5" data-explanation="Compare the current elements from both arrays.">        if A[i] < B[j]:</span>
+<span class="code-line" data-line-number="6" data-explanation="If A's element is smaller, add it to the result array.">            C.append(A[i])</span>
+<span class="code-line" data-line-number="7" data-explanation="Move to the next element in array A.">            i += 1</span>
+<span class="code-line" data-line-number="8" data-explanation="If B's element is smaller or equal, add it to the result array.">        else:</span>
+<span class="code-line" data-line-number="9" data-explanation="Add B's element to the result array.">            C.append(B[j])</span>
+<span class="code-line" data-line-number="10" data-explanation="Move to the next element in array B.">            j += 1</span>
+<span class="code-line" data-line-number="11" data-explanation="Check if there are remaining elements in array A.">    while i < len(A):</span>
+<span class="code-line" data-line-number="12" data-explanation="Add remaining elements from array A to the result.">        C.append(A[i])</span>
+<span class="code-line" data-line-number="13" data-explanation="Move to the next element in array A.">        i += 1</span>
+<span class="code-line" data-line-number="14" data-explanation="Check if there are remaining elements in array B.">    while j < len(B):</span>
+<span class="code-line" data-line-number="15" data-explanation="Add remaining elements from array B to the result.">        C.append(B[j])</span>
+<span class="code-line" data-line-number="16" data-explanation="Move to the next element in array B.">        j += 1</span>
+<span class="code-line" data-line-number="17" data-explanation="Return the merged sorted array.">    return C</span>
+    </code>`;
 
-        // Tab elements
-        const showSortingBtn = document.getElementById('showSorting');
-        const showSearchingBtn = document.getElementById('showSearching');
-        const showMergeBtn = document.getElementById('showMerge');
+    // Global state objects for each sorting algorithm
+    let selectionSortData = {
+        steps: [], currentStep: 0, originalArray: [], maxVal: 0, isSorting: false,
+        sortType: 'selection', codeBlockId: 'selectionSortCodeBlock'
+    };
+    let bubbleSortData = {
+        steps: [], currentStep: 0, originalArray: [], maxVal: 0, isSorting: false,
+        sortType: 'bubble', codeBlockId: 'bubbleSortCodeBlock'
+    };
+    let linearSearchData = {
+        steps: [], currentStep: 0, array: [], target: null, isSearching: false,
+        codeBlockId: 'linearSearchCodeBlock'
+    };
+    let binarySearchData = {
+        steps: [], currentStep: 0, array: [], target: null, isSearching: false,
+        codeBlockId: 'binarySearchCodeBlock'
+    };
+    let mergeData = {
+        steps: [], currentStep: 0, arrayA: [], arrayB: [], arrayC: [], isMerging: false,
+        codeBlockId: 'mergeCodeBlock'
+    };
 
-        // Sorting elements
-        const selectionSortSection = document.getElementById('selectionSortSection');
-        const bubbleSortSection = document.getElementById('bubbleSortSection');
-        const showSelectionSortBtn = document.getElementById('showSelectionSort');
-        const showBubbleSortBtn = document.getElementById('showBubbleSort');
+    // DOM Elements
+    const mainSortingSection = document.getElementById('sortingSection'); // Renamed for clarity
+    const mainSearchingSection = document.getElementById('searchingSection'); // Renamed
+    const mainMergeSection = document.getElementById('mergeSection'); // Renamed
 
-        // Selection sort controls
-        const selectionInput = document.getElementById('selectionInput');
-        const startSelectionSortBtn = document.getElementById('startSelectionSort');
-        const nextSelectionStepBtn = document.getElementById('nextSelectionStep');
-        const resetSelectionSortBtn = document.getElementById('resetSelectionSort');
-        const selectionViz = document.getElementById('selectionViz');
-        const selectionStatus = document.getElementById('selectionStatus');
+    const showSortingBtn = document.getElementById('showSorting');
+    const showSearchingBtn = document.getElementById('showSearching');
+    const showMergeBtn = document.getElementById('showMerge');
+    const codeExplanationPopup = document.getElementById('codeExplanationPopup');
 
-        // Bubble sort controls
-        const bubbleInput = document.getElementById('bubbleInput');
-        const startBubbleSortBtn = document.getElementById('startBubbleSort');
-        const nextBubbleStepBtn = document.getElementById('nextBubbleStep');
-        const resetBubbleSortBtn = document.getElementById('resetBubbleSort');
-        const bubbleViz = document.getElementById('bubbleViz');
-        const bubbleStatus = document.getElementById('bubbleStatus');
+    // Sorting Sub-sections and controls
+    const selectionSortSection = document.getElementById('selectionSortSection');
+    const bubbleSortSection = document.getElementById('bubbleSortSection');
+    const showSelectionSortBtn = document.getElementById('showSelectionSort');
+    const showBubbleSortBtn = document.getElementById('showBubbleSort');
 
-        // Search elements
-        const linearSearchSection = document.getElementById('linearSearchSection');
-        const binarySearchSection = document.getElementById('binarySearchSection');
-        const searchComparisonSection = document.getElementById('searchComparisonSection');
-        const showLinearSearchBtn = document.getElementById('showLinearSearch');
-        const showBinarySearchBtn = document.getElementById('showBinarySearch');
-        const showSearchComparisonBtn = document.getElementById('showSearchComparison');
+    const selectionInput = document.getElementById('selectionInput');
+    const startSelectionSortBtn = document.getElementById('startSelectionSort');
+    const nextSelectionStepBtn = document.getElementById('nextSelectionStep');
+    const resetSelectionSortBtn = document.getElementById('resetSelectionSort');
+    const selectionViz = document.getElementById('selectionViz');
+    const selectionStatus = document.getElementById('selectionStatus');
 
-        // Linear search controls
-        const linearSearchInput = document.getElementById('linearSearchInput');
-        const linearSearchTarget = document.getElementById('linearSearchTarget');
-        const startLinearSearchBtn = document.getElementById('startLinearSearch');
-        const nextLinearSearchStepBtn = document.getElementById('nextLinearSearchStep');
-        const resetLinearSearchBtn = document.getElementById('resetLinearSearch');
-        const linearSearchViz = document.getElementById('linearSearchViz');
-        const linearSearchStatus = document.getElementById('linearSearchStatus');
+    const bubbleInput = document.getElementById('bubbleInput');
+    const startBubbleSortBtn = document.getElementById('startBubbleSort');
+    const nextBubbleStepBtn = document.getElementById('nextBubbleStep');
+    const resetBubbleSortBtn = document.getElementById('resetBubbleSort');
+    const bubbleViz = document.getElementById('bubbleViz');
+    const bubbleStatus = document.getElementById('bubbleStatus');
 
-        // Binary search controls
-        const binarySearchInput = document.getElementById('binarySearchInput');
-        const binarySearchTarget = document.getElementById('binarySearchTarget');
-        const startBinarySearchBtn = document.getElementById('startBinarySearch');
-        const nextBinarySearchStepBtn = document.getElementById('nextBinarySearchStep');
-        const resetBinarySearchBtn = document.getElementById('resetBinarySearch');
-        const binarySearchViz = document.getElementById('binarySearchViz');
-        const binarySearchStatus = document.getElementById('binarySearchStatus');
+    // Searching Sub-sections and controls
+    const linearSearchSection = document.getElementById('linearSearchSection');
+    const binarySearchSection = document.getElementById('binarySearchSection');
+    const searchComparisonSection = document.getElementById('searchComparisonSection');
+    const showLinearSearchBtn = document.getElementById('showLinearSearch');
+    const showBinarySearchBtn = document.getElementById('showBinarySearch');
+    const showSearchComparisonBtn = document.getElementById('showSearchComparison');
 
-        // Merge controls
-        const arrayAInput = document.getElementById('arrayA');
-        const arrayBInput = document.getElementById('arrayB');
-        const startMergeBtn = document.getElementById('startMerge');
-        const nextMergeStepBtn = document.getElementById('nextMergeStep');
-        const resetMergeBtn = document.getElementById('resetMerge');
-        const arrayAViz = document.getElementById('arrayAViz');
-        const arrayBViz = document.getElementById('arrayBViz');
-        const arrayCViz = document.getElementById('arrayCViz');
-        const mergeStatus = document.getElementById('mergeStatus');
+    const linearSearchInput = document.getElementById('linearSearchInput');
+    const linearSearchTarget = document.getElementById('linearSearchTarget');
+    const startLinearSearchBtn = document.getElementById('startLinearSearch');
+    const nextLinearSearchStepBtn = document.getElementById('nextLinearSearchStep');
+    const resetLinearSearchBtn = document.getElementById('resetLinearSearch');
+    const linearSearchViz = document.getElementById('linearSearchViz');
+    const linearSearchStatus = document.getElementById('linearSearchStatus');
+
+    const binarySearchInput = document.getElementById('binarySearchInput');
+    const binarySearchTarget = document.getElementById('binarySearchTarget');
+    const startBinarySearchBtn = document.getElementById('startBinarySearch');
+    const nextBinarySearchStepBtn = document.getElementById('nextBinarySearchStep');
+    const resetBinarySearchBtn = document.getElementById('resetBinarySearch');
+    const binarySearchViz = document.getElementById('binarySearchViz');
+    const binarySearchStatus = document.getElementById('binarySearchStatus');
+
+    // Merge controls
+    const arrayAInput = document.getElementById('arrayA');
+    const arrayBInput = document.getElementById('arrayB');
+    const startMergeBtn = document.getElementById('startMerge');
+    const nextMergeStepBtn = document.getElementById('nextMergeStep');
+    const resetMergeBtn = document.getElementById('resetMerge');
+    const arrayAViz = document.getElementById('arrayAViz');
+    const arrayBViz = document.getElementById('arrayBViz');
+    const arrayCViz = document.getElementById('arrayCViz');
+    const mergeStatus = document.getElementById('mergeStatus');
 
 
-        // --- Tab Switching Logic ---
-        function updateMainTabs(activeButton, activeSection) {
-            [showSortingBtn, showSearchingBtn, showMergeBtn].forEach(btn => btn.classList.remove('active'));
-            [mainSortingSection, mainSearchingSection, mainMergeSection].forEach(sec => sec.classList.add('hidden'));
-            
-            activeButton.classList.add('active');
-            activeSection.classList.remove('hidden');
+    // --- Tab Switching Logic ---
+    function updateMainTabs(activeButton, activeSection) {
+        [showSortingBtn, showSearchingBtn, showMergeBtn].forEach(btn => btn.classList.remove('active'));
+        [mainSortingSection, mainSearchingSection, mainMergeSection].forEach(sec => sec.classList.add('hidden'));
+        
+        activeButton.classList.add('active');
+        activeSection.classList.remove('hidden');
 
-            // Clear all code highlights from other main sections
-            if (activeSection !== mainSortingSection) {
-                clearCodeHighlight(selectionSortData.codeBlockId);
-                clearCodeHighlight(bubbleSortData.codeBlockId);
-            }
-            if (activeSection !== mainSearchingSection) {
-                clearCodeHighlight(linearSearchData.codeBlockId);
-                clearCodeHighlight(binarySearchData.codeBlockId);
-            }
-            if (activeSection !== mainMergeSection) {
-                clearCodeHighlight(mergeData.codeBlockId);
-            }
-            hideExplanationPopup();
-        }
-
-        showSortingBtn.addEventListener('click', () => updateMainTabs(showSortingBtn, mainSortingSection));
-        showSearchingBtn.addEventListener('click', () => updateMainTabs(showSearchingBtn, mainSearchingSection));
-        showMergeBtn.addEventListener('click', () => updateMainTabs(showMergeBtn, mainMergeSection));
-
-        // Sub-tab switching for Sorting
-        showSelectionSortBtn.addEventListener('click', () => {
-            selectionSortSection.classList.remove('hidden');
-            bubbleSortSection.classList.add('hidden');
-            showSelectionSortBtn.classList.add('active');
-            showBubbleSortBtn.classList.remove('active');
-            clearCodeHighlight(bubbleSortData.codeBlockId);
-            hideExplanationPopup();
-        });
-        showBubbleSortBtn.addEventListener('click', () => {
-            bubbleSortSection.classList.remove('hidden');
-            selectionSortSection.classList.add('hidden');
-            showBubbleSortBtn.classList.add('active');
-            showSelectionSortBtn.classList.remove('active');
+        // Clear all code highlights from other main sections
+        if (activeSection !== mainSortingSection) {
             clearCodeHighlight(selectionSortData.codeBlockId);
-            hideExplanationPopup();
-        });
+            clearCodeHighlight(bubbleSortData.codeBlockId);
+        }
+        if (activeSection !== mainSearchingSection) {
+            clearCodeHighlight(linearSearchData.codeBlockId);
+            clearCodeHighlight(binarySearchData.codeBlockId);
+        }
+        if (activeSection !== mainMergeSection) {
+            clearCodeHighlight(mergeData.codeBlockId);
+        }
+        hideExplanationPopup();
+    }
 
-        // Sub-tab switching for Searching
-        showLinearSearchBtn.addEventListener('click', () => {
-            linearSearchSection.classList.remove('hidden');
-            binarySearchSection.classList.add('hidden');
-            searchComparisonSection.classList.add('hidden');
-            showLinearSearchBtn.classList.add('active');
-            showBinarySearchBtn.classList.remove('active');
-            showSearchComparisonBtn.classList.remove('active');
-            clearCodeHighlight(binarySearchData.codeBlockId);
-            hideExplanationPopup();
+    showSortingBtn.addEventListener('click', () => updateMainTabs(showSortingBtn, mainSortingSection));
+    showSearchingBtn.addEventListener('click', () => updateMainTabs(showSearchingBtn, mainSearchingSection));
+    showMergeBtn.addEventListener('click', () => updateMainTabs(showMergeBtn, mainMergeSection));
+
+    // Sub-tab switching for Sorting
+    showSelectionSortBtn.addEventListener('click', () => {
+        selectionSortSection.classList.remove('hidden');
+        bubbleSortSection.classList.add('hidden');
+        showSelectionSortBtn.classList.add('active');
+        showBubbleSortBtn.classList.remove('active');
+        clearCodeHighlight(bubbleSortData.codeBlockId);
+        hideExplanationPopup();
+    });
+    showBubbleSortBtn.addEventListener('click', () => {
+        bubbleSortSection.classList.remove('hidden');
+        selectionSortSection.classList.add('hidden');
+        showBubbleSortBtn.classList.add('active');
+        showSelectionSortBtn.classList.remove('active');
+        clearCodeHighlight(selectionSortData.codeBlockId);
+        hideExplanationPopup();
+    });
+
+    // Sub-tab switching for Searching
+    showLinearSearchBtn.addEventListener('click', () => {
+        linearSearchSection.classList.remove('hidden');
+        binarySearchSection.classList.add('hidden');
+        searchComparisonSection.classList.add('hidden');
+        showLinearSearchBtn.classList.add('active');
+        showBinarySearchBtn.classList.remove('active');
+        showSearchComparisonBtn.classList.remove('active');
+        clearCodeHighlight(binarySearchData.codeBlockId);
+        hideExplanationPopup();
+    });
+    showBinarySearchBtn.addEventListener('click', () => {
+        binarySearchSection.classList.remove('hidden');
+        linearSearchSection.classList.add('hidden');
+        searchComparisonSection.classList.add('hidden');
+        showBinarySearchBtn.classList.add('active');
+        showLinearSearchBtn.classList.remove('active');
+        showSearchComparisonBtn.classList.remove('active');
+        clearCodeHighlight(linearSearchData.codeBlockId);
+        hideExplanationPopup();
+    });
+    showSearchComparisonBtn.addEventListener('click', () => {
+        searchComparisonSection.classList.remove('hidden');
+        linearSearchSection.classList.add('hidden');
+        binarySearchSection.classList.add('hidden');
+        showSearchComparisonBtn.classList.add('active');
+        showLinearSearchBtn.classList.remove('active');
+        showBinarySearchBtn.classList.remove('active');
+        clearCodeHighlight(linearSearchData.codeBlockId);
+        clearCodeHighlight(binarySearchData.codeBlockId);
+        hideExplanationPopup();
+    });
+    
+
+    // --- Utility Functions ---
+    function parseInput(inputValue) {
+        if (!inputValue.trim()) return [];
+        return inputValue.split(',')
+            .map(s => parseInt(s.trim()))
+            .filter(n => !isNaN(n));
+    }
+
+    function highlightCodeLines(codeBlockId, linesToHighlight = []) {
+        const codeBlock = document.getElementById(codeBlockId);
+        if (!codeBlock) return;
+        const allLines = codeBlock.querySelectorAll('.code-line');
+        allLines.forEach(line => line.classList.remove('highlighted'));
+        linesToHighlight.forEach(lineNumber => {
+            const lineElement = codeBlock.querySelector(`.code-line[data-line-number="${lineNumber}"]`);
+            if (lineElement) lineElement.classList.add('highlighted');
         });
-        showBinarySearchBtn.addEventListener('click', () => {
-            binarySearchSection.classList.remove('hidden');
-            linearSearchSection.classList.add('hidden');
-            searchComparisonSection.classList.add('hidden');
-            showBinarySearchBtn.classList.add('active');
-            showLinearSearchBtn.classList.remove('active');
-            showSearchComparisonBtn.classList.remove('active');
-            clearCodeHighlight(linearSearchData.codeBlockId);
-            hideExplanationPopup();
-        });
-        showSearchComparisonBtn.addEventListener('click', () => {
-            searchComparisonSection.classList.remove('hidden');
-            linearSearchSection.classList.add('hidden');
-            binarySearchSection.classList.add('hidden');
-            showSearchComparisonBtn.classList.add('active');
-            showLinearSearchBtn.classList.remove('active');
-            showBinarySearchBtn.classList.remove('active');
-            clearCodeHighlight(linearSearchData.codeBlockId);
-            clearCodeHighlight(binarySearchData.codeBlockId);
-            hideExplanationPopup();
-        });
+    }
+
+    function clearCodeHighlight(codeBlockId) {
+        const codeBlock = document.getElementById(codeBlockId);
+        if (!codeBlock) return;
+        const allLines = codeBlock.querySelectorAll('.code-line');
+        allLines.forEach(line => line.classList.remove('highlighted'));
+    }
+
+    // --- Popup Functions ---
+    function showExplanationPopup(event, explanationText) {
+        if (!explanationText || !codeExplanationPopup) return;
+        codeExplanationPopup.textContent = explanationText;
+        codeExplanationPopup.classList.remove('hidden');
         
+        let x = event.clientX + 15; // Use clientX for viewport-relative positioning
+        let y = event.clientY + 15;
 
-        // --- Utility Functions ---
-        function parseInput(inputValue) {
-            if (!inputValue.trim()) return [];
-            return inputValue.split(',')
-                .map(s => parseInt(s.trim()))
-                .filter(n => !isNaN(n));
+        const popupRect = codeExplanationPopup.getBoundingClientRect();
+        if (x + popupRect.width > window.innerWidth) {
+            x = window.innerWidth - popupRect.width - 15;
+        }
+        if (y + popupRect.height > window.innerHeight) {
+            y = event.clientY - popupRect.height - 15;
+        }
+        if (x < 0) x = 15;
+        if (y < 0) y = 15;
+
+        codeExplanationPopup.style.left = `${x}px`;
+        codeExplanationPopup.style.top = `${y}px`;
+    }
+
+    function hideExplanationPopup() {
+        if (!codeExplanationPopup) return;
+        codeExplanationPopup.classList.add('hidden');
+    }
+
+    function updatePopupPosition(event) { // mousemove updates
+        if (!codeExplanationPopup || codeExplanationPopup.classList.contains('hidden')) return;
+        let x = event.clientX + 15;
+        let y = event.clientY + 15;
+        
+        const popupRect = codeExplanationPopup.getBoundingClientRect();
+        if (x + popupRect.width > window.innerWidth) {
+            x = window.innerWidth - popupRect.width - 15;
+        }
+        if (y + popupRect.height > window.innerHeight) {
+            y = event.clientY - popupRect.height - 15; 
+        }
+        if (x < 0) x = 15;
+        if (y < 0) y = 15;
+
+        codeExplanationPopup.style.left = `${x}px`;
+        codeExplanationPopup.style.top = `${y}px`;
+    }
+
+    // --- Generic Array Rendering for Sorting ---
+    function renderArray(vizElement, statusElement, stepData, maxVal, sortData) {
+        vizElement.innerHTML = ''; 
+        if (!stepData || !stepData.arrayState) {
+            vizElement.innerHTML = '<p class="text-slate-500 self-center">Array is empty or not yet visualized.</p>';
+            return;
         }
 
-        function highlightCodeLines(codeBlockId, linesToHighlight = []) {
-            const codeBlock = document.getElementById(codeBlockId);
-            if (!codeBlock) return;
-            const allLines = codeBlock.querySelectorAll('.code-line');
-            allLines.forEach(line => line.classList.remove('highlighted'));
-            linesToHighlight.forEach(lineNumber => {
-                const lineElement = codeBlock.querySelector(`.code-line[data-line-number="${lineNumber}"]`);
-                if (lineElement) lineElement.classList.add('highlighted');
-            });
-        }
+        const { arrayState, highlights, explanation, codeHighlights } = stepData;
+        const vizHeight = vizElement.clientHeight > 50 ? vizElement.clientHeight - 40 : 150; // Adjusted for padding and value text
 
-        function clearCodeHighlight(codeBlockId) {
-            const codeBlock = document.getElementById(codeBlockId);
-            if (!codeBlock) return;
-            const allLines = codeBlock.querySelectorAll('.code-line');
-            allLines.forEach(line => line.classList.remove('highlighted'));
-        }
-
-        // --- Popup Functions ---
-        function showExplanationPopup(event, explanationText) {
-            if (!explanationText || !codeExplanationPopup) return;
-            codeExplanationPopup.textContent = explanationText;
-            codeExplanationPopup.classList.remove('hidden');
+        arrayState.forEach((value, index) => {
+            const barContainer = document.createElement('div');
+            barContainer.className = 'array-bar-container';
             
-            let x = event.clientX + 15; // Use clientX for viewport-relative positioning
-            let y = event.clientY + 15;
+            const valueText = document.createElement('div');
+            valueText.className = 'bar-value';
+            valueText.textContent = value;
 
-            const popupRect = codeExplanationPopup.getBoundingClientRect();
-            if (x + popupRect.width > window.innerWidth) {
-                x = window.innerWidth - popupRect.width - 15;
-            }
-            if (y + popupRect.height > window.innerHeight) {
-                y = event.clientY - popupRect.height - 15;
-            }
-            if (x < 0) x = 15;
-            if (y < 0) y = 15;
-
-            codeExplanationPopup.style.left = `${x}px`;
-            codeExplanationPopup.style.top = `${y}px`;
-        }
-
-        function hideExplanationPopup() {
-            if (!codeExplanationPopup) return;
-            codeExplanationPopup.classList.add('hidden');
-        }
-
-        function updatePopupPosition(event) { // mousemove updates
-            if (!codeExplanationPopup || codeExplanationPopup.classList.contains('hidden')) return;
-            let x = event.clientX + 15;
-            let y = event.clientY + 15;
+            const bar = document.createElement('div');
+            const barHeightPercentage = maxVal > 0 ? (value / maxVal) * 100 : 50;
+            bar.style.height = `${Math.max(barHeightPercentage * (vizHeight / 100), 20)}px`; // Min height for visibility
             
-            const popupRect = codeExplanationPopup.getBoundingClientRect();
-            if (x + popupRect.width > window.innerWidth) {
-                x = window.innerWidth - popupRect.width - 15;
-            }
-            if (y + popupRect.height > window.innerHeight) {
-                y = event.clientY - popupRect.height - 15; 
-            }
-            if (x < 0) x = 15;
-            if (y < 0) y = 15;
-
-            codeExplanationPopup.style.left = `${x}px`;
-            codeExplanationPopup.style.top = `${y}px`;
-        }
-
-        // --- Generic Array Rendering for Sorting ---
-        function renderArray(vizElement, statusElement, stepData, maxVal, sortData) {
-            vizElement.innerHTML = ''; 
-            if (!stepData || !stepData.arrayState) {
-                vizElement.innerHTML = '<p class="text-slate-500 self-center">Array is empty or not yet visualized.</p>';
-                return;
-            }
-
-            const { arrayState, highlights, explanation, codeHighlights } = stepData;
-            const vizHeight = vizElement.clientHeight > 50 ? vizElement.clientHeight - 40 : 150; // Adjusted for padding and value text
-
-            arrayState.forEach((value, index) => {
-                const barContainer = document.createElement('div');
-                barContainer.className = 'array-bar-container';
-                
-                const valueText = document.createElement('div');
-                valueText.className = 'bar-value';
-                valueText.textContent = value;
-
-                const bar = document.createElement('div');
-                const barHeightPercentage = maxVal > 0 ? (value / maxVal) * 100 : 50;
-                bar.style.height = `${Math.max(barHeightPercentage * (vizHeight / 100), 20)}px`; // Min height for visibility
-                
-                // Dynamic width with min/max for responsiveness
-                const numBars = arrayState.length;
-                let barWidth = 100 / numBars - (numBars > 1 ? 2 : 0); // percentage width, accounting for margin
-                barWidth = Math.min(Math.max(barWidth, 5), 50); // Min 5%, Max 50px (adjust as needed)
-                bar.style.width = numBars <=5 ? '50px' : `${barWidth}%`;
+            // Dynamic width with min/max for responsiveness
+            const numBars = arrayState.length;
+            let barWidth = 100 / numBars - (numBars > 1 ? 2 : 0); // percentage width, accounting for margin
+            barWidth = Math.min(Math.max(barWidth, 5), 50); // Min 5%, Max 50px (adjust as needed)
+            bar.style.width = numBars <=5 ? '50px' : `${barWidth}%`;
 
 
-                bar.className = 'array-bar';
+            bar.className = 'array-bar';
 
-                if (highlights) {
-                    if (highlights.sortedIndices && highlights.sortedIndices.includes(index)) {
-                        bar.classList.add('highlight-sorted');
-                    } else if (highlights.swap && highlights.swap.includes(index)) {
-                        bar.classList.add('highlight-swap');
-                    } else if (highlights.compare && highlights.compare.includes(index)) {
-                        bar.classList.add('highlight-compare');
-                    }
-                    
-                    if (sortData.sortType === 'selection') {
-                        if (highlights.minIdx === index) bar.classList.add('highlight-min-idx');
-                        if (highlights.i === index && (!highlights.sortedIndices || !highlights.sortedIndices.includes(index))) bar.classList.add('highlight-current-i');
-                    }
+            if (highlights) {
+                if (highlights.sortedIndices && highlights.sortedIndices.includes(index)) {
+                    bar.classList.add('highlight-sorted');
+                } else if (highlights.swap && highlights.swap.includes(index)) {
+                    bar.classList.add('highlight-swap');
+                } else if (highlights.compare && highlights.compare.includes(index)) {
+                    bar.classList.add('highlight-compare');
                 }
                 
-                barContainer.appendChild(valueText);
-                barContainer.appendChild(bar);
-                vizElement.appendChild(barContainer);
-            });
-
-            statusElement.innerHTML = explanation || 'Status will appear here.';
-            if (sortData.codeBlockId && codeHighlights) {
-                highlightCodeLines(sortData.codeBlockId, codeHighlights);
-            }
-        }
-
-        // --- Selection Sort Logic ---
-        function generateSelectionSortSteps(arr) {
-            const steps = []; const n = arr.length; let currentArray = [...arr]; let sortedIndices = [];
-            steps.push({ arrayState: [...currentArray], highlights: { sortedIndices: [...sortedIndices] }, explanation: "Initial array.", codeHighlights: [0, 1] });
-            for (let i = 0; i < n -1; i++) {
-                let min_idx = i;
-                steps.push({ arrayState: [...currentArray], highlights: { i: i, minIdx: min_idx, compare: [], sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: Starting search. Min candidate arr[${min_idx}] = ${currentArray[min_idx]}.`, codeHighlights: [3, 5] });
-                for (let j = i + 1; j < n; j++) {
-                    steps.push({ arrayState: [...currentArray], highlights: { i: i, minIdx: min_idx, compare: [min_idx, j], sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: Comparing arr[${j}] (${currentArray[j]}) with arr[${min_idx}] (${currentArray[min_idx]}).`, codeHighlights: [6, 7] });
-                    if (currentArray[j] < currentArray[min_idx]) {
-                        min_idx = j;
-                        steps.push({ arrayState: [...currentArray], highlights: { i: i, minIdx: min_idx, compare: [-1,j], sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: New min found: arr[${min_idx}] = ${currentArray[min_idx]}.`, codeHighlights: [8] });
-                    }
+                if (sortData.sortType === 'selection') {
+                    if (highlights.minIdx === index) bar.classList.add('highlight-min-idx');
+                    if (highlights.i === index && (!highlights.sortedIndices || !highlights.sortedIndices.includes(index))) bar.classList.add('highlight-current-i');
                 }
-                if (min_idx !== i) {
-                    steps.push({ arrayState: [...currentArray], highlights: { i: i, minIdx: min_idx, swap: [i, min_idx], sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: Min is arr[${min_idx}] (${currentArray[min_idx]}). Swapping with arr[${i}] (${currentArray[i]}).`, codeHighlights: [11] });
-                    [currentArray[i], currentArray[min_idx]] = [currentArray[min_idx], currentArray[i]];
-                    steps.push({ arrayState: [...currentArray], highlights: { i: i, minIdx: i, swap: [i, min_idx], sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: Swapped. Array: [${currentArray.join(', ')}].`, codeHighlights: [11] });
+            }
+            
+            barContainer.appendChild(valueText);
+            barContainer.appendChild(bar);
+            vizElement.appendChild(barContainer);
+        });
+
+        statusElement.innerHTML = explanation || 'Status will appear here.';
+        if (sortData.codeBlockId && codeHighlights) {
+            highlightCodeLines(sortData.codeBlockId, codeHighlights);
+        }
+    }
+
+    // --- Selection Sort Logic ---
+    function generateSelectionSortSteps(arr) {
+        const steps = []; const n = arr.length; let currentArray = [...arr]; let sortedIndices = [];
+        steps.push({ arrayState: [...currentArray], highlights: { sortedIndices: [...sortedIndices] }, explanation: "Initial array.", codeHighlights: [0, 1] });
+        for (let i = 0; i < n -1; i++) {
+            let min_idx = i;
+            steps.push({ arrayState: [...currentArray], highlights: { i: i, minIdx: min_idx, compare: [], sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: Starting search. Min candidate arr[${min_idx}] = ${currentArray[min_idx]}.`, codeHighlights: [3, 5] });
+            for (let j = i + 1; j < n; j++) {
+                steps.push({ arrayState: [...currentArray], highlights: { i: i, minIdx: min_idx, compare: [min_idx, j], sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: Comparing arr[${j}] (${currentArray[j]}) with arr[${min_idx}] (${currentArray[min_idx]}).`, codeHighlights: [6, 7] });
+                if (currentArray[j] < currentArray[min_idx]) {
+                    min_idx = j;
+                    steps.push({ arrayState: [...currentArray], highlights: { i: i, minIdx: min_idx, compare: [-1,j], sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: New min found: arr[${min_idx}] = ${currentArray[min_idx]}.`, codeHighlights: [8] });
+                }
+            }
+            if (min_idx !== i) {
+                steps.push({ arrayState: [...currentArray], highlights: { i: i, minIdx: min_idx, swap: [i, min_idx], sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: Min is arr[${min_idx}] (${currentArray[min_idx]}). Swapping with arr[${i}] (${currentArray[i]}).`, codeHighlights: [11] });
+                [currentArray[i], currentArray[min_idx]] = [currentArray[min_idx], currentArray[i]];
+                steps.push({ arrayState: [...currentArray], highlights: { i: i, minIdx: i, swap: [i, min_idx], sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: Swapped. Array: [${currentArray.join(', ')}].`, codeHighlights: [11] });
+            } else {
+                steps.push({ arrayState: [...currentArray], highlights: { i: i, minIdx: i, sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: arr[${i}] (${currentArray[i]}) is already min. No swap.`, codeHighlights: [11] });
+            }
+            sortedIndices.push(i);
+            steps.push({ arrayState: [...currentArray], highlights: { sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1} complete. arr[${i}] sorted.`, codeHighlights: [3] });
+        }
+        if (n > 0 && !sortedIndices.includes(n-1) && n-1 >=0) sortedIndices.push(n-1); if (n === 1 && sortedIndices.length === 0) sortedIndices.push(0);
+        steps.push({ arrayState: [...currentArray], highlights: { sortedIndices: [...Array(n).keys()] }, explanation: "Array is sorted!", codeHighlights: [12] });
+        return steps;
+    }
+    startSelectionSortBtn.addEventListener('click', () => {
+        const arr = parseInput(selectionInput.value);
+        if (arr.length === 0) { selectionStatus.textContent = "Please enter a valid array."; selectionViz.innerHTML = '<p class="text-slate-500 self-center">Array is empty.</p>'; clearCodeHighlight(selectionSortData.codeBlockId); return; }
+        selectionSortData.originalArray = [...arr]; selectionSortData.steps = generateSelectionSortSteps(arr); selectionSortData.currentStep = 0; selectionSortData.maxVal = Math.max(...arr, 0); selectionSortData.isSorting = true;
+        renderArray(selectionViz, selectionStatus, selectionSortData.steps[0], selectionSortData.maxVal, selectionSortData);
+        startSelectionSortBtn.disabled = true; selectionInput.disabled = true; nextSelectionStepBtn.disabled = arr.length <=1 || selectionSortData.steps.length <=1; resetSelectionSortBtn.disabled = false;
+    });
+    nextSelectionStepBtn.addEventListener('click', () => {
+        if (!selectionSortData.isSorting || selectionSortData.currentStep >= selectionSortData.steps.length - 1) { nextSelectionStepBtn.disabled = true; return; }
+        selectionSortData.currentStep++; renderArray(selectionViz, selectionStatus, selectionSortData.steps[selectionSortData.currentStep], selectionSortData.maxVal, selectionSortData);
+        if (selectionSortData.currentStep >= selectionSortData.steps.length - 1) { nextSelectionStepBtn.disabled = true; selectionStatus.textContent = "Array is sorted!"; }
+    });
+    resetSelectionSortBtn.addEventListener('click', () => {
+        selectionSortData.isSorting = false; selectionInput.disabled = false; startSelectionSortBtn.disabled = false; nextSelectionStepBtn.disabled = true; resetSelectionSortBtn.disabled = true;
+        selectionViz.innerHTML = '<p class="text-slate-500 self-center">Visualization will appear here.</p>'; selectionStatus.textContent = "Enter an array and click 'Visualize'."; selectionInput.value = selectionSortData.originalArray.join(','); clearCodeHighlight(selectionSortData.codeBlockId); hideExplanationPopup();
+    });
+
+    // --- Bubble Sort Logic ---
+    function generateBubbleSortSteps(arr) {
+        const steps = []; const n = arr.length; let currentArray = [...arr]; let sortedIndices = [];
+        steps.push({ arrayState: [...currentArray], highlights: { sortedIndices: [...sortedIndices] }, explanation: "Initial array.", codeHighlights: [0, 1] });
+        for (let i = 0; i < n - 1; i++) {
+            let swapped = false;
+            steps.push({ arrayState: [...currentArray], highlights: { sortedIndices: [...sortedIndices] }, explanation: `Starting Pass ${i + 1}. Unsorted ends at index ${n - 1 - i}.`, codeHighlights: [3, 4] });
+            for (let j = 0; j < n - i - 1; j++) {
+                steps.push({ arrayState: [...currentArray], highlights: { compare: [j, j + 1], sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: Comparing arr[${j}] (${currentArray[j]}) and arr[${j + 1}] (${currentArray[j + 1]}).`, codeHighlights: [6, 9] });
+                if (currentArray[j] > currentArray[j + 1]) {
+                    steps.push({ arrayState: [...currentArray], highlights: { swap: [j, j + 1], compare: [j, j+1], sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: arr[${j}] (${currentArray[j]}) > arr[${j + 1}] (${currentArray[j + 1]}). Swapping.`, codeHighlights: [10] });
+                    [currentArray[j], currentArray[j + 1]] = [currentArray[j + 1], currentArray[j]]; swapped = true;
+                    steps.push({ arrayState: [...currentArray], highlights: { swap: [j, j + 1], sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: Swapped. Array: [${currentArray.join(', ')}].`, codeHighlights: [10, 11] });
                 } else {
-                    steps.push({ arrayState: [...currentArray], highlights: { i: i, minIdx: i, sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: arr[${i}] (${currentArray[i]}) is already min. No swap.`, codeHighlights: [11] });
+                    steps.push({ arrayState: [...currentArray], highlights: { compare: [j, j + 1], sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: arr[${j}] (${currentArray[j]}) <= arr[${j + 1}] (${currentArray[j + 1]}). No swap.`, codeHighlights: [9] });
                 }
-                sortedIndices.push(i);
-                steps.push({ arrayState: [...currentArray], highlights: { sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1} complete. arr[${i}] sorted.`, codeHighlights: [3] });
             }
-            if (n > 0 && !sortedIndices.includes(n-1) && n-1 >=0) sortedIndices.push(n-1); if (n === 1 && sortedIndices.length === 0) sortedIndices.push(0);
-            steps.push({ arrayState: [...currentArray], highlights: { sortedIndices: [...Array(n).keys()] }, explanation: "Array is sorted!", codeHighlights: [12] });
-            return steps;
+            sortedIndices.unshift(n - 1 - i);
+            if (!swapped) { sortedIndices = [...Array(n).keys()]; steps.push({ arrayState: [...currentArray], highlights: { sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: No swaps. Array is sorted!`, codeHighlights: [13, 14] }); break; }
+            else { steps.push({ arrayState: [...currentArray], highlights: { sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1} complete. arr[${n - 1 - i}] sorted.`, codeHighlights: [3] }); }
         }
-        startSelectionSortBtn.addEventListener('click', () => {
-            const arr = parseInput(selectionInput.value);
-            if (arr.length === 0) { selectionStatus.textContent = "Please enter a valid array."; selectionViz.innerHTML = '<p class="text-slate-500 self-center">Array is empty.</p>'; clearCodeHighlight(selectionSortData.codeBlockId); return; }
-            selectionSortData.originalArray = [...arr]; selectionSortData.steps = generateSelectionSortSteps(arr); selectionSortData.currentStep = 0; selectionSortData.maxVal = Math.max(...arr, 0); selectionSortData.isSorting = true;
-            renderArray(selectionViz, selectionStatus, selectionSortData.steps[0], selectionSortData.maxVal, selectionSortData);
-            startSelectionSortBtn.disabled = true; selectionInput.disabled = true; nextSelectionStepBtn.disabled = arr.length <=1 || selectionSortData.steps.length <=1; resetSelectionSortBtn.disabled = false;
-        });
-        nextSelectionStepBtn.addEventListener('click', () => {
-            if (!selectionSortData.isSorting || selectionSortData.currentStep >= selectionSortData.steps.length - 1) { nextSelectionStepBtn.disabled = true; return; }
-            selectionSortData.currentStep++; renderArray(selectionViz, selectionStatus, selectionSortData.steps[selectionSortData.currentStep], selectionSortData.maxVal, selectionSortData);
-            if (selectionSortData.currentStep >= selectionSortData.steps.length - 1) { nextSelectionStepBtn.disabled = true; selectionStatus.textContent = "Array is sorted!"; }
-        });
-        resetSelectionSortBtn.addEventListener('click', () => {
-            selectionSortData.isSorting = false; selectionInput.disabled = false; startSelectionSortBtn.disabled = false; nextSelectionStepBtn.disabled = true; resetSelectionSortBtn.disabled = true;
-            selectionViz.innerHTML = '<p class="text-slate-500 self-center">Visualization will appear here.</p>'; selectionStatus.textContent = "Enter an array and click 'Visualize'."; selectionInput.value = selectionSortData.originalArray.join(','); clearCodeHighlight(selectionSortData.codeBlockId); hideExplanationPopup();
-        });
+        if (steps[steps.length-1].explanation.indexOf("Array is sorted!") === -1) { steps.push({ arrayState: [...currentArray], highlights: { sortedIndices: [...Array(n).keys()] }, explanation: "Array is sorted!", codeHighlights: [15] });}
+        return steps;
+    }
+    startBubbleSortBtn.addEventListener('click', () => {
+        const arr = parseInput(bubbleInput.value);
+        if (arr.length === 0) { bubbleStatus.textContent = "Please enter a valid array."; bubbleViz.innerHTML = '<p class="text-slate-500 self-center">Array is empty.</p>'; clearCodeHighlight(bubbleSortData.codeBlockId); return; }
+        bubbleSortData.originalArray = [...arr]; bubbleSortData.steps = generateBubbleSortSteps(arr); bubbleSortData.currentStep = 0; bubbleSortData.maxVal = Math.max(...arr, 0); bubbleSortData.isSorting = true;
+        renderArray(bubbleViz, bubbleStatus, bubbleSortData.steps[0], bubbleSortData.maxVal, bubbleSortData);
+        startBubbleSortBtn.disabled = true; bubbleInput.disabled = true; nextBubbleStepBtn.disabled = arr.length <=1 || bubbleSortData.steps.length <=1; resetBubbleSortBtn.disabled = false;
+    });
+    nextBubbleStepBtn.addEventListener('click', () => {
+        if (!bubbleSortData.isSorting || bubbleSortData.currentStep >= bubbleSortData.steps.length - 1) { nextBubbleStepBtn.disabled = true; return; }
+        bubbleSortData.currentStep++; renderArray(bubbleViz, bubbleStatus, bubbleSortData.steps[bubbleSortData.currentStep], bubbleSortData.maxVal, bubbleSortData);
+        if (bubbleSortData.currentStep >= bubbleSortData.steps.length - 1) { nextBubbleStepBtn.disabled = true; bubbleStatus.textContent = "Array is sorted!"; }
+    });
+    resetBubbleSortBtn.addEventListener('click', () => {
+        bubbleSortData.isSorting = false; bubbleInput.disabled = false; startBubbleSortBtn.disabled = false; nextBubbleStepBtn.disabled = true; resetBubbleSortBtn.disabled = true;
+        bubbleViz.innerHTML = '<p class="text-slate-500 self-center">Visualization will appear here.</p>'; bubbleStatus.textContent = "Enter an array and click 'Visualize'."; bubbleInput.value = bubbleSortData.originalArray.join(','); clearCodeHighlight(bubbleSortData.codeBlockId); hideExplanationPopup();
+    });
 
-        // --- Bubble Sort Logic ---
-        function generateBubbleSortSteps(arr) {
-            const steps = []; const n = arr.length; let currentArray = [...arr]; let sortedIndices = [];
-            steps.push({ arrayState: [...currentArray], highlights: { sortedIndices: [...sortedIndices] }, explanation: "Initial array.", codeHighlights: [0, 1] });
-            for (let i = 0; i < n - 1; i++) {
-                let swapped = false;
-                steps.push({ arrayState: [...currentArray], highlights: { sortedIndices: [...sortedIndices] }, explanation: `Starting Pass ${i + 1}. Unsorted ends at index ${n - 1 - i}.`, codeHighlights: [3, 4] });
-                for (let j = 0; j < n - i - 1; j++) {
-                    steps.push({ arrayState: [...currentArray], highlights: { compare: [j, j + 1], sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: Comparing arr[${j}] (${currentArray[j]}) and arr[${j + 1}] (${currentArray[j + 1]}).`, codeHighlights: [6, 9] });
-                    if (currentArray[j] > currentArray[j + 1]) {
-                        steps.push({ arrayState: [...currentArray], highlights: { swap: [j, j + 1], compare: [j, j+1], sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: arr[${j}] (${currentArray[j]}) > arr[${j + 1}] (${currentArray[j + 1]}). Swapping.`, codeHighlights: [10] });
-                        [currentArray[j], currentArray[j + 1]] = [currentArray[j + 1], currentArray[j]]; swapped = true;
-                        steps.push({ arrayState: [...currentArray], highlights: { swap: [j, j + 1], sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: Swapped. Array: [${currentArray.join(', ')}].`, codeHighlights: [10, 11] });
-                    } else {
-                        steps.push({ arrayState: [...currentArray], highlights: { compare: [j, j + 1], sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: arr[${j}] (${currentArray[j]}) <= arr[${j + 1}] (${currentArray[j + 1]}). No swap.`, codeHighlights: [9] });
-                    }
-                }
-                sortedIndices.unshift(n - 1 - i);
-                if (!swapped) { sortedIndices = [...Array(n).keys()]; steps.push({ arrayState: [...currentArray], highlights: { sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1}: No swaps. Array is sorted!`, codeHighlights: [13, 14] }); break; }
-                else { steps.push({ arrayState: [...currentArray], highlights: { sortedIndices: [...sortedIndices] }, explanation: `Pass ${i + 1} complete. arr[${n - 1 - i}] sorted.`, codeHighlights: [3] }); }
+    // --- Linear Search Logic ---
+    function generateLinearSearchSteps(arr, target) {
+        const steps = []; target = parseInt(target);
+        steps.push({ arrayState: [...arr], highlights: {}, explanation: "Starting linear search for target " + target + ".", codeHighlights: [0, 1] });
+        let found = false;
+        for (let i = 0; i < arr.length; i++) {
+            steps.push({ arrayState: [...arr], highlights: { current: i }, explanation: `Checking if arr[${i}] (${arr[i]}) equals target ${target}.`, codeHighlights: [1, 2] });
+            if (arr[i] === target) {
+                found = true; steps.push({ arrayState: [...arr], highlights: { found: i }, explanation: `Found target ${target} at index ${i}!`, codeHighlights: [3] }); break;
             }
-            if (steps[steps.length-1].explanation.indexOf("Array is sorted!") === -1) { steps.push({ arrayState: [...currentArray], highlights: { sortedIndices: [...Array(n).keys()] }, explanation: "Array is sorted!", codeHighlights: [15] });}
-            return steps;
         }
-        startBubbleSortBtn.addEventListener('click', () => {
-            const arr = parseInput(bubbleInput.value);
-            if (arr.length === 0) { bubbleStatus.textContent = "Please enter a valid array."; bubbleViz.innerHTML = '<p class="text-slate-500 self-center">Array is empty.</p>'; clearCodeHighlight(bubbleSortData.codeBlockId); return; }
-            bubbleSortData.originalArray = [...arr]; bubbleSortData.steps = generateBubbleSortSteps(arr); bubbleSortData.currentStep = 0; bubbleSortData.maxVal = Math.max(...arr, 0); bubbleSortData.isSorting = true;
-            renderArray(bubbleViz, bubbleStatus, bubbleSortData.steps[0], bubbleSortData.maxVal, bubbleSortData);
-            startBubbleSortBtn.disabled = true; bubbleInput.disabled = true; nextBubbleStepBtn.disabled = arr.length <=1 || bubbleSortData.steps.length <=1; resetBubbleSortBtn.disabled = false;
+        if (!found) { steps.push({ arrayState: [...arr], highlights: {}, explanation: `Target ${target} not found in the array.`, codeHighlights: [4] });}
+        return steps;
+    }
+    function renderLinearSearchArray(vizElement, statusElement, stepData, searchData) { // Changed sortData to searchData
+        vizElement.innerHTML = '';
+        if (!stepData || !stepData.arrayState) { vizElement.innerHTML = '<p class="text-slate-500 self-center">Array is empty.</p>'; return; }
+        const { arrayState, highlights, explanation, codeHighlights } = stepData;
+        const arrayContainer = document.createElement('div'); arrayContainer.className = 'flex flex-wrap gap-2 justify-center p-2';
+        arrayState.forEach((value, index) => {
+            const element = document.createElement('div'); element.className = 'search-step text-lg font-medium'; element.textContent = value;
+            if (highlights.found === index) element.classList.add('search-found');
+            else if (highlights.current === index) element.classList.add('search-current');
+            arrayContainer.appendChild(element);
         });
-        nextBubbleStepBtn.addEventListener('click', () => {
-            if (!bubbleSortData.isSorting || bubbleSortData.currentStep >= bubbleSortData.steps.length - 1) { nextBubbleStepBtn.disabled = true; return; }
-            bubbleSortData.currentStep++; renderArray(bubbleViz, bubbleStatus, bubbleSortData.steps[bubbleSortData.currentStep], bubbleSortData.maxVal, bubbleSortData);
-            if (bubbleSortData.currentStep >= bubbleSortData.steps.length - 1) { nextBubbleStepBtn.disabled = true; bubbleStatus.textContent = "Array is sorted!"; }
-        });
-        resetBubbleSortBtn.addEventListener('click', () => {
-            bubbleSortData.isSorting = false; bubbleInput.disabled = false; startBubbleSortBtn.disabled = false; nextBubbleStepBtn.disabled = true; resetBubbleSortBtn.disabled = true;
-            bubbleViz.innerHTML = '<p class="text-slate-500 self-center">Visualization will appear here.</p>'; bubbleStatus.textContent = "Enter an array and click 'Visualize'."; bubbleInput.value = bubbleSortData.originalArray.join(','); clearCodeHighlight(bubbleSortData.codeBlockId); hideExplanationPopup();
-        });
+        vizElement.appendChild(arrayContainer); statusElement.innerHTML = explanation || 'Status...';
+        if (searchData.codeBlockId && codeHighlights) highlightCodeLines(searchData.codeBlockId, codeHighlights);
+    }
+    startLinearSearchBtn.addEventListener('click', () => {
+        const arr = parseInput(linearSearchInput.value); const target = parseInt(linearSearchTarget.value);
+        if (arr.length === 0 || isNaN(target)) { linearSearchStatus.textContent = "Valid array and target needed."; linearSearchViz.innerHTML = '<p class="text-slate-500 self-center">Invalid input.</p>'; clearCodeHighlight(linearSearchData.codeBlockId); return; }
+        linearSearchData.array = [...arr]; linearSearchData.target = target; linearSearchData.steps = generateLinearSearchSteps(arr, target); linearSearchData.currentStep = 0; linearSearchData.isSearching = true;
+        renderLinearSearchArray(linearSearchViz, linearSearchStatus, linearSearchData.steps[0], linearSearchData);
+        startLinearSearchBtn.disabled = true; linearSearchInput.disabled = true; linearSearchTarget.disabled = true; nextLinearSearchStepBtn.disabled = linearSearchData.steps.length <= 1; resetLinearSearchBtn.disabled = false;
+    });
+    nextLinearSearchStepBtn.addEventListener('click', () => {
+        if (!linearSearchData.isSearching || linearSearchData.currentStep >= linearSearchData.steps.length - 1) { nextLinearSearchStepBtn.disabled = true; return; }
+        linearSearchData.currentStep++; renderLinearSearchArray(linearSearchViz, linearSearchStatus, linearSearchData.steps[linearSearchData.currentStep], linearSearchData);
+        if (linearSearchData.currentStep >= linearSearchData.steps.length - 1) nextLinearSearchStepBtn.disabled = true;
+    });
+    resetLinearSearchBtn.addEventListener('click', () => {
+        linearSearchData.isSearching = false; linearSearchInput.disabled = false; linearSearchTarget.disabled = false; startLinearSearchBtn.disabled = false; nextLinearSearchStepBtn.disabled = true; resetLinearSearchBtn.disabled = true;
+        linearSearchViz.innerHTML = '<p class="text-slate-500 self-center">Visualization will appear here.</p>'; linearSearchStatus.textContent = "Enter array & target, then Visualize."; clearCodeHighlight(linearSearchData.codeBlockId); hideExplanationPopup();
+    });
 
-        // --- Linear Search Logic ---
-        function generateLinearSearchSteps(arr, target) {
-            const steps = []; target = parseInt(target);
-            steps.push({ arrayState: [...arr], highlights: {}, explanation: "Starting linear search for target " + target + ".", codeHighlights: [0, 1] });
-            let found = false;
-            for (let i = 0; i < arr.length; i++) {
-                steps.push({ arrayState: [...arr], highlights: { current: i }, explanation: `Checking if arr[${i}] (${arr[i]}) equals target ${target}.`, codeHighlights: [1, 2] });
-                if (arr[i] === target) {
-                    found = true; steps.push({ arrayState: [...arr], highlights: { found: i }, explanation: `Found target ${target} at index ${i}!`, codeHighlights: [3] }); break;
-                }
+    // --- Binary Search Logic ---
+    function generateBinarySearchSteps(arr, target) {
+        const steps = []; target = parseInt(target); arr.sort((a, b) => a - b);
+        steps.push({ arrayState: [...arr], highlights: { range: { first: 0, last: arr.length - 1 } }, explanation: "Starting binary search for " + target + " in sorted array.", codeHighlights: [0,1,2,3] });
+        let first = 0, last = arr.length - 1, found = false, eliminated = [];
+        while (first <= last && !found) {
+            let mid = Math.floor((first + last) / 2);
+            steps.push({ arrayState: [...arr], highlights: { range: { first, last }, mid: mid, eliminated: [...eliminated] }, explanation: `Searching indices ${first}-${last}. Mid: arr[${mid}] (${arr[mid]}).`, codeHighlights: [4,5] });
+            if (arr[mid] === target) {
+                found = true; steps.push({ arrayState: [...arr], highlights: { found: mid, eliminated: [...eliminated] }, explanation: `Found ${target} at index ${mid}!`, codeHighlights: [6,7] });
+            } else if (arr[mid] > target) {
+                for (let k = mid; k <= last; k++) if (!eliminated.includes(k)) eliminated.push(k);
+                steps.push({ arrayState: [...arr], highlights: { range: { first, last: mid - 1 }, compare: [mid], eliminated: [...eliminated] }, explanation: `arr[${mid}] (${arr[mid]}) > ${target}. New range: ${first} to ${mid-1}.`, codeHighlights: [8,9] });
+                last = mid - 1;
+            } else {
+                for (let k = first; k <= mid; k++) if (!eliminated.includes(k)) eliminated.push(k);
+                steps.push({ arrayState: [...arr], highlights: { range: { first: mid + 1, last }, compare: [mid], eliminated: [...eliminated] }, explanation: `arr[${mid}] (${arr[mid]}) < ${target}. New range: ${mid+1} to ${last}.`, codeHighlights: [10,11] });
+                first = mid + 1;
             }
-            if (!found) { steps.push({ arrayState: [...arr], highlights: {}, explanation: `Target ${target} not found in the array.`, codeHighlights: [4] });}
-            return steps;
         }
-        function renderLinearSearchArray(vizElement, statusElement, stepData, searchData) { // Changed sortData to searchData
-            vizElement.innerHTML = '';
-            if (!stepData || !stepData.arrayState) { vizElement.innerHTML = '<p class="text-slate-500 self-center">Array is empty.</p>'; return; }
-            const { arrayState, highlights, explanation, codeHighlights } = stepData;
-            const arrayContainer = document.createElement('div'); arrayContainer.className = 'flex flex-wrap gap-2 justify-center p-2';
-            arrayState.forEach((value, index) => {
-                const element = document.createElement('div'); element.className = 'search-step text-lg font-medium'; element.textContent = value;
-                if (highlights.found === index) element.classList.add('search-found');
-                else if (highlights.current === index) element.classList.add('search-current');
-                arrayContainer.appendChild(element);
-            });
-            vizElement.appendChild(arrayContainer); statusElement.innerHTML = explanation || 'Status...';
-            if (searchData.codeBlockId && codeHighlights) highlightCodeLines(searchData.codeBlockId, codeHighlights);
-        }
-        startLinearSearchBtn.addEventListener('click', () => {
-            const arr = parseInput(linearSearchInput.value); const target = parseInt(linearSearchTarget.value);
-            if (arr.length === 0 || isNaN(target)) { linearSearchStatus.textContent = "Valid array and target needed."; linearSearchViz.innerHTML = '<p class="text-slate-500 self-center">Invalid input.</p>'; clearCodeHighlight(linearSearchData.codeBlockId); return; }
-            linearSearchData.array = [...arr]; linearSearchData.target = target; linearSearchData.steps = generateLinearSearchSteps(arr, target); linearSearchData.currentStep = 0; linearSearchData.isSearching = true;
-            renderLinearSearchArray(linearSearchViz, linearSearchStatus, linearSearchData.steps[0], linearSearchData);
-            startLinearSearchBtn.disabled = true; linearSearchInput.disabled = true; linearSearchTarget.disabled = true; nextLinearSearchStepBtn.disabled = linearSearchData.steps.length <= 1; resetLinearSearchBtn.disabled = false;
+        if (!found) steps.push({ arrayState: [...arr], highlights: { eliminated: [...eliminated] }, explanation: `Target ${target} not found.`, codeHighlights: [12] });
+        return steps;
+    }
+    function renderBinarySearchArray(vizElement, statusElement, stepData, searchData) { // Changed sortData to searchData
+        vizElement.innerHTML = '';
+        if (!stepData || !stepData.arrayState) { vizElement.innerHTML = '<p class="text-slate-500 self-center">Array is empty.</p>'; return; }
+        const { arrayState, highlights, explanation, codeHighlights } = stepData;
+        const arrayContainer = document.createElement('div'); arrayContainer.className = 'flex flex-wrap gap-2 justify-center p-2';
+        arrayState.forEach((value, index) => {
+            const element = document.createElement('div'); element.className = 'search-step text-lg font-medium'; element.textContent = value;
+            if (highlights.found === index) element.classList.add('search-found');
+            else if (highlights.mid === index) element.classList.add('search-mid');
+            else if (highlights.eliminated && highlights.eliminated.includes(index)) element.classList.add('search-eliminated');
+            if (highlights.range && index >= highlights.range.first && index <= highlights.range.last && highlights.found !== index && highlights.mid !==index ) {
+                 element.classList.add('search-range'); // Apply only if not found or mid
+            }
+            arrayContainer.appendChild(element);
         });
-        nextLinearSearchStepBtn.addEventListener('click', () => {
-            if (!linearSearchData.isSearching || linearSearchData.currentStep >= linearSearchData.steps.length - 1) { nextLinearSearchStepBtn.disabled = true; return; }
-            linearSearchData.currentStep++; renderLinearSearchArray(linearSearchViz, linearSearchStatus, linearSearchData.steps[linearSearchData.currentStep], linearSearchData);
-            if (linearSearchData.currentStep >= linearSearchData.steps.length - 1) nextLinearSearchStepBtn.disabled = true;
-        });
-        resetLinearSearchBtn.addEventListener('click', () => {
-            linearSearchData.isSearching = false; linearSearchInput.disabled = false; linearSearchTarget.disabled = false; startLinearSearchBtn.disabled = false; nextLinearSearchStepBtn.disabled = true; resetLinearSearchBtn.disabled = true;
-            linearSearchViz.innerHTML = '<p class="text-slate-500 self-center">Visualization will appear here.</p>'; linearSearchStatus.textContent = "Enter array & target, then Visualize."; clearCodeHighlight(linearSearchData.codeBlockId); hideExplanationPopup();
-        });
+        vizElement.appendChild(arrayContainer); statusElement.innerHTML = explanation || 'Status...';
+        if (searchData.codeBlockId && codeHighlights) highlightCodeLines(searchData.codeBlockId, codeHighlights);
+    }
+    startBinarySearchBtn.addEventListener('click', () => {
+        let arr = parseInput(binarySearchInput.value); const target = parseInt(binarySearchTarget.value);
+        if (arr.length === 0 || isNaN(target)) { binarySearchStatus.textContent = "Valid array and target needed."; binarySearchViz.innerHTML = '<p class="text-slate-500 self-center">Invalid input.</p>'; clearCodeHighlight(binarySearchData.codeBlockId); return; }
+        arr.sort((a,b) => a-b); binarySearchInput.value = arr.join(', '); // Update input with sorted
+        binarySearchData.array = [...arr]; binarySearchData.target = target; binarySearchData.steps = generateBinarySearchSteps(arr, target); binarySearchData.currentStep = 0; binarySearchData.isSearching = true;
+        renderBinarySearchArray(binarySearchViz, binarySearchStatus, binarySearchData.steps[0], binarySearchData);
+        startBinarySearchBtn.disabled = true; binarySearchInput.disabled = true; binarySearchTarget.disabled = true; nextBinarySearchStepBtn.disabled = binarySearchData.steps.length <= 1; resetBinarySearchBtn.disabled = false;
+    });
+    nextBinarySearchStepBtn.addEventListener('click', () => {
+        if (!binarySearchData.isSearching || binarySearchData.currentStep >= binarySearchData.steps.length - 1) { nextBinarySearchStepBtn.disabled = true; return; }
+        binarySearchData.currentStep++; renderBinarySearchArray(binarySearchViz, binarySearchStatus, binarySearchData.steps[binarySearchData.currentStep], binarySearchData);
+        if (binarySearchData.currentStep >= binarySearchData.steps.length - 1) nextBinarySearchStepBtn.disabled = true;
+    });
+    resetBinarySearchBtn.addEventListener('click', () => {
+        binarySearchData.isSearching = false; binarySearchInput.disabled = false; binarySearchTarget.disabled = false; startBinarySearchBtn.disabled = false; nextBinarySearchStepBtn.disabled = true; resetBinarySearchBtn.disabled = true;
+        binarySearchViz.innerHTML = '<p class="text-slate-500 self-center">Visualization will appear here.</p>'; binarySearchStatus.textContent = "Enter sorted array & target, then Visualize."; clearCodeHighlight(binarySearchData.codeBlockId); hideExplanationPopup();
+    });
 
-        // --- Binary Search Logic ---
-        function generateBinarySearchSteps(arr, target) {
-            const steps = []; target = parseInt(target); arr.sort((a, b) => a - b);
-            steps.push({ arrayState: [...arr], highlights: { range: { first: 0, last: arr.length - 1 } }, explanation: "Starting binary search for " + target + " in sorted array.", codeHighlights: [0,1,2,3] });
-            let first = 0, last = arr.length - 1, found = false, eliminated = [];
-            while (first <= last && !found) {
-                let mid = Math.floor((first + last) / 2);
-                steps.push({ arrayState: [...arr], highlights: { range: { first, last }, mid: mid, eliminated: [...eliminated] }, explanation: `Searching indices ${first}-${last}. Mid: arr[${mid}] (${arr[mid]}).`, codeHighlights: [4,5] });
-                if (arr[mid] === target) {
-                    found = true; steps.push({ arrayState: [...arr], highlights: { found: mid, eliminated: [...eliminated] }, explanation: `Found ${target} at index ${mid}!`, codeHighlights: [6,7] });
-                } else if (arr[mid] > target) {
-                    for (let k = mid; k <= last; k++) if (!eliminated.includes(k)) eliminated.push(k);
-                    steps.push({ arrayState: [...arr], highlights: { range: { first, last: mid - 1 }, compare: [mid], eliminated: [...eliminated] }, explanation: `arr[${mid}] (${arr[mid]}) > ${target}. New range: ${first} to ${mid-1}.`, codeHighlights: [8,9] });
-                    last = mid - 1;
-                } else {
-                    for (let k = first; k <= mid; k++) if (!eliminated.includes(k)) eliminated.push(k);
-                    steps.push({ arrayState: [...arr], highlights: { range: { first: mid + 1, last }, compare: [mid], eliminated: [...eliminated] }, explanation: `arr[${mid}] (${arr[mid]}) < ${target}. New range: ${mid+1} to ${last}.`, codeHighlights: [10,11] });
-                    first = mid + 1;
-                }
-            }
-            if (!found) steps.push({ arrayState: [...arr], highlights: { eliminated: [...eliminated] }, explanation: `Target ${target} not found.`, codeHighlights: [12] });
-            return steps;
-        }
-        function renderBinarySearchArray(vizElement, statusElement, stepData, searchData) { // Changed sortData to searchData
-            vizElement.innerHTML = '';
-            if (!stepData || !stepData.arrayState) { vizElement.innerHTML = '<p class="text-slate-500 self-center">Array is empty.</p>'; return; }
-            const { arrayState, highlights, explanation, codeHighlights } = stepData;
-            const arrayContainer = document.createElement('div'); arrayContainer.className = 'flex flex-wrap gap-2 justify-center p-2';
-            arrayState.forEach((value, index) => {
-                const element = document.createElement('div'); element.className = 'search-step text-lg font-medium'; element.textContent = value;
-                if (highlights.found === index) element.classList.add('search-found');
-                else if (highlights.mid === index) element.classList.add('search-mid');
-                else if (highlights.eliminated && highlights.eliminated.includes(index)) element.classList.add('search-eliminated');
-                if (highlights.range && index >= highlights.range.first && index <= highlights.range.last && highlights.found !== index && highlights.mid !==index ) {
-                     element.classList.add('search-range'); // Apply only if not found or mid
-                }
-                arrayContainer.appendChild(element);
-            });
-            vizElement.appendChild(arrayContainer); statusElement.innerHTML = explanation || 'Status...';
-            if (searchData.codeBlockId && codeHighlights) highlightCodeLines(searchData.codeBlockId, codeHighlights);
-        }
-        startBinarySearchBtn.addEventListener('click', () => {
-            let arr = parseInput(binarySearchInput.value); const target = parseInt(binarySearchTarget.value);
-            if (arr.length === 0 || isNaN(target)) { binarySearchStatus.textContent = "Valid array and target needed."; binarySearchViz.innerHTML = '<p class="text-slate-500 self-center">Invalid input.</p>'; clearCodeHighlight(binarySearchData.codeBlockId); return; }
-            arr.sort((a,b) => a-b); binarySearchInput.value = arr.join(', '); // Update input with sorted
-            binarySearchData.array = [...arr]; binarySearchData.target = target; binarySearchData.steps = generateBinarySearchSteps(arr, target); binarySearchData.currentStep = 0; binarySearchData.isSearching = true;
-            renderBinarySearchArray(binarySearchViz, binarySearchStatus, binarySearchData.steps[0], binarySearchData);
-            startBinarySearchBtn.disabled = true; binarySearchInput.disabled = true; binarySearchTarget.disabled = true; nextBinarySearchStepBtn.disabled = binarySearchData.steps.length <= 1; resetBinarySearchBtn.disabled = false;
-        });
-        nextBinarySearchStepBtn.addEventListener('click', () => {
-            if (!binarySearchData.isSearching || binarySearchData.currentStep >= binarySearchData.steps.length - 1) { nextBinarySearchStepBtn.disabled = true; return; }
-            binarySearchData.currentStep++; renderBinarySearchArray(binarySearchViz, binarySearchStatus, binarySearchData.steps[binarySearchData.currentStep], binarySearchData);
-            if (binarySearchData.currentStep >= binarySearchData.steps.length - 1) nextBinarySearchStepBtn.disabled = true;
-        });
-        resetBinarySearchBtn.addEventListener('click', () => {
-            binarySearchData.isSearching = false; binarySearchInput.disabled = false; binarySearchTarget.disabled = false; startBinarySearchBtn.disabled = false; nextBinarySearchStepBtn.disabled = true; resetBinarySearchBtn.disabled = true;
-            binarySearchViz.innerHTML = '<p class="text-slate-500 self-center">Visualization will appear here.</p>'; binarySearchStatus.textContent = "Enter sorted array & target, then Visualize."; clearCodeHighlight(binarySearchData.codeBlockId); hideExplanationPopup();
-        });
-
-        // --- Merge Logic ---
-        function generateMergeSteps(arrA, arrB) {
-            arrA.sort((a,b) => a-b); arrB.sort((a,b) => a-b); const steps = [];
-            steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [], indexes: { i: 0, j: 0 }, comparingElements: false, explanation: "Starting merge. Arrays A and B are sorted.", codeHighlights: [0,1,2,3] });
-            let i = 0, j = 0; let arrayC = [];
-            while (i < arrA.length && j < arrB.length) {
-                steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: { i: i, j: j }, comparingElements: true, explanation: `Comparing A[${i}]=${arrA[i]} and B[${j}]=${arrB[j]}.`, codeHighlights: [4,5] });
-                if (arrA[i] < arrB[j]) {
-                    steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: { i: i, j: j }, selected: { array: 'A', index: i }, explanation: `A[${i}]=${arrA[i]} is smaller. Adding to C.`, codeHighlights: [5,6,7] });
-                    arrayC.push(arrA[i]); i++;
-                } else {
-                    steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: { i: i, j: j }, selected: { array: 'B', index: j }, explanation: `B[${j}]=${arrB[j]} is smaller/equal. Adding to C.`, codeHighlights: [8,9,10] });
-                    arrayC.push(arrB[j]); j++;
-                }
-                steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: {i:i, j:j}, addedToC: arrayC.length -1, explanation: `Merged C: [${arrayC.join(', ')}].`, codeHighlights: i < arrA.length && j < arrB.length ? [4] : [] });
-            }
-            while (i < arrA.length) {
-                steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: { i: i, j: j }, explanation: `B exhausted. Adding remaining from A.`, codeHighlights: [11,12,13] });
-                steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: { i: i, j: j }, selected: { array: 'A', index: i }, explanation: `Adding A[${i}]=${arrA[i]} to C.`, codeHighlights: [12,13] });
+    // --- Merge Logic ---
+    function generateMergeSteps(arrA, arrB) {
+        arrA.sort((a,b) => a-b); arrB.sort((a,b) => a-b); const steps = [];
+        steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [], indexes: { i: 0, j: 0 }, comparingElements: false, explanation: "Starting merge. Arrays A and B are sorted.", codeHighlights: [0,1,2,3] });
+        let i = 0, j = 0; let arrayC = [];
+        while (i < arrA.length && j < arrB.length) {
+            steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: { i: i, j: j }, comparingElements: true, explanation: `Comparing A[${i}]=${arrA[i]} and B[${j}]=${arrB[j]}.`, codeHighlights: [4,5] });
+            if (arrA[i] < arrB[j]) {
+                steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: { i: i, j: j }, selected: { array: 'A', index: i }, explanation: `A[${i}]=${arrA[i]} is smaller. Adding to C.`, codeHighlights: [5,6,7] });
                 arrayC.push(arrA[i]); i++;
-                steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: {i:i, j:j}, addedToC: arrayC.length -1, explanation: `Merged C: [${arrayC.join(', ')}].`, codeHighlights: i < arrA.length ? [11] : [] });
-            }
-            while (j < arrB.length) {
-                steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: { i: i, j: j }, explanation: `A exhausted. Adding remaining from B.`, codeHighlights: [14,15,16] });
-                steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: { i: i, j: j }, selected: { array: 'B', index: j }, explanation: `Adding B[${j}]=${arrB[j]} to C.`, codeHighlights: [15,16] });
+            } else {
+                steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: { i: i, j: j }, selected: { array: 'B', index: j }, explanation: `B[${j}]=${arrB[j]} is smaller/equal. Adding to C.`, codeHighlights: [8,9,10] });
                 arrayC.push(arrB[j]); j++;
-                steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: {i:i, j:j}, addedToC: arrayC.length -1, explanation: `Merged C: [${arrayC.join(', ')}].`, codeHighlights: j < arrB.length ? [14] : [] });
             }
-            steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: {i:i, j:j}, explanation: `Merge complete! Final C: [${arrayC.join(', ')}].`, codeHighlights: [17] });
-            return steps;
+            steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: {i:i, j:j}, addedToC: arrayC.length -1, explanation: `Merged C: [${arrayC.join(', ')}].`, codeHighlights: i < arrA.length && j < arrB.length ? [4] : [] });
         }
-        function renderMergeArrays(stepData) {
-            if (!stepData) return;
-            const { arrayA, arrayB, arrayC, indexes, comparingElements, selected, addedToC, explanation, codeHighlights } = stepData;
-            
-            function renderSingleArray(vizEl, arr, currentIndex, highlightSelected, highlightComparing) {
-                vizEl.innerHTML = ''; const container = document.createElement('div'); container.className = 'flex flex-wrap gap-2 justify-center p-2';
-                if (arr.length === 0 && vizEl === arrayCViz) { vizEl.innerHTML = '<p class="text-slate-500 self-center">Merged array will appear here.</p>'; return;}
-                else if (arr.length === 0) { vizEl.innerHTML = '<p class="text-slate-500 self-center">Array is empty.</p>'; return;}
-
-                arr.forEach((val, idx) => {
-                    const el = document.createElement('div'); el.className = 'search-step text-lg font-medium'; el.textContent = val;
-                    if (currentIndex === idx && currentIndex < arr.length) el.classList.add('search-current'); // Current pointer
-                    if (highlightComparing && currentIndex === idx) el.classList.add('search-mid'); // Element being compared
-                    if (highlightSelected && highlightSelected.index === idx) el.classList.add('search-found'); // Element chosen
-                    if (vizEl === arrayCViz && addedToC === idx) el.classList.add('search-found'); // Highlight newest element in C
-                    container.appendChild(el);
-                });
-                vizEl.appendChild(container);
-            }
-
-            renderSingleArray(arrayAViz, arrayA, indexes.i, selected && selected.array === 'A' ? selected : null, comparingElements);
-            renderSingleArray(arrayBViz, arrayB, indexes.j, selected && selected.array === 'B' ? selected : null, comparingElements);
-            renderSingleArray(arrayCViz, arrayC, -1, null, false); // No current pointer for C in this way
-
-            mergeStatus.textContent = explanation || '';
-            if (mergeData.codeBlockId && codeHighlights) highlightCodeLines(mergeData.codeBlockId, codeHighlights);
+        while (i < arrA.length) {
+            steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: { i: i, j: j }, explanation: `B exhausted. Adding remaining from A.`, codeHighlights: [11,12,13] });
+            steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: { i: i, j: j }, selected: { array: 'A', index: i }, explanation: `Adding A[${i}]=${arrA[i]} to C.`, codeHighlights: [12,13] });
+            arrayC.push(arrA[i]); i++;
+            steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: {i:i, j:j}, addedToC: arrayC.length -1, explanation: `Merged C: [${arrayC.join(', ')}].`, codeHighlights: i < arrA.length ? [11] : [] });
         }
-        startMergeBtn.addEventListener('click', () => {
-            const arrA_raw = parseInput(arrayAInput.value); const arrB_raw = parseInput(arrayBInput.value);
-            if (arrA_raw.length === 0 && arrB_raw.length === 0) { // Allow one empty array
-                 mergeStatus.textContent = "Please enter at least one valid array.";
-                 arrayAViz.innerHTML = '<p class="text-slate-500 self-center">Array A is empty.</p>';
-                 arrayBViz.innerHTML = '<p class="text-slate-500 self-center">Array B is empty.</p>';
-                 arrayCViz.innerHTML = '<p class="text-slate-500 self-center">Merged array will appear here.</p>';
-                 clearCodeHighlight(mergeData.codeBlockId); return;
-            }
-            const sortedA = [...arrA_raw].sort((a,b)=>a-b); const sortedB = [...arrB_raw].sort((a,b)=>a-b);
-            arrayAInput.value = sortedA.join(', '); arrayBInput.value = sortedB.join(', ');
-            mergeData.arrayA = sortedA; mergeData.arrayB = sortedB; mergeData.steps = generateMergeSteps(sortedA, sortedB); mergeData.currentStep = 0; mergeData.isMerging = true;
-            renderMergeArrays(mergeData.steps[0]);
-            startMergeBtn.disabled = true; arrayAInput.disabled = true; arrayBInput.disabled = true; nextMergeStepBtn.disabled = mergeData.steps.length <= 1; resetMergeBtn.disabled = false;
-        });
-        nextMergeStepBtn.addEventListener('click', () => {
-            if (!mergeData.isMerging || mergeData.currentStep >= mergeData.steps.length - 1) { nextMergeStepBtn.disabled = true; return; }
-            mergeData.currentStep++; renderMergeArrays(mergeData.steps[mergeData.currentStep]);
-            if (mergeData.currentStep >= mergeData.steps.length - 1) nextMergeStepBtn.disabled = true;
-        });
-        resetMergeBtn.addEventListener('click', () => {
-            mergeData.isMerging = false; arrayAInput.disabled = false; arrayBInput.disabled = false; startMergeBtn.disabled = false; nextMergeStepBtn.disabled = true; resetMergeBtn.disabled = true;
-            arrayAViz.innerHTML = '<p class="text-slate-500 self-center">Array A will appear here.</p>'; arrayBViz.innerHTML = '<p class="text-slate-500 self-center">Array B will appear here.</p>'; arrayCViz.innerHTML = '<p class="text-slate-500 self-center">Merged array will appear here.</p>';
-            mergeStatus.textContent = "Enter arrays and click \"Visualize\"."; clearCodeHighlight(mergeData.codeBlockId); hideExplanationPopup();
-        });
-
-        // Add event listeners for code line explanations
-        function attachCodeExplanationListeners() {
-            const codeLines = document.querySelectorAll('.code-line');
-            codeLines.forEach(line => {
-                line.addEventListener('mouseover', (event) => {
-                    const explanation = event.target.getAttribute('data-explanation');
-                    if (explanation) showExplanationPopup(event, explanation);
-                });
-                line.addEventListener('mouseout', hideExplanationPopup);
-                line.addEventListener('mousemove', updatePopupPosition);
-            });
+        while (j < arrB.length) {
+            steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: { i: i, j: j }, explanation: `A exhausted. Adding remaining from B.`, codeHighlights: [14,15,16] });
+            steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: { i: i, j: j }, selected: { array: 'B', index: j }, explanation: `Adding B[${j}]=${arrB[j]} to C.`, codeHighlights: [15,16] });
+            arrayC.push(arrB[j]); j++;
+            steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: {i:i, j:j}, addedToC: arrayC.length -1, explanation: `Merged C: [${arrayC.join(', ')}].`, codeHighlights: j < arrB.length ? [14] : [] });
         }
+        steps.push({ arrayA: [...arrA], arrayB: [...arrB], arrayC: [...arrayC], indexes: {i:i, j:j}, explanation: `Merge complete! Final C: [${arrayC.join(', ')}].`, codeHighlights: [17] });
+        return steps;
+    }
+    function renderMergeArrays(stepData) {
+        if (!stepData) return;
+        const { arrayA, arrayB, arrayC, indexes, comparingElements, selected, addedToC, explanation, codeHighlights } = stepData;
         
-        // Initial setup
-        window.onload = () => {
-            document.getElementById('currentYear').textContent = new Date().getFullYear();
-            // Initial placeholder texts
-            selectionViz.innerHTML = '<p class="text-slate-500 self-center">Visualization will appear here.</p>';
-            bubbleViz.innerHTML = '<p class="text-slate-500 self-center">Visualization will appear here.</p>';
-            linearSearchViz.innerHTML = '<p class="text-slate-500 self-center">Visualization will appear here.</p>';
-            binarySearchViz.innerHTML = '<p class="text-slate-500 self-center">Visualization will appear here.</p>';
-            arrayAViz.innerHTML = '<p class="text-slate-500 self-center">Array A will appear here.</p>';
-            arrayBViz.innerHTML = '<p class="text-slate-500 self-center">Array B will appear here.</p>';
-            arrayCViz.innerHTML = '<p class="text-slate-500 self-center">Merged array will appear here.</p>';
+        function renderSingleArray(vizEl, arr, currentIndex, highlightSelected, highlightComparing) {
+            vizEl.innerHTML = ''; const container = document.createElement('div'); container.className = 'flex flex-wrap gap-2 justify-center p-2';
+            if (arr.length === 0 && vizEl === arrayCViz) { vizEl.innerHTML = '<p class="text-slate-500 self-center">Merged array will appear here.</p>'; return;}
+            else if (arr.length === 0) { vizEl.innerHTML = '<p class="text-slate-500 self-center">Array is empty.</p>'; return;}
 
-            attachCodeExplanationListeners(); // Attach listeners after code blocks are populated
+            arr.forEach((val, idx) => {
+                const el = document.createElement('div'); el.className = 'search-step text-lg font-medium'; el.textContent = val;
+                if (currentIndex === idx && currentIndex < arr.length) el.classList.add('search-current'); // Current pointer
+                if (highlightComparing && currentIndex === idx) el.classList.add('search-mid'); // Element being compared
+                if (highlightSelected && highlightSelected.index === idx) el.classList.add('search-found'); // Element chosen
+                if (vizEl === arrayCViz && addedToC === idx) el.classList.add('search-found'); // Highlight newest element in C
+                container.appendChild(el);
+            });
+            vizEl.appendChild(container);
+        }
 
-            // Default to sorting tab, selection sort sub-tab
-            updateMainTabs(showSortingBtn, mainSortingSection);
-            showSelectionSortBtn.click(); // Activate selection sort by default
-        };
-    </script>
+        renderSingleArray(arrayAViz, arrayA, indexes.i, selected && selected.array === 'A' ? selected : null, comparingElements);
+        renderSingleArray(arrayBViz, arrayB, indexes.j, selected && selected.array === 'B' ? selected : null, comparingElements);
+        renderSingleArray(arrayCViz, arrayC, -1, null, false); // No current pointer for C in this way
+
+        mergeStatus.textContent = explanation || '';
+        if (mergeData.codeBlockId && codeHighlights) highlightCodeLines(mergeData.codeBlockId, codeHighlights);
+    }
+    startMergeBtn.addEventListener('click', () => {
+        const arrA_raw = parseInput(arrayAInput.value); const arrB_raw = parseInput(arrayBInput.value);
+        if (arrA_raw.length === 0 && arrB_raw.length === 0) { // Allow one empty array
+             mergeStatus.textContent = "Please enter at least one valid array.";
+             arrayAViz.innerHTML = '<p class="text-slate-500 self-center">Array A is empty.</p>';
+             arrayBViz.innerHTML = '<p class="text-slate-500 self-center">Array B is empty.</p>';
+             arrayCViz.innerHTML = '<p class="text-slate-500 self-center">Merged array will appear here.</p>';
+             clearCodeHighlight(mergeData.codeBlockId); return;
+        }
+        const sortedA = [...arrA_raw].sort((a,b)=>a-b); const sortedB = [...arrB_raw].sort((a,b)=>a-b);
+        arrayAInput.value = sortedA.join(', '); arrayBInput.value = sortedB.join(', ');
+        mergeData.arrayA = sortedA; mergeData.arrayB = sortedB; mergeData.steps = generateMergeSteps(sortedA, sortedB); mergeData.currentStep = 0; mergeData.isMerging = true;
+        renderMergeArrays(mergeData.steps[0]);
+        startMergeBtn.disabled = true; arrayAInput.disabled = true; arrayBInput.disabled = true; nextMergeStepBtn.disabled = mergeData.steps.length <= 1; resetMergeBtn.disabled = false;
+    });
+    nextMergeStepBtn.addEventListener('click', () => {
+        if (!mergeData.isMerging || mergeData.currentStep >= mergeData.steps.length - 1) { nextMergeStepBtn.disabled = true; return; }
+        mergeData.currentStep++; renderMergeArrays(mergeData.steps[mergeData.currentStep]);
+        if (mergeData.currentStep >= mergeData.steps.length - 1) nextMergeStepBtn.disabled = true;
+    });
+    resetMergeBtn.addEventListener('click', () => {
+        mergeData.isMerging = false; arrayAInput.disabled = false; arrayBInput.disabled = false; startMergeBtn.disabled = false; nextMergeStepBtn.disabled = true; resetMergeBtn.disabled = true;
+        arrayAViz.innerHTML = '<p class="text-slate-500 self-center">Array A will appear here.</p>'; arrayBViz.innerHTML = '<p class="text-slate-500 self-center">Array B will appear here.</p>'; arrayCViz.innerHTML = '<p class="text-slate-500 self-center">Merged array will appear here.</p>';
+        mergeStatus.textContent = "Enter arrays and click \"Visualize\"."; clearCodeHighlight(mergeData.codeBlockId); hideExplanationPopup();
+    });
+
+    // Add event listeners for code line explanations
+    function attachCodeExplanationListeners() {
+        const codeLines = document.querySelectorAll('.code-line');
+        codeLines.forEach(line => {
+            line.addEventListener('mouseover', (event) => {
+                const explanation = event.target.getAttribute('data-explanation');
+                if (explanation) showExplanationPopup(event, explanation);
+            });
+            line.addEventListener('mouseout', hideExplanationPopup);
+            line.addEventListener('mousemove', updatePopupPosition);
+        });
+    }
+    
+    // Initial setup
+    window.onload = () => {
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        // Initial placeholder texts
+        selectionViz.innerHTML = '<p class="text-slate-500 self-center">Visualization will appear here.</p>';
+        bubbleViz.innerHTML = '<p class="text-slate-500 self-center">Visualization will appear here.</p>';
+        linearSearchViz.innerHTML = '<p class="text-slate-500 self-center">Visualization will appear here.</p>';
+        binarySearchViz.innerHTML = '<p class="text-slate-500 self-center">Visualization will appear here.</p>';
+        arrayAViz.innerHTML = '<p class="text-slate-500 self-center">Array A will appear here.</p>';
+        arrayBViz.innerHTML = '<p class="text-slate-500 self-center">Array B will appear here.</p>';
+        arrayCViz.innerHTML = '<p class="text-slate-500 self-center">Merged array will appear here.</p>';
+
+        attachCodeExplanationListeners(); // Attach listeners after code blocks are populated
+
+        // Default to sorting tab, selection sort sub-tab
+        updateMainTabs(showSortingBtn, mainSortingSection);
+        showSelectionSortBtn.click(); // Activate selection sort by default
+    };
+</script>
 </body>
 </html>

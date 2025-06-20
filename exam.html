@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Reference Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&family=SF+Pro+Text:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --glass-backdrop: blur(20px);
+        }
+
+        body {
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .glass-container {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-backdrop);
+            -webkit-backdrop-filter: var(--glass-backdrop);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--glass-shadow);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 16px 0;
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .glass-input {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: white;
+            font-size: 16px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .glass-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .glass-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-button {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 12px 24px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .glass-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .modal-overlay {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            color: #00ff88;
+            margin: 12px 0;
+        }
+
+        .highlight {
+            background: rgba(255, 255, 0, 0.2);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        .formula {
+            background: rgba(0, 100, 255, 0.2);
+            border: 1px solid rgba(0, 100, 255, 0.4);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            margin: 8px 0;
+        }
+
+        .storage-hierarchy {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0;
+        }
+
+        .storage-item {
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+            padding: 12px 16px;
+            border-radius: 8px;
+            text-center;
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .arrow {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 18px;
+        }
+
+        .binary-demo {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Enhanced passkey input */
+        .passkey-input {
+            font-size: 18px !important;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .input-success {
+            border-color: rgba(34, 197, 94, 0.5) !important;
+            box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.1) !important;
+        }
+
+        .input-error {
+            border-color: rgba(239, 68, 68, 0.5) !important;
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Passkey Modal -->
+    <div id="passkeyModal" class="fixed inset-0 z-50 flex items-center justify-center modal-overlay">
+        <div class="glass-container p-8 max-w-md w-full mx-4">
+            <div class="text-center">
+                <div class="text-6xl mb-6 floating-element">🔐</div>
+                <h2 class="text-2xl font-bold text-white mb-4">Access Required</h2>
+                <p class="text-white/80 mb-6 text-lg">叫爸爸</p>
+                <input 
+                    type="text" 
+                    id="passkeyInput" 
+                    class="glass-input passkey-input mb-4" 
+                    placeholder="爸爸"
+                    autocomplete="off"
+                    spellcheck="false"
+                >
+                <div class="flex gap-3">
+                    <button id="submitPasskey" class="glass-button flex-1">Submit</button>
+                    <button id="hintButton" class="glass-button">💡 Hint</button>
+                </div>
+                <div id="errorMessage" class="text-red-300 mt-4 hidden"></div>
+                <div id="hintMessage" class="text-yellow-300 mt-4 hidden">
+                    The answer is what you would call your father in Chinese 👨‍👧‍👦<br>
+                    <span class="text-sm">(You can also try in English)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content (Initially Hidden) -->
+    <div id="mainContent" class="hidden min-h-screen p-4 md:p-8">
+        <div class="max-w-6xl mx-auto">
+            <!-- Header -->
+            <header class="text-center mb-12">
+                <h1 class="text-5xl md:text-6xl font-bold text-white mb-4" style="font-family: 'SF Pro Display', sans-serif;">
+                    ICT Reference Guide
+                </h1>
+                <p class="text-xl text-white/80 max-w-2xl mx-auto">
+                    Complete reference for computer science concepts, formulas, and systems
+                </p>
+            </header>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Two's Complement -->
+                <div class="glass-card">
+                    <h2 class="text-2xl font-bold text-white mb-4">🔢 Two's Complement</h2>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-white mb-3">Convert to Two's Complement:</h3>
+                        <ol class="text-white/90 space-y-2 list-decimal list-inside">
+                            <li>Convert number to binary</li>
+                            <li><span class="highlight">Invert all bits</span> (0→1, 1→0)</li>
+                            <li><span class="highlight">Add 1</span> to the result</li>
+                        </ol>
+
+                        <div class="binary-demo">
+                            <div class="text-white/80 text-sm mb-2">Example: -5 in 8-bit</div>
+                            <div class="code-block">
+5 in binary:    00000101<br>
+Invert bits:    11111010<br>
+Add 1:          11111011<br>
+<span class="highlight">Result: 11111011 = -5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-3">Reverse (Binary to Decimal):</h3>
+                        <ol class="text-white/90 space-y-2 list-decimal list-inside">
+                            <li>Check first bit: <span class="highlight">1 = negative, 0 = positive</span></li>
+                            <li>If negative: subtract 1, then invert all bits</li>
+                            <li>Convert to decimal and apply sign</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Excel Formula -->
+                <div class="glass-card">
+                    <h2 class="text-2xl font-bold text-white mb-4">📊 Excel Formulas</h2>
+                    
+                    <div class="mb-4">
+                        <h3 class="text-lg font-semibold text-white mb-3">Absolute vs Relative References:</h3>
+                        
+                        <div class="formula">
+                            $D7 + A3 + 6
+                        </div>
+                        
+                        <div class="text-white/90 space-y-2">
+                            <p>• <span class="highlight">$D7</span> - Absolute reference (stays D7 when dragged)</p>
+                            <p>• <span class="highlight">A3</span> - Relative reference (changes when dragged)</p>
+                            <p>• <span class="highlight">6</span> - Constant value</p>
+                        </div>
+                        
+                        <div class="binary-demo mt-4">
+                            <div class="text-white/80 text-sm mb-2">When dragged to the right:</div>
+                            <div class="code-block">
+Original: $D7 + A3 + 6<br>
+Dragged:  $D7 + B3 + 6<br>
+<span class="highlight">D7 remains unchanged due to $</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Storage -->
+                <div class="glass-card">
+                    <h2 class="text-2xl font-bold text-white mb-4">💾 Data Storage</h2>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-white mb-3">Basic Units:</h3>
+                        <div class="space-y-2 text-white/90">
+                            <p>• <span class="highlight">1 byte = 8 bits</span></p>
+                            <p>• <span class="highlight">x-bit storage = 2^x values</span></p>
+                        </div>
+                        
+                        <div class="binary-demo">
+                            <div class="text-white/80 text-sm mb-2">Examples:</div>
+                            <div class="code-block">
+8-bit:  2^8  = 256 values (0-255)<br>
+16-bit: 2^16 = 65,536 values<br>
+32-bit: 2^32 = 4,294,967,296 values
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-3">DBMS:</h3>
+                        <p class="text-white/90"><span class="highlight">Database Management System</span> - Software for storing, retrieving, and managing data in databases.</p>
+                    </div>
+                </div>
+
+                <!-- Memory Hierarchy -->
+                <div class="glass-card">
+                    <h2 class="text-2xl font-bold text-white mb-4">⚡ Memory Hierarchy (Speed)</h2>
+                    
+                    <div class="text-center mb-4">
+                        <p class="text-white/80 mb-4">Fastest → Slowest</p>
+                        <div class="storage-hierarchy">
+                            <div class="storage-item">
+                                <div class="text-sm font-semibold">CPU Registers</div>
+                                <div class="text-xs text-white/70">Fastest</div>
+                            </div>
+                            <div class="arrow">→</div>
+                            <div class="storage-item">
+                                <div class="text-sm font-semibold">CPU Cache</div>
+                                <div class="text-xs text-white/70">L1, L2, L3</div>
+                            </div>
+                            <div class="arrow">→</div>
+                            <div class="storage-item">
+                                <div class="text-sm font-semibold">RAM</div>
+                                <div class="text-xs text-white/70">Memory</div>
+                            </div>
+                            <div class="arrow">→</div>
+                            <div class="storage-item">
+                                <div class="text-sm font-semibold">Disk</div>
+                                <div class="text-xs text-white/70">HDD/SSD</div>
+                            </div>
+                            <div class="arrow">→</div>
+                            <div class="storage-item">
+                                <div class="text-sm font-semibold">USB</div>
+                                <div class="text-xs text-white/70">Slowest</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="binary-demo">
+                        <div class="text-white/80 text-sm mb-2">Access Times (Approximate):</div>
+                        <div class="code-block">
+CPU Registers: &lt; 1 nanosecond<br>
+CPU Cache:     1-10 nanoseconds<br>
+RAM:           50-100 nanoseconds<br>
+SSD:           0.1-1 milliseconds<br>
+HDD:           5-10 milliseconds<br>
+USB:           Variable (depends on type)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Tools -->
+                <div class="glass-card md:col-span-2">
+                    <h2 class="text-2xl font-bold text-white mb-4">🛠️ Interactive Tools</h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Two's Complement Calculator -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-white mb-3">Two's Complement Calculator</h3>
+                            <div class="space-y-3">
+                                <input type="number" id="numberInput" class="glass-input" placeholder="Enter a number (e.g., -5)">
+                                <button onclick="calculateTwosComplement()" class="glass-button w-full">Calculate</button>
+                                <div id="twosResult" class="binary-demo hidden">
+                                    <div class="code-block" id="calculationSteps"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Storage Calculator -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-white mb-3">Storage Calculator</h3>
+                            <div class="space-y-3">
+                                <input type="number" id="bitsInput" class="glass-input" placeholder="Enter number of bits (e.g., 8)">
+                                <button onclick="calculateStorage()" class="glass-button w-full">Calculate</button>
+                                <div id="storageResult" class="binary-demo hidden">
+                                    <div class="code-block" id="storageSteps"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="text-center mt-12 text-white/60">
+                <p>ICT Reference Guide - Master the fundamentals 🚀</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // Passkey validation with more comprehensive answers
+        const correctAnswers = [
+            '爸爸', 'baba', '父亲', '爸', 'dad', 'father', 'papa', 
+            'daddy', '老爸', '老爹', 'pops', 'pa', '爹', '爹爹',
+            'dada', 'papa', 'pappy', '阿爸', '父', 'paternal'
+        ];
+        let attempts = 0;
+        const maxAttempts = 5;
+
+        document.getElementById('submitPasskey').addEventListener('click', validatePasskey);
+        document.getElementById('passkeyInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                validatePasskey();
+            }
+        });
+
+        // Real-time feedback for input
+        document.getElementById('passkeyInput').addEventListener('input', function(e) {
+            const input = e.target.value.toLowerCase().trim();
+            const inputField = e.target;
+            
+            // Remove previous classes
+            inputField.classList.remove('input-success', 'input-error');
+            
+            if (input.length > 0) {
+                if (correctAnswers.includes(input)) {
+                    inputField.classList.add('input-success');
+                } else if (input.length > 2) {
+                    inputField.classList.add('input-error');
+                }
+            }
+        });
+
+        document.getElementById('hintButton').addEventListener('click', function() {
+            const hintMessage = document.getElementById('hintMessage');
+            hintMessage.classList.toggle('hidden');
+        });
+
+        function validatePasskey() {
+            const input = document.getElementById('passkeyInput').value.toLowerCase().trim();
+            const errorMessage = document.getElementById('errorMessage');
+            const modal = document.getElementById('passkeyModal');
+            const mainContent = document.getElementById('mainContent');
+
+            if (correctAnswers.includes(input)) {
+                // Correct answer
+                const inputField = document.getElementById('passkeyInput');
+                inputField.classList.add('input-success');
+                
+                // Success animation
+                modal.style.transform = 'scale(0.8)';
+                modal.style.opacity = '0';
+                modal.style.transition = 'all 0.3s ease';
+                
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    mainContent.classList.remove('hidden');
+                    mainContent.style.opacity = '0';
+                    mainContent.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        mainContent.style.transition = 'all 0.5s ease';
+                        mainContent.style.opacity = '1';
+                        mainContent.style.transform = 'translateY(0)';
+                    }, 50);
+                }, 300);
+            } else {
+                // Wrong answer
+                attempts++;
+                const passkeyContainer = modal.querySelector('.glass-container');
+                const inputField = document.getElementById('passkeyInput');
+                
+                passkeyContainer.classList.add('shake');
+                inputField.classList.add('input-error');
+                
+                setTimeout(() => {
+                    passkeyContainer.classList.remove('shake');
+                }, 500);
+
+                if (attempts >= maxAttempts) {
+                    errorMessage.innerHTML = `Too many attempts!<br>The answer was "<span class="highlight">爸爸</span>" 👨‍👧‍👦`;
+                    errorMessage.classList.remove('hidden');
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                        mainContent.classList.remove('hidden');
+                    }, 3000);
+                } else {
+                    errorMessage.innerHTML = `Incorrect! ${maxAttempts - attempts} attempts remaining.<br><small>Try: "爸爸" or "dad"</small>`;
+                    errorMessage.classList.remove('hidden');
+                    document.getElementById('passkeyInput').value = '';
+                    document.getElementById('passkeyInput').focus();
+                }
+            }
+        }
+
+        // Two's Complement Calculator
+        function calculateTwosComplement() {
+            const number = parseInt(document.getElementById('numberInput').value);
+            const resultDiv = document.getElementById('twosResult');
+            const stepsDiv = document.getElementById('calculationSteps');
+
+            if (isNaN(number)) {
+                stepsDiv.innerHTML = '<span style="color: #ff6b6b;">Please enter a valid number!</span>';
+                resultDiv.classList.remove('hidden');
+                return;
+            }
+
+            const isNegative = number < 0;
+            const absNumber = Math.abs(number);
+            const binary = absNumber.toString(2).padStart(8, '0');
+
+            let steps = `Number: ${number}<br>`;
+            steps += `Absolute value: ${absNumber}<br>`;
+            steps += `8-bit binary: ${binary}<br><br>`;
+
+            if (isNegative) {
+                const inverted = binary.split('').map(bit => bit === '0' ? '1' : '0').join('');
+                steps += `Step 1 - Invert bits: ${inverted}<br>`;
+                
+                let addOne = '';
+                let carry = 1;
+                for (let i = 7; i >= 0; i--) {
+                    const sum = parseInt(inverted[i]) + carry;
+                    addOne = (sum % 2) + addOne;
+                    carry = Math.floor(sum / 2);
+                }
+                
+                steps += `Step 2 - Add 1: ${addOne}<br><br>`;
+                steps += `<span class="highlight">Two's complement: ${addOne}</span>`;
+            } else {
+                steps += `<span class="highlight">Positive number: ${binary}</span>`;
+            }
+
+            stepsDiv.innerHTML = steps;
+            resultDiv.classList.remove('hidden');
+        }
+
+        // Storage Calculator
+        function calculateStorage() {
+            const bits = parseInt(document.getElementById('bitsInput').value);
+            const resultDiv = document.getElementById('storageResult');
+            const stepsDiv = document.getElementById('storageSteps');
+
+            if (isNaN(bits) || bits <= 0) {
+                stepsDiv.innerHTML = '<span style="color: #ff6b6b;">Please enter a valid positive number!</span>';
+                resultDiv.classList.remove('hidden');
+                return;
+            }
+
+            const values = Math.pow(2, bits);
+            const bytes = bits / 8;
+
+            let steps = `Bits: ${bits}<br>`;
+            steps += `Formula: 2^${bits}<br>`;
+            steps += `<span class="highlight">Possible values: ${values.toLocaleString()}</span><br>`;
+            steps += `Range: 0 to ${(values - 1).toLocaleString()}<br><br>`;
+            
+            if (bits >= 8) {
+                steps += `Bytes: ${bits}/8 = ${bytes} byte${bytes !== 1 ? 's' : ''}<br>`;
+            }
+            
+            if (bits >= 8192) {
+                steps += `Kilobytes: ${(bytes/1024).toFixed(2)} KB<br>`;
+            }
+            
+            if (bits >= 8388608) {
+                steps += `Megabytes: ${(bytes/1048576).toFixed(2)} MB<br>`;
+            }
+
+            stepsDiv.innerHTML = steps;
+            resultDiv.classList.remove('hidden');
+        }
+
+        // Initialize
+        document.getElementById('passkeyInput').focus();
+
+        // Add visual feedback for successful load
+        window.addEventListener('load', function() {
+            const modal = document.getElementById('passkeyModal');
+            modal.style.opacity = '0';
+            modal.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                modal.style.transition = 'all 0.3s ease';
+                modal.style.opacity = '1';
+                modal.style.transform = 'scale(1)';
+                document.getElementById('passkeyInput').focus();
+            }, 100);
+        });
+    </script>
+</body>
+</html>

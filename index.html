@@ -320,7 +320,6 @@
             transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
         }
 
-        /* Loader */
         #loading-overlay { background-color: var(--bg-primary); }
         .loader-m3 {
             border: 4px solid var(--border-secondary);
@@ -331,6 +330,61 @@
         @keyframes spin-m3 {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        .shimmer-button {
+            padding: 18px 40px;
+            font-size: 22px;
+            font-family: sans-serif;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+
+            background-color: #6a11cb; 
+            
+            background-image: linear-gradient(
+                65deg,
+                #2575fc 20%, 
+                #aebeef 50%, 
+                #2575fc 80% 
+            );
+
+            background-size: 250% 100%;
+
+            background-position: 100% 0;
+        }
+        .google-circle1 {
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background-color: #007CE6;
+        }
+        .google-circle2 {
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background-color: #ff0022;
+        }
+        .google-circle3 {
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background-color: #fbff25;
+        }
+        .google-circle4 {
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background-color: #28ca00;
+        }
+        .loading-overlay {
+            background-color: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            z-index: 9999;
+        }
+        .loader {
+            display: flex;
+            gap: 12px;
         }
     </style>
 </head>
@@ -396,13 +450,13 @@
 
             <section class="mb-12 md:mb-16 flex flex-col items-center">
                 <div id="tag-bar" class="flex flex-wrap gap-3 justify-center">
-                    <button class="tag-btn active" data-tag="all">All</button>
-                    <button class="tag-btn" data-tag="Algorithms">Algorithms</button>
-                    <button class="tag-btn" data-tag="SQL">SQL</button>
-                    <button class="tag-btn" data-tag="HTML">HTML</button>
-                    <button class="tag-btn" data-tag="Software">Software</button>
-                    <button class="tag-btn" data-tag="Hardware">Hardware</button>
-                    <button class="tag-btn" data-tag="Visualization">Visualization</button>
+                    <button class="tag-btn active" data-tag="all" class="shimmer-button">All</button>
+                    <button class="tag-btn" data-tag="Algorithms" class="shimmer-button">Algorithms</button>
+                    <button class="tag-btn" data-tag="SQL" class="shimmer-button">SQL</button>
+                    <button class="tag-btn" data-tag="HTML" class="shimmer-button">HTML</button>
+                    <button class="tag-btn" data-tag="Software" class="shimmer-button">Software</button>
+                    <button class="tag-btn" data-tag="Hardware" class="shimmer-button">Hardware</button>
+                    <button class="tag-btn" data-tag="Visualization" class="shimmer-button">Visualization</button>
                 </div>
             </section>
 
@@ -523,6 +577,16 @@
                 <a href="https://store.steampowered.com/app/359550/Tom_Clancys_Rainbow_Six_Siege/" target="_blank" rel="noopener noreferrer" class="primary-btn px-6 py-2 w-full modal-close">message me your aternos name</a>
             </div>
         </div>
+    </div>
+
+    <div class="loading-overlay fixed inset-0 z-[100] flex items-center justify-center" id="loading-overlay" style="display: none;">
+        <div class="loader">
+            <div class="google-circle1"></div>
+            <div class="google-circle2"></div>
+            <div class="google-circle3"></div>
+            <div class="google-circle4"></div>
+        </div>
+
     </div>
 
     <script>
@@ -803,9 +867,7 @@
         if (visitPopup) {
             const closeButtons = visitPopup.querySelectorAll('.modal-close');
             closeButtons.forEach(button => button.addEventListener('click', (e) => {
-                // Prevent anchor tag from firing if it's also a close button
                 if (button.tagName === 'A') {
-                   // Let the link work, but still close the modal
                 } else {
                    e.preventDefault();
                 }
@@ -827,7 +889,6 @@
         }
 
 
-        // Initial setup
         const initialTheme = localStorage.getItem(THEME_KEY) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? DARK : LIGHT);
         applyThemeUI(initialTheme);
         updateVisibleCards();
@@ -856,6 +917,23 @@
         opacity: [0, 1],  
         loop: true,
         duration: 1500,
+    });
+    anime({
+        targets: ['.google-circle1', '.google-circle2', '.google-circle3', '.google-circle4'],
+        translateY: [
+            { value: -18, duration: 350, delay: anime.stagger(120) },
+            { value: 0, duration: 350, delay: anime.stagger(120, { direction: 'reverse' }) }
+        ],
+        scale: [
+            { value: 1.2, duration: 350, delay: anime.stagger(120) },
+            { value: 1, duration: 350, delay: anime.stagger(120, { direction: 'reverse' }) }
+        ],
+        opacity: [
+            { value: 0.7, duration: 350, delay: anime.stagger(120) },
+            { value: 1, duration: 350, delay: anime.stagger(120, { direction: 'reverse' }) }
+        ],
+        easing: 'easeInOutSine',
+        loop: true
     });
 </script>
 </body>

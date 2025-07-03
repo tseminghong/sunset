@@ -388,10 +388,10 @@
 
         <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
             <section class="hero-section text-center py-20 md:py-28 rounded-3xl mb-16 md:mb-20">
-                <h1 class="welcome-title text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">ICT Revision Hub</h1>
+                <h1 class="welcome-title text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 animation">ICT Revision Hub</h1>
                 <p class="welcome-subtitle text-lg sm:text-xl max-w-3xl mx-auto mb-8">Your central place for interactive learning materials, designed with clarity to help you excel.</p>
                 <p class="welcome-subtitle">Now Android version avaliable for beta testing</p>
-                <a href="ict-v1.0.0.apk" class="primary-btn px-8 py-3 text-lg">Download Android version</a>
+                <a href="ict-v1.0.0.apk" class="primary-btn px-8 py-3 text-lg download">Download Android version</a>
             </section>
 
             <section class="mb-12 md:mb-16 flex flex-col items-center">
@@ -498,7 +498,7 @@
     
     <!-- Floating Search Bar -->
     <div id="search-container">
-        <div id="search-bar" class="glass-effect relative">
+        <div id="search-bar" class="glass-effect relative search-bar">
             <div id="search-icon-wrapper">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg>
             </div>
@@ -526,6 +526,7 @@
     </div>
 
     <script>
+
     document.addEventListener('DOMContentLoaded', () => {
         const docElement = document.documentElement;
         const themeToggleBtn = document.getElementById('theme-toggle');
@@ -840,5 +841,22 @@
         }
     });
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script>
+    anime({
+        targets: '.animation',
+        translateY: [-50, 0], 
+        opacity: [0, 1],      
+        duration: 1500,      
+        easing: 'easeOutExpo' 
+    });
+    anime({
+        targets: '.download',
+        translateY: [50, 0],
+        opacity: [0, 1],  
+        loop: true,
+        duration: 1500,
+    });
+</script>
 </body>
 </html>

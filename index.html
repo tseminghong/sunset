@@ -579,6 +579,44 @@
         </div>
     </div>
 
+    <!-- Dynamic Content Modal -->
+    <div id="dynamic-content-modal" class="modal fixed inset-0 z-[100] items-center justify-center p-4">
+        <div class="modal-backdrop absolute inset-0" style="background: var(--modal-backdrop); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);"></div>
+        <div class="modal-content-container glass-effect w-full max-w-7xl max-h-[95vh] rounded-2xl overflow-hidden relative z-10">
+            <!-- Enhanced Glass Header -->
+            <div class="p-4 relative glass-header" style="background: var(--noise-texture), var(--bg-glass-glare), var(--header-glass-color); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-highlight);">
+                <div class="macos-controls">
+                    <button class="macos-dot macos-dot-red modal-close-btn" data-modal="dynamic-content-modal"></button>
+                    <button class="macos-dot macos-dot-yellow modal-close-btn" data-modal="dynamic-content-modal"></button>
+                    <button class="macos-dot macos-dot-green modal-close-btn" data-modal="dynamic-content-modal"></button>
+                </div>
+                <div class="absolute top-4 right-4 flex items-center gap-2">
+                    <button id="open-in-new-tab" class="text-xs px-3 py-1 rounded-full glass-effect text-gray-600 hover:text-blue-600 transition-all duration-300 hover:scale-105" style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                        Open in New Tab
+                    </button>
+                    <button class="modal-close-btn text-gray-500 hover:text-gray-700 transition-colors p-1" data-modal="dynamic-content-modal">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <!-- Enhanced Glass Content Body -->
+            <div id="dynamic-content-body" class="overflow-y-auto max-h-[85vh] p-6 pt-2 glass-content" style="background: var(--noise-texture), var(--bg-glass-color); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
+                <div id="content-loading" class="flex items-center justify-center py-12">
+                    <div class="loader-m3 mr-3"></div>
+                    <span class="text-lg font-medium" style="color: var(--accent-primary);">Loading content...</span>
+                </div>
+                <div id="content-iframe-container" class="hidden">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="loading-overlay fixed inset-0 z-[100] flex items-center justify-center" id="loading-overlay" style="display: none;">
         <div class="loader">
             <div class="google-circle1"></div>
@@ -730,16 +768,678 @@
             });
         }
 
+        // --- Dynamic Content Modal Logic ---
+        const dynamicModal = document.getElementById('dynamic-content-modal');
+        const contentBody = document.getElementById('dynamic-content-body');
+        const contentLoading = document.getElementById('content-loading');
+        const contentContainer = document.getElementById('content-iframe-container');
+        const openInNewTabBtn = document.getElementById('open-in-new-tab');
+        let currentContentUrl = '';
+
+        async function loadContentInModal(url) {
+            try {
+                currentContentUrl = url;
+                
+                // Show loading state
+                contentLoading.classList.remove('hidden');
+                contentContainer.classList.add('hidden');
+                
+                // Open modal
+                openModal(dynamicModal);
+                
+                // Create iframe for better isolation and effect preservation
+                const iframe = document.createElement('iframe');
+                iframe.src = url;
+                iframe.style.cssText = `
+                    width: 100%;
+                    height: 70vh;
+                    border: none;
+                    border-radius: 16px;
+                    background-color: var(--bg-secondary);
+                    box-shadow: 0 0 0 1px var(--border-highlight), 
+                                0 8px 32px var(--shadow-color),
+                                inset 0 1px 0 var(--border-highlight);
+                    backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
+                `;
+                
+                iframe.onload = () => {
+                    try {
+                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                        
+                        // Enhanced theme-aware styles
+                        const style = iframeDoc.createElement('style');
+                        style.textContent = `
+                            body {
+                                margin: 0;
+                                padding: 24px;
+                                font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                                background: var(--noise-texture), 
+                                           radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1), transparent 60%),
+                                           var(--bg-primary, #EFF1F5);
+                                color: var(--text-primary, #111113);
+                                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                                backdrop-filter: blur(20px);
+                                -webkit-backdrop-filter: blur(20px);
+                            }
+                            
+                            .dark-theme body {
+                                background: var(--noise-texture),
+                                           radial-gradient(circle at 20% 20%, rgba(255,255,255,0.05), transparent 60%),
+                                           var(--bg-primary, #000000);
+                                color: var(--text-primary, #F5F5F7);
+                            }
+                            
+                            * {
+                                transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+                            }
+                            
+                            /* Enhanced glass effects for iframe content */
+                            .glass-effect, .glass, [class*="glass"] {
+                                background: var(--noise-texture), 
+                                           var(--bg-glass-glare), 
+                                           var(--bg-glass-color) !important;
+                                backdrop-filter: blur(16px) !important;
+                                -webkit-backdrop-filter: blur(16px) !important;
+                                box-shadow: 0 0 0 1.5px var(--border-highlight), 
+                                           0 8px 32px var(--shadow-color) !important;
+                            }
+                        `;
+                        iframeDoc.head.appendChild(style);
+                        
+                        if (document.documentElement.classList.contains('dark-theme')) {
+                            iframeDoc.documentElement.classList.add('dark-theme');
+                        }
+                        
+                    } catch (e) {
+                        console.log('Cross-origin content loaded in iframe');
+                    }
+                    
+                    // Smooth transition to show content
+                    setTimeout(() => {
+                        contentLoading.classList.add('hidden');
+                        contentContainer.classList.remove('hidden');
+                        
+                        // Animate iframe entrance
+                        iframe.style.opacity = '0';
+                        iframe.style.transform = 'scale(0.98)';
+                        iframe.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+                        
+                        requestAnimationFrame(() => {
+                            iframe.style.opacity = '1';
+                            iframe.style.transform = 'scale(1)';
+                        });
+                    }, 300);
+                };
+                
+                iframe.onerror = () => {
+                    loadContentDirectly(url);
+                };
+                
+                contentContainer.innerHTML = '';
+                contentContainer.appendChild(iframe);
+                
+            } catch (error) {
+                console.error('Error loading content:', error);
+                loadContentDirectly(url);
+            }
+        }
+
+        // Enhanced direct content loading
+        async function loadContentDirectly(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                const html = await response.text();
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'content-sandbox';
+                contentDiv.style.cssText = `
+                    width: 100%;
+                    min-height: 60vh;
+                    background: var(--noise-texture),
+                               radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1), transparent 70%),
+                               var(--bg-secondary);
+                    border-radius: 16px;
+                    padding: 24px;
+                    overflow: auto;
+                    backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
+                    box-shadow: 0 0 0 1px var(--border-highlight),
+                               0 8px 32px var(--shadow-color),
+                               inset 0 1px 0 rgba(255,255,255,0.1);
+                    transition: all 0.3s ease;
+                `;
+                
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Extract and preserve stylesheets
+                const styles = doc.querySelectorAll('style, link[rel="stylesheet"]');
+                styles.forEach(style => {
+                    if (style.tagName === 'STYLE') {
+                        const newStyle = document.createElement('style');
+                        newStyle.textContent = style.textContent;
+                        contentDiv.appendChild(newStyle);
+                    } else if (style.tagName === 'LINK') {
+                        const newLink = document.createElement('link');
+                        newLink.rel = 'stylesheet';
+                        newLink.href = style.href;
+                        contentDiv.appendChild(newLink);
+                    }
+                });
+                
+                const bodyContent = doc.body ? doc.body.innerHTML : html;
+                const contentWrapper = document.createElement('div');
+                contentWrapper.innerHTML = bodyContent;
+                contentDiv.appendChild(contentWrapper);
+                
+                // Execute scripts safely
+                const scripts = doc.querySelectorAll('script');
+                scripts.forEach(script => {
+                    if (script.src) {
+                        const newScript = document.createElement('script');
+                        newScript.src = script.src;
+                        newScript.async = true;
+                        contentDiv.appendChild(newScript);
+                    } else if (script.textContent) {
+                        const newScript = document.createElement('script');
+                        newScript.textContent = `
+                            try {
+                                ${script.textContent}
+                            } catch (e) {
+                                console.warn('Script execution error in modal content:', e);
+                            }
+                        `;
+                        contentDiv.appendChild(newScript);
+                    }
+                });
+                
+                contentContainer.innerHTML = '';
+                contentContainer.appendChild(contentDiv);
+                
+                contentLoading.classList.add('hidden');
+                contentContainer.classList.remove('hidden');
+                
+                syncModalContentTheme(contentDiv);
+                
+                // Animate content entrance
+                contentDiv.style.opacity = '0';
+                contentDiv.style.transform = 'translateY(20px) scale(0.98)';
+                contentDiv.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+                
+                requestAnimationFrame(() => {
+                    contentDiv.style.opacity = '1';
+                    contentDiv.style.transform = 'translateY(0) scale(1)';
+                });
+                
+            } catch (error) {
+                console.error('Error fetching content:', error);
+                contentContainer.innerHTML = `
+                    <div class="text-center py-12 glass-effect rounded-2xl" style="backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);">
+                        <div class="text-6xl mb-4">⚠️</div>
+                        <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary)">Content Unavailable</h3>
+                        <p class="text-sm mb-4" style="color: var(--text-secondary)">Unable to load the content in modal view.</p>
+                        <button onclick="window.open('${url}', '_blank')" class="primary-btn px-6 py-2">
+                            Open in New Tab
+                        </button>
+                    </div>
+                `;
+                contentLoading.classList.add('hidden');
+                contentContainer.classList.remove('hidden');
+            }
+        }
+
+        function syncModalContentTheme(container) {
+            const isDark = document.documentElement.classList.contains('dark-theme');
+            
+            if (isDark) {
+                container.classList.add('dark-theme');
+            } else {
+                container.classList.remove('dark-theme');
+            }
+            
+            const themeStyle = document.createElement('style');
+            themeStyle.textContent = `
+                .content-sandbox {
+                    --modal-bg-primary: ${isDark ? '#000000' : '#EFF1F5'};
+                    --modal-bg-secondary: ${isDark ? '#121213' : '#FFFFFF'};
+                    --modal-text-primary: ${isDark ? '#F5F5F7' : '#111113'};
+                    --modal-text-secondary: ${isDark ? '#a0a0a8' : '#5c5c62'};
+                    --modal-accent: ${isDark ? '#0A96FF' : '#0091FF'};
+                    
+                    background: var(--noise-texture),
+                               radial-gradient(circle at 30% 30%, ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.1)'}, transparent 70%),
+                               var(--modal-bg-secondary) !important;
+                    color: var(--modal-text-primary) !important;
+                }
+                
+                .content-sandbox * {
+                    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+                }
+                
+                .content-sandbox h1, .content-sandbox h2, .content-sandbox h3,
+                .content-sandbox h4, .content-sandbox h5, .content-sandbox h6 {
+                    color: var(--modal-text-primary) !important;
+                }
+                
+                .content-sandbox p, .content-sandbox span, .content-sandbox div {
+                    color: var(--modal-text-primary) !important;
+                }
+                
+                .content-sandbox a {
+                    color: var(--modal-accent) !important;
+                }
+                
+                .content-sandbox .glass-effect, .content-sandbox .glass, .content-sandbox [class*="glass"] {
+                    background: var(--noise-texture), 
+                               var(--bg-glass-glare), 
+                               var(--bg-glass-color) !important;
+                    backdrop-filter: blur(16px) !important;
+                    -webkit-backdrop-filter: blur(16px) !important;
+                    box-shadow: 0 0 0 1.5px var(--border-highlight), 
+                               0 8px 32px var(--shadow-color) !important;
+                }
+            `;
+            container.appendChild(themeStyle);
+        }
+
+        // Open in new tab functionality
+        openInNewTabBtn.addEventListener('click', () => {
+            if (currentContentUrl) {
+                window.open(currentContentUrl, '_blank');
+                closeModal(dynamicModal);
+            }
+        });
+
+        // --- Enhanced Modal Close Logic ---
+        function setupModalCloseHandlers() {
+            // Handle all modal close buttons
+            document.querySelectorAll('.modal-close-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const modalId = this.getAttribute('data-modal');
+                    if (modalId) {
+                        const modal = document.getElementById(modalId);
+                        closeModal(modal);
+                    } else {
+                        // Find the closest modal parent
+                        const modal = this.closest('.modal');
+                        if (modal) {
+                            closeModal(modal);
+                        }
+                    }
+                });
+            });
+
+            // Handle backdrop clicks for all modals
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', (event) => {
+                    // Only close if clicking the modal backdrop, not the content
+                    if (event.target === modal || event.target.classList.contains('modal-backdrop')) {
+                        closeModal(modal);
+                    }
+                });
+            });
+
+            // Handle escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    const openModal = document.querySelector('.modal.is-open');
+                    if (openModal) {
+                        closeModal(openModal);
+                    }
+                }
+            });
+        }
+
+        // --- Enhanced Modal Logic ---
+        function openModal(modal) {
+            if (modal) {
+                modal.classList.add('is-open');
+                document.body.style.overflow = 'hidden';
+                
+                // Add smooth entrance animation
+                const content = modal.querySelector('.modal-content-container');
+                if (content) {
+                    content.style.transform = 'scale(0.9) translateY(20px)';
+                    content.style.opacity = '0';
+                    
+                    requestAnimationFrame(() => {
+                        content.style.transition = 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+                        content.style.transform = 'scale(1) translateY(0)';
+                        content.style.opacity = '1';
+                    });
+                }
+            }
+        }
+
+        function closeModal(modal) {
+            if (modal) {
+                const content = modal.querySelector('.modal-content-container');
+                if (content) {
+                    content.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    content.style.transform = 'scale(0.95) translateY(10px)';
+                    content.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        modal.classList.remove('is-open');
+                        const isAnyModalOpen = document.querySelector('.modal.is-open');
+                        if (!isAnyModalOpen) {
+                            document.body.style.overflow = '';
+                        }
+                        
+                        // Clear dynamic content when closing dynamic modal
+                        if (modal.id === 'dynamic-content-modal') {
+                            contentContainer.innerHTML = '';
+                            currentContentUrl = '';
+                        }
+                    }, 300);
+                } else {
+                    modal.classList.remove('is-open');
+                    const isAnyModalOpen = document.querySelector('.modal.is-open');
+                    if (!isAnyModalOpen) {
+                        document.body.style.overflow = '';
+                    }
+                }
+            }
+        }
+
+        // Enhanced content loading with better glass effects
+        async function loadContentInModal(url) {
+            try {
+                currentContentUrl = url;
+                
+                // Show loading state with glass effect
+                contentLoading.classList.remove('hidden');
+                contentContainer.classList.add('hidden');
+                
+                // Open modal with enhanced entrance
+                openModal(dynamicModal);
+                
+                // Create iframe with enhanced styling
+                const iframe = document.createElement('iframe');
+                iframe.src = url;
+                iframe.style.cssText = `
+                    width: 100%;
+                    height: 70vh;
+                    border: none;
+                    border-radius: 16px;
+                    background-color: var(--bg-secondary);
+                    box-shadow: 0 0 0 1px var(--border-highlight), 
+                                0 8px 32px var(--shadow-color),
+                                inset 0 1px 0 var(--border-highlight);
+                    backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
+                `;
+                
+                iframe.onload = () => {
+                    try {
+                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                        
+                        // Enhanced theme-aware styles
+                        const style = iframeDoc.createElement('style');
+                        style.textContent = `
+                            body {
+                                margin: 0;
+                                padding: 24px;
+                                font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                                background: var(--noise-texture), 
+                                           radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1), transparent 60%),
+                                           var(--bg-primary, #EFF1F5);
+                                color: var(--text-primary, #111113);
+                                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                                backdrop-filter: blur(20px);
+                                -webkit-backdrop-filter: blur(20px);
+                            }
+                            
+                            .dark-theme body {
+                                background: var(--noise-texture),
+                                           radial-gradient(circle at 20% 20%, rgba(255,255,255,0.05), transparent 60%),
+                                           var(--bg-primary, #000000);
+                                color: var(--text-primary, #F5F5F7);
+                            }
+                            
+                            * {
+                                transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+                            }
+                            
+                            /* Enhanced glass effects for iframe content */
+                            .glass-effect, .glass, [class*="glass"] {
+                                background: var(--noise-texture), 
+                                           var(--bg-glass-glare), 
+                                           var(--bg-glass-color) !important;
+                                backdrop-filter: blur(16px) !important;
+                                -webkit-backdrop-filter: blur(16px) !important;
+                                box-shadow: 0 0 0 1.5px var(--border-highlight), 
+                                           0 8px 32px var(--shadow-color) !important;
+                            }
+                        `;
+                        iframeDoc.head.appendChild(style);
+                        
+                        if (document.documentElement.classList.contains('dark-theme')) {
+                            iframeDoc.documentElement.classList.add('dark-theme');
+                        }
+                        
+                    } catch (e) {
+                        console.log('Cross-origin content loaded in iframe');
+                    }
+                    
+                    // Smooth transition to show content
+                    setTimeout(() => {
+                        contentLoading.classList.add('hidden');
+                        contentContainer.classList.remove('hidden');
+                        
+                        // Animate iframe entrance
+                        iframe.style.opacity = '0';
+                        iframe.style.transform = 'scale(0.98)';
+                        iframe.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+                        
+                        requestAnimationFrame(() => {
+                            iframe.style.opacity = '1';
+                            iframe.style.transform = 'scale(1)';
+                        });
+                    }, 300);
+                };
+                
+                iframe.onerror = () => {
+                    loadContentDirectly(url);
+                };
+                
+                contentContainer.innerHTML = '';
+                contentContainer.appendChild(iframe);
+                
+            } catch (error) {
+                console.error('Error loading content:', error);
+                loadContentDirectly(url);
+            }
+        }
+
+        // Enhanced direct content loading
+        async function loadContentDirectly(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                const html = await response.text();
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'content-sandbox';
+                contentDiv.style.cssText = `
+                    width: 100%;
+                    min-height: 60vh;
+                    background: var(--noise-texture),
+                               radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1), transparent 70%),
+                               var(--bg-secondary);
+                    border-radius: 16px;
+                    padding: 24px;
+                    overflow: auto;
+                    backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
+                    box-shadow: 0 0 0 1px var(--border-highlight),
+                               0 8px 32px var(--shadow-color),
+                               inset 0 1px 0 rgba(255,255,255,0.1);
+                    transition: all 0.3s ease;
+                `;
+                
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Extract and preserve stylesheets
+                const styles = doc.querySelectorAll('style, link[rel="stylesheet"]');
+                styles.forEach(style => {
+                    if (style.tagName === 'STYLE') {
+                        const newStyle = document.createElement('style');
+                        newStyle.textContent = style.textContent;
+                        contentDiv.appendChild(newStyle);
+                    } else if (style.tagName === 'LINK') {
+                        const newLink = document.createElement('link');
+                        newLink.rel = 'stylesheet';
+                        newLink.href = style.href;
+                        contentDiv.appendChild(newLink);
+                    }
+                });
+                
+                const bodyContent = doc.body ? doc.body.innerHTML : html;
+                const contentWrapper = document.createElement('div');
+                contentWrapper.innerHTML = bodyContent;
+                contentDiv.appendChild(contentWrapper);
+                
+                // Execute scripts safely
+                const scripts = doc.querySelectorAll('script');
+                scripts.forEach(script => {
+                    if (script.src) {
+                        const newScript = document.createElement('script');
+                        newScript.src = script.src;
+                        newScript.async = true;
+                        contentDiv.appendChild(newScript);
+                    } else if (script.textContent) {
+                        const newScript = document.createElement('script');
+                        newScript.textContent = `
+                            try {
+                                ${script.textContent}
+                            } catch (e) {
+                                console.warn('Script execution error in modal content:', e);
+                            }
+                        `;
+                        contentDiv.appendChild(newScript);
+                    }
+                });
+                
+                contentContainer.innerHTML = '';
+                contentContainer.appendChild(contentDiv);
+                
+                contentLoading.classList.add('hidden');
+                contentContainer.classList.remove('hidden');
+                
+                syncModalContentTheme(contentDiv);
+                
+                // Animate content entrance
+                contentDiv.style.opacity = '0';
+                contentDiv.style.transform = 'translateY(20px) scale(0.98)';
+                contentDiv.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+                
+                requestAnimationFrame(() => {
+                    contentDiv.style.opacity = '1';
+                    contentDiv.style.transform = 'translateY(0) scale(1)';
+                });
+                
+            } catch (error) {
+                console.error('Error fetching content:', error);
+                contentContainer.innerHTML = `
+                    <div class="text-center py-12 glass-effect rounded-2xl" style="backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);">
+                        <div class="text-6xl mb-4">⚠️</div>
+                        <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary)">Content Unavailable</h3>
+                        <p class="text-sm mb-4" style="color: var(--text-secondary)">Unable to load the content in modal view.</p>
+                        <button onclick="window.open('${url}', '_blank')" class="primary-btn px-6 py-2">
+                            Open in New Tab
+                        </button>
+                    </div>
+                `;
+                contentLoading.classList.add('hidden');
+                contentContainer.classList.remove('hidden');
+            }
+        }
+
+        function syncModalContentTheme(container) {
+            const isDark = document.documentElement.classList.contains('dark-theme');
+            
+            if (isDark) {
+                container.classList.add('dark-theme');
+            } else {
+                container.classList.remove('dark-theme');
+            }
+            
+            const themeStyle = document.createElement('style');
+            themeStyle.textContent = `
+                .content-sandbox {
+                    --modal-bg-primary: ${isDark ? '#000000' : '#EFF1F5'};
+                    --modal-bg-secondary: ${isDark ? '#121213' : '#FFFFFF'};
+                    --modal-text-primary: ${isDark ? '#F5F5F7' : '#111113'};
+                    --modal-text-secondary: ${isDark ? '#a0a0a8' : '#5c5c62'};
+                    --modal-accent: ${isDark ? '#0A96FF' : '#0091FF'};
+                    
+                    background: var(--noise-texture),
+                               radial-gradient(circle at 30% 30%, ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.1)'}, transparent 70%),
+                               var(--modal-bg-secondary) !important;
+                    color: var(--modal-text-primary) !important;
+                }
+                
+                .content-sandbox * {
+                    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+                }
+                
+                .content-sandbox h1, .content-sandbox h2, .content-sandbox h3,
+                .content-sandbox h4, .content-sandbox h5, .content-sandbox h6 {
+                    color: var(--modal-text-primary) !important;
+                }
+                
+                .content-sandbox p, .content-sandbox span, .content-sandbox div {
+                    color: var(--modal-text-primary) !important;
+                }
+                
+                .content-sandbox a {
+                    color: var(--modal-accent) !important;
+                }
+                
+                .content-sandbox .glass-effect, .content-sandbox .glass, .content-sandbox [class*="glass"] {
+                    background: var(--noise-texture), 
+                               var(--bg-glass-glare), 
+                               var(--bg-glass-color) !important;
+                    backdrop-filter: blur(16px) !important;
+                    -webkit-backdrop-filter: blur(16px) !important;
+                    box-shadow: 0 0 0 1.5px var(--border-highlight), 
+                               0 8px 32px var(--shadow-color) !important;
+                }
+            `;
+            container.appendChild(themeStyle);
+        }
+
+        // Open in new tab functionality
+        openInNewTabBtn.addEventListener('click', () => {
+            if (currentContentUrl) {
+                window.open(currentContentUrl, '_blank');
+                closeModal(dynamicModal);
+            }
+        });
+
+        // Initialize modal close handlers
+        setupModalCloseHandlers();
+
         // --- Card & Filter Logic ---
         const resourceCardsContainer = document.getElementById('resource-cards');
         const tagButtons = document.querySelectorAll('.tag-btn');
         const searchInput = document.getElementById('search-input');
         let activeTag = 'all';
 
+        // --- Update Card Creation to Use Modal ---
         function createCard(data) {
             const tagsHtml = data.tags.split(',').map(tag => `<span class="px-3 py-1 rounded-full">${tag}</span>`).join('');
             return `
-                <a href="${data.href}" class="resource-card glass-effect" data-tags="${data.tags}">
+                <div class="resource-card glass-effect cursor-pointer" data-tags="${data.tags}" data-url="${data.href}">
                     <div class="card-image-placeholder">${data.icon}</div>
                     <div class="card-content-wrapper">
                         <div>
@@ -754,7 +1454,7 @@
                             </div>
                         </div>
                     </div>
-                </a>
+                </div>
             `;
         }
         
@@ -770,6 +1470,16 @@
                     resourceCardsContainer.innerHTML += createCard(cardData);
                 }
             });
+            
+            // Add click event listeners to cards
+            document.querySelectorAll('.resource-card[data-url]').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const url = card.getAttribute('data-url');
+                    loadContentInModal(url);
+                });
+            });
+            
             handleScrollAndResize(); 
         }
 
@@ -852,17 +1562,53 @@
             if (modal) {
                 modal.classList.add('is-open');
                 document.body.style.overflow = 'hidden';
+                
+                // Add smooth entrance animation
+                const content = modal.querySelector('.modal-content-container');
+                if (content) {
+                    content.style.transform = 'scale(0.9) translateY(20px)';
+                    content.style.opacity = '0';
+                    
+                    requestAnimationFrame(() => {
+                        content.style.transition = 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+                        content.style.transform = 'scale(1) translateY(0)';
+                        content.style.opacity = '1';
+                    });
+                }
             }
         }
 
         function closeModal(modal) {
             if (modal) {
-                modal.classList.remove('is-open');
-                const isAnyModalOpen = document.querySelector('.modal.is-open');
-                if (!isAnyModalOpen) document.body.style.overflow = '';
+                const content = modal.querySelector('.modal-content-container');
+                if (content) {
+                    content.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    content.style.transform = 'scale(0.95) translateY(10px)';
+                    content.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        modal.classList.remove('is-open');
+                        const isAnyModalOpen = document.querySelector('.modal.is-open');
+                        if (!isAnyModalOpen) {
+                            document.body.style.overflow = '';
+                        }
+                        
+                        // Clear dynamic content when closing dynamic modal
+                        if (modal.id === 'dynamic-content-modal') {
+                            contentContainer.innerHTML = '';
+                            currentContentUrl = '';
+                        }
+                    }, 300);
+                } else {
+                    modal.classList.remove('is-open');
+                    const isAnyModalOpen = document.querySelector('.modal.is-open');
+                    if (!isAnyModalOpen) {
+                        document.body.style.overflow = '';
+                    }
+                }
             }
         }
-        
+
         // Setup for Visit Popup
         if (visitPopup) {
             const closeButtons = visitPopup.querySelectorAll('.modal-close');

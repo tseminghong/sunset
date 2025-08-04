@@ -646,9 +646,9 @@
         <div class="modal-content-container glass-effect w-full max-w-md rounded-2xl overflow-hidden">
             <div class="p-4 relative">
                 <div class="macos-controls">
-                    <button class="macos-dot macos-dot-red modal-close"></button>
-                    <button class="macos-dot macos-dot-yellow modal-close"></button>
-                    <button class="macos-dot macos-dot-green modal-close"></button>
+                    <button class="macos-dot macos-dot-red modal-close btn-press-effect"></button>
+                    <button class="macos-dot macos-dot-yellow modal-close btn-press-effect"></button>
+                    <button class="macos-dot macos-dot-green modal-close btn-press-effect"></button>
                 </div>
             </div>
             <div class="p-6 pt-2 text-center">
@@ -667,9 +667,9 @@
             <!-- Enhanced Glass Header -->
             <div class="p-4 relative glass-header" style="background: var(--noise-texture), var(--bg-glass-glare), var(--header-glass-color); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-highlight);">
                 <div class="macos-controls">
-                    <button class="macos-dot macos-dot-red modal-close-btn" data-modal="dynamic-content-modal"></button>
-                    <button class="macos-dot macos-dot-yellow modal-close-btn" data-modal="dynamic-content-modal"></button>
-                    <button class="macos-dot macos-dot-green modal-close-btn" data-modal="dynamic-content-modal"></button>
+                    <button class="macos-dot macos-dot-red modal-close-btn btn-press-effect" data-modal="dynamic-content-modal"></button>
+                    <button class="macos-dot macos-dot-yellow modal-close-btn btn-press-effect" data-modal="dynamic-content-modal"></button>
+                    <button class="macos-dot macos-dot-green modal-close-btn btn-press-effect" data-modal="dynamic-content-modal"></button>
                 </div>
                 <div class="absolute top-4 right-4 flex items-center gap-2">
                     <button id="open-in-new-tab" class="text-xs px-3 py-1 rounded-full glass-effect text-gray-600 hover:text-blue-600 transition-all duration-300 hover:scale-105" style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
@@ -678,7 +678,7 @@
                         </svg>
                         Open in New Tab
                     </button>
-                    <button class="modal-close-btn text-gray-500 hover:text-gray-700 transition-colors p-1" data-modal="dynamic-content-modal">
+                    <button class="modal-close-btn btn-press-effect text-gray-500 hover:text-gray-700 transition-colors p-1" data-modal="dynamic-content-modal">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
@@ -1135,35 +1135,45 @@
         });
 
         // --- Enhanced Modal Close Logic ---
+        let modalCloseHandlersSetup = false;
+        
         function setupModalCloseHandlers() {
+            if (modalCloseHandlersSetup) return; // Prevent duplicate setup
+            modalCloseHandlersSetup = true;
+            
             // Handle all modal close buttons
-            document.querySelectorAll('.modal-close-btn').forEach(button => {
-                button.addEventListener('click', function(e) {
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('modal-close-btn') || e.target.closest('.modal-close-btn') ||
+                    e.target.classList.contains('modal-close') || e.target.closest('.modal-close')) {
                     e.preventDefault();
                     e.stopPropagation();
                     
-                    const modalId = this.getAttribute('data-modal');
+                    const button = e.target.classList.contains('modal-close-btn') || e.target.classList.contains('modal-close') ? 
+                                  e.target : 
+                                  (e.target.closest('.modal-close-btn') || e.target.closest('.modal-close'));
+                    const modalId = button.getAttribute('data-modal');
                     if (modalId) {
                         const modal = document.getElementById(modalId);
                         closeModal(modal);
                     } else {
                         // Find the closest modal parent
-                        const modal = this.closest('.modal');
+                        const modal = button.closest('.modal');
                         if (modal) {
                             closeModal(modal);
                         }
                     }
-                });
+                }
             });
 
             // Handle backdrop clicks for all modals
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.addEventListener('click', (event) => {
-                    // Only close if clicking the modal backdrop, not the content
-                    if (event.target === modal || event.target.classList.contains('modal-backdrop')) {
+            document.addEventListener('click', function(e) {
+                // Only close if clicking the modal backdrop, not the content
+                if (e.target.classList.contains('modal') || e.target.classList.contains('modal-backdrop')) {
+                    const modal = e.target.classList.contains('modal') ? e.target : e.target.closest('.modal');
+                    if (modal) {
                         closeModal(modal);
                     }
-                });
+                }
             });
 
             // Handle escape key
@@ -1551,6 +1561,7 @@
         const initialTheme = localStorage.getItem(THEME_KEY) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? DARK : LIGHT);
         applyThemeUI(initialTheme);
         updateVisibleCards();
+        setupModalCloseHandlers();
     });
 
     window.addEventListener('load', function() {

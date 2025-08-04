@@ -179,6 +179,143 @@
             box-shadow: var(--highlight-glow);
         }
 
+        /* Physics-based animations */
+        .physics-bounce {
+            animation: physicsBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .physics-float {
+            animation: physicsFloat 3s ease-in-out infinite;
+        }
+
+        .physics-wobble {
+            animation: physicsWobble 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+        }
+
+        .physics-elastic {
+            animation: physicsElastic 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .physics-pendulum {
+            animation: physicsPendulum 2s ease-in-out infinite;
+            transform-origin: top center;
+        }
+
+        @keyframes physicsBounce {
+            0% { transform: translateY(-20px) scale(0.95); }
+            25% { transform: translateY(10px) scale(1.02); }
+            50% { transform: translateY(-5px) scale(0.98); }
+            75% { transform: translateY(2px) scale(1.01); }
+            100% { transform: translateY(0) scale(1); }
+        }
+
+        @keyframes physicsFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(1deg); }
+            50% { transform: translateY(-15px) rotate(0deg); }
+            75% { transform: translateY(-5px) rotate(-1deg); }
+        }
+
+        @keyframes physicsWobble {
+            0% { transform: translateX(0); }
+            15% { transform: translateX(-5px) rotate(-2deg); }
+            30% { transform: translateX(4px) rotate(1.5deg); }
+            45% { transform: translateX(-3px) rotate(-1deg); }
+            60% { transform: translateX(2px) rotate(0.5deg); }
+            75% { transform: translateX(-1px) rotate(-0.25deg); }
+            100% { transform: translateX(0) rotate(0deg); }
+        }
+
+        @keyframes physicsElastic {
+            0% { transform: scale(0.8) rotate(-5deg); }
+            20% { transform: scale(1.1) rotate(3deg); }
+            40% { transform: scale(0.95) rotate(-1deg); }
+            60% { transform: scale(1.05) rotate(0.5deg); }
+            80% { transform: scale(0.98) rotate(-0.2deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        @keyframes physicsPendulum {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(3deg); }
+            75% { transform: rotate(-3deg); }
+        }
+
+        /* Gravity simulation for cards */
+        .card-gravity-enter {
+            animation: cardGravityEnter 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @keyframes cardGravityEnter {
+            0% { 
+                transform: translateY(-100px) rotate(5deg) scale(0.8);
+                opacity: 0;
+            }
+            50% { 
+                transform: translateY(10px) rotate(-2deg) scale(1.05);
+                opacity: 0.8;
+            }
+            70% { 
+                transform: translateY(-5px) rotate(1deg) scale(0.98);
+                opacity: 0.9;
+            }
+            85% { 
+                transform: translateY(2px) rotate(-0.5deg) scale(1.02);
+                opacity: 0.95;
+            }
+            100% { 
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Spring-loaded modal entrance */
+        .modal-spring-enter {
+            animation: modalSpringEnter 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalSpringEnter {
+            0% { 
+                transform: scale(0.5) translateY(100px) rotate(10deg);
+                opacity: 0;
+            }
+            60% { 
+                transform: scale(1.1) translateY(-10px) rotate(-2deg);
+                opacity: 0.8;
+            }
+            80% { 
+                transform: scale(0.95) translateY(5px) rotate(1deg);
+                opacity: 0.9;
+            }
+            100% { 
+                transform: scale(1) translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        /* Magnetic attraction effect */
+        .magnetic-hover {
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .magnetic-hover:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(0, 145, 255, 0.3);
+        }
+
+        /* Liquid morphing effect */
+        .liquid-morph {
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation: liquidMorph 4s ease-in-out infinite;
+        }
+
+        @keyframes liquidMorph {
+            0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+            25% { border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; }
+            50% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; }
+            75% { border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%; }
+        }
+
         /* Floating search bar effect */
         #search-bar.btn-press-effect:active {
             transform: scale(1.05) rotate(2deg);
@@ -1286,6 +1423,207 @@
             });
         }
 
+        // Physics-based animation system
+        function addPhysicsAnimations() {
+            // Add floating animation to hero elements
+            const heroTitle = document.querySelector('.welcome-title');
+            const heroSubtitle = document.querySelector('.welcome-subtitle');
+            
+            if (heroTitle) {
+                heroTitle.classList.add('physics-float');
+            }
+            
+            // Add magnetic hover effects to cards
+            document.addEventListener('mouseenter', (e) => {
+                if (e.target.classList.contains('resource-card')) {
+                    e.target.classList.add('magnetic-hover');
+                }
+            }, true);
+
+            // Add physics bounce to buttons on click
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('primary-btn') || e.target.classList.contains('tag-btn')) {
+                    e.target.classList.remove('physics-bounce');
+                    setTimeout(() => e.target.classList.add('physics-bounce'), 10);
+                    setTimeout(() => e.target.classList.remove('physics-bounce'), 600);
+                }
+                
+                if (e.target.classList.contains('theme-toggle-btn') || e.target.closest('.theme-toggle-btn')) {
+                    const btn = e.target.classList.contains('theme-toggle-btn') ? e.target : e.target.closest('.theme-toggle-btn');
+                    btn.classList.remove('physics-wobble');
+                    setTimeout(() => btn.classList.add('physics-wobble'), 10);
+                    setTimeout(() => btn.classList.remove('physics-wobble'), 800);
+                }
+            });
+
+            // Add pendulum effect to modal controls
+            document.addEventListener('mouseenter', (e) => {
+                if (e.target.classList.contains('macos-dot')) {
+                    e.target.classList.add('physics-pendulum');
+                }
+            }, true);
+
+            document.addEventListener('mouseleave', (e) => {
+                if (e.target.classList.contains('macos-dot')) {
+                    e.target.classList.remove('physics-pendulum');
+                }
+            }, true);
+
+            // Add liquid morph effect to floating search bar
+            const searchBar = document.getElementById('search-bar');
+            if (searchBar) {
+                searchBar.addEventListener('focus', () => {
+                    searchBar.classList.add('liquid-morph');
+                });
+                searchBar.addEventListener('blur', () => {
+                    searchBar.classList.remove('liquid-morph');
+                });
+            }
+        }
+
+        // Gravity simulation for card loading
+        function addGravityEffects() {
+            const cards = document.querySelectorAll('.resource-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('card-gravity-enter');
+                    setTimeout(() => card.classList.remove('card-gravity-enter'), 800);
+                }, index * 150); // Stagger the animation
+            });
+        }
+
+        // Mouse tracking for subtle 3D effects
+        function addMouseTracking() {
+            let mouseX = 0;
+            let mouseY = 0;
+            
+            document.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+                mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+                
+                // Apply subtle parallax to hero section
+                const heroSection = document.querySelector('.hero-section');
+                if (heroSection) {
+                    const moveX = mouseX * 10;
+                    const moveY = mouseY * 10;
+                    heroSection.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                }
+                
+                // Apply counter-movement to cards for depth
+                const resourceCards = document.querySelectorAll('.resource-card');
+                resourceCards.forEach((card, index) => {
+                    const depth = (index % 3 + 1) * 0.5; // Different depths
+                    const moveX = mouseX * -5 * depth;
+                    const moveY = mouseY * -5 * depth;
+                    card.style.transform = `translate(${moveX}px, ${moveY}px) perspective(1000px) rotateX(${mouseY * 2}deg) rotateY(${mouseX * 2}deg)`;
+                });
+            });
+        }
+
+        // Spring physics for modal animations
+        function enhanceModalAnimations() {
+            const originalOpenModal = openModal;
+            window.openModal = function(modal) {
+                if (modal) {
+                    modal.classList.add('is-open');
+                    document.body.style.overflow = 'hidden';
+                    
+                    const content = modal.querySelector('.modal-content-container');
+                    if (content) {
+                        content.classList.add('modal-spring-enter');
+                        setTimeout(() => content.classList.remove('modal-spring-enter'), 600);
+                    }
+                }
+            };
+        }
+
+        // Particle system for button interactions
+        function createParticleEffect(element) {
+            const rect = element.getBoundingClientRect();
+            const particles = [];
+            
+            for (let i = 0; i < 8; i++) {
+                const particle = document.createElement('div');
+                particle.style.cssText = `
+                    position: fixed;
+                    width: 4px;
+                    height: 4px;
+                    background: var(--accent-primary);
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 10000;
+                    left: ${rect.left + rect.width / 2}px;
+                    top: ${rect.top + rect.height / 2}px;
+                `;
+                
+                document.body.appendChild(particle);
+                particles.push(particle);
+                
+                const angle = (i / 8) * Math.PI * 2;
+                const velocity = 50 + Math.random() * 30;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity;
+                
+                let x = rect.left + rect.width / 2;
+                let y = rect.top + rect.height / 2;
+                let life = 1;
+                
+                function animate() {
+                    x += vx * 0.02;
+                    y += vy * 0.02 + 20 * 0.02; // gravity
+                    life -= 0.05;
+                    
+                    particle.style.left = x + 'px';
+                    particle.style.top = y + 'px';
+                    particle.style.opacity = life;
+                    particle.style.transform = `scale(${life})`;
+                    
+                    if (life > 0) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        document.body.removeChild(particle);
+                    }
+                }
+                
+                requestAnimationFrame(animate);
+            }
+        }
+
+        // Wave propagation effect
+        function createWaveEffect(element) {
+            const wave = document.createElement('div');
+            const rect = element.getBoundingClientRect();
+            
+            wave.style.cssText = `
+                position: fixed;
+                left: ${rect.left + rect.width / 2 - 25}px;
+                top: ${rect.top + rect.height / 2 - 25}px;
+                width: 50px;
+                height: 50px;
+                border: 2px solid var(--accent-primary);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9999;
+                opacity: 0.6;
+                animation: waveExpand 0.6s ease-out forwards;
+            `;
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes waveExpand {
+                    0% { transform: scale(0); opacity: 0.6; }
+                    100% { transform: scale(4); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            document.body.appendChild(wave);
+            
+            setTimeout(() => {
+                document.body.removeChild(wave);
+                document.head.removeChild(style);
+            }, 600);
+        }
+
         // Enhanced button feedback with haptic-like effect
         function addHapticFeedback() {
             document.addEventListener('touchstart', (e) => {
@@ -1297,6 +1635,9 @@
                     
                     // Add visual feedback
                     e.target.style.filter = 'brightness(1.1)';
+                    
+                    // Create wave effect on touch
+                    createWaveEffect(e.target);
                 }
             });
 
@@ -1308,7 +1649,7 @@
                 }
             });
 
-            // Add click sound effect (optional)
+            // Add click sound effect and particle effects
             document.addEventListener('click', (e) => {
                 if (e.target.classList.contains('btn-press-effect')) {
                     // Create audio context for click sound
@@ -1331,6 +1672,14 @@
                     } catch (e) {
                         // Audio context not supported, skip sound
                     }
+                    
+                    // Add particle effect for certain buttons
+                    if (e.target.classList.contains('primary-btn') || e.target.classList.contains('theme-toggle-btn')) {
+                        createParticleEffect(e.target);
+                    }
+                    
+                    // Add wave effect for all interactive elements
+                    createWaveEffect(e.target);
                 }
             });
         }
@@ -1338,6 +1687,14 @@
         // Apply button press effects after DOM is ready
         addButtonPressEffects();
         addHapticFeedback();
+        addPhysicsAnimations();
+        addMouseTracking();
+        enhanceModalAnimations();
+
+        // Add gravity effects to cards after a short delay
+        setTimeout(() => {
+            addGravityEffects();
+        }, 500);
 
         // Re-apply effects when cards are updated
         const originalUpdateVisibleCards = updateVisibleCards;
@@ -1348,6 +1705,15 @@
             setTimeout(() => {
                 document.querySelectorAll('.resource-card:not(.btn-press-effect)').forEach(card => {
                     card.classList.add('btn-press-effect');
+                });
+                
+                // Add gravity effects to new cards
+                const newCards = document.querySelectorAll('.resource-card');
+                newCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('card-gravity-enter');
+                        setTimeout(() => card.classList.remove('card-gravity-enter'), 800);
+                    }, index * 100);
                 });
             }, 100);
         }
@@ -1574,36 +1940,113 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script>
+    // Enhanced physics-based animations with anime.js
     anime({
         targets: '.animation',
-        translateY: [-50, 0], 
-        opacity: [0, 1],      
-        duration: 1500,      
-        easing: 'easeOutExpo' 
+        translateY: [-100, 0],
+        opacity: [0, 1],
+        scale: [0.8, 1],
+        rotate: [-5, 0],
+        duration: 2000,
+        easing: 'easeOutElastic(1, .6)',
+        delay: anime.stagger(200)
     });
+
     anime({
         targets: '.download',
         translateY: [50, 0],
-        opacity: [0, 1],  
+        opacity: [0, 1],
+        scale: [0.9, 1],
+        rotate: [3, 0],
+        duration: 1800,
+        easing: 'easeOutBounce',
         loop: true,
-        duration: 1500,
+        direction: 'alternate'
     });
+
+    // Physics-based loading animation
     anime({
         targets: ['.google-circle1', '.google-circle2', '.google-circle3', '.google-circle4'],
         translateY: [
-            { value: -18, duration: 350, delay: anime.stagger(120) },
-            { value: 0, duration: 350, delay: anime.stagger(120, { direction: 'reverse' }) }
+            { value: -25, duration: 400, delay: anime.stagger(150) },
+            { value: 0, duration: 400, delay: anime.stagger(150, { direction: 'reverse' }) }
         ],
         scale: [
-            { value: 1.2, duration: 350, delay: anime.stagger(120) },
-            { value: 1, duration: 350, delay: anime.stagger(120, { direction: 'reverse' }) }
+            { value: 1.3, duration: 400, delay: anime.stagger(150) },
+            { value: 1, duration: 400, delay: anime.stagger(150, { direction: 'reverse' }) }
+        ],
+        rotate: [
+            { value: 180, duration: 400, delay: anime.stagger(150) },
+            { value: 360, duration: 400, delay: anime.stagger(150, { direction: 'reverse' }) }
         ],
         opacity: [
-            { value: 0.7, duration: 350, delay: anime.stagger(120) },
-            { value: 1, duration: 350, delay: anime.stagger(120, { direction: 'reverse' }) }
+            { value: 0.6, duration: 400, delay: anime.stagger(150) },
+            { value: 1, duration: 400, delay: anime.stagger(150, { direction: 'reverse' }) }
         ],
-        easing: 'easeInOutSine',
+        easing: 'easeInOutElastic(1, .6)',
         loop: true
+    });
+
+    // Add entrance animations for page elements
+    anime({
+        targets: '.hero-section',
+        scale: [0.95, 1],
+        opacity: [0, 1],
+        duration: 1500,
+        easing: 'easeOutQuart',
+        delay: 300
+    });
+
+    anime({
+        targets: '.tag-btn',
+        scale: [0.8, 1],
+        opacity: [0, 1],
+        translateY: [20, 0],
+        duration: 800,
+        easing: 'easeOutBack',
+        delay: anime.stagger(100, {start: 800})
+    });
+
+    // Floating search bar animation
+    anime({
+        targets: '#search-container',
+        translateY: [100, 0],
+        opacity: [0, 1],
+        scale: [0.9, 1],
+        duration: 1000,
+        easing: 'easeOutElastic(1, .8)',
+        delay: 1500
+    });
+
+    // Continuous subtle animations
+    setInterval(() => {
+        // Random card micro-animations
+        const cards = document.querySelectorAll('.resource-card');
+        if (cards.length > 0) {
+            const randomCard = cards[Math.floor(Math.random() * cards.length)];
+            anime({
+                targets: randomCard,
+                scale: [1, 1.02, 1],
+                duration: 2000,
+                easing: 'easeInOutSine'
+            });
+        }
+    }, 5000);
+
+    // Theme toggle icon rotation with physics
+    document.addEventListener('DOMContentLoaded', () => {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                anime({
+                    targets: themeToggle,
+                    rotate: '+=360',
+                    scale: [1, 1.2, 1],
+                    duration: 800,
+                    easing: 'easeOutElastic(1, .6)'
+                });
+            });
+        }
     });
 </script>
 </body>

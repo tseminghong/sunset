@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learn JavaScript</title>
+    <style>
+        :root {
+            --bg:#0f1115;--panel:#1c2129;--panel-alt:#252c36;--accent:#4aa3ff;--accent-glow:#4aa3ff55;--text:#e8edf2;--muted:#9aa5b1;--danger:#ff4d61;--radius:10px;--transition:.18s cubic-bezier(.4,0,.2,1);
+        }
+        * { box-sizing: border-box; }
+        body { margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif; background:linear-gradient(145deg,#0d1014,#10141b); color:var(--text); -webkit-font-smoothing:antialiased; }
+        header { padding:1.2rem clamp(1rem,3vw,2.5rem); background:#0d1116cc; backdrop-filter:blur(6px); position:sticky; top:0; z-index:10; display:flex; align-items:center; gap:1rem; border-bottom:1px solid #1f242b; }
+        header h1 { margin:0; font-size:clamp(1.4rem,2.2vw,2.2rem); letter-spacing:.5px; }
+        main { max-width:1100px; margin:0 auto; padding:1.5rem clamp(1rem,4vw,2.5rem) 3rem; }
+        .layout { display:grid; gap:2rem; }
+        .lesson-shell { background:var(--panel); border:1px solid #232a32; border-radius:var(--radius); padding:1.2rem 1.4rem 1.8rem; box-shadow:0 4px 18px -6px #000a; position:relative; overflow:hidden; }
+        .lesson-shell:before { content:""; position:absolute; inset:0; pointer-events:none; background:radial-gradient(circle at 85% 20%,#4aa3ff18,transparent 60%); }
+        h2 { margin:0 0 .8rem; font-size:1.5rem; }
+        p { line-height:1.55; }
+        code, pre { font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+        pre { background:var(--panel-alt); padding:.9rem 1rem; border-radius:8px; overflow-x:auto; border:1px solid #2c343d; position:relative; }
+        pre:focus { outline:2px solid var(--accent); }
+        .navigation { display:flex; align-items:center; gap:.9rem; margin-top:1.2rem; flex-wrap:wrap; }
+        button { cursor:pointer; background:var(--panel-alt); color:var(--text); border:1px solid #303943; padding:.65rem 1rem; border-radius:7px; font-size:.92rem; font-weight:500; display:inline-flex; gap:.5rem; align-items:center; transition:var(--transition); position:relative; }
+        button:disabled { opacity:.35; cursor:not-allowed; }
+        button:not(:disabled):hover { background:#313a45; border-color:#3a4652; }
+        button.primary { background:var(--accent); border-color:var(--accent); color:#051421; box-shadow:0 0 0 0 var(--accent-glow); }
+        button.primary:not(:disabled):hover { box-shadow:0 0 0 4px var(--accent-glow); filter:brightness(1.06); }
+        .lesson-footer { margin-top:1.2rem; font-size:.85rem; color:var(--muted); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.75rem; }
+        .progress-wrap { flex:1; display:flex; align-items:center; gap:.6rem; min-width:200px; }
+        progress { width:100%; height:.7rem; appearance:none; -webkit-appearance:none; }
+        progress::-webkit-progress-bar { background:#1e252d; border-radius:4px; }
+        progress::-webkit-progress-value { background:linear-gradient(90deg,var(--accent),#76c6ff); border-radius:4px; }
+        .editor-container { margin-top:1.8rem; background:var(--panel); border:1px solid #2a323c; border-radius:var(--radius); padding:1rem 1rem 1.2rem; display:none; }
+        .editor-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:.6rem; font-size:.85rem; color:var(--muted); }
+        .editor-header span { font-weight:600; letter-spacing:.5px; }
+        textarea { width:100%; min-height:150px; background:var(--panel-alt); color:var(--text); border:1px solid #2f3842; resize:vertical; padding:.75rem .8rem; border-radius:6px; font-family:ui-monospace, monospace; font-size:.9rem; line-height:1.4; }
+        textarea:focus { outline:2px solid var(--accent); outline-offset:2px; }
+        .output { margin-top:1rem; background:#11161c; border:1px solid #26303a; padding:.75rem .85rem; min-height:60px; font-family:ui-monospace, monospace; font-size:.85rem; white-space:pre-wrap; border-radius:6px; position:relative; }
+        .output:before { content:"Console"; position:absolute; top:-10px; left:10px; background:#11161c; padding:0 .4rem; font-size:.7rem; letter-spacing:.5px; color:var(--muted); }
+        .tag { display:inline-block; padding:.25rem .55rem; background:#223040; border:1px solid #2c3b4a; border-radius:999px; font-size:.65rem; text-transform:uppercase; letter-spacing:.7px; margin-right:.4rem; color:#7fb3d8; }
+        .kbd { font-family:ui-monospace, monospace; background:#1e2630; padding:2px 5px 4px; border:1px solid #2b343d; border-radius:4px; font-size:.7rem; }
+        footer { margin-top:3rem; padding:2.2rem 1.5rem 3.2rem; text-align:center; font-size:.75rem; color:var(--muted); background:#0d1116; border-top:1px solid #1f262d; }
+        a { color:var(--accent); text-decoration:none; }
+        a:hover { text-decoration:underline; }
+        .hint-keys { font-size:.7rem; opacity:.7; }
+        @media (min-width: 900px) { .layout { grid-template-columns: 1fr; } }
+        @media (max-width:600px) { .navigation { gap:.5rem; } button { flex:1 1 auto; } #lesson-indicator { flex-basis:100%; text-align:center; order:3; } }
+        .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Learn JavaScript</h1>
+        <div class="hint-keys" aria-hidden="true">Use <span class="kbd">←</span>/<span class="kbd">→</span> to navigate</div>
+    </header>
+    <main>
+        <div class="layout">
+            <section class="lesson-shell" aria-live="polite">
+                <div id="lesson-area" class="lesson-content"></div>
+                <div class="navigation" role="navigation" aria-label="Lesson navigation">
+                    <button id="prev-lesson" aria-label="Previous lesson">⟵ Prev</button>
+                    <p id="lesson-indicator" aria-live="polite" style="margin:0 0 0 .2rem; font-weight:600;"></p>
+                    <button id="next-lesson" class="primary" aria-label="Next lesson">Next ⟶</button>
+                    <button id="open-editor" style="margin-left:auto;" aria-expanded="false" aria-controls="code-editor">Code Editor</button>
+                </div>
+                <div class="lesson-footer" id="lesson-footer"></div>
+                <div class="editor-container" id="code-editor" aria-hidden="true">
+                    <div class="editor-header"><span>Interactive Code</span><div><button id="run-code" class="primary" aria-label="Run code">Run ▶</button> <button id="reset-code" aria-label="Reset code">Reset</button></div></div>
+                    <textarea id="code-input" spellcheck="false" aria-label="Editable JavaScript code"></textarea>
+                    <div class="output" id="code-output" aria-live="polite"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script>
+        // Lesson data: Add more lessons; lessons optionally include a starterCode snippet
+        const lessons = [
+            {
+                title: "1. Introduction to JavaScript",
+                content: `<p><span class='tag'>Core</span>JavaScript adds interactivity to web pages. It runs in every modern browser and on servers (Node.js). You can manipulate the DOM, make network requests, and build full applications.</p>
+                          <p><strong>In this course</strong> you'll move from the basics to practical patterns. Open the <em>Code Editor</em> to try code as you go.</p>`
+            },
+            {
+                title: "2. Variables & Data Types",
+                content: `<p><span class='tag'>Syntax</span>Declare variables with <code>let</code> (mutable), <code>const</code> (immutable reference), or legacy <code>var</code> (function-scoped). Primitive types include: string, number, boolean, null, undefined, bigint, symbol.</p>
+                          <pre tabindex='0'><code>// Examples
+const siteName = 'LearnJS';
+let visits = 0;
+visits += 1; // increment
+console.log(typeof visits); // 'number'</code></pre>`,
+                starterCode: `const siteName = 'LearnJS';\nlet visits = 0;\nvisits += 1;\nconsole.log('Visits:', visits);`
+            },
+            {
+                title: "3. Strings & Template Literals",
+                content: `<p><span class='tag'>Strings</span>Template literals use backticks (\`) and allow expression interpolation with <code>$\\{expression\\}</code>.</p>
+                          <pre tabindex='0'><code>const user = 'Ava';
+console.log(\`Hello $\\{user}!\`);</code></pre>`,
+                starterCode: `const user = 'Ava';\nconsole.log(\`Hello ${'${user}'}!\`);`
+            },
+            {
+                title: "4. Functions",
+                content: `<p><span class='tag'>Functions</span>Functions encapsulate reusable logic. Arrow functions are concise; traditional functions have their own <code>this</code>.</p>
+                          <pre tabindex='0'><code>// Arrow vs traditional
+const add = (a, b) => a + b;
+function multiply(a, b) { return a * b; }
+console.log(add(2,3), multiply(2,3));</code></pre>`,
+                starterCode: `const add = (a,b)=>a+b;\nfunction multiply(a,b){return a*b;}\nconsole.log('Add 2+3 =', add(2,3));\nconsole.log('Multiply 2*3 =', multiply(2,3));`
+            },
+            {
+                title: "5. Control Flow",
+                content: `<p><span class='tag'>Flow</span>Use <code>if</code>, <code>else</code>, <code>switch</code>, loops (<code>for</code>, <code>while</code>, <code>for...of</code>) and early returns to shape logic.</p>
+                          <pre tabindex='0'><code>for (let i=1;i<=3;i++) {
+  if (i === 2) console.log('Middle');
+  else console.log(i);
+}</code></pre>`,
+                starterCode: `for (let i=1;i<=5;i++){ if(i%2===0) console.log(i,'even'); else console.log(i,'odd'); }`
+            },
+            {
+                title: "6. Arrays & Iteration",
+                content: `<p><span class='tag'>Data</span>Arrays store ordered lists. Helpful methods: <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>find</code>.</p>
+                          <pre tabindex='0'><code>const nums = [1,2,3,4];
+const doubled = nums.map(n => n * 2);
+console.log(doubled);</code></pre>`,
+                starterCode: `const nums=[1,2,3,4];\nconsole.log('Sum:', nums.reduce((a,b)=>a+b,0));`
+            },
+            {
+                title: "7. Objects",
+                content: `<p><span class='tag'>Data</span>Objects hold key-value pairs. Use dot or bracket notation.</p>
+                          <pre tabindex='0'><code>const user = { id: 7, name: 'Ava', active: true };
+user.role = 'admin';
+console.log(Object.keys(user));</code></pre>`,
+                starterCode: `const user={id:1,name:'Kai'};\nuser.country='SG';\nconsole.log(user);`
+            },
+            {
+                title: "8. DOM Basics",
+                content: `<p><span class='tag'>DOM</span>The DOM (Document Object Model) represents HTML as nodes. Use <code>querySelector</code>, modify <code>textContent</code>, attributes, and classes.</p>
+                          <pre tabindex='0'><code>// Try this in the editor (console tab):
+document.body.style.background = '#202830';</code></pre>`
+            },
+            {
+                title: "9. Events",
+                content: `<p><span class='tag'>Events</span>Respond to user actions with <code>addEventListener</code>.</p>
+                          <pre tabindex='0'><code>document.addEventListener('click', () => console.log('Clicked page'));</code></pre>`,
+                starterCode: `document.addEventListener('mousemove', e => {\n  if(e.clientX % 100 === 0) console.log('X=', e.clientX);\n});\nconsole.log('Move your mouse.');`
+            },
+            {
+                title: "10. Next Steps",
+                content: `<p><span class='tag'>Finish</span>You completed the intro track. Continue with async JS (promises, fetch), modules, tooling, and frameworks.</p>
+                          <p>Practice daily: small scripts, read docs, build mini projects.</p>`
+            }
+        ];
+
+        // State
+        const LS_KEY = 'learnjs_current_lesson_v1';
+        let currentLessonIndex = 0;
+        const lessonArea = document.getElementById('lesson-area');
+        const lessonIndicator = document.getElementById('lesson-indicator');
+        const lessonFooter = document.getElementById('lesson-footer');
+        const prevBtn = document.getElementById('prev-lesson');
+        const nextBtn = document.getElementById('next-lesson');
+        const editorToggle = document.getElementById('open-editor');
+        const editorContainer = document.getElementById('code-editor');
+        const codeInput = document.getElementById('code-input');
+        const codeOutput = document.getElementById('code-output');
+        const runBtn = document.getElementById('run-code');
+        const resetBtn = document.getElementById('reset-code');
+
+        // Inject progress UI into footer
+        const progressWrap = document.createElement('div');
+        progressWrap.className = 'progress-wrap';
+        progressWrap.innerHTML = `<progress id="progress" value="0" max="${lessons.length}"></progress>`;
+        lessonFooter.appendChild(progressWrap);
+        const footerStatus = document.createElement('div');
+        footerStatus.id = 'footer-status';
+        lessonFooter.appendChild(footerStatus);
+
+        function clamp(i){ return Math.min(Math.max(i,0), lessons.length-1); }
+
+        function persist(index){ try{ localStorage.setItem(LS_KEY, String(index)); }catch(e){} }
+        function restore(){ try{ const v = parseInt(localStorage.getItem(LS_KEY)); if(!isNaN(v)) return clamp(v); }catch(e){} return 0; }
+
+        function updateButtons(){
+            prevBtn.disabled = currentLessonIndex === 0;
+            nextBtn.disabled = currentLessonIndex === lessons.length - 1;
+        }
+
+        function loadLesson(index, {focusHeading=true} = {}) {
+            if (index < 0 || index >= lessons.length) return;
+            currentLessonIndex = index;
+            const lesson = lessons[index];
+            lessonArea.innerHTML = `<h2 tabindex="-1">${lesson.title}</h2>${lesson.content}`;
+            const heading = lessonArea.querySelector('h2');
+            if (focusHeading && heading) heading.focus({preventScroll:false});
+            lessonIndicator.textContent = `Lesson ${index + 1} of ${lessons.length}`;
+            footerStatus.textContent = `Viewing: ${lesson.title}`;
+            document.getElementById('progress').value = index + 1;
+            applyStarterCodeIfAny();
+            updateButtons();
+            persist(index);
+        }
+
+        function applyStarterCodeIfAny(){
+            const lesson = lessons[currentLessonIndex];
+            if (lesson.starterCode) {
+                codeInput.value = lesson.starterCode.replace(/\n/g, '\n');
+            } else if (!codeInput.value.trim()) {
+                codeInput.value = '// Write some JavaScript here and click Run';
+            }
+        }
+
+        prevBtn.addEventListener('click', () => { if(currentLessonIndex>0) loadLesson(currentLessonIndex - 1); });
+        nextBtn.addEventListener('click', () => { if(currentLessonIndex<lessons.length-1) loadLesson(currentLessonIndex + 1); });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', e => {
+            const activeTag = document.activeElement.tagName;
+            if (activeTag === 'TEXTAREA' || activeTag === 'INPUT') return; // skip while typing
+            if (e.key === 'ArrowLeft') { prevBtn.click(); }
+            else if (e.key === 'ArrowRight') { nextBtn.click(); }
+        });
+
+        // Editor toggle
+        editorToggle.addEventListener('click', () => {
+            const isHidden = editorContainer.style.display === 'none' || editorContainer.style.display === '';
+            if (isHidden) {
+                editorContainer.style.display = 'block';
+                editorToggle.setAttribute('aria-expanded','true');
+                editorContainer.setAttribute('aria-hidden','false');
+                applyStarterCodeIfAny();
+                codeInput.focus();
+            } else {
+                editorContainer.style.display = 'none';
+                editorToggle.setAttribute('aria-expanded','false');
+                editorContainer.setAttribute('aria-hidden','true');
+            }
+        });
+
+        function safeEval(code){
+            const consoleLines = [];
+            const originalConsoleLog = console.log;
+            try {
+                console.log = (...args) => { consoleLines.push(args.map(a=>String(a)).join(' ')); originalConsoleLog(...args); };
+                const asyncWrapper = `(async ()=>{\n${code}\n})()`;
+                return Promise.resolve(eval(asyncWrapper)).then(res => { if(res!==undefined) consoleLines.push('Return: '+res); return consoleLines; });
+            } catch(err){
+                consoleLines.push('Error: '+ err.message);
+                return Promise.resolve(consoleLines);
+            } finally {
+                console.log = originalConsoleLog;
+            }
+        }
+
+        runBtn.addEventListener('click', async () => {
+            codeOutput.textContent = 'Running...';
+            const resultLines = await safeEval(codeInput.value);
+            codeOutput.textContent = resultLines.join('\n') || '(no output)';
+        });
+        resetBtn.addEventListener('click', () => { codeInput.value = ''; applyStarterCodeIfAny(); codeOutput.textContent=''; });
+
+        // Initial load
+        currentLessonIndex = restore();
+        loadLesson(currentLessonIndex, {focusHeading:false});
+        updateButtons();
+    </script>
+    <footer>
+        <p>&copy; 2025 Learn JavaScript • <a href="#top">Back to top</a></p>
+    </footer>
+</body>
+</html>

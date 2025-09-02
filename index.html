@@ -672,6 +672,7 @@
                     <button class="tag-btn" data-tag="Algorithms" class="shimmer-button">Algorithms</button>
                     <button class="tag-btn" data-tag="SQL" class="shimmer-button">SQL</button>
                     <button class="tag-btn" data-tag="HTML" class="shimmer-button">HTML</button>
+                    <button class="tag-btn" data-tag="JavaScript" class="shimmer-button">JavaScript</button>
                     <button class="tag-btn" data-tag="Software" class="shimmer-button">Software</button>
                     <button class="tag-btn" data-tag="Hardware" class="shimmer-button">Hardware</button>
                     <button class="tag-btn" data-tag="Visualization" class="shimmer-button">Visualization</button>
@@ -869,6 +870,16 @@
                 title: 'S4 Python Algorithms',
                 description: 'Interactive visualizations of searching and sorting algorithms with step-by-step explanations.',
                 linkText: 'Explore Visualization'
+            },
+            {
+                href: 'javascript.html',
+                tags: 'JavaScript,Visualization',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>',
+                title: 'JavaScript Interactive Course',
+                description: 'Step-by-step interactive JS lessons with built-in code editor.',
+                linkText: 'Start Learning',
+                progressKey: 'learnjs_current_lesson_v1',
+                totalLessons: 10
             },
             {
                 href: 'DSE_2025(1).html',
@@ -1727,14 +1738,22 @@
         // --- Update Card Creation to Use Modal ---
         function createCard(data) {
             const tagsHtml = data.tags.split(',').map(tag => `<span class="px-3 py-1 rounded-full">${tag}</span>`).join('');
+            const progressSection = data.progressKey ? `
+                <div class="mt-2">
+                   <div class="w-full h-2 rounded bg-[var(--bg-tertiary)] overflow-hidden">
+                       <div class="h-full bg-[var(--accent-primary)] transition-all duration-500 js-progress-fill" data-progress-key="${data.progressKey}" style="width:0%"></div>
+                   </div>
+                   <p class="text-xs mt-1 card-description js-progress-text" data-progress-key="${data.progressKey}">Progress: 0%</p>
+                </div>` : '';
             return `
-                <div class="resource-card glass-effect cursor-pointer" data-tags="${data.tags}" data-url="${data.href}">
+                <div class="resource-card glass-effect cursor-pointer" data-tags="${data.tags}" data-url="${data.href}" ${data.progressKey?`data-progress-key="${data.progressKey}" data-total-lessons="${data.totalLessons||0}"`:''}>
                     <div class="card-image-placeholder">${data.icon}</div>
                     <div class="card-content-wrapper">
                         <div>
                             <h3 class="text-xl font-bold card-title mb-2">${data.title}</h3>
                             <p class="card-description mb-4">${data.description}</p>
                             <div class="flex flex-wrap gap-2 mb-4 card-tags">${tagsHtml}</div>
+                            ${progressSection}
                         </div>
                         <div class="mt-auto">
                             <div class="flex items-center card-link font-medium text-sm">
@@ -1768,8 +1787,26 @@
                     loadContentInModal(url);
                 });
             });
+
+            // Update JS course progress
+            updateCourseProgressDisplays();
             
             handleScrollAndResize(); 
+        }
+
+        function updateCourseProgressDisplays(){
+            const cards = document.querySelectorAll('.resource-card[data-progress-key]');
+            cards.forEach(card => {
+                const key = card.getAttribute('data-progress-key');
+                const total = parseInt(card.getAttribute('data-total-lessons')) || 0;
+                let idx = 0;
+                try { idx = parseInt(localStorage.getItem(key)) || 0; } catch(e) {}
+                const percent = total ? Math.min(100, Math.max(0, Math.round(((idx+1)/ total)*100))) : 0;
+                const fill = card.querySelector('.js-progress-fill');
+                const text = card.querySelector('.js-progress-text');
+                if (fill) fill.style.width = percent + '%';
+                if (text) text.textContent = `Progress: ${percent}%`;
+            });
         }
 
         tagButtons.forEach(btn => {

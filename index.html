@@ -604,6 +604,22 @@
             display: flex;
             gap: 12px;
         }
+    /* Auth UI */
+    .auth-tab-bar{display:flex;gap:.6rem;margin-bottom:1rem}
+    .auth-tab{flex:1;padding:.55rem .9rem;border-radius:999px;font-size:.75rem;font-weight:600;letter-spacing:.5px;background:var(--bg-tertiary);color:var(--text-secondary);border:1px solid var(--border-secondary);cursor:pointer;transition:.25s}
+    .auth-tab.active{background:var(--accent-primary);color:#fff;border-color:var(--accent-primary);box-shadow:0 4px 18px -4px rgba(0,145,255,.35)}
+    .auth-form-group{margin-bottom:.85rem}
+    .auth-form-group label{display:block;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin-bottom:.35rem;color:var(--text-secondary)}
+    .auth-form-group input{width:100%;padding:.65rem .75rem;border-radius:10px;border:1px solid var(--border-secondary);background:var(--bg-secondary);color:var(--text-primary);font-size:.85rem}
+    .auth-form-group input:focus{outline:2px solid var(--accent-primary);border-color:var(--accent-primary)}
+    .auth-feedback{display:none;font-size:.7rem;padding:.5rem .65rem;border-radius:8px;margin-bottom:.7rem}
+    .auth-feedback.error{background:#ff4d6140;color:#ffbac2;border:1px solid #ff4d61}
+    .auth-feedback.success{background:#0f8a2e30;color:#c9ffd7;border:1px solid #1bb44b}
+    .user-chip{display:inline-flex;align-items:center;gap:.45rem;padding:.45rem .85rem;border-radius:999px;background:var(--bg-tertiary);border:1px solid var(--border-secondary);font-size:.75rem;font-weight:600;cursor:pointer;transition:.25s}
+    .user-chip:hover{background:var(--accent-primary);color:#fff;border-color:var(--accent-primary)}
+    .user-menu{position:absolute;right:0;top:110%;background:var(--bg-secondary);border:1px solid var(--border-secondary);border-radius:14px;min-width:170px;padding:.4rem .4rem;display:none;z-index:300;box-shadow:0 12px 28px -6px var(--shadow-color)}
+    .user-menu button{display:block;width:100%;text-align:left;padding:.55rem .65rem;border-radius:10px;font-size:.75rem;color:var(--text-secondary);background:transparent;cursor:pointer}
+    .user-menu button:hover{background:var(--bg-tertiary);color:var(--text-primary)}
     </style>
 </head>
 <body class="min-h-screen">
@@ -644,6 +660,14 @@
                             <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                             <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
                         </button>
+                        <div class="relative" id="auth-ui">
+                            <button id="auth-open" class="primary-btn px-4 py-2 text-sm">Sign In</button>
+                            <div class="user-menu" id="auth-menu">
+                                <div class="px-2 py-1 text-[10px] tracking-wide font-semibold" style="color:var(--text-tertiary)">ACCOUNT</div>
+                                <button id="auth-profile">Profile</button>
+                                <button id="auth-logout">Logout</button>
+                            </div>
+                        </div>
                         <button class="md:hidden text-gray-600 hover:text-blue-600" id="mobileMenuButton">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                         </button>
@@ -770,6 +794,51 @@
     </div>
     
     <!-- Floating Search Bar -->
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal fixed inset-0 z-[120] items-center justify-center p-4">
+        <div class="modal-backdrop absolute inset-0" style="background:var(--modal-backdrop);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);"></div>
+        <div class="modal-content-container glass-effect w-full max-w-md rounded-2xl overflow-hidden relative z-10 p-6">
+            <div class="absolute top-4 right-4">
+                <button class="modal-close-btn btn-press-effect" data-modal="auth-modal" aria-label="Close auth">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <h3 class="text-xl font-bold mb-3 card-title">Account</h3>
+            <div class="auth-tab-bar">
+                <button class="auth-tab active" data-auth-tab="signin">Sign In</button>
+                <button class="auth-tab" data-auth-tab="signup">Sign Up</button>
+            </div>
+            <div id="auth-error" class="auth-feedback error" role="alert"></div>
+            <div id="auth-success" class="auth-feedback success" role="status"></div>
+            <form id="auth-signin-form">
+                <div class="auth-form-group">
+                    <label for="signin-user">Username</label>
+                    <input id="signin-user" required minlength="3" autocomplete="username" />
+                </div>
+                <div class="auth-form-group">
+                    <label for="signin-pass">Password</label>
+                    <input id="signin-pass" type="password" required minlength="6" autocomplete="current-password" />
+                </div>
+                <button class="primary-btn w-full py-2 mt-1" type="submit">Sign In</button>
+            </form>
+            <form id="auth-signup-form" class="hidden">
+                <div class="auth-form-group">
+                    <label for="signup-user">Username</label>
+                    <input id="signup-user" required minlength="3" />
+                </div>
+                <div class="auth-form-group">
+                    <label for="signup-pass">Password</label>
+                    <input id="signup-pass" type="password" required minlength="8" />
+                </div>
+                <div class="auth-form-group">
+                    <label for="signup-pass2">Confirm Password</label>
+                    <input id="signup-pass2" type="password" required minlength="8" />
+                </div>
+                <button class="primary-btn w-full py-2 mt-1" type="submit">Create Account</button>
+            </form>
+            <p class="mt-5 text-[10px] card-description">Powered by secure Worker auth API.</p>
+        </div>
+    </div>
     <div id="search-container">
         <div id="search-bar" class="glass-effect relative search-bar">
             <div id="search-icon-wrapper">
@@ -849,6 +918,39 @@
     <script>
 
     document.addEventListener('DOMContentLoaded', () => {
+    /* Auth Integration */
+    const AUTH_API_BASE = 'https://login-system.darrenintr.workers.dev';
+    const TOKEN_KEY='auth_jwt_token_v1';
+    const PROFILE_KEY='auth_profile_cache_v1';
+    const authOpenBtn=document.getElementById('auth-open');
+    const authModal=document.getElementById('auth-modal');
+    const authTabs=document.querySelectorAll('.auth-tab');
+    const signinForm=document.getElementById('auth-signin-form');
+    const signupForm=document.getElementById('auth-signup-form');
+    const authError=document.getElementById('auth-error');
+    const authSuccess=document.getElementById('auth-success');
+    const authMenu=document.getElementById('auth-menu');
+    const logoutBtn=document.getElementById('auth-logout');
+    const profileBtn=document.getElementById('auth-profile');
+    let currentTab='signin';
+    function setTab(tab){ currentTab=tab; authTabs.forEach(b=>b.classList.toggle('active',b.dataset.authTab===tab)); if(tab==='signin'){signinForm.classList.remove('hidden'); signupForm.classList.add('hidden');} else {signupForm.classList.remove('hidden'); signinForm.classList.add('hidden');} clearFeedback(); }
+    authTabs.forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.authTab)));
+    function clearFeedback(){ authError.style.display='none'; authSuccess.style.display='none'; }
+    function showErr(m){ authError.textContent=m; authError.style.display='block'; }
+    function showOk(m){ authSuccess.textContent=m; authSuccess.style.display='block'; }
+    function api(path, opts={}){ const token=localStorage.getItem(TOKEN_KEY); const headers={'Content-Type':'application/json',...(opts.headers||{})}; if(token) headers['Authorization']='Bearer '+token; return fetch(AUTH_API_BASE+path,{...opts,headers}).then(async r=>{ let txt=''; try{txt=await r.text();}catch{} let body; if(txt){ try{ body=JSON.parse(txt);}catch{ body={ error: txt.trim().startsWith('<')?`Non-JSON response (status ${r.status})`:txt.substring(0,200)};} } else { body={}; } return { ok:r.ok,status:r.status,body }; }).catch(e=>({ ok:false,status:0,body:{ error:'Network error: '+e.message }})); }
+    function openAuth(){ openModal(authModal); setTab('signin'); }
+    authOpenBtn.addEventListener('click',()=>{ if(authOpenBtn.classList.contains('user-chip')){ authMenu.style.display=authMenu.style.display==='block'?'none':'block'; } else { openAuth(); }});
+    document.addEventListener('click',e=>{ if(!e.target.closest('#auth-ui')) authMenu.style.display='none'; });
+    signinForm.addEventListener('submit',async e=>{ e.preventDefault(); clearFeedback(); showOk('Signing in...'); const username=document.getElementById('signin-user').value.trim(); const password=document.getElementById('signin-pass').value; const res=await api('/login',{method:'POST',body:JSON.stringify({username,password})}); if(!res.ok){ clearFeedback(); return showErr(res.body.error||'Login failed'); } try{ localStorage.setItem(TOKEN_KEY,res.body.token);}catch{} await refreshProfile(); closeModal(authModal); });
+    signupForm.addEventListener('submit',async e=>{ e.preventDefault(); clearFeedback(); const u=document.getElementById('signup-user').value.trim(); const p=document.getElementById('signup-pass').value; const p2=document.getElementById('signup-pass2').value; if(p!==p2) return showErr('Passwords do not match'); if(p.length<8) return showErr('Password too short'); showOk('Creating account...'); const res=await api('/register',{method:'POST',body:JSON.stringify({username:u,password:p})}); if(!res.ok){ clearFeedback(); return showErr(res.body.error||'Signup failed'); } showOk('Account created. You can sign in now.'); setTab('signin'); });
+    logoutBtn.addEventListener('click',async ()=>{ await api('/logout',{method:'POST'}); localLogout(); });
+    profileBtn.addEventListener('click',()=>{ authMenu.style.display='none'; const cached=localStorage.getItem(PROFILE_KEY); if(cached){ try{ const u=JSON.parse(cached); showOk('Logged in as '+u.username); openAuth(); }catch{} } });
+    function renderLoggedIn(user){ authOpenBtn.textContent=user.username; authOpenBtn.classList.remove('primary-btn'); authOpenBtn.classList.add('user-chip'); }
+    function renderLoggedOut(){ authOpenBtn.textContent='Sign In'; authOpenBtn.classList.add('primary-btn'); authOpenBtn.classList.remove('user-chip'); }
+    function localLogout(){ try{ localStorage.removeItem(TOKEN_KEY); localStorage.removeItem(PROFILE_KEY);}catch{} renderLoggedOut(); authMenu.style.display='none'; }
+    async function refreshProfile(){ const token=localStorage.getItem(TOKEN_KEY); if(!token){ renderLoggedOut(); return; } const res=await api('/me'); if(!res.ok){ if(res.status===401) localLogout(); return; } try{ localStorage.setItem(PROFILE_KEY,JSON.stringify(res.body.user)); }catch{} renderLoggedIn(res.body.user); }
+    refreshProfile(); setInterval(refreshProfile, 5*60*1000);
         const docElement = document.documentElement;
         const themeToggleBtn = document.getElementById('theme-toggle');
         const themeIconLight = document.getElementById('theme-icon-light');

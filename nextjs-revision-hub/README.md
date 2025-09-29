@@ -54,10 +54,24 @@ A modern, interactive learning platform built with Next.js, TypeScript, and Tail
 
 ### Build for Production
 
+Build the application for production deployment:
+
 ```bash
+# Build the application
 npm run build
+
+# Start the production server
 npm start
 ```
+
+The build process:
+- ✅ Optimizes code and assets for production
+- ✅ Generates static pages where possible
+- ✅ Creates optimized JavaScript bundles
+- ✅ Processes CSS and images
+- ✅ Performs type checking
+
+The production build will be created in the `.next` directory and is ready for deployment.
 
 ## 📁 Project Structure
 

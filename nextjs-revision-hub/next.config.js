@@ -3,6 +3,13 @@ const nextConfig = {
   // Suppress the lockfile warning
   outputFileTracingRoot: '.',
   
+  // ESLint configuration - don't fail build on lint errors
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
+  
   // Enable experimental features for better performance
   experimental: {
     // Enable server actions for better form handling

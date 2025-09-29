@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Play, Square, RotateCcw, ChevronDown, ChevronUp } from 'lucide-react'
+import { Play, Square, RotateCcw, ChevronDown, ChevronUp, Smartphone, Menu } from 'lucide-react'
 import Header from '@/components/Header'
 import AuthModal from '@/components/AuthModal'
 import Footer from '@/components/Footer'
@@ -49,6 +49,43 @@ export default function PythonPage() {
   const [activeMainTab, setActiveMainTab] = useState<'sorting' | 'searching' | 'merge'>('sorting')
   const [activeSortTab, setActiveSortTab] = useState<'selection' | 'bubble'>('selection')
   const [activeSearchTab, setActiveSearchTab] = useState<'linear' | 'binary' | 'comparison'>('linear')
+  
+  // Mobile responsiveness state
+  const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
+  const [showMobileMenu, setShowMobileMenu] = useState(false)
+
+  // Device detection effect
+  useEffect(() => {
+    const checkDevice = () => {
+      const width = window.innerWidth
+      setIsMobile(width < 768)
+      setIsTablet(width >= 768 && width < 1024)
+    }
+
+    checkDevice()
+    window.addEventListener('resize', checkDevice)
+    return () => window.removeEventListener('resize', checkDevice)
+  }, [])
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: Event) => {
+      if (showMobileMenu && isMobile) {
+        const target = event.target as HTMLElement
+        if (!target.closest('.mobile-menu-container')) {
+          setShowMobileMenu(false)
+        }
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('touchstart', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('touchstart', handleClickOutside)
+    }
+  }, [showMobileMenu, isMobile])
   
   // Selection Sort State
   const [selectionInput, setSelectionInput] = useState('64,34,25,12,22,11,90')
@@ -731,11 +768,13 @@ export default function PythonPage() {
     isComplete: boolean
   }) => {
     return (
-      <div className="flex gap-2 flex-wrap">
+      <div className={`flex gap-2 ${isMobile ? 'flex-col w-full' : 'flex-wrap'}`}>
         <button
           onClick={onStart}
           disabled={isRunning}
-          className="primary-btn px-4 py-2 flex items-center gap-2 disabled:opacity-50"
+          className={`primary-btn flex items-center gap-2 disabled:opacity-50 ${
+            isMobile ? 'w-full py-3 px-4 text-sm justify-center' : 'px-4 py-2'
+          }`}
         >
           <Play className="h-4 w-4" />
           Visualize
@@ -743,7 +782,9 @@ export default function PythonPage() {
         <button
           onClick={onNext}
           disabled={!isRunning || isComplete}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+          className={`bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2 ${
+            isMobile ? 'w-full py-3 px-4 text-sm justify-center' : 'px-4 py-2'
+          }`}
         >
           <Square className="h-4 w-4" />
           Next Step
@@ -751,7 +792,9 @@ export default function PythonPage() {
         <button
           onClick={onReset}
           disabled={!hasSteps}
-          className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+          className={`bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2 ${
+            isMobile ? 'w-full py-3 px-4 text-sm justify-center' : 'px-4 py-2'
+          }`}
         >
           <RotateCcw className="h-4 w-4" />
           Reset
@@ -764,7 +807,7 @@ export default function PythonPage() {
     <div className="min-h-screen bg-primary">
       <Header onAuthClick={() => setIsAuthModalOpen(true)} />
 
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className={`container mx-auto py-8 ${isMobile ? 'px-2' : 'px-4 sm:px-6 lg:px-8'}`}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -772,34 +815,78 @@ export default function PythonPage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-8"
         >
-          <h1 className="text-4xl font-bold text-primary mb-4">Python Algorithms Visualizer</h1>
-          <p className="text-secondary">Interactive visualizations of sorting, searching, and merging algorithms</p>
+          <h1 className={`font-bold text-primary mb-4 ${isMobile ? 'text-2xl' : 'text-4xl'}`}>
+            Python Algorithms Visualizer
+          </h1>
+          <p className={`text-secondary ${isMobile ? 'text-sm px-4' : ''}`}>
+            Interactive visualizations of sorting, searching, and merging algorithms
+          </p>
         </motion.div>
 
         {/* Main Tabs */}
         <div className="flex justify-center mb-8">
-          <div className="flex bg-secondary rounded-xl p-1">
-            {(['sorting', 'searching', 'merge'] as const).map((tab) => (
+          {isMobile ? (
+            <div className="relative mobile-menu-container">
               <button
-                key={tab}
-                onClick={() => setActiveMainTab(tab)}
-                className={`px-6 py-2 rounded-lg font-medium transition-colors capitalize ${
-                  activeMainTab === tab
-                    ? 'bg-primary text-primary shadow-md'
-                    : 'text-secondary hover:text-primary'
-                }`}
+                onClick={() => setShowMobileMenu(!showMobileMenu)}
+                className="flex items-center gap-2 bg-secondary px-4 py-3 rounded-xl text-primary font-medium min-w-[140px] justify-between"
               >
-                {tab}
+                <span className="capitalize">{activeMainTab}</span>
+                <Menu className="h-4 w-4" />
               </button>
-            ))}
-          </div>
+              
+              {showMobileMenu && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="absolute top-full left-0 right-0 mt-2 bg-secondary rounded-xl shadow-lg z-10 overflow-hidden"
+                >
+                  {(['sorting', 'searching', 'merge'] as const).map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => {
+                        setActiveMainTab(tab)
+                        setShowMobileMenu(false)
+                      }}
+                      className={`w-full px-4 py-3 text-left font-medium transition-colors capitalize ${
+                        activeMainTab === tab
+                          ? 'bg-primary text-primary'
+                          : 'text-secondary hover:text-primary hover:bg-background'
+                      }`}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </div>
+          ) : (
+            <div className="flex bg-secondary rounded-xl p-1">
+              {(['sorting', 'searching', 'merge'] as const).map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveMainTab(tab)}
+                  className={`px-6 py-2 rounded-lg font-medium transition-colors capitalize ${
+                    activeMainTab === tab
+                      ? 'bg-primary text-primary shadow-md'
+                      : 'text-secondary hover:text-primary'
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Code Toggle */}
         <div className="flex justify-center mb-6">
           <button
             onClick={() => setShowCode(!showCode)}
-            className="flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+            className={`flex items-center gap-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors ${
+              isMobile ? 'px-3 py-2 text-sm' : 'px-4 py-2'
+            }`}
           >
             {showCode ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
             {showCode ? 'Hide Code' : 'Show Code'}
@@ -819,12 +906,14 @@ export default function PythonPage() {
             >
               {/* Sorting Sub-tabs */}
               <div className="flex justify-center">
-                <div className="flex bg-secondary rounded-xl p-1">
+                <div className={`flex bg-secondary rounded-xl p-1 ${isMobile ? 'w-full max-w-sm' : ''}`}>
                   {(['selection', 'bubble'] as const).map((tab) => (
                     <button
                       key={tab}
                       onClick={() => setActiveSortTab(tab)}
-                      className={`px-4 py-2 rounded-lg font-medium transition-colors capitalize ${
+                      className={`rounded-lg font-medium transition-colors capitalize ${
+                        isMobile ? 'flex-1 py-2 px-2 text-sm' : 'px-4 py-2'
+                      } ${
                         activeSortTab === tab
                           ? 'bg-primary text-primary shadow-md'
                           : 'text-secondary hover:text-primary'
@@ -838,8 +927,8 @@ export default function PythonPage() {
 
               {/* Selection Sort */}
               {activeSortTab === 'selection' && (
-                <div className="bg-secondary rounded-xl p-6">
-                  <h3 className="text-xl font-bold text-primary mb-4">Selection Sort</h3>
+                <div className={`bg-secondary rounded-xl ${isMobile ? 'p-3' : 'p-6'}`}>
+                  <h3 className={`font-bold text-primary mb-4 ${isMobile ? 'text-lg' : 'text-xl'}`}>Selection Sort</h3>
                   
                   {showCode && (
                     <div className="mb-6">
@@ -851,7 +940,7 @@ export default function PythonPage() {
                   )}
 
                   <div className="space-y-4">
-                    <div className="flex gap-4 items-center flex-wrap">
+                    <div className={`${isMobile ? 'space-y-2' : 'flex gap-4 items-center flex-wrap'}`}>
                       <div className="flex items-center gap-2">
                         <label htmlFor="selection-input" className="text-sm font-medium text-primary">
                           Array:
@@ -862,7 +951,9 @@ export default function PythonPage() {
                           value={selectionInput}
                           onChange={(e) => setSelectionInput(e.target.value)}
                           disabled={selectionRunning}
-                          className="px-3 py-2 border border-secondary rounded-lg bg-tertiary text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className={`border border-secondary rounded-lg bg-tertiary text-primary focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                            isMobile ? 'w-full px-2 py-2 text-sm' : 'px-3 py-2'
+                          }`}
                           placeholder="64,34,25,12,22,11,90"
                         />
                       </div>
@@ -914,8 +1005,8 @@ export default function PythonPage() {
 
               {/* Bubble Sort */}
               {activeSortTab === 'bubble' && (
-                <div className="bg-secondary rounded-xl p-6">
-                  <h3 className="text-xl font-bold text-primary mb-4">Bubble Sort</h3>
+                <div className={`bg-secondary rounded-xl ${isMobile ? 'p-3' : 'p-6'}`}>
+                  <h3 className={`font-bold text-primary mb-4 ${isMobile ? 'text-lg' : 'text-xl'}`}>Bubble Sort</h3>
                   
                   {showCode && (
                     <div className="mb-6">
@@ -927,7 +1018,7 @@ export default function PythonPage() {
                   )}
 
                   <div className="space-y-4">
-                    <div className="flex gap-4 items-center flex-wrap">
+                    <div className={`${isMobile ? 'space-y-2' : 'flex gap-4 items-center flex-wrap'}`}>
                       <div className="flex items-center gap-2">
                         <label htmlFor="bubble-input" className="text-sm font-medium text-primary">
                           Array:
@@ -938,7 +1029,9 @@ export default function PythonPage() {
                           value={bubbleInput}
                           onChange={(e) => setBubbleInput(e.target.value)}
                           disabled={bubbleRunning}
-                          className="px-3 py-2 border border-secondary rounded-lg bg-tertiary text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className={`border border-secondary rounded-lg bg-tertiary text-primary focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                            isMobile ? 'w-full px-2 py-2 text-sm' : 'px-3 py-2'
+                          }`}
                           placeholder="64,34,25,12,22,11,90"
                         />
                       </div>
@@ -1002,12 +1095,14 @@ export default function PythonPage() {
             >
               {/* Searching Sub-tabs */}
               <div className="flex justify-center">
-                <div className="flex bg-secondary rounded-xl p-1">
+                <div className={`flex bg-secondary rounded-xl p-1 ${isMobile ? 'w-full max-w-sm' : ''}`}>
                   {(['linear', 'binary'] as const).map((tab) => (
                     <button
                       key={tab}
                       onClick={() => setActiveSearchTab(tab)}
-                      className={`px-4 py-2 rounded-lg font-medium transition-colors capitalize ${
+                      className={`rounded-lg font-medium transition-colors capitalize ${
+                        isMobile ? 'flex-1 py-2 px-2 text-sm' : 'px-4 py-2'
+                      } ${
                         activeSearchTab === tab
                           ? 'bg-primary text-primary shadow-md'
                           : 'text-secondary hover:text-primary'
@@ -1021,8 +1116,8 @@ export default function PythonPage() {
 
               {/* Linear Search */}
               {activeSearchTab === 'linear' && (
-                <div className="bg-secondary rounded-xl p-6">
-                  <h3 className="text-xl font-bold text-primary mb-4">Linear Search</h3>
+                <div className={`bg-secondary rounded-xl ${isMobile ? 'p-3' : 'p-6'}`}>
+                  <h3 className={`font-bold text-primary mb-4 ${isMobile ? 'text-lg' : 'text-xl'}`}>Linear Search</h3>
                   
                   {showCode && (
                     <div className="mb-6">
@@ -1034,8 +1129,8 @@ export default function PythonPage() {
                   )}
 
                   <div className="space-y-4">
-                    <div className="flex gap-4 items-center flex-wrap">
-                      <div className="flex items-center gap-2">
+                    <div className={`${isMobile ? 'space-y-3' : 'flex gap-4 items-center flex-wrap'}`}>
+                      <div className={`flex items-center gap-2 ${isMobile ? 'w-full' : ''}`}>
                         <label htmlFor="linear-input" className="text-sm font-medium text-primary">
                           Array:
                         </label>
@@ -1045,11 +1140,13 @@ export default function PythonPage() {
                           value={linearInput}
                           onChange={(e) => setLinearInput(e.target.value)}
                           disabled={linearRunning}
-                          className="px-3 py-2 border border-secondary rounded-lg bg-tertiary text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className={`border border-secondary rounded-lg bg-tertiary text-primary focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                            isMobile ? 'flex-1 px-2 py-2 text-sm' : 'px-3 py-2'
+                          }`}
                           placeholder="2,5,8,12,16,23,38,56,67,78"
                         />
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className={`flex items-center gap-2 ${isMobile ? 'w-full' : ''}`}>
                         <label htmlFor="linear-target" className="text-sm font-medium text-primary">
                           Target:
                         </label>
@@ -1059,7 +1156,9 @@ export default function PythonPage() {
                           value={linearTarget}
                           onChange={(e) => setLinearTarget(e.target.value)}
                           disabled={linearRunning}
-                          className="px-3 py-2 border border-secondary rounded-lg bg-tertiary text-primary focus:outline-none focus:ring-2 focus:ring-blue-500 w-20"
+                          className={`border border-secondary rounded-lg bg-tertiary text-primary focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                            isMobile ? 'flex-1 px-2 py-2 text-sm' : 'px-3 py-2 w-20'
+                          }`}
                           placeholder="23"
                         />
                       </div>
@@ -1112,8 +1211,8 @@ export default function PythonPage() {
 
               {/* Binary Search */}
               {activeSearchTab === 'binary' && (
-                <div className="bg-secondary rounded-xl p-6">
-                  <h3 className="text-xl font-bold text-primary mb-4">Binary Search</h3>
+                <div className={`bg-secondary rounded-xl ${isMobile ? 'p-3' : 'p-6'}`}>
+                  <h3 className={`font-bold text-primary mb-4 ${isMobile ? 'text-lg' : 'text-xl'}`}>Binary Search</h3>
                   
                   {showCode && (
                     <div className="mb-6">
@@ -1125,8 +1224,8 @@ export default function PythonPage() {
                   )}
 
                   <div className="space-y-4">
-                    <div className="flex gap-4 items-center flex-wrap">
-                      <div className="flex items-center gap-2">
+                    <div className={`${isMobile ? 'space-y-3' : 'flex gap-4 items-center flex-wrap'}`}>
+                      <div className={`flex items-center gap-2 ${isMobile ? 'w-full' : ''}`}>
                         <label htmlFor="binary-input" className="text-sm font-medium text-primary">
                           Sorted Array:
                         </label>
@@ -1136,11 +1235,13 @@ export default function PythonPage() {
                           value={binaryInput}
                           onChange={(e) => setBinaryInput(e.target.value)}
                           disabled={binaryRunning}
-                          className="px-3 py-2 border border-secondary rounded-lg bg-tertiary text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className={`border border-secondary rounded-lg bg-tertiary text-primary focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                            isMobile ? 'flex-1 px-2 py-2 text-sm' : 'px-3 py-2'
+                          }`}
                           placeholder="2,5,8,12,16,23,38,56,67,78"
                         />
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className={`flex items-center gap-2 ${isMobile ? 'w-full' : ''}`}>
                         <label htmlFor="binary-target" className="text-sm font-medium text-primary">
                           Target:
                         </label>
@@ -1150,7 +1251,9 @@ export default function PythonPage() {
                           value={binaryTarget}
                           onChange={(e) => setBinaryTarget(e.target.value)}
                           disabled={binaryRunning}
-                          className="px-3 py-2 border border-secondary rounded-lg bg-tertiary text-primary focus:outline-none focus:ring-2 focus:ring-blue-500 w-20"
+                          className={`border border-secondary rounded-lg bg-tertiary text-primary focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                            isMobile ? 'flex-1 px-2 py-2 text-sm' : 'px-3 py-2 w-20'
+                          }`}
                           placeholder="23"
                         />
                       </div>
@@ -1213,8 +1316,8 @@ export default function PythonPage() {
               transition={{ duration: 0.3 }}
               className="space-y-8"
             >
-              <div className="bg-secondary rounded-xl p-6">
-                <h3 className="text-xl font-bold text-primary mb-4">Merge Two Sorted Arrays</h3>
+              <div className={`bg-secondary rounded-xl ${isMobile ? 'p-3' : 'p-6'}`}>
+                <h3 className={`font-bold text-primary mb-4 ${isMobile ? 'text-lg' : 'text-xl'}`}>Merge Two Sorted Arrays</h3>
                 
                 {showCode && (
                   <div className="mb-6">
@@ -1226,8 +1329,8 @@ export default function PythonPage() {
                 )}
 
                 <div className="space-y-4">
-                  <div className="flex gap-4 items-center flex-wrap">
-                    <div className="flex items-center gap-2">
+                  <div className={`${isMobile ? 'space-y-3' : 'flex gap-4 items-center flex-wrap'}`}>
+                    <div className={`flex items-center gap-2 ${isMobile ? 'w-full' : ''}`}>
                       <label htmlFor="array-a" className="text-sm font-medium text-primary">
                         Array A:
                       </label>
@@ -1237,11 +1340,13 @@ export default function PythonPage() {
                         value={arrayAInput}
                         onChange={(e) => setArrayAInput(e.target.value)}
                         disabled={mergeRunning}
-                        className="px-3 py-2 border border-secondary rounded-lg bg-tertiary text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className={`border border-secondary rounded-lg bg-tertiary text-primary focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                          isMobile ? 'flex-1 px-2 py-2 text-sm' : 'px-3 py-2'
+                        }`}
                         placeholder="1,3,5,7"
                       />
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className={`flex items-center gap-2 ${isMobile ? 'w-full' : ''}`}>
                       <label htmlFor="array-b" className="text-sm font-medium text-primary">
                         Array B:
                       </label>
@@ -1251,7 +1356,9 @@ export default function PythonPage() {
                         value={arrayBInput}
                         onChange={(e) => setArrayBInput(e.target.value)}
                         disabled={mergeRunning}
-                        className="px-3 py-2 border border-secondary rounded-lg bg-tertiary text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className={`border border-secondary rounded-lg bg-tertiary text-primary focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                          isMobile ? 'flex-1 px-2 py-2 text-sm' : 'px-3 py-2'
+                        }`}
                         placeholder="2,4,6,8"
                       />
                     </div>

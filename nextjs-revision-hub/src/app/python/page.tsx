@@ -1,11 +1,68 @@
 'use client'
 
 import { useState, useEffect, useMemo } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, Variants } from 'framer-motion'
 import { Play, Square, RotateCcw, ChevronDown, ChevronUp, Smartphone, Menu } from 'lucide-react'
 import Header from '@/components/Header'
 import AuthModal from '@/components/AuthModal'
 import Footer from '@/components/Footer'
+
+// Animation variants for smoother transitions
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      staggerChildren: 0.05,
+      staggerDirection: -1
+    }
+  }
+}
+
+const itemVariants: Variants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 12
+    }
+  },
+  exit: {
+    y: -20,
+    opacity: 0,
+    transition: {
+      duration: 0.2
+    }
+  }
+}
+
+const buttonVariants: Variants = {
+  idle: { scale: 1 },
+  hover: { 
+    scale: 1.02,
+    transition: {
+      type: "spring",
+      stiffness: 400,
+      damping: 25
+    }
+  },
+  tap: { 
+    scale: 0.98,
+    transition: {
+      duration: 0.1
+    }
+  }
+}
 
 interface StepData {
   array: number[]
@@ -768,46 +825,96 @@ export default function PythonPage() {
     isComplete: boolean
   }) => {
     return (
-      <div className={`flex gap-2 ${isMobile ? 'flex-col w-full' : 'flex-wrap'}`}>
-        <button
+      <motion.div 
+        className={`flex gap-2 ${isMobile ? 'flex-col w-full' : 'flex-wrap'}`}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.button
           onClick={onStart}
           disabled={isRunning}
-          className={`primary-btn flex items-center gap-2 disabled:opacity-50 ${
+          className={`primary-btn flex items-center gap-2 disabled:opacity-50 transition-all duration-300 ${
             isMobile ? 'w-full py-3 px-4 text-sm justify-center' : 'px-4 py-2'
           }`}
+          variants={buttonVariants}
+          initial="idle"
+          whileHover={!isRunning ? "hover" : "idle"}
+          whileTap={!isRunning ? "tap" : "idle"}
+          animate={isRunning ? { scale: [1, 1.02, 1], transition: { repeat: Infinity, duration: 2 } } : "idle"}
         >
-          <Play className="h-4 w-4" />
-          Visualize
-        </button>
-        <button
+          <motion.div
+            animate={isRunning ? { rotate: 360 } : { rotate: 0 }}
+            transition={isRunning ? { repeat: Infinity, duration: 1, ease: "linear" } : { duration: 0.3 }}
+          >
+            <Play className="h-4 w-4" />
+          </motion.div>
+          <motion.span
+            animate={isRunning ? { opacity: [1, 0.7, 1] } : { opacity: 1 }}
+            transition={isRunning ? { repeat: Infinity, duration: 1.5 } : { duration: 0.2 }}
+          >
+            {isRunning ? 'Running...' : 'Visualize'}
+          </motion.span>
+        </motion.button>
+        
+        <motion.button
           onClick={onNext}
           disabled={!isRunning || isComplete}
-          className={`bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2 ${
+          className={`bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center gap-2 ${
             isMobile ? 'w-full py-3 px-4 text-sm justify-center' : 'px-4 py-2'
           }`}
+          variants={buttonVariants}
+          initial="idle"
+          whileHover={!(!isRunning || isComplete) ? "hover" : "idle"}
+          whileTap={!(!isRunning || isComplete) ? "tap" : "idle"}
         >
-          <Square className="h-4 w-4" />
+          <motion.div
+            animate={!isRunning || isComplete ? { opacity: 0.5 } : { opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Square className="h-4 w-4" />
+          </motion.div>
           Next Step
-        </button>
-        <button
+        </motion.button>
+        
+        <motion.button
           onClick={onReset}
           disabled={!hasSteps}
-          className={`bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2 ${
+          className={`bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center gap-2 ${
             isMobile ? 'w-full py-3 px-4 text-sm justify-center' : 'px-4 py-2'
           }`}
+          variants={buttonVariants}
+          initial="idle"
+          whileHover={hasSteps ? "hover" : "idle"}
+          whileTap={hasSteps ? "tap" : "idle"}
         >
-          <RotateCcw className="h-4 w-4" />
+          <motion.div
+            whileHover={hasSteps ? { rotate: -180 } : { rotate: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <RotateCcw className="h-4 w-4" />
+          </motion.div>
           Reset
-        </button>
-      </div>
+        </motion.button>
+      </motion.div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-primary">
+    <motion.div 
+      className="min-h-screen bg-primary"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <Header onAuthClick={() => setIsAuthModalOpen(true)} />
 
-      <main className={`container mx-auto py-8 ${isMobile ? 'px-2' : 'px-4 sm:px-6 lg:px-8'}`}>
+      <motion.main 
+        className={`container mx-auto py-8 ${isMobile ? 'px-2' : 'px-4 sm:px-6 lg:px-8'}`}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -824,111 +931,191 @@ export default function PythonPage() {
         </motion.div>
 
         {/* Main Tabs */}
-        <div className="flex justify-center mb-8">
+        <motion.div 
+          className="flex justify-center mb-8"
+          variants={itemVariants}
+        >
           {isMobile ? (
             <div className="relative mobile-menu-container">
-              <button
+              <motion.button
                 onClick={() => setShowMobileMenu(!showMobileMenu)}
                 className="flex items-center gap-2 bg-secondary px-4 py-3 rounded-xl text-primary font-medium min-w-[140px] justify-between"
+                variants={buttonVariants}
+                initial="idle"
+                whileHover="hover"
+                whileTap="tap"
               >
-                <span className="capitalize">{activeMainTab}</span>
-                <Menu className="h-4 w-4" />
-              </button>
-              
-              {showMobileMenu && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="absolute top-full left-0 right-0 mt-2 bg-secondary rounded-xl shadow-lg z-10 overflow-hidden"
+                <motion.span 
+                  className="capitalize"
+                  key={activeMainTab}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  {(['sorting', 'searching', 'merge'] as const).map((tab) => (
-                    <button
-                      key={tab}
-                      onClick={() => {
-                        setActiveMainTab(tab)
-                        setShowMobileMenu(false)
-                      }}
-                      className={`w-full px-4 py-3 text-left font-medium transition-colors capitalize ${
-                        activeMainTab === tab
-                          ? 'bg-primary text-primary'
-                          : 'text-secondary hover:text-primary hover:bg-background'
-                      }`}
-                    >
-                      {tab}
-                    </button>
-                  ))}
+                  {activeMainTab}
+                </motion.span>
+                <motion.div
+                  animate={{ rotate: showMobileMenu ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Menu className="h-4 w-4" />
                 </motion.div>
-              )}
+              </motion.button>
+              
+              <AnimatePresence>
+                {showMobileMenu && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    className="absolute top-full left-0 right-0 mt-2 bg-secondary rounded-xl shadow-lg z-10 overflow-hidden"
+                  >
+                    {(['sorting', 'searching', 'merge'] as const).map((tab, index) => (
+                      <motion.button
+                        key={tab}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{ delay: index * 0.05 }}
+                        onClick={() => {
+                          setActiveMainTab(tab)
+                          setShowMobileMenu(false)
+                        }}
+                        className={`w-full px-4 py-3 text-left font-medium transition-all duration-200 capitalize ${
+                          activeMainTab === tab
+                            ? 'bg-primary text-primary'
+                            : 'text-secondary hover:text-primary hover:bg-background'
+                        }`}
+                        whileHover={{ backgroundColor: "rgba(255, 255, 255, 0.05)" }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        {tab}
+                      </motion.button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ) : (
             <div className="flex bg-secondary rounded-xl p-1">
               {(['sorting', 'searching', 'merge'] as const).map((tab) => (
-                <button
+                <motion.button
                   key={tab}
                   onClick={() => setActiveMainTab(tab)}
-                  className={`px-6 py-2 rounded-lg font-medium transition-colors capitalize ${
+                  className={`px-6 py-2 rounded-lg font-medium transition-all duration-300 capitalize ${
                     activeMainTab === tab
                       ? 'bg-primary text-primary shadow-md'
                       : 'text-secondary hover:text-primary'
                   }`}
+                  variants={buttonVariants}
+                  initial="idle"
+                  whileHover="hover"
+                  whileTap="tap"
+                  layout
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
                 >
                   {tab}
-                </button>
+                </motion.button>
               ))}
             </div>
           )}
-        </div>
+        </motion.div>
 
         {/* Code Toggle */}
-        <div className="flex justify-center mb-6">
-          <button
+        <motion.div 
+          className="flex justify-center mb-6"
+          variants={itemVariants}
+        >
+          <motion.button
             onClick={() => setShowCode(!showCode)}
-            className={`flex items-center gap-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors ${
+            className={`flex items-center gap-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-all duration-300 ${
               isMobile ? 'px-3 py-2 text-sm' : 'px-4 py-2'
             }`}
+            variants={buttonVariants}
+            initial="idle"
+            whileHover="hover"
+            whileTap="tap"
           >
-            {showCode ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-            {showCode ? 'Hide Code' : 'Show Code'}
-          </button>
-        </div>
+            <motion.div
+              animate={{ rotate: showCode ? 180 : 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            >
+              {showCode ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+            </motion.div>
+            <motion.span
+              key={showCode ? 'hide' : 'show'}
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              {showCode ? 'Hide Code' : 'Show Code'}
+            </motion.span>
+          </motion.button>
+        </motion.div>
 
         <AnimatePresence mode="wait">
           {/* Sorting Tab */}
           {activeMainTab === 'sorting' && (
             <motion.div
               key="sorting"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
               className="space-y-8"
             >
               {/* Sorting Sub-tabs */}
-              <div className="flex justify-center">
+              <motion.div 
+                className="flex justify-center"
+                variants={itemVariants}
+              >
                 <div className={`flex bg-secondary rounded-xl p-1 ${isMobile ? 'w-full max-w-sm' : ''}`}>
                   {(['selection', 'bubble'] as const).map((tab) => (
-                    <button
+                    <motion.button
                       key={tab}
                       onClick={() => setActiveSortTab(tab)}
-                      className={`rounded-lg font-medium transition-colors capitalize ${
+                      className={`rounded-lg font-medium transition-all duration-300 capitalize ${
                         isMobile ? 'flex-1 py-2 px-2 text-sm' : 'px-4 py-2'
                       } ${
                         activeSortTab === tab
                           ? 'bg-primary text-primary shadow-md'
                           : 'text-secondary hover:text-primary'
                       }`}
+                      variants={buttonVariants}
+                      initial="idle"
+                      whileHover="hover"
+                      whileTap="tap"
+                      layout
                     >
-                      {tab} Sort
-                    </button>
+                      <motion.span
+                        key={`${tab}-${activeSortTab === tab}`}
+                        initial={{ opacity: 0.8 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        {tab} Sort
+                      </motion.span>
+                    </motion.button>
                   ))}
                 </div>
-              </div>
+              </motion.div>
 
               {/* Selection Sort */}
               {activeSortTab === 'selection' && (
-                <div className={`bg-secondary rounded-xl ${isMobile ? 'p-3' : 'p-6'}`}>
-                  <h3 className={`font-bold text-primary mb-4 ${isMobile ? 'text-lg' : 'text-xl'}`}>Selection Sort</h3>
+                <motion.div 
+                  className={`bg-secondary rounded-xl ${isMobile ? 'p-3' : 'p-6'}`}
+                  variants={itemVariants}
+                  layout
+                >
+                  <motion.h3 
+                    className={`font-bold text-primary mb-4 ${isMobile ? 'text-lg' : 'text-xl'}`}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                  >
+                    Selection Sort
+                  </motion.h3>
                   
                   {showCode && (
                     <div className="mb-6">
@@ -939,25 +1126,41 @@ export default function PythonPage() {
                     </div>
                   )}
 
-                  <div className="space-y-4">
-                    <div className={`${isMobile ? 'space-y-2' : 'flex gap-4 items-center flex-wrap'}`}>
+                  <motion.div 
+                    className="space-y-4"
+                    variants={itemVariants}
+                  >
+                    <motion.div 
+                      className={`${isMobile ? 'space-y-2' : 'flex gap-4 items-center flex-wrap'}`}
+                      variants={itemVariants}
+                    >
                       <div className="flex items-center gap-2">
-                        <label htmlFor="selection-input" className="text-sm font-medium text-primary">
+                        <motion.label 
+                          htmlFor="selection-input" 
+                          className="text-sm font-medium text-primary"
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.2 }}
+                        >
                           Array:
-                        </label>
-                        <input
+                        </motion.label>
+                        <motion.input
                           id="selection-input"
                           type="text"
                           value={selectionInput}
                           onChange={(e) => setSelectionInput(e.target.value)}
                           disabled={selectionRunning}
-                          className={`border border-secondary rounded-lg bg-tertiary text-primary focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                          className={`border border-secondary rounded-lg bg-tertiary text-primary focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 ${
                             isMobile ? 'w-full px-2 py-2 text-sm' : 'px-3 py-2'
                           }`}
                           placeholder="64,34,25,12,22,11,90"
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 0.3 }}
+                          whileFocus={{ scale: 1.02, borderColor: "#3b82f6" }}
                         />
                       </div>
-                    </div>
+                    </motion.div>
 
                     <ControlButtons
                       onStart={() => {
@@ -999,14 +1202,25 @@ export default function PythonPage() {
                         </div>
                       </div>
                     )}
-                  </div>
-                </div>
+                  </motion.div>
+                </motion.div>
               )}
 
               {/* Bubble Sort */}
               {activeSortTab === 'bubble' && (
-                <div className={`bg-secondary rounded-xl ${isMobile ? 'p-3' : 'p-6'}`}>
-                  <h3 className={`font-bold text-primary mb-4 ${isMobile ? 'text-lg' : 'text-xl'}`}>Bubble Sort</h3>
+                <motion.div 
+                  className={`bg-secondary rounded-xl ${isMobile ? 'p-3' : 'p-6'}`}
+                  variants={itemVariants}
+                  layout
+                >
+                  <motion.h3 
+                    className={`font-bold text-primary mb-4 ${isMobile ? 'text-lg' : 'text-xl'}`}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                  >
+                    Bubble Sort
+                  </motion.h3>
                   
                   {showCode && (
                     <div className="mb-6">
@@ -1078,7 +1292,7 @@ export default function PythonPage() {
                       </div>
                     )}
                   </div>
-                </div>
+                </motion.div>
               )}
             </motion.div>
           )}
@@ -1087,37 +1301,63 @@ export default function PythonPage() {
           {activeMainTab === 'searching' && (
             <motion.div
               key="searching"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
               className="space-y-8"
             >
               {/* Searching Sub-tabs */}
-              <div className="flex justify-center">
+              <motion.div 
+                className="flex justify-center"
+                variants={itemVariants}
+              >
                 <div className={`flex bg-secondary rounded-xl p-1 ${isMobile ? 'w-full max-w-sm' : ''}`}>
                   {(['linear', 'binary'] as const).map((tab) => (
-                    <button
+                    <motion.button
                       key={tab}
                       onClick={() => setActiveSearchTab(tab)}
-                      className={`rounded-lg font-medium transition-colors capitalize ${
+                      className={`rounded-lg font-medium transition-all duration-300 capitalize ${
                         isMobile ? 'flex-1 py-2 px-2 text-sm' : 'px-4 py-2'
                       } ${
                         activeSearchTab === tab
                           ? 'bg-primary text-primary shadow-md'
                           : 'text-secondary hover:text-primary'
                       }`}
+                      variants={buttonVariants}
+                      initial="idle"
+                      whileHover="hover"
+                      whileTap="tap"
+                      layout
                     >
-                      {tab} Search
-                    </button>
+                      <motion.span
+                        key={`${tab}-${activeSearchTab === tab}`}
+                        initial={{ opacity: 0.8 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        {tab} Search
+                      </motion.span>
+                    </motion.button>
                   ))}
                 </div>
-              </div>
+              </motion.div>
 
               {/* Linear Search */}
               {activeSearchTab === 'linear' && (
-                <div className={`bg-secondary rounded-xl ${isMobile ? 'p-3' : 'p-6'}`}>
-                  <h3 className={`font-bold text-primary mb-4 ${isMobile ? 'text-lg' : 'text-xl'}`}>Linear Search</h3>
+                <motion.div 
+                  className={`bg-secondary rounded-xl ${isMobile ? 'p-3' : 'p-6'}`}
+                  variants={itemVariants}
+                  layout
+                >
+                  <motion.h3 
+                    className={`font-bold text-primary mb-4 ${isMobile ? 'text-lg' : 'text-xl'}`}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                  >
+                    Linear Search
+                  </motion.h3>
                   
                   {showCode && (
                     <div className="mb-6">
@@ -1206,13 +1446,24 @@ export default function PythonPage() {
                       </div>
                     )}
                   </div>
-                </div>
+                </motion.div>
               )}
 
               {/* Binary Search */}
               {activeSearchTab === 'binary' && (
-                <div className={`bg-secondary rounded-xl ${isMobile ? 'p-3' : 'p-6'}`}>
-                  <h3 className={`font-bold text-primary mb-4 ${isMobile ? 'text-lg' : 'text-xl'}`}>Binary Search</h3>
+                <motion.div 
+                  className={`bg-secondary rounded-xl ${isMobile ? 'p-3' : 'p-6'}`}
+                  variants={itemVariants}
+                  layout
+                >
+                  <motion.h3 
+                    className={`font-bold text-primary mb-4 ${isMobile ? 'text-lg' : 'text-xl'}`}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                  >
+                    Binary Search
+                  </motion.h3>
                   
                   {showCode && (
                     <div className="mb-6">
@@ -1301,7 +1552,7 @@ export default function PythonPage() {
                       </div>
                     )}
                   </div>
-                </div>
+                </motion.div>
               )}
             </motion.div>
           )}
@@ -1310,14 +1561,25 @@ export default function PythonPage() {
           {activeMainTab === 'merge' && (
             <motion.div
               key="merge"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
               className="space-y-8"
             >
-              <div className={`bg-secondary rounded-xl ${isMobile ? 'p-3' : 'p-6'}`}>
-                <h3 className={`font-bold text-primary mb-4 ${isMobile ? 'text-lg' : 'text-xl'}`}>Merge Two Sorted Arrays</h3>
+              <motion.div 
+                className={`bg-secondary rounded-xl ${isMobile ? 'p-3' : 'p-6'}`}
+                variants={itemVariants}
+                layout
+              >
+                <motion.h3 
+                  className={`font-bold text-primary mb-4 ${isMobile ? 'text-lg' : 'text-xl'}`}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  Merge Two Sorted Arrays
+                </motion.h3>
                 
                 {showCode && (
                   <div className="mb-6">
@@ -1406,11 +1668,11 @@ export default function PythonPage() {
                     </div>
                   )}
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
-      </main>
+      </motion.main>
 
       <Footer />
 
@@ -1418,6 +1680,6 @@ export default function PythonPage() {
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
       />
-    </div>
+    </motion.div>
   )
 }

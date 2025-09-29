@@ -46,45 +46,99 @@ export default function ResourceCard({ resource, index, onClick }: ResourceCardP
       whileHover={{ 
         y: -8, 
         scale: 1.02,
-        transition: { duration: 0.3 }
+        transition: { 
+          type: "spring",
+          stiffness: 400,
+          damping: 25,
+          mass: 0.8
+        }
       }}
-      whileTap={{ scale: 0.98 }}
+      whileTap={{ 
+        scale: 0.98,
+        transition: { duration: 0.1 }
+      }}
       className="resource-card glass-effect rounded-[1.75rem] overflow-hidden cursor-pointer btn-press-effect group h-full"
     >
       {/* Card image placeholder */}
-      <div className="h-[180px] bg-tertiary flex items-center justify-center">
-        <div 
-          className="w-12 h-12 text-tertiary opacity-70 transition-all duration-300 group-hover:scale-110 group-hover:opacity-90"
+      <motion.div 
+        className="h-[180px] bg-tertiary flex items-center justify-center overflow-hidden"
+        whileHover={{ scale: 1.05 }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      >
+        <motion.div 
+          className="w-12 h-12 text-tertiary opacity-70"
           dangerouslySetInnerHTML={{ __html: resource.icon }}
+          whileHover={{ 
+            scale: 1.2, 
+            opacity: 0.9,
+            rotate: 5,
+            transition: { 
+              type: "spring",
+              stiffness: 400,
+              damping: 15
+            }
+          }}
         />
-      </div>
+      </motion.div>
 
       {/* Card content */}
       <div className="p-6 flex flex-col flex-grow">
-        <h3 className="text-xl font-semibold mb-3 text-primary group-hover:text-blue-600 transition-colors">
+        <motion.h3 
+          className="text-xl font-semibold mb-3 text-primary"
+          whileHover={{ 
+            color: "#2563eb",
+            transition: { duration: 0.2 }
+          }}
+        >
           {resource.title}
-        </h3>
+        </motion.h3>
         
-        <p className="text-secondary text-sm mb-4 flex-grow">
+        <motion.p 
+          className="text-secondary text-sm mb-4 flex-grow"
+          whileHover={{ 
+            color: "#4b5563",
+            transition: { duration: 0.2 }
+          }}
+        >
           {resource.description}
-        </p>
+        </motion.p>
 
         {/* Progress bar for courses */}
         {resource.progressKey && resource.totalLessons && (
-          <div className="mb-4">
+          <motion.div 
+            className="mb-4"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: index * 0.1 + 0.4 }}
+          >
             <div className="flex justify-between items-center mb-2">
               <span className="text-xs font-medium text-tertiary">Progress</span>
-              <span className="text-xs font-medium text-tertiary">{progress}%</span>
+              <motion.span 
+                className="text-xs font-medium text-tertiary"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: index * 0.1 + 0.6 }}
+              >
+                {progress}%
+              </motion.span>
             </div>
             <div className="w-full bg-tertiary rounded-full h-2 overflow-hidden">
               <motion.div
-                className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"
-                initial={{ width: 0 }}
-                animate={{ width: `${progress}%` }}
-                transition={{ duration: 1, delay: index * 0.1 + 0.5 }}
+                className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full shadow-sm"
+                initial={{ width: 0, scale: 0.9 }}
+                animate={{ width: `${progress}%`, scale: 1 }}
+                transition={{ 
+                  duration: 1.2, 
+                  delay: index * 0.1 + 0.5,
+                  ease: "easeOut"
+                }}
+                whileHover={{
+                  scale: 1.02,
+                  transition: { duration: 0.2 }
+                }}
               />
             </div>
-          </div>
+          </motion.div>
         )}
 
         {/* Tags */}
@@ -106,12 +160,34 @@ export default function ResourceCard({ resource, index, onClick }: ResourceCardP
         </div>
 
         {/* Link */}
-        <div className="flex items-center justify-between">
-          <span className="text-blue-600 font-medium text-sm group-hover:text-blue-700 transition-colors">
+        <motion.div 
+          className="flex items-center justify-between"
+          whileHover={{ x: 2 }}
+          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+        >
+          <motion.span 
+            className="text-blue-600 font-medium text-sm"
+            whileHover={{ 
+              color: "#1d4ed8",
+              transition: { duration: 0.2 }
+            }}
+          >
             {resource.linkText}
-          </span>
-          <ExternalLink className="w-4 h-4 text-blue-600 group-hover:text-blue-700 transition-all duration-300 group-hover:translate-x-1" />
-        </div>
+          </motion.span>
+          <motion.div
+            whileHover={{ 
+              x: 4,
+              scale: 1.1,
+              transition: { 
+                type: "spring",
+                stiffness: 400,
+                damping: 15
+              }
+            }}
+          >
+            <ExternalLink className="w-4 h-4 text-blue-600" />
+          </motion.div>
+        </motion.div>
       </div>
     </motion.div>
   )

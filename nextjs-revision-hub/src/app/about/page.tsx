@@ -35,9 +35,9 @@ export default function AboutPage() {
 
   const teamMembers = [
     {
-      name: 'HPCSS ICT Department',
-      role: 'Educational Team',
-      description: 'Dedicated educators passionate about technology and learning.',
+      name: 'Only Me',
+      role: 'Your Humble Developer',
+      description: 'Dedicated educator passionate about technology and learning.',
       image: '👨‍💻'
     }
   ]
@@ -52,15 +52,103 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-12 relative overflow-hidden"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-6">
+          {/* Dynamic Background Elements */}
+          <div className="absolute inset-0 -z-10">
+            {/* Floating shapes */}
+            {[...Array(6)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-4 h-4 bg-blue-500/10 rounded-full"
+                initial={{ 
+                  x: Math.random() * 800,
+                  y: Math.random() * 400,
+                  scale: Math.random() * 0.5 + 0.5
+                }}
+                animate={{
+                  x: Math.random() * 800,
+                  y: Math.random() * 400,
+                  scale: Math.random() * 0.8 + 0.4,
+                  rotate: 360
+                }}
+                transition={{
+                  duration: 8 + Math.random() * 4,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  ease: "easeInOut"
+                }}
+              />
+            ))}
+            
+            {/* Gradient waves */}
+            <motion.div
+              className="absolute top-0 left-0 w-full h-full opacity-30"
+              animate={{
+                background: [
+                  "radial-gradient(circle at 20% 80%, #3b82f6 0%, transparent 50%)",
+                  "radial-gradient(circle at 80% 20%, #6366f1 0%, transparent 50%)",
+                  "radial-gradient(circle at 40% 40%, #8b5cf6 0%, transparent 50%)",
+                  "radial-gradient(circle at 20% 80%, #3b82f6 0%, transparent 50%)"
+                ]
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            
+            {/* Animated lines */}
+            {[...Array(3)].map((_, i) => (
+              <motion.div
+                key={`line-${i}`}
+                className="absolute h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent"
+                style={{
+                  width: '100%',
+                  top: `${20 + i * 30}%`,
+                  left: '0%'
+                }}
+                animate={{
+                  x: ['-100%', '100%'],
+                  opacity: [0, 1, 0]
+                }}
+                transition={{
+                  duration: 4 + i,
+                  repeat: Infinity,
+                  delay: i * 1.5,
+                  ease: "easeInOut"
+                }}
+              />
+            ))}
+          </div>
+          
+          <motion.h1 
+            className="text-4xl md:text-5xl font-bold text-primary mb-6 relative z-10"
+            animate={{ 
+              textShadow: [
+                "0 0 0px rgba(59, 130, 246, 0)",
+                "0 0 20px rgba(59, 130, 246, 0.1)",
+                "0 0 0px rgba(59, 130, 246, 0)"
+              ]
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
             About HPCSS ICT
-          </h1>
-          <p className="text-xl text-secondary max-w-3xl mx-auto leading-relaxed">
+          </motion.h1>
+          <motion.p 
+            className="text-xl text-secondary max-w-3xl mx-auto leading-relaxed relative z-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+          >
             Empowering students with comprehensive ICT education through innovative learning platforms 
             and interactive resources designed for academic excellence.
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* Mission Section */}
@@ -70,11 +158,9 @@ export default function AboutPage() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="bg-secondary rounded-2xl p-8 mb-12"
         >
-          <h2 className="text-2xl font-bold text-primary mb-4 text-center">Our Mission</h2>
+          <h2 className="text-2xl font-bold text-primary mb-4 text-center">My Mission</h2>
           <p className="text-secondary text-center max-w-4xl mx-auto text-lg leading-relaxed">
-            To provide accessible, high-quality ICT education that prepares students for success in the DSE 
-            examination and equips them with essential digital literacy skills for the 21st century. We believe 
-            in making learning engaging, interactive, and practical.
+            SYBAU nigga
           </p>
         </motion.div>
 
@@ -85,7 +171,7 @@ export default function AboutPage() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="mb-12"
         >
-          <h2 className="text-3xl font-bold text-primary text-center mb-8">What We Offer</h2>
+          <h2 className="text-3xl font-bold text-primary text-center mb-8">What I Offer</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, index) => (
               <motion.div
@@ -174,9 +260,9 @@ export default function AboutPage() {
           transition={{ duration: 0.8, delay: 1.0 }}
           className="bg-secondary rounded-2xl p-8 text-center"
         >
-          <h2 className="text-2xl font-bold text-primary mb-4">Get In Touch</h2>
+          <h2 className="text-2xl font-bold text-primary mb-4">Find me</h2>
           <p className="text-secondary mb-6">
-            Have questions or suggestions? We&apos;d love to hear from you!
+            Have questions or suggestions? I&apos;d love to hear from you!
           </p>
           <div className="flex justify-center space-x-6">
             <button className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">

@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Moon, Sun, Menu, X, User, Bell } from 'lucide-react'
+import { Moon, Sun, Menu, X, User, Bell, Globe } from 'lucide-react'
 import { useTheme } from '@/contexts/ThemeContext'
 import { useAuth } from '@/contexts/AuthContext'
+import { useLanguage } from '@/contexts/LanguageContext'
 import { cn } from '@/lib/utils'
 
 interface HeaderProps {
@@ -14,9 +15,11 @@ interface HeaderProps {
 export default function Header({ onAuthClick }: HeaderProps) {
   const { theme, toggleTheme } = useTheme()
   const { user, logout } = useAuth()
+  const { language, setLanguage, t } = useLanguage()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const [isNotificationMenuOpen, setIsNotificationMenuOpen] = useState(false)
+  const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false)
   const [notifications, setNotifications] = useState<Array<{
     id: number
     title: string
@@ -27,9 +30,9 @@ export default function Header({ onAuthClick }: HeaderProps) {
   }>>([])
 
   const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/courses', label: 'Resources' },
-    { href: '/about', label: 'About' },
+    { href: '/', label: t('nav.home') },
+    { href: '/courses', label: t('nav.resources') },
+    { href: '/about', label: t('nav.about') },
   ]
 
   // Initialize notifications from localStorage
@@ -175,6 +178,53 @@ export default function Header({ onAuthClick }: HeaderProps) {
 
           {/* Right side actions */}
           <div className="flex items-center space-x-4">
+            {/* Language switcher */}
+            <div className="relative">
+              <button
+                onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)}
+                className="p-2 rounded-full text-secondary hover:text-primary hover:bg-tertiary transition-all duration-300 btn-press-effect flex items-center gap-1"
+                aria-label="Change language"
+              >
+                <Globe className="h-5 w-5" />
+                <span className="text-xs font-medium uppercase">{language}</span>
+              </button>
+
+              {/* Language dropdown menu */}
+              {isLanguageMenuOpen && (
+                <div className="absolute right-0 top-full mt-2 w-32 bg-secondary border border-secondary rounded-2xl p-2 shadow-lg z-50">
+                  <button
+                    onClick={() => {
+                      setLanguage('en')
+                      setIsLanguageMenuOpen(false)
+                    }}
+                    className={cn(
+                      "w-full text-left px-3 py-2 text-sm rounded-xl transition-colors flex items-center gap-2",
+                      language === 'en' 
+                        ? "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200" 
+                        : "text-secondary hover:bg-tertiary hover:text-primary"
+                    )}
+                  >
+                    <span className="text-base">🇺🇸</span>
+                    English
+                  </button>
+                  <button
+                    onClick={() => {
+                      setLanguage('zh')
+                      setIsLanguageMenuOpen(false)
+                    }}
+                    className={cn(
+                      "w-full text-left px-3 py-2 text-sm rounded-xl transition-colors flex items-center gap-2",
+                      language === 'zh' 
+                        ? "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200" 
+                        : "text-secondary hover:bg-tertiary hover:text-primary"
+                    )}
+                  >
+                    <span className="text-base">🇨🇳</span>
+                    中文
+                  </button>
+                </div>
+              )}
+            </div>
             {/* Notification button */}
             <div className="relative">
               <button
@@ -288,7 +338,7 @@ export default function Header({ onAuthClick }: HeaderProps) {
                     {user.username}
                   </>
                 ) : (
-                  'Sign In'
+                  t('nav.login')
                 )}
               </button>
 
@@ -347,12 +397,13 @@ export default function Header({ onAuthClick }: HeaderProps) {
       </div>
 
       {/* Click outside to close menus */}
-      {(isUserMenuOpen || isNotificationMenuOpen) && (
+      {(isUserMenuOpen || isNotificationMenuOpen || isLanguageMenuOpen) && (
         <div
           className="fixed inset-0 z-40"
           onClick={() => {
             setIsUserMenuOpen(false)
             setIsNotificationMenuOpen(false)
+            setIsLanguageMenuOpen(false)
           }}
         />
       )}

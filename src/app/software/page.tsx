@@ -6,8 +6,10 @@ import { ChevronDown, ChevronUp, Monitor, Code, Settings, Layers } from 'lucide-
 import Header from '@/components/Header'
 import AuthModal from '@/components/AuthModal'
 import Footer from '@/components/Footer'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function SoftwarePage() {
+  const { t } = useLanguage()
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({})
 

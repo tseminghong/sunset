@@ -6,38 +6,40 @@ import { GraduationCap, Users, Target, Award, Mail, Github, ExternalLink } from 
 import Header from '@/components/Header'
 import AuthModal from '@/components/AuthModal'
 import Footer from '@/components/Footer'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function AboutPage() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+  const { t } = useLanguage()
 
   const features = [
     {
       icon: <GraduationCap className="h-8 w-8" />,
-      title: 'Educational Excellence',
-      description: 'Comprehensive ICT curriculum designed for DSE preparation and beyond.'
+      title: t('about.features.educational.title'),
+      description: t('about.features.educational.description')
     },
     {
       icon: <Users className="h-8 w-8" />,
-      title: 'Interactive Learning',
-      description: 'Hands-on practice with real-time feedback and interactive exercises.'
+      title: t('about.features.interactive.title'),
+      description: t('about.features.interactive.description')
     },
     {
       icon: <Target className="h-8 w-8" />,
-      title: 'Focused Content',
-      description: 'Targeted resources covering all essential ICT topics and concepts.'
+      title: t('about.features.focused.title'),
+      description: t('about.features.focused.description')
     },
     {
       icon: <Award className="h-8 w-8" />,
-      title: 'Proven Results',
-      description: 'Track record of helping students excel in ICT examinations.'
+      title: t('about.features.results.title'),
+      description: t('about.features.results.description')
     }
   ]
 
   const teamMembers = [
     {
-      name: 'Only Me',
-      role: 'Your Humble Developer',
-      description: 'Dedicated educator passionate about technology and learning.',
+      name: t('about.team.developer.name'),
+      role: t('about.team.developer.role'),
+      description: t('about.team.developer.description'),
       image: '👨‍💻'
     }
   ]
@@ -138,7 +140,7 @@ export default function AboutPage() {
               ease: "easeInOut"
             }}
           >
-            About HPCSS ICT
+            {t('about.heroTitle')}
           </motion.h1>
           <motion.p 
             className="text-xl text-secondary max-w-3xl mx-auto leading-relaxed relative z-10"
@@ -146,8 +148,7 @@ export default function AboutPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.8 }}
           >
-            Empowering students with comprehensive ICT education through innovative learning platforms 
-            and interactive resources designed for academic excellence.
+            {t('about.heroSubtitle')}
           </motion.p>
         </motion.div>
 
@@ -171,7 +172,7 @@ export default function AboutPage() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="mb-12"
         >
-          <h2 className="text-3xl font-bold text-primary text-center mb-8">What I Offer</h2>
+          <h2 className="text-3xl font-bold text-primary text-center mb-8">{t('about.whatIOffer')}</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, index) => (
               <motion.div

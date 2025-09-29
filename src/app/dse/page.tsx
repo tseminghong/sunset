@@ -6,6 +6,7 @@ import { ChevronDown, ChevronUp, BookOpen, Clock, CheckCircle, XCircle, RefreshC
 import Header from '@/components/Header'
 import AuthModal from '@/components/AuthModal'
 import Footer from '@/components/Footer'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface Question {
   id: number
@@ -17,6 +18,7 @@ interface Question {
 }
 
 export default function DSEPage() {
+  const { t } = useLanguage()
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({})
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({})
@@ -177,7 +179,7 @@ export default function DSEPage() {
   const dseSections = [
     {
       id: 'about',
-      title: 'About DSE ICT Exam',
+      title: t('dse.overview'),
       content: (
         <div className="space-y-4">
           <p className="text-secondary">
@@ -211,7 +213,7 @@ export default function DSEPage() {
     },
     {
       id: 'practice',
-      title: 'Practice Questions',
+      title: t('dse.practice'),
       content: (
         <div className="space-y-6">
           {/* Topic Filter */}
@@ -379,7 +381,7 @@ export default function DSEPage() {
     },
     {
       id: 'tips',
-      title: 'Study Tips & Strategies',
+      title: t('dse.preparation'),
       content: (
         <div className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
@@ -456,10 +458,10 @@ export default function DSEPage() {
             <BookOpen className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold text-primary mb-4">
-            DSE ICT Exam Preparation
+            {t('dse.title')}
           </h1>
           <p className="text-secondary text-lg max-w-2xl mx-auto">
-            Practice questions and study resources for the Hong Kong DSE ICT examination
+            Practice questions and study resources for the Hong Kong {t('dse.title')} examination
           </p>
         </motion.div>
 

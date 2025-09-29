@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight, Code, Play, RotateCcw } from 'lucide-react'
 import Header from '@/components/Header'
 import AuthModal from '@/components/AuthModal'
 import Footer from '@/components/Footer'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface Lesson {
   title: string
@@ -14,6 +15,7 @@ interface Lesson {
 }
 
 export default function JavaScriptPage() {
+  const { t } = useLanguage()
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const [currentLessonIndex, setCurrentLessonIndex] = useState(0)
   const [isEditorOpen, setIsEditorOpen] = useState(false)
@@ -301,7 +303,7 @@ Practice daily: small scripts, read docs, build mini projects.`
           transition={{ duration: 0.6 }}
           className="text-center mb-8"
         >
-          <h1 className="text-4xl font-bold text-primary mb-4">Learn JavaScript</h1>
+          <h1 className="text-4xl font-bold text-primary mb-4">{t('courses.javascript.title')}</h1>
           <p className="text-secondary">
             Use <kbd className="bg-tertiary px-2 py-1 rounded text-xs font-mono">←</kbd>/
             <kbd className="bg-tertiary px-2 py-1 rounded text-xs font-mono">→</kbd> to navigate
@@ -332,11 +334,11 @@ Practice daily: small scripts, read docs, build mini projects.`
                 className="flex items-center gap-2 px-4 py-2 bg-tertiary text-secondary border border-secondary rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-secondary transition-colors"
               >
                 <ChevronLeft className="h-4 w-4" />
-                Prev
+                {t('common.prev')}
               </button>
               
               <div className="text-sm font-semibold text-primary">
-                Lesson {currentLessonIndex + 1} of {lessons.length}
+                {t('courses.javascript.lesson')} {currentLessonIndex + 1} {t('common.of')} {lessons.length}
               </div>
               
               <button
@@ -344,7 +346,7 @@ Practice daily: small scripts, read docs, build mini projects.`
                 disabled={currentLessonIndex === lessons.length - 1}
                 className="flex items-center gap-2 px-4 py-2 primary-btn disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Next
+                {t('common.next')}
                 <ChevronRight className="h-4 w-4" />
               </button>
             </div>
@@ -354,14 +356,14 @@ Practice daily: small scripts, read docs, build mini projects.`
               className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
               <Code className="h-4 w-4" />
-              Code Editor
+              {t('courses.javascript.codeEditor')}
             </button>
           </div>
 
           {/* Progress Bar */}
           <div className="mb-4">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm text-secondary">Course Progress</span>
+              <span className="text-sm text-secondary">{t('courses.javascript.progress')}</span>
               <span className="text-sm text-secondary">{Math.round(progressPercent)}%</span>
             </div>
             <div className="w-full bg-tertiary rounded-full h-2">
@@ -396,14 +398,14 @@ Practice daily: small scripts, read docs, build mini projects.`
                   className="primary-btn px-4 py-2 flex items-center gap-2 disabled:opacity-50"
                 >
                   <Play className="h-4 w-4" />
-                  Run
+                  {t('common.run')}
                 </button>
                 <button
                   onClick={resetCode}
                   className="px-4 py-2 bg-tertiary text-secondary border border-secondary rounded-lg hover:bg-secondary transition-colors flex items-center gap-2"
                 >
                   <RotateCcw className="h-4 w-4" />
-                  Reset
+                  {t('common.reset')}
                 </button>
               </div>
             </div>
@@ -412,7 +414,7 @@ Practice daily: small scripts, read docs, build mini projects.`
               value={codeInput}
               onChange={(e) => setCodeInput(e.target.value)}
               className="w-full h-40 p-4 bg-tertiary border border-secondary rounded-lg text-primary font-mono text-sm resize-vertical focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Write JavaScript code here..."
+              placeholder={t('courses.javascript.codePlaceholder')}
               spellCheck={false}
             />
             
@@ -421,7 +423,7 @@ Practice daily: small scripts, read docs, build mini projects.`
                 Console
               </div>
               <div className="bg-gray-900 text-green-400 p-4 rounded-lg min-h-16 font-mono text-sm whitespace-pre-wrap border">
-                {codeOutput || '(no output)'}
+                {codeOutput || t('courses.javascript.noOutput')}
               </div>
             </div>
           </motion.div>

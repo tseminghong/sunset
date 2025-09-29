@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, User, Lock } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
+import { useLanguage } from '@/contexts/LanguageContext'
 import { cn } from '@/lib/utils'
 
 interface AuthModalProps {
@@ -12,6 +13,7 @@ interface AuthModalProps {
 }
 
 export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
+  const { t } = useLanguage()
   const [activeTab, setActiveTab] = useState<'signin' | 'signup'>('signin')
   const [formData, setFormData] = useState({
     username: '',
@@ -142,7 +144,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                     : "bg-tertiary text-secondary border-secondary hover:border-tertiary"
                 )}
               >
-                Sign In
+                {t('auth.signin')}
               </button>
               <button
                 onClick={() => handleTabChange('signup')}
@@ -154,7 +156,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                     : "bg-tertiary text-secondary border-secondary hover:border-tertiary"
                 )}
               >
-                Sign Up
+                {t('auth.signup')}
               </button>
             </div>
 
@@ -179,7 +181,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
               {/* Username */}
               <div>
                 <label className="block text-xs font-semibold text-secondary uppercase tracking-wider mb-2">
-                  Username
+                  {t('auth.username')}
                 </label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-tertiary" />
@@ -197,7 +199,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
               {/* Password */}
               <div>
                 <label className="block text-xs font-semibold text-secondary uppercase tracking-wider mb-2">
-                  Password
+                  {t('auth.password')}
                 </label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-tertiary" />
@@ -216,7 +218,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
               {activeTab === 'signup' && (
                 <div>
                   <label className="block text-xs font-semibold text-secondary uppercase tracking-wider mb-2">
-                    Confirm Password
+                    {t('auth.confirmPassword')}
                   </label>
                   <div className="relative">
                     <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-tertiary" />
@@ -238,7 +240,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 disabled={isLoading}
                 className="w-full primary-btn py-3 mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? 'Loading...' : (activeTab === 'signin' ? 'Sign In' : 'Create Account')}
+                {isLoading ? t('common.loading') : (activeTab === 'signin' ? t('auth.signin') : t('auth.signup'))}
               </button>
             </form>
 

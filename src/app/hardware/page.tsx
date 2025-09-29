@@ -6,8 +6,10 @@ import { ChevronDown, ChevronUp, Cpu, HardDrive, Monitor, Zap, MemoryStick, Circ
 import Header from '@/components/Header'
 import AuthModal from '@/components/AuthModal'
 import Footer from '@/components/Footer'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function HardwarePage() {
+  const { t } = useLanguage()
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({})
 

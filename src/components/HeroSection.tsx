@@ -1,8 +1,11 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function HeroSection() {
+  const { t } = useLanguage()
+
   return (
     <section className="hero-gradient text-center py-20 md:py-28 rounded-3xl mb-16 md:mb-20 relative overflow-hidden">
       <motion.div
@@ -20,7 +23,7 @@ export default function HeroSection() {
             delay: 0.2 
           }}
         >
-          ICT Revision Hub
+          {t('hero.title')}
         </motion.h1>
 
         <motion.p 
@@ -29,7 +32,7 @@ export default function HeroSection() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          Your central place for interactive learning materials, designed with clarity to help you excel.
+          {t('hero.subtitle')}
         </motion.p>
 
         <motion.p 
@@ -38,7 +41,7 @@ export default function HeroSection() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
-          Now Android version available for beta testing
+          {t('hero.beta')}
         </motion.p>
 
         <motion.a 
@@ -58,7 +61,7 @@ export default function HeroSection() {
           }}
           whileTap={{ scale: 0.95 }}
         >
-          Download Android version
+          {t('hero.download')}
         </motion.a>
       </motion.div>
 

@@ -6,6 +6,7 @@ import { Play, Square, RotateCcw, ChevronDown, ChevronUp, Smartphone, Menu } fro
 import Header from '@/components/Header'
 import AuthModal from '@/components/AuthModal'
 import Footer from '@/components/Footer'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 // Animation variants for smoother transitions
 const containerVariants: Variants = {
@@ -102,6 +103,7 @@ interface MergeStepData {
 }
 
 export default function PythonPage() {
+  const { t } = useLanguage()
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const [activeMainTab, setActiveMainTab] = useState<'sorting' | 'searching' | 'merge'>('sorting')
   const [activeSortTab, setActiveSortTab] = useState<'selection' | 'bubble'>('selection')
@@ -923,10 +925,10 @@ export default function PythonPage() {
           className="text-center mb-8"
         >
           <h1 className={`font-bold text-primary mb-4 ${isMobile ? 'text-2xl' : 'text-4xl'}`}>
-            Python Algorithms Visualizer
+            {t('courses.python.title')}
           </h1>
           <p className={`text-secondary ${isMobile ? 'text-sm px-4' : ''}`}>
-            Interactive visualizations of sorting, searching, and merging algorithms
+            {t('courses.python.description')}
           </p>
         </motion.div>
 

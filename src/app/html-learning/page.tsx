@@ -6,8 +6,10 @@ import { ChevronDown, ChevronUp, Code, Eye, Play, RotateCcw, Copy, Check } from 
 import Header from '@/components/Header'
 import AuthModal from '@/components/AuthModal'
 import Footer from '@/components/Footer'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function HTMLLearningPage() {
+  const { t } = useLanguage()
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({})
   const [htmlCode, setHtmlCode] = useState(`<!DOCTYPE html>
@@ -102,7 +104,7 @@ export default function HTMLLearningPage() {
   const htmlSections = [
     {
       id: 'basics',
-      title: 'HTML Basics',
+      title: t('courses.html.sections.basics'),
       content: (
         <div className="space-y-6">
           <p className="text-secondary">
@@ -168,7 +170,7 @@ export default function HTMLLearningPage() {
     },
     {
       id: 'attributes',
-      title: 'HTML Attributes',
+      title: t('courses.html.sections.attributes'),
       content: (
         <div className="space-y-6">
           <p className="text-secondary">
@@ -261,7 +263,7 @@ export default function HTMLLearningPage() {
     },
     {
       id: 'forms',
-      title: 'HTML Forms',
+      title: t('courses.html.sections.forms'),
       content: (
         <div className="space-y-6">
           <p className="text-secondary">
@@ -370,10 +372,10 @@ export default function HTMLLearningPage() {
             <Code className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold text-primary mb-4">
-            HTML Learning Tool
+            {t('courses.html.title')}
           </h1>
           <p className="text-secondary text-lg max-w-2xl mx-auto">
-            Interactive HTML editor and comprehensive guide to web development fundamentals
+            {t('courses.html.description')}
           </p>
         </motion.div>
 
@@ -384,16 +386,16 @@ export default function HTMLLearningPage() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="bg-secondary border border-secondary rounded-2xl p-6 mb-12"
         >
-          <h2 className="text-2xl font-bold text-primary mb-4">Live HTML Editor</h2>
+          <h2 className="text-2xl font-bold text-primary mb-4">{t('courses.html.editor.title')}</h2>
           <p className="text-secondary mb-6">
-            Write HTML code in the editor below and see the live preview. Experiment with different tags and attributes!
+            {t('courses.html.editor.description')}
           </p>
           
           <div className="grid lg:grid-cols-2 gap-6">
             {/* HTML Editor */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <label className="block text-sm font-semibold text-secondary">HTML Code Editor</label>
+                <label className="block text-sm font-semibold text-secondary">{t('courses.html.editor.codeLabel')}</label>
                 <div className="flex gap-2">
                   <button
                     onClick={copyCode}
@@ -421,7 +423,7 @@ export default function HTMLLearningPage() {
             
             {/* Live Preview */}
             <div className="space-y-3">
-              <label className="block text-sm font-semibold text-secondary">Live Preview</label>
+              <label className="block text-sm font-semibold text-secondary">{t('courses.html.editor.previewLabel')}</label>
               <div className="bg-white border border-secondary rounded-xl h-96 overflow-auto">
                 <iframe
                   srcDoc={htmlCode}
@@ -506,7 +508,7 @@ export default function HTMLLearningPage() {
           transition={{ duration: 0.8 }}
           className="mt-12 bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/20 dark:to-orange-900/20 rounded-2xl p-6"
         >
-          <h2 className="text-2xl font-bold text-primary mb-6">Additional Resources</h2>
+          <h2 className="text-2xl font-bold text-primary mb-6">{t('courses.html.resources.title')}</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
               <Code className="h-8 w-8 text-blue-600 mb-3" />

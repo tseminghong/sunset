@@ -6,9 +6,11 @@ import { ChevronDown, ChevronUp, Database, Play, RotateCcw } from 'lucide-react'
 import Header from '@/components/Header'
 import AuthModal from '@/components/AuthModal'
 import Footer from '@/components/Footer'
+import { useLanguage } from '@/contexts/LanguageContext'
 import { cn } from '@/lib/utils'
 
 export default function SQLPage() {
+  const { t } = useLanguage()
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({})
   const [sqlQuery, setSqlQuery] = useState('SELECT * FROM students;')
@@ -182,10 +184,10 @@ ON s.course_id = c.id;`}
             <Database className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold text-primary mb-4">
-            SQL Database Guide
+            {t('courses.sql.title')}
           </h1>
           <p className="text-secondary text-lg max-w-2xl mx-auto">
-            Master SQL fundamentals with interactive examples and practical exercises
+            {t('courses.sql.description')}
           </p>
         </motion.div>
 

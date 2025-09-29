@@ -57,11 +57,12 @@ async function apiCall(path: string, options: RequestInit = {}): Promise<AuthRes
       status: response.status,
       body,
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     return {
       ok: false,
       status: 0,
-      body: { error: `Network error: ${error.message}` },
+      body: { error: `Network error: ${errorMessage}` },
     }
   }
 }

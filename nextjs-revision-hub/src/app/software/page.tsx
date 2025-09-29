@@ -388,7 +388,7 @@ export default function SoftwarePage() {
                 <Code className="h-6 w-6 text-blue-600 dark:text-blue-300" />
               </div>
               <h3 className="font-semibold text-primary mb-2">DRY Principle</h3>
-              <p className="text-sm text-secondary">Don't Repeat Yourself - Reduce code duplication</p>
+              <p className="text-sm text-secondary">Don&apos;t Repeat Yourself - Reduce code duplication</p>
             </div>
             <div className="text-center">
               <div className="bg-green-100 dark:bg-green-800/30 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3">

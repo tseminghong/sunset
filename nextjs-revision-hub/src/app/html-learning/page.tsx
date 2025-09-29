@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronDown, ChevronUp, Code, Eye, Play, RotateCcw, Copy, Check } from 'lucide-react'
 import Header from '@/components/Header'
@@ -520,7 +520,7 @@ export default function HTMLLearningPage() {
             <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
               <Eye className="h-8 w-8 text-green-600 mb-3" />
               <h3 className="font-semibold text-primary mb-2">MDN Web Docs</h3>
-              <p className="text-sm text-secondary mb-3">Mozilla's official web development documentation</p>
+              <p className="text-sm text-secondary mb-3">Mozilla&apos;s official web development documentation</p>
               <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" rel="noopener noreferrer"
                  className="text-green-600 hover:text-green-800 text-sm font-medium">
                 Visit MDN →

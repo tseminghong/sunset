@@ -26,7 +26,7 @@ export default function HardwarePage() {
       content: (
         <div className="space-y-6">
           <p className="text-secondary">
-            The CPU is the "brain" of the computer, executing instructions and performing calculations.
+            The CPU is the &quot;brain&quot; of the computer, executing instructions and performing calculations.
           </p>
           
           <div className="grid md:grid-cols-2 gap-6">

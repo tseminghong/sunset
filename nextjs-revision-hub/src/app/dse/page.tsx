@@ -64,7 +64,7 @@ export default function DSEPage() {
     },
     {
       id: 2,
-      question: "What is the primary function of the CPU's Control Unit?",
+      question: "What is the primary function of the CPU&apos;s Control Unit?",
       options: [
         "Perform arithmetic calculations",
         "Store data temporarily",
@@ -181,7 +181,7 @@ export default function DSEPage() {
       content: (
         <div className="space-y-4">
           <p className="text-secondary">
-            The Hong Kong Diploma of Secondary Education (DSE) ICT examination tests students' understanding of 
+            The Hong Kong Diploma of Secondary Education (DSE) ICT examination tests students&apos; understanding of 
             Information and Communication Technology concepts and applications.
           </p>
           <div className="grid md:grid-cols-2 gap-6">

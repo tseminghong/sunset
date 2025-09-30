@@ -9,6 +9,7 @@ import ResourceCard from '@/components/ResourceCard'
 import SearchBar from '@/components/SearchBar'
 import AuthModal from '@/components/AuthModal'
 import Footer from '@/components/Footer'
+import TransitionSection from '@/components/TransitionSection'
 import { resourcesData, allTags } from '@/data/resources'
 
 export default function HomePage() {
@@ -26,6 +27,23 @@ export default function HomePage() {
       
       return matchesTag && matchesSearch
     })
+    return resourcesData.filter(resource => {
+      const matchesTag = activeTag === 'all' || resource.tags.includes(activeTag)
+      const matchesSearch = searchTerm === '' || 
+        resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        resource.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        resource.tags.toLowerCase().includes(searchTerm.toLowerCase())
+
+      return matchesTag && matchesSearch
+    })
+    return Animations.filter(resource => {
+      const matchesTag = activeTag === 'all' || resource.tags.includes(activeTag)
+      const matchesSearch = searchTerm === '' || 
+        resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        resource.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        resource.tags.toLowerCase().includes(searchTerm.toLowerCase())
+      return matchesTag && matchesSearch
+    })  
   }, [activeTag, searchTerm])
 
   return (
@@ -91,13 +109,13 @@ export default function HomePage() {
         </motion.section>
 
         {/* About Section */}
-        <motion.section 
+        <TransitionSection
           id="about"
           className="bg-secondary border border-secondary py-16 md:py-20 rounded-3xl mb-16 md:mb-20"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          delay={0.1}
+          duration={0.8}
+          direction="up"
+          distance={50}
         >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div 
@@ -123,7 +141,26 @@ export default function HomePage() {
               </p>
             </motion.div>
           </div>
-        </motion.section>
+        </TransitionSection>
+        
+        {/* Custom Transition Animation */}
+        <TransitionSection
+          id="transition"
+          className="bg-secondary border border-secondary py-16 md:py-20 rounded-3xl mb-16 md:mb-20"
+          delay={0.2}
+          duration={1.0}
+          direction="up"
+          distance={75}
+        >
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 className="text-3xl font-bold mb-6 text-primary">
+              Welcome to Our Learning Platform
+            </h1>
+            <p className="text-secondary text-lg leading-relaxed">
+              Experience smooth animations as you explore our educational content.
+            </p>
+          </div>
+        </TransitionSection>
       </main>
 
       <Footer />

@@ -7,6 +7,7 @@ import { useTheme } from '@/contexts/ThemeContext'
 import { useAuth } from '@/contexts/AuthContext'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { cn } from '@/lib/utils'
+import TransitionLink from './TransitionLink'
 
 interface HeaderProps {
   onAuthClick: () => void
@@ -156,22 +157,22 @@ export default function Header({ onAuthClick }: HeaderProps) {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="flex-shrink-0">
+            <TransitionLink href="/" className="flex-shrink-0">
               <h1 className="text-xl font-bold text-primary">HPCSS ICT</h1>
-            </Link>
+            </TransitionLink>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               {navLinks.map((link) => (
-                <Link
+                <TransitionLink
                   key={link.href}
                   href={link.href}
                   className="text-secondary hover:text-primary font-medium transition-colors duration-300"
                 >
                   {link.label}
-                </Link>
+                </TransitionLink>
               ))}
             </div>
           </nav>
@@ -383,14 +384,14 @@ export default function Header({ onAuthClick }: HeaderProps) {
         {isMobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-secondary">
             {navLinks.map((link) => (
-              <Link
+              <TransitionLink
                 key={link.href}
                 href={link.href}
                 className="block px-3 py-2 text-secondary hover:text-primary font-medium transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.label}
-              </Link>
+              </TransitionLink>
             ))}
           </div>
         )}

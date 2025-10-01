@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ExternalLink } from 'lucide-react'
 import { ResourceData } from '@/types'
+import TransitionLink from './TransitionLink'
 
 interface ResourceCardProps {
   resource: ResourceData
@@ -206,10 +207,10 @@ export default function ResourceCard({ resource, index, onClick }: ResourceCardP
     )
   }
 
-  // For Next.js routes, use Link component
+  // For Next.js routes, use TransitionLink component
   return (
-    <Link href={resource.href} className="block h-full">
+    <TransitionLink href={resource.href} className="block h-full">
       <CardContent />
-    </Link>
+    </TransitionLink>
   )
 }

@@ -4,6 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { LoadingProvider } from "@/contexts/LoadingContext";
+import LoadingManager from "@/components/LoadingManager";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -66,9 +68,12 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <LanguageProvider>
           <ThemeProvider>
-            <AuthProvider>
-              {children}
-            </AuthProvider>
+            <LoadingProvider>
+              <AuthProvider>
+                <LoadingManager />
+                {children}
+              </AuthProvider>
+            </LoadingProvider>
           </ThemeProvider>
         </LanguageProvider>
       </body>

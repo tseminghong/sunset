@@ -148,4 +148,171 @@
   .border-secondary {
     border-color: var(--border-secondary);
   }
+
+  /* Loading Animation Styles */
+  .loading-overlay {
+    background-color: var(--loading-bg);
+    will-change: transform, opacity;
+    user-select: none;
+    pointer-events: auto;
+  }
+
+  .loading-circle-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .loading-circle {
+    width: var(--loading-circle-size);
+    height: var(--loading-circle-size);
+    width: clamp(3rem, 8vmin, 6rem);
+    height: clamp(3rem, 8vmin, 6rem);
+    transform-origin: center;
+    /* Optimize for mobile performance */
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .loading-circle-path {
+    stroke: var(--loading-stroke);
+    stroke-width: var(--loading-stroke-width);
+    stroke-linecap: round;
+    stroke-dasharray: 251.2;
+    stroke-dashoffset: 251.2;
+    animation: loading-circle-rotate var(--loading-animation-duration) linear infinite,
+               loading-circle-dash var(--loading-animation-duration) ease-in-out infinite;
+    transform-origin: center;
+    /* Mobile optimization */
+    will-change: stroke-dashoffset, transform;
+  }
+
+  .loading-text {
+    font-size: var(--loading-text-size);
+    font-size: clamp(1rem, 3.5vmin, 2.5rem);
+    font-weight: 700;
+    color: var(--loading-text);
+    letter-spacing: 0.125em;
+    text-align: center;
+    font-family: inherit;
+    /* Mobile text rendering optimization */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .loading-circle-path {
+      animation-duration: 1s;
+      animation-iteration-count: 3; /* Limit animation cycles */
+    }
+    
+    .loading-overlay {
+      transition-duration: 0.3s !important;
+    }
+
+    /* Disable complex animations for reduced motion */
+    .loading-circle-path {
+      animation-name: loading-circle-dash-simple;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .loading-overlay {
+      background-color: Canvas;
+      border: 2px solid CanvasText;
+    }
+
+    .loading-circle-path {
+      stroke: CanvasText;
+      stroke-width: 16; /* Thicker stroke for visibility */
+    }
+
+    .loading-text {
+      color: CanvasText;
+      font-weight: 800;
+    }
+  }
+
+  /* Focus management for accessibility */
+  .loading-overlay {
+    /* Hide from tab navigation but keep screen reader accessible */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* Screen reader announcements */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Loading animation keyframes */
+  @keyframes loading-circle-rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes loading-circle-dash {
+    0% {
+      stroke-dashoffset: 251.2;
+    }
+    50% {
+      stroke-dashoffset: 62.8;
+    }
+    100% {
+      stroke-dashoffset: 251.2;
+    }
+  }
+
+  /* Simplified animation for reduced motion preference */
+  @keyframes loading-circle-dash-simple {
+    0% {
+      stroke-dashoffset: 251.2;
+      opacity: 0.3;
+    }
+    50% {
+      stroke-dashoffset: 125.6;
+      opacity: 1;
+    }
+    100% {
+      stroke-dashoffset: 0;
+      opacity: 0.3;
+    }
+  }
+
+  /* CSS Custom Properties for easy customization */
+  :root {
+    --loading-bg: #f7f7f7;
+    --loading-stroke: #171717;
+    --loading-text: #171717;
+    --loading-stroke-width: 12;
+    --loading-circle-size: 5rem;
+    --loading-text-size: 2rem;
+    --loading-animation-duration: 3s;
+    --loading-exit-duration: 1s;
+  }
+
+  .dark {
+    --loading-bg: #000000;
+    --loading-stroke: #F5F5F7;
+    --loading-text: #F5F5F7;
+  }
 }

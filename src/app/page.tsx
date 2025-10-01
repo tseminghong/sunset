@@ -11,6 +11,7 @@ import AuthModal from '@/components/AuthModal'
 import Footer from '@/components/Footer'
 import TransitionSection from '@/components/TransitionSection'
 import { resourcesData, allTags } from '@/data/resources'
+import { ResourceData } from '@/types'
 
 export default function HomePage() {
   const [activeTag, setActiveTag] = useState('all')
@@ -36,14 +37,6 @@ export default function HomePage() {
 
       return matchesTag && matchesSearch
     })
-    return Animations.filter(resource => {
-      const matchesTag = activeTag === 'all' || resource.tags.includes(activeTag)
-      const matchesSearch = searchTerm === '' || 
-        resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        resource.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        resource.tags.toLowerCase().includes(searchTerm.toLowerCase())
-      return matchesTag && matchesSearch
-    })  
   }, [activeTag, searchTerm])
 
   return (
@@ -86,7 +79,7 @@ export default function HomePage() {
           </motion.h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredResources.map((resource, index) => (
+            {filteredResources.map((resource: ResourceData, index: number) => (
               <ResourceCard
                 key={resource.href}
                 resource={resource}

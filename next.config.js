@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Suppress the lockfile warning
-  outputFileTracingRoot: '.',
+  outputFileTracingRoot: process.cwd(),
   
   // Enable experimental features for better performance
   experimental: {

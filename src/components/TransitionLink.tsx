@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { usePageTransition } from '@/hooks/usePageTransition'
+import { useGSAPPageTransition } from '@/hooks/useGSAPPageTransition'
 
 interface TransitionLinkProps {
   href: string
@@ -21,7 +21,7 @@ const TransitionLink: React.FC<TransitionLinkProps> = ({
   replace = false,
   prefetch = true
 }) => {
-  const { navigate, replace: replaceRoute, preload } = usePageTransition()
+  const { navigate, replace: replaceRoute, preload } = useGSAPPageTransition()
 
   const handleClick = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
@@ -31,12 +31,16 @@ const TransitionLink: React.FC<TransitionLinkProps> = ({
 
     try {
       if (replace) {
-        await replaceRoute(href)
+        await replaceRoute(href, {
+          animationType: 'fade'
+        })
       } else {
-        await navigate(href)
+        await navigate(href, {
+          animationType: 'fade'
+        })
       }
     } catch (error) {
-      console.error('Navigation failed:', error)
+      console.error('GSAP Navigation failed:', error)
       // Fallback to regular navigation
       window.location.href = href
     }

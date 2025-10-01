@@ -78,6 +78,92 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  /* ScrollSmoother Performance Optimizations */
+  .scroll-smoother-root {
+    /* Enable hardware acceleration */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: transform;
+    
+    /* Optimize rendering */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    
+    /* Smooth font rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ScrollSmoother specific styles */
+  #smooth-wrapper {
+    overflow: hidden;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  #smooth-content {
+    overflow: visible;
+    width: 100%;
+  }
+
+  /* Improve scroll performance on mobile */
+  @media (max-width: 768px) {
+    .scroll-smoother-root {
+      /* Reduce effects on mobile for better performance */
+      transform: none;
+      will-change: auto;
+    }
+  }
+
+  /* Disable scroll smoothing for reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-smoother-root {
+      scroll-behavior: auto;
+    }
+    
+    /* Disable hero scroll effects for reduced motion */
+    .hero-fullscreen {
+      min-height: auto !important;
+      height: auto !important;
+      transform: none !important;
+    }
+    
+    .hero-content {
+      transform: none !important;
+    }
+    
+    .floating-element {
+      display: none !important;
+    }
+  }
+
+  /* High performance mode for lower-end devices */
+  @media (max-width: 768px) and (max-height: 600px) {
+    .hero-fullscreen {
+      min-height: 70vh;
+    }
+    
+    .hero-background {
+      display: none; /* Remove complex backgrounds on small screens */
+    }
+  }
+
+  /* Optimize for touch devices */
+  @media (hover: none) and (pointer: coarse) {
+    .floating-element {
+      animation-duration: 6s; /* Slower animations on touch devices */
+    }
+    
+    .hero-title {
+      text-shadow: none; /* Remove text shadow on touch for performance */
+    }
+  }
 }
 
 @layer components {
@@ -119,6 +205,91 @@
 
   .hero-gradient {
     background-image: radial-gradient(circle at 50% 30%, var(--bg-hero-start), var(--bg-hero-end));
+  }
+
+  /* Hero Fullscreen and Scroll Effects */
+  .hero-fullscreen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transform-origin: center top;
+    will-change: transform, height;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    transform-origin: center;
+    will-change: transform;
+  }
+
+  .hero-background {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    will-change: transform, opacity;
+  }
+
+  .floating-element {
+    will-change: transform, opacity;
+    transform-origin: center;
+    pointer-events: none;
+  }
+
+  /* Enhanced hero text effects */
+  .hero-title {
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    line-height: 1.1;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--text-primary), var(--accent-primary));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 20px rgba(0, 145, 255, 0.3);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.125rem, 3vw, 1.5rem);
+    line-height: 1.6;
+    opacity: 0.9;
+  }
+
+  /* Responsive hero adjustments */
+  @media (max-width: 768px) {
+    .hero-fullscreen {
+      min-height: 90vh;
+      padding: 2rem 0;
+    }
+    
+    .hero-content {
+      padding: 0 1.5rem;
+    }
+    
+    /* Reduce effects on mobile for performance */
+    .floating-element {
+      display: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-fullscreen {
+      min-height: 85vh;
+    }
+  }
+
+  /* Dark mode hero enhancements */
+  .dark .hero-title {
+    background: linear-gradient(135deg, var(--text-primary), var(--accent-primary));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 20px rgba(10, 150, 255, 0.4);
   }
 
   .bg-primary {
@@ -296,6 +467,55 @@
       stroke-dashoffset: 0;
       opacity: 0.3;
     }
+  }
+
+  /* GSAP Performance Optimizations */
+  .gsap-animate {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+
+  .gsap-scroll-animate {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+
+  .gsap-scroll-animate.animated {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Hardware acceleration for smooth animations */
+  .gsap-3d {
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+  }
+
+  /* Prevent layout thrashing during animations */
+  .gsap-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Optimize text rendering during animations */
+  .gsap-text-animate {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
+  }
+
+  /* Button press effects with GSAP */
+  .gsap-button {
+    cursor: pointer;
+    transition: none; /* Let GSAP handle all transitions */
+  }
+
+  .gsap-button:focus {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
   }
 
   /* CSS Custom Properties for easy customization */

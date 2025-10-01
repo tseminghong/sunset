@@ -6,6 +6,8 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { LoadingProvider } from "@/contexts/LoadingContext";
 import LoadingManager from "@/components/LoadingManager";
+import GSAPInitializer from "@/components/GSAPInitializer";
+import ScrollSmootherWrapper from "@/components/ScrollSmootherWrapper";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -70,8 +72,17 @@ export default function RootLayout({
           <ThemeProvider>
             <LoadingProvider>
               <AuthProvider>
+                <GSAPInitializer />
                 <LoadingManager />
-                {children}
+                <ScrollSmootherWrapper
+                  enabled={true}
+                  smoothness={1.5}
+                  smoothTouch={0.1}
+                  effects={true}
+                  className="scroll-smoother-root"
+                >
+                  {children}
+                </ScrollSmootherWrapper>
               </AuthProvider>
             </LoadingProvider>
           </ThemeProvider>

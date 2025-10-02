@@ -4,12 +4,21 @@ import "./globals.css";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+
+import PerformanceMonitor from '@/components/PerformanceMonitor';
+import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration';
+
+// Import components directly for server components compatibility
 import GSAPInitializer from "@/components/GSAPInitializer";
 import ScrollSmootherWrapper from "@/components/ScrollSmootherWrapper";
 
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
+  preload: true,
+  fallback: ['system-ui', 'arial'],
 });
 
 export const metadata: Metadata = {
@@ -65,6 +74,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="preload" href="/favicon.ico" as="image" type="image/x-icon" />
+      </head>
       <body className={`${inter.className} antialiased`}>
         <LanguageProvider>
           <ThemeProvider>
@@ -82,6 +96,10 @@ export default function RootLayout({
             </AuthProvider>
           </ThemeProvider>
         </LanguageProvider>
+        <Analytics />
+        <SpeedInsights />
+        <PerformanceMonitor />
+        <ServiceWorkerRegistration />
       </body>
     </html>
   );

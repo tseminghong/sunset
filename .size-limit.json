@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Main bundle",
+    "path": ".next/static/chunks/pages/_app.js",
+    "limit": "50 KB"
+  },
+  {
+    "name": "Home page",
+    "path": ".next/static/chunks/pages/index.js",
+    "limit": "30 KB"
+  },
+  {
+    "name": "JavaScript page",
+    "path": ".next/static/chunks/pages/javascript.js",
+    "limit": "100 KB"
+  },
+  {
+    "name": "Python page",
+    "path": ".next/static/chunks/pages/python.js",
+    "limit": "150 KB"
+  }
+]

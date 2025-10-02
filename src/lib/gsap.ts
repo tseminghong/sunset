@@ -1,9 +1,20 @@
 import { gsap } from 'gsap'
 
+// Lazy load plugins to reduce initial bundle size
+const loadScrollTrigger = async () => {
+  const { ScrollTrigger } = await import('gsap/ScrollTrigger')
+  gsap.registerPlugin(ScrollTrigger)
+  return ScrollTrigger
+}
+
+const loadScrollSmoother = async () => {
+  const { ScrollSmoother } = await import('gsap/ScrollSmoother')
+  gsap.registerPlugin(ScrollSmoother)
+  return ScrollSmoother
+}
+
 // GSAP Configuration
 export const initGSAP = () => {
-  // Register plugins if needed (ScrollTrigger, etc. will be registered when used)
-  
   // Set default ease
   gsap.defaults({
     ease: "power2.out",
@@ -278,4 +289,4 @@ export const optimizeForDevice = () => {
   }
 }
 
-export { gsap }
+export { gsap, loadScrollTrigger, loadScrollSmoother }

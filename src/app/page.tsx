@@ -28,15 +28,6 @@ export default function HomePage() {
       
       return matchesTag && matchesSearch
     })
-    return resourcesData.filter(resource => {
-      const matchesTag = activeTag === 'all' || resource.tags.includes(activeTag)
-      const matchesSearch = searchTerm === '' || 
-        resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        resource.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        resource.tags.toLowerCase().includes(searchTerm.toLowerCase())
-
-      return matchesTag && matchesSearch
-    })
   }, [activeTag, searchTerm])
 
   return (

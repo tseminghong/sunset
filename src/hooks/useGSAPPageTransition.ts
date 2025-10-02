@@ -3,11 +3,9 @@
 import { useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { gsap, animations, createTimeline } from '@/lib/gsap'
-import { useLoading } from '@/contexts/LoadingContext'
 
 export interface GSAPNavigationOptions {
   delay?: number
-  showLoading?: boolean
   onStart?: () => void
   onComplete?: () => void
   onError?: (error: Error) => void
@@ -16,7 +14,6 @@ export interface GSAPNavigationOptions {
 
 export const useGSAPPageTransition = () => {
   const router = useRouter()
-  const { setIsLoading, loadingConfig } = useLoading()
   const isNavigatingRef = useRef(false)
   const pageRef = useRef<HTMLElement | null>(null)
 
@@ -127,8 +124,7 @@ export const useGSAPPageTransition = () => {
     options: GSAPNavigationOptions = {}
   ) => {
     const {
-      delay = loadingConfig.navigationDelay,
-      showLoading = true,
+      delay = 500,
       onStart,
       onComplete,
       onError,
@@ -144,11 +140,7 @@ export const useGSAPPageTransition = () => {
       // Start page out animation
       await animatePageOut(animationType)
 
-      if (showLoading) {
-        setIsLoading(true)
-      }
-
-      // Add delay to show loading animation
+      // Add delay for smooth transition
       await new Promise(resolve => setTimeout(resolve, delay))
 
       // Perform navigation
@@ -169,12 +161,6 @@ export const useGSAPPageTransition = () => {
       onError?.(error as Error)
     } finally {
       isNavigatingRef.current = false
-      
-      if (showLoading) {
-        setTimeout(() => {
-          setIsLoading(false)
-        }, loadingConfig.exitDuration)
-      }
     }
   }
 
@@ -183,8 +169,7 @@ export const useGSAPPageTransition = () => {
     options: GSAPNavigationOptions = {}
   ) => {
     const {
-      delay = loadingConfig.navigationDelay,
-      showLoading = true,
+      delay = 500,
       onStart,
       onComplete,
       onError,
@@ -198,10 +183,6 @@ export const useGSAPPageTransition = () => {
       onStart?.()
 
       await animatePageOut(animationType)
-
-      if (showLoading) {
-        setIsLoading(true)
-      }
 
       await new Promise(resolve => setTimeout(resolve, delay))
       router.replace(href)
@@ -218,12 +199,6 @@ export const useGSAPPageTransition = () => {
       onError?.(error as Error)
     } finally {
       isNavigatingRef.current = false
-      
-      if (showLoading) {
-        setTimeout(() => {
-          setIsLoading(false)
-        }, loadingConfig.exitDuration)
-      }
     }
   }
 
@@ -231,8 +206,7 @@ export const useGSAPPageTransition = () => {
     options: GSAPNavigationOptions = {}
   ) => {
     const {
-      delay = loadingConfig.navigationDelay,
-      showLoading = true,
+      delay = 500,
       onStart,
       onComplete,
       onError,
@@ -246,10 +220,6 @@ export const useGSAPPageTransition = () => {
       onStart?.()
 
       await animatePageOut(animationType)
-
-      if (showLoading) {
-        setIsLoading(true)
-      }
 
       await new Promise(resolve => setTimeout(resolve, delay))
       router.back()
@@ -266,12 +236,6 @@ export const useGSAPPageTransition = () => {
       onError?.(error as Error)
     } finally {
       isNavigatingRef.current = false
-      
-      if (showLoading) {
-        setTimeout(() => {
-          setIsLoading(false)
-        }, loadingConfig.exitDuration)
-      }
     }
   }
 

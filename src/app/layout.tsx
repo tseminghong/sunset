@@ -4,8 +4,6 @@ import "./globals.css";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
-import { LoadingProvider } from "@/contexts/LoadingContext";
-import LoadingManager from "@/components/LoadingManager";
 import GSAPInitializer from "@/components/GSAPInitializer";
 import ScrollSmootherWrapper from "@/components/ScrollSmootherWrapper";
 
@@ -70,21 +68,18 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <LanguageProvider>
           <ThemeProvider>
-            <LoadingProvider>
-              <AuthProvider>
-                <GSAPInitializer />
-                <LoadingManager />
-                <ScrollSmootherWrapper
-                  enabled={true}
-                  smoothness={1.5}
-                  smoothTouch={0.1}
-                  effects={true}
-                  className="scroll-smoother-root"
-                >
-                  {children}
-                </ScrollSmootherWrapper>
-              </AuthProvider>
-            </LoadingProvider>
+            <AuthProvider>
+              <GSAPInitializer />
+              <ScrollSmootherWrapper
+                enabled={true}
+                smoothness={1.5}
+                smoothTouch={0.1}
+                effects={true}
+                className="scroll-smoother-root"
+              >
+                {children}
+              </ScrollSmootherWrapper>
+            </AuthProvider>
           </ThemeProvider>
         </LanguageProvider>
       </body>

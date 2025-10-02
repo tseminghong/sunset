@@ -2,11 +2,9 @@
 
 import { useRouter } from 'next/navigation'
 import { useCallback, useRef } from 'react'
-import { useLoading } from '@/contexts/LoadingContext'
 
 export interface NavigationOptions {
   delay?: number
-  showLoading?: boolean
   onStart?: () => void
   onComplete?: () => void
   onError?: (error: Error) => void
@@ -14,7 +12,6 @@ export interface NavigationOptions {
 
 export const usePageTransition = () => {
   const router = useRouter()
-  const { setIsLoading, isLoading, loadingConfig } = useLoading()
   const isNavigatingRef = useRef(false)
 
   const navigateWithTransition = useCallback(
@@ -23,8 +20,7 @@ export const usePageTransition = () => {
       options: NavigationOptions = {}
     ) => {
       const {
-        delay = loadingConfig.navigationDelay,
-        showLoading = true,
+        delay = 500,
         onStart,
         onComplete,
         onError
@@ -39,11 +35,7 @@ export const usePageTransition = () => {
         isNavigatingRef.current = true
         onStart?.()
 
-        if (showLoading) {
-          setIsLoading(true)
-        }
-
-        // Add delay to show loading animation
+        // Add delay for smooth transition
         await new Promise(resolve => setTimeout(resolve, delay))
 
         // Perform navigation
@@ -59,16 +51,9 @@ export const usePageTransition = () => {
         onError?.(error as Error)
       } finally {
         isNavigatingRef.current = false
-        
-        // Hide loading after exit animation duration
-        if (showLoading) {
-          setTimeout(() => {
-            setIsLoading(false)
-          }, loadingConfig.exitDuration)
-        }
       }
     },
-    [router, setIsLoading, loadingConfig, isLoading]
+    [router]
   )
 
   const preload = useCallback((href: string) => {
@@ -78,8 +63,7 @@ export const usePageTransition = () => {
   const replace = useCallback(
     async (href: string, options: NavigationOptions = {}) => {
       const {
-        delay = loadingConfig.navigationDelay,
-        showLoading = true,
+        delay = 500,
         onStart,
         onComplete,
         onError
@@ -92,10 +76,6 @@ export const usePageTransition = () => {
       try {
         isNavigatingRef.current = true
         onStart?.()
-
-        if (showLoading) {
-          setIsLoading(true)
-        }
 
         await new Promise(resolve => setTimeout(resolve, delay))
         router.replace(href)
@@ -108,22 +88,15 @@ export const usePageTransition = () => {
         onError?.(error as Error)
       } finally {
         isNavigatingRef.current = false
-        
-        if (showLoading) {
-          setTimeout(() => {
-            setIsLoading(false)
-          }, loadingConfig.exitDuration)
-        }
       }
     },
-    [router, setIsLoading, loadingConfig]
+    [router]
   )
 
   const back = useCallback(
     async (options: NavigationOptions = {}) => {
       const {
-        delay = loadingConfig.navigationDelay,
-        showLoading = true,
+        delay = 500,
         onStart,
         onComplete,
         onError
@@ -137,10 +110,6 @@ export const usePageTransition = () => {
         isNavigatingRef.current = true
         onStart?.()
 
-        if (showLoading) {
-          setIsLoading(true)
-        }
-
         await new Promise(resolve => setTimeout(resolve, delay))
         router.back()
         await new Promise(resolve => setTimeout(resolve, 100))
@@ -152,15 +121,9 @@ export const usePageTransition = () => {
         onError?.(error as Error)
       } finally {
         isNavigatingRef.current = false
-        
-        if (showLoading) {
-          setTimeout(() => {
-            setIsLoading(false)
-          }, loadingConfig.exitDuration)
-        }
       }
     },
-    [router, setIsLoading, loadingConfig]
+    [router]
   )
 
   return {
@@ -168,7 +131,6 @@ export const usePageTransition = () => {
     replace,
     back,
     preload,
-    isNavigating: isNavigatingRef.current,
-    isLoading
+    isNavigating: isNavigatingRef.current
   }
 }

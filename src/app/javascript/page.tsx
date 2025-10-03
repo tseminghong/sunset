@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo, ReactNode } from 'react'
+import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Code, Play, RotateCcw } from 'lucide-react'
 import Header from '@/components/Header'
-import AuthModal from '@/components/AuthModal'
 import Footer from '@/components/Footer'
 import { useLanguage } from '@/contexts/LanguageContext'
 
@@ -12,6 +12,176 @@ interface Lesson {
   title: string
   content: string
   starterCode?: string
+}
+
+const DEFAULT_CODE_PLACEHOLDER = '// Write some JavaScript here and click Run'
+const LESSON_PROGRESS_STORAGE_KEY = 'learnjs_current_lesson_v1'
+
+const LESSONS: Lesson[] = [
+  {
+    title: "1. Introduction to JavaScript",
+    content: `JavaScript adds interactivity to web pages. It runs in every modern browser and on servers (Node.js). You can manipulate the DOM, make network requests, and build full applications.
+
+**In this course** you'll move from the basics to practical patterns. Open the *Code Editor* to try code as you go.`
+  },
+  {
+    title: "2. Variables & Data Types",
+    content: `Declare variables with \`let\` (mutable), \`const\` (immutable reference), or legacy \`var\` (function-scoped). Primitive types include: string, number, boolean, null, undefined, bigint, symbol.
+
+\`\`\`javascript
+// Examples
+const siteName = 'LearnJS';
+let visits = 0;
+visits += 1; // increment
+console.log(typeof visits); // 'number'
+\`\`\``,
+    starterCode: `const siteName = 'LearnJS';
+let visits = 0;
+visits += 1;
+console.log('Visits:', visits);`
+  },
+  {
+    title: "3. Strings & Template Literals",
+    content: `Template literals use backticks (\`) and allow expression interpolation with \`\${expression}\`.
+
+\`\`\`javascript
+const user = 'Ava';
+console.log(\`Hello \${user}!\`);
+\`\`\``,
+    starterCode: `const user = 'Ava';
+console.log(\`Hello \${user}!\`);`
+  },
+  {
+    title: "4. Functions",
+    content: `Functions encapsulate reusable logic. Arrow functions are concise; traditional functions have their own \`this\`.
+
+\`\`\`javascript
+// Arrow vs traditional
+const add = (a, b) => a + b;
+function multiply(a, b) { return a * b; }
+console.log(add(2,3), multiply(2,3));
+\`\`\``,
+    starterCode: `const add = (a, b) => a + b;
+function multiply(a, b) { return a * b; }
+console.log('Add 2+3 =', add(2, 3));
+console.log('Multiply 2*3 =', multiply(2, 3));`
+  },
+  {
+    title: "5. Control Flow",
+    content: `Use \`if\`, \`else\`, \`switch\`, loops (\`for\`, \`while\`, \`for...of\`) and early returns to shape logic.
+
+\`\`\`javascript
+for (let i = 1; i <= 3; i++) {
+  if (i === 2) console.log('Middle');
+  else console.log(i);
+}
+\`\`\``,
+    starterCode: `for (let i = 1; i <= 5; i++) {
+  if (i % 2 === 0) console.log(i, 'even');
+  else console.log(i, 'odd');
+}`
+  },
+  {
+    title: "6. Arrays & Iteration",
+    content: `Arrays store ordered lists. Helpful methods: \`map\`, \`filter\`, \`reduce\`, \`find\`.
+
+\`\`\`javascript
+const nums = [1, 2, 3, 4];
+const doubled = nums.map(n => n * 2);
+console.log(doubled);
+\`\`\``,
+    starterCode: `const nums = [1, 2, 3, 4];
+console.log('Sum:', nums.reduce((a, b) => a + b, 0));`
+  },
+  {
+    title: "7. Objects",
+    content: `Objects hold key-value pairs. Use dot or bracket notation.
+
+\`\`\`javascript
+const user = { id: 7, name: 'Ava', active: true };
+user.role = 'admin';
+console.log(Object.keys(user));
+\`\`\``,
+    starterCode: `const user = { id: 1, name: 'Kai' };
+user.country = 'SG';
+console.log(user);`
+  },
+  {
+    title: "8. DOM Basics",
+    content: `The DOM (Document Object Model) represents HTML as nodes. Use \`querySelector\`, modify \`textContent\`, attributes, and classes.
+
+\`\`\`javascript
+// Try this in the editor (console tab):
+document.body.style.background = '#202830';
+\`\`\``
+  },
+  {
+    title: "9. Events",
+    content: `Respond to user actions with \`addEventListener\`.
+
+\`\`\`javascript
+document.addEventListener('click', () => console.log('Clicked page'));
+\`\`\``,
+    starterCode: `document.addEventListener('mousemove', e => {
+  if (e.clientX % 100 === 0) console.log('X=', e.clientX);
+});
+console.log('Move your mouse.');`
+  },
+  {
+    title: "10. Next Steps",
+    content: `You completed the intro track. Continue with async JS (promises, fetch), modules, tooling, and frameworks.
+
+Practice daily: small scripts, read docs, build mini projects.`
+  }
+]
+
+const AuthModal = dynamic(() => import('@/components/AuthModal'), {
+  ssr: false,
+  loading: () => null
+})
+
+const CODE_BLOCK_REGEX = /```javascript\n([\s\S]*?)\n```/
+
+function formatLessonContent(content: string): ReactNode[] {
+  const segments = content.split(CODE_BLOCK_REGEX)
+  const elements: ReactNode[] = []
+
+  segments.forEach((segment, index) => {
+    if (index % 2 === 1) {
+      elements.push(
+        <pre
+          key={`code-${index}`}
+          className="bg-tertiary border border-secondary rounded-lg p-4 my-4 overflow-x-auto"
+        >
+          <code className="text-sm text-primary font-mono">{segment}</code>
+        </pre>
+      )
+      return
+    }
+
+    const paragraphs = segment.split('\n\n')
+    paragraphs.forEach((paragraph, pIndex) => {
+      const trimmed = paragraph.trim()
+      if (!trimmed) return
+
+      const withInlineCode = trimmed.replace(
+        /`([^`]+)`/g,
+        '<code class="bg-tertiary px-1 py-0.5 rounded text-sm">$1</code>'
+      )
+      const withBold = withInlineCode.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      const withItalic = withBold.replace(/\*([^*]+)\*/g, '<em>$1</em>')
+
+      elements.push(
+        <p
+          key={`text-${index}-${pIndex}`}
+          className="text-secondary mb-4 leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: withItalic }}
+        />
+      )
+    })
+  })
+
+  return elements
 }
 
 export default function JavaScriptPage() {
@@ -22,131 +192,22 @@ export default function JavaScriptPage() {
   const [codeInput, setCodeInput] = useState('')
   const [codeOutput, setCodeOutput] = useState('')
   const [isRunning, setIsRunning] = useState(false)
-
-  const LS_KEY = 'learnjs_current_lesson_v1'
-
-  const lessons: Lesson[] = useMemo(() => [
-    {
-      title: "1. Introduction to JavaScript",
-      content: `JavaScript adds interactivity to web pages. It runs in every modern browser and on servers (Node.js). You can manipulate the DOM, make network requests, and build full applications.
-
-**In this course** you'll move from the basics to practical patterns. Open the *Code Editor* to try code as you go.`
-    },
-    {
-      title: "2. Variables & Data Types",
-      content: `Declare variables with \`let\` (mutable), \`const\` (immutable reference), or legacy \`var\` (function-scoped). Primitive types include: string, number, boolean, null, undefined, bigint, symbol.
-
-\`\`\`javascript
-// Examples
-const siteName = 'LearnJS';
-let visits = 0;
-visits += 1; // increment
-console.log(typeof visits); // 'number'
-\`\`\``,
-      starterCode: `const siteName = 'LearnJS';
-let visits = 0;
-visits += 1;
-console.log('Visits:', visits);`
-    },
-    {
-      title: "3. Strings & Template Literals",
-      content: `Template literals use backticks (\`) and allow expression interpolation with \`\${expression}\`.
-
-\`\`\`javascript
-const user = 'Ava';
-console.log(\`Hello \${user}!\`);
-\`\`\``,
-      starterCode: `const user = 'Ava';
-console.log(\`Hello \${user}!\`);`
-    },
-    {
-      title: "4. Functions",
-      content: `Functions encapsulate reusable logic. Arrow functions are concise; traditional functions have their own \`this\`.
-
-\`\`\`javascript
-// Arrow vs traditional
-const add = (a, b) => a + b;
-function multiply(a, b) { return a * b; }
-console.log(add(2,3), multiply(2,3));
-\`\`\``,
-      starterCode: `const add = (a, b) => a + b;
-function multiply(a, b) { return a * b; }
-console.log('Add 2+3 =', add(2, 3));
-console.log('Multiply 2*3 =', multiply(2, 3));`
-    },
-    {
-      title: "5. Control Flow",
-      content: `Use \`if\`, \`else\`, \`switch\`, loops (\`for\`, \`while\`, \`for...of\`) and early returns to shape logic.
-
-\`\`\`javascript
-for (let i = 1; i <= 3; i++) {
-  if (i === 2) console.log('Middle');
-  else console.log(i);
-}
-\`\`\``,
-      starterCode: `for (let i = 1; i <= 5; i++) {
-  if (i % 2 === 0) console.log(i, 'even');
-  else console.log(i, 'odd');
-}`
-    },
-    {
-      title: "6. Arrays & Iteration",
-      content: `Arrays store ordered lists. Helpful methods: \`map\`, \`filter\`, \`reduce\`, \`find\`.
-
-\`\`\`javascript
-const nums = [1, 2, 3, 4];
-const doubled = nums.map(n => n * 2);
-console.log(doubled);
-\`\`\``,
-      starterCode: `const nums = [1, 2, 3, 4];
-console.log('Sum:', nums.reduce((a, b) => a + b, 0));`
-    },
-    {
-      title: "7. Objects",
-      content: `Objects hold key-value pairs. Use dot or bracket notation.
-
-\`\`\`javascript
-const user = { id: 7, name: 'Ava', active: true };
-user.role = 'admin';
-console.log(Object.keys(user));
-\`\`\``,
-      starterCode: `const user = { id: 1, name: 'Kai' };
-user.country = 'SG';
-console.log(user);`
-    },
-    {
-      title: "8. DOM Basics",
-      content: `The DOM (Document Object Model) represents HTML as nodes. Use \`querySelector\`, modify \`textContent\`, attributes, and classes.
-
-\`\`\`javascript
-// Try this in the editor (console tab):
-document.body.style.background = '#202830';
-\`\`\``
-    },
-    {
-      title: "9. Events",
-      content: `Respond to user actions with \`addEventListener\`.
-
-\`\`\`javascript
-document.addEventListener('click', () => console.log('Clicked page'));
-\`\`\``,
-      starterCode: `document.addEventListener('mousemove', e => {
-  if (e.clientX % 100 === 0) console.log('X=', e.clientX);
-});
-console.log('Move your mouse.');`
-    },
-    {
-      title: "10. Next Steps",
-      content: `You completed the intro track. Continue with async JS (promises, fetch), modules, tooling, and frameworks.
-
-Practice daily: small scripts, read docs, build mini projects.`
-    }
-  ], [])
+  const lessons = LESSONS
+  const lessonsLength = lessons.length
+  const currentLesson = lessons[currentLessonIndex]
+  const progressPercent = useMemo(
+    () => ((currentLessonIndex + 1) / lessonsLength) * 100,
+    [currentLessonIndex, lessonsLength]
+  )
+  const formattedLessonContent = useMemo(
+    () => formatLessonContent(currentLesson.content),
+    [currentLesson.content]
+  )
 
   // Load lesson from localStorage on mount
   useEffect(() => {
     try {
-      const saved = localStorage.getItem(LS_KEY)
+      const saved = localStorage.getItem(LESSON_PROGRESS_STORAGE_KEY)
       if (saved) {
         const index = parseInt(saved, 10)
         if (!isNaN(index) && index >= 0 && index < lessons.length) {
@@ -156,12 +217,12 @@ Practice daily: small scripts, read docs, build mini projects.`
     } catch (e) {
       console.error('Error loading lesson:', e)
     }
-  }, [lessons.length])
+  }, [])
 
   // Save lesson to localStorage when it changes
   useEffect(() => {
     try {
-      localStorage.setItem(LS_KEY, currentLessonIndex.toString())
+      localStorage.setItem(LESSON_PROGRESS_STORAGE_KEY, currentLessonIndex.toString())
     } catch (e) {
       console.error('Error saving lesson:', e)
     }
@@ -169,51 +230,58 @@ Practice daily: small scripts, read docs, build mini projects.`
 
   // Apply starter code when lesson changes or editor opens
   useEffect(() => {
-    const lesson = lessons[currentLessonIndex]
-    if (lesson.starterCode && isEditorOpen) {
-      setCodeInput(lesson.starterCode)
-    } else if (isEditorOpen && !codeInput.trim()) {
-      setCodeInput('// Write some JavaScript here and click Run')
-    }
-  }, [currentLessonIndex, isEditorOpen, lessons, codeInput])
+    if (!isEditorOpen) return
+
+    const starterCode = currentLesson?.starterCode
+    setCodeInput(prev => {
+      if (starterCode && prev.trim() === '') {
+        return starterCode
+      }
+
+      if (!starterCode && prev.trim() === '') {
+        return DEFAULT_CODE_PLACEHOLDER
+      }
+
+      return prev
+    })
+  }, [currentLesson?.starterCode, currentLessonIndex, isEditorOpen])
 
   // Keyboard navigation
+  const handleLessonKeyboardShortcuts = useCallback((e: KeyboardEvent) => {
+    const activeElement = document.activeElement
+    if (activeElement?.tagName === 'TEXTAREA' || activeElement?.tagName === 'INPUT') {
+      return
+    }
+
+    if (e.key === 'ArrowLeft') {
+      setCurrentLessonIndex(prev => Math.max(prev - 1, 0))
+    } else if (e.key === 'ArrowRight') {
+      setCurrentLessonIndex(prev => Math.min(prev + 1, lessonsLength - 1))
+    }
+  }, [lessonsLength])
+
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const activeElement = document.activeElement
-      if (activeElement?.tagName === 'TEXTAREA' || activeElement?.tagName === 'INPUT') {
-        return // Skip while typing
+    document.addEventListener('keydown', handleLessonKeyboardShortcuts)
+    return () => document.removeEventListener('keydown', handleLessonKeyboardShortcuts)
+  }, [handleLessonKeyboardShortcuts])
+
+  const goToPrevLesson = useCallback(() => {
+    setCurrentLessonIndex(prev => Math.max(prev - 1, 0))
+  }, [])
+
+  const goToNextLesson = useCallback(() => {
+    setCurrentLessonIndex(prev => Math.min(prev + 1, lessonsLength - 1))
+  }, [lessonsLength])
+
+  const toggleEditor = useCallback(() => {
+    setIsEditorOpen(prev => {
+      const next = !prev
+      if (!prev) {
+        setCodeOutput('')
       }
-      
-      if (e.key === 'ArrowLeft' && currentLessonIndex > 0) {
-        setCurrentLessonIndex(currentLessonIndex - 1)
-      } else if (e.key === 'ArrowRight' && currentLessonIndex < lessons.length - 1) {
-        setCurrentLessonIndex(currentLessonIndex + 1)
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [currentLessonIndex, lessons.length])
-
-  const goToPrevLesson = () => {
-    if (currentLessonIndex > 0) {
-      setCurrentLessonIndex(currentLessonIndex - 1)
-    }
-  }
-
-  const goToNextLesson = () => {
-    if (currentLessonIndex < lessons.length - 1) {
-      setCurrentLessonIndex(currentLessonIndex + 1)
-    }
-  }
-
-  const toggleEditor = () => {
-    setIsEditorOpen(!isEditorOpen)
-    if (!isEditorOpen) {
-      setCodeOutput('')
-    }
-  }
+      return next
+    })
+  }, [])
 
   const runCode = useCallback(async () => {
     setIsRunning(true)
@@ -250,45 +318,8 @@ Practice daily: small scripts, read docs, build mini projects.`
 
   const resetCode = () => {
     const lesson = lessons[currentLessonIndex]
-    setCodeInput(lesson.starterCode || '// Write some JavaScript here and click Run')
+    setCodeInput(lesson.starterCode || DEFAULT_CODE_PLACEHOLDER)
     setCodeOutput('')
-  }
-
-  const currentLesson = lessons[currentLessonIndex]
-  const progressPercent = ((currentLessonIndex + 1) / lessons.length) * 100
-
-  // Format lesson content (convert markdown-like syntax to JSX)
-  const formatContent = (content: string) => {
-    // Split by code blocks
-    const parts = content.split(/```javascript\n([\s\S]*?)\n```/)
-    
-    return parts.map((part, index) => {
-      if (index % 2 === 1) {
-        // This is a code block
-        return (
-          <pre key={index} className="bg-tertiary border border-secondary rounded-lg p-4 my-4 overflow-x-auto">
-            <code className="text-sm text-primary font-mono">{part}</code>
-          </pre>
-        )
-      } else {
-        // This is regular content - split by paragraphs and format inline code
-        return part.split('\n\n').map((paragraph, pIndex) => {
-          if (!paragraph.trim()) return null
-          
-          // Format inline code with backticks
-          const formatted = paragraph.replace(/`([^`]+)`/g, '<code class="bg-tertiary px-1 py-0.5 rounded text-sm">$1</code>')
-          // Format bold text
-          const withBold = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-          // Format italic text
-          const withItalic = withBold.replace(/\*([^*]+)\*/g, '<em>$1</em>')
-          
-          return (
-            <p key={`${index}-${pIndex}`} className="text-secondary mb-4 leading-relaxed"
-               dangerouslySetInnerHTML={{ __html: withItalic }} />
-          )
-        })
-      }
-    }).flat().filter(Boolean)
   }
 
   return (
@@ -321,7 +352,7 @@ Practice daily: small scripts, read docs, build mini projects.`
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-primary mb-6">{currentLesson.title}</h2>
             <div className="lesson-content">
-              {formatContent(currentLesson.content)}
+              {formattedLessonContent}
             </div>
           </div>
 

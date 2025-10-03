@@ -1,8 +1,10 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useHeroScrollEffects } from '@/hooks/useHeroScrollEffects'
+import { gsap } from '@/lib/gsap'
 
 export default function HeroSection() {
   const { t } = useLanguage()
@@ -15,6 +17,96 @@ export default function HeroSection() {
     duration: 1.2,
     ease: 'power2.out'
   })
+
+  const titleRef = useRef<HTMLHeadingElement>(null)
+  const subtitleRef = useRef<HTMLParagraphElement>(null)
+  const betaRef = useRef<HTMLParagraphElement>(null)
+  const ctaRef = useRef<HTMLAnchorElement>(null)
+
+  useEffect(() => {
+    let titleSplit: any
+    let subtitleSplit: any
+    let ctx: gsap.Context | null = null
+    let isMounted = true
+
+    const animateHeroText = async () => {
+      if (!titleRef.current) return
+
+      try {
+        const splitModule = await import('gsap/SplitText')
+        const SplitText = (splitModule as any).SplitText
+
+        if (!SplitText) {
+          console.warn('SplitText plugin not available, skipping hero animation.')
+          return
+        }
+
+        gsap.registerPlugin(SplitText)
+
+        if (!isMounted) return
+
+        ctx = gsap.context(() => {
+          titleSplit = new SplitText(titleRef.current, {
+            type: 'chars,words',
+            charsClass: 'hero-char'
+          })
+
+          if (subtitleRef.current) {
+            subtitleSplit = new SplitText(subtitleRef.current, {
+              type: 'lines',
+              linesClass: 'hero-line'
+            })
+          }
+
+          const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+
+          tl.from(titleSplit.chars, {
+            yPercent: 130,
+            rotateX: -90,
+            opacity: 0,
+            stagger: 0.045,
+            duration: 0.75
+          })
+
+          if (subtitleSplit?.lines?.length) {
+            tl.from(subtitleSplit.lines, {
+              yPercent: 120,
+              opacity: 0,
+              stagger: 0.12,
+              duration: 0.6
+            }, '-=0.4')
+          }
+
+          if (betaRef.current) {
+            tl.from(betaRef.current, {
+              opacity: 0,
+              y: 20,
+              duration: 0.5
+            }, '-=0.2')
+          }
+
+          if (ctaRef.current) {
+            tl.from(ctaRef.current, {
+              opacity: 0,
+              y: 30,
+              duration: 0.6
+            }, '-=0.2')
+          }
+        }, heroRef)
+      } catch (error) {
+        console.warn('SplitText animation failed:', error)
+      }
+    }
+
+    animateHeroText()
+
+    return () => {
+      isMounted = false
+      ctx?.revert()
+      titleSplit?.revert()
+      subtitleSplit?.revert()
+    }
+  }, [heroRef])
 
   return (
     <section 
@@ -32,47 +124,31 @@ export default function HeroSection() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        <motion.h1 
+        <h1 
+          ref={titleRef}
           className="hero-title text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 text-primary"
-          initial={{ opacity: 0, y: -100, rotate: -5, scale: 0.8 }}
-          animate={{ opacity: 1, y: 0, rotate: 0, scale: 1 }}
-          transition={{ 
-            duration: 2, 
-            ease: [0.175, 0.885, 0.32, 1.275], // easeOutBack
-            delay: 0.2 
-          }}
         >
           {t('hero.title')}
-        </motion.h1>
+        </h1>
 
-        <motion.p 
+        <p 
+          ref={subtitleRef}
           className="hero-subtitle text-lg sm:text-xl max-w-3xl mx-auto mb-8 text-secondary"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
         >
           {t('hero.subtitle')}
-        </motion.p>
+        </p>
 
-        <motion.p 
+        <p 
+          ref={betaRef}
           className="text-secondary mb-6"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
         >
           {t('hero.beta')}
-        </motion.p>
+        </p>
 
         <motion.a 
+          ref={ctaRef}
           href="/ict-v1.0.0.apk"
-          className="primary-btn px-8 py-3 text-lg inline-block btn-press-effect"
-          initial={{ opacity: 0, y: 50, scale: 0.9, rotate: 3 }}
-          animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
-          transition={{ 
-            duration: 1.8,
-            ease: [0.68, -0.55, 0.265, 1.55], // bounce
-            delay: 0.8 
-          }}
+          className="primary-btn px-8 py-3 text-lg inline-block btn-press-effect hero-download-btn"
           whileHover={{ 
             scale: 1.05,
             y: -2,

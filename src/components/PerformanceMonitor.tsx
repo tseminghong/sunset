@@ -26,7 +26,6 @@ export const usePerformanceMonitoring = () => {
 
     // Send to analytics in production
     if (process.env.NODE_ENV === 'production') {
-      // You can send to Google Analytics, Vercel Analytics, or your preferred service
       if (typeof window !== 'undefined' && (window as any).gtag) {
         (window as any).gtag('event', metric.name, {
           event_category: 'Web Vitals',
@@ -89,9 +88,9 @@ export const monitorMemoryUsage = () => {
     if ('memory' in performance) {
       const memory = (performance as any).memory
       const memoryInfo = {
-        used: Math.round(memory.usedJSHeapSize / 1048576), // MB
-        total: Math.round(memory.totalJSHeapSize / 1048576), // MB
-        limit: Math.round(memory.jsHeapSizeLimit / 1048576), // MB
+        used: Math.round(memory.usedJSHeapSize / 1048576), 
+        total: Math.round(memory.totalJSHeapSize / 1048576), 
+        limit: Math.round(memory.jsHeapSizeLimit / 1048576), 
       }
       
       // Warn if memory usage is high

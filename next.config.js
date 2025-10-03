@@ -3,9 +3,19 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 /** @type {import('next').NextConfig} */
+const path = require('path')
+
 const nextConfig = {
   // Suppress the lockfile warning
   outputFileTracingRoot: process.cwd(),
+
+  // Turbopack configuration
+  turbopack: {
+    resolveAlias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
+    resolveExtensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
+  },
   
   // Enable experimental features for better performance
   experimental: {
@@ -34,55 +44,6 @@ const nextConfig = {
       },
     ],
   },
-
-  // Webpack optimizations (only used in non-turbopack builds)
-  webpack: (config, { dev, isServer }) => {
-    // Only apply webpack config when not using turbopack
-    if (process.env.TURBOPACK === '1') {
-      return config
-    }
-
-    // Enable production optimizations
-    if (!dev) {
-      config.optimization = {
-        ...config.optimization,
-        usedExports: true,
-        sideEffects: false,
-        splitChunks: {
-          chunks: 'all',
-          cacheGroups: {
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
-              priority: 10,
-              reuseExistingChunk: true,
-            },
-            gsap: {
-              test: /[\\/]node_modules[\\/]gsap[\\/]/,
-              name: 'gsap',
-              priority: 15,
-              reuseExistingChunk: true,
-            },
-            common: {
-              name: 'common',
-              minChunks: 2,
-              priority: 5,
-              reuseExistingChunk: true,
-            },
-          },
-        },
-      }
-    }
-
-    // Optimize bundle size
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@': require('path').resolve(__dirname, 'src'),
-    }
-
-    return config
-  },
-
   // Headers for better security and performance
   async headers() {
     return [

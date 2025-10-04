@@ -298,14 +298,14 @@ export const batchScrollTriggerUpdate = () => {
 }
 
 // Hook for observing element visibility without ScrollTrigger
-export const useIntersectionAnimation = (
+export const useIntersectionAnimation = <T extends HTMLElement = HTMLElement>(
   animationFunction: (element: Element) => void,
   options: IntersectionObserverInit = {}
 ) => {
-  const elementRef = useRef<HTMLElement>(null)
+  const elementRef = useRef<T>(null)
 
   useEffect(() => {
-    const element = elementRef.current
+  const element = elementRef.current
     if (!element) return
 
     const observer = new IntersectionObserver(

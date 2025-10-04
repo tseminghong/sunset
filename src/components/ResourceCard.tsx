@@ -1,10 +1,12 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useEffect, useMemo, useRef } from 'react'
 import Link from 'next/link'
 import { ExternalLink } from 'lucide-react'
 import { ResourceData } from '@/types'
 import TransitionLink from './TransitionLink'
+import { gsap } from '@/lib/gsap'
+import { combineRefs, useGsapHoverAnimation, useGsapMountAnimation } from '@/hooks/useGsapMotion'
 
 interface ResourceCardProps {
   resource: ResourceData
@@ -35,162 +37,217 @@ export default function ResourceCard({ resource, index, onClick }: ResourceCardP
   // Determine if this is an external link or Next.js route
   const isExternalLink = resource.href.startsWith('http') || resource.href.endsWith('.html') || resource.href.endsWith('.apk')
 
-  const CardContent = () => (
-    <motion.div
-      initial={{ opacity: 0, y: 50, rotate: 2, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, rotate: 0, scale: 1 }}
-      transition={{
-        duration: 0.6,
-        delay: index * 0.1,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      }}
-      whileHover={{ 
-        y: -8, 
-        scale: 1.02,
-        transition: { 
-          type: "spring",
-          stiffness: 400,
-          damping: 25,
-          mass: 0.8
+  const cardMountRef = useGsapMountAnimation<HTMLDivElement>({
+    from: { opacity: 0, y: 50, rotate: 2, scale: 0.95 },
+    to: { opacity: 1, y: 0, rotate: 0, scale: 1 },
+    transition: {
+      duration: 0.6,
+      delay: index * 0.1,
+      ease: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+    }
+  })
+
+  const cardHoverRef = useGsapHoverAnimation<HTMLDivElement>({
+    rest: { y: 0, scale: 1 },
+    hover: { y: -8, scale: 1.02 },
+    transition: { duration: 0.25, ease: 'power2.out' },
+    pressIn: { scale: 0.98 },
+    pressOut: { scale: 1.02 }
+  })
+
+  const mediaContainerRef = useRef<HTMLDivElement>(null)
+  const iconRef = useRef<HTMLDivElement>(null)
+  const progressWrapperRef = useRef<HTMLDivElement>(null)
+  const progressValueRef = useRef<HTMLSpanElement>(null)
+  const progressFillRef = useRef<HTMLDivElement>(null)
+  const tagsContainerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (mediaContainerRef.current) {
+      gsap.set(mediaContainerRef.current, { transformOrigin: 'center center' })
+      const hoverAnimation = gsap.to(mediaContainerRef.current, {
+        scale: 1.05,
+        duration: 0.3,
+        paused: true,
+        ease: 'power2.out'
+      })
+
+      const node = mediaContainerRef.current
+      const onEnter = () => hoverAnimation.play()
+      const onLeave = () => hoverAnimation.reverse()
+
+      node.addEventListener('mouseenter', onEnter)
+      node.addEventListener('mouseleave', onLeave)
+
+      return () => {
+        hoverAnimation.kill()
+        node.removeEventListener('mouseenter', onEnter)
+        node.removeEventListener('mouseleave', onLeave)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (iconRef.current) {
+      gsap.set(iconRef.current, { transformOrigin: 'center center' })
+      const hoverAnimation = gsap.to(iconRef.current, {
+        scale: 1.2,
+        rotate: 5,
+        opacity: 0.9,
+        paused: true,
+        ease: 'elastic.out(1, 0.6)',
+        duration: 0.5
+      })
+
+      const node = iconRef.current
+      const onEnter = () => hoverAnimation.play()
+      const onLeave = () => hoverAnimation.reverse()
+
+      node.addEventListener('mouseenter', onEnter)
+      node.addEventListener('mouseleave', onLeave)
+
+      return () => {
+        hoverAnimation.kill()
+        node.removeEventListener('mouseenter', onEnter)
+        node.removeEventListener('mouseleave', onLeave)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (progressWrapperRef.current) {
+      gsap.fromTo(progressWrapperRef.current, { opacity: 0, scale: 0.95 }, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.5,
+        delay: index * 0.1 + 0.4,
+        ease: 'power2.out'
+      })
+    }
+
+    if (progressValueRef.current) {
+      gsap.fromTo(progressValueRef.current, { opacity: 0 }, {
+        opacity: 1,
+        duration: 0.4,
+        delay: index * 0.1 + 0.6,
+        ease: 'power2.out'
+      })
+    }
+
+    if (progressFillRef.current) {
+      gsap.fromTo(progressFillRef.current, { width: 0, scale: 0.9 }, {
+        width: `${progress}%`,
+        scale: 1,
+        duration: 1.2,
+        delay: index * 0.1 + 0.5,
+        ease: 'power2.out'
+      })
+    }
+  }, [index, progress])
+
+  useEffect(() => {
+    if (tagsContainerRef.current) {
+      const elements = Array.from(tagsContainerRef.current.children)
+      gsap.fromTo(elements,
+        { opacity: 0, scale: 0.8 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 0.3,
+          ease: 'power2.out',
+          stagger: 0.05,
+          delay: index * 0.1 + 0.3
         }
-      }}
-      whileTap={{ 
-        scale: 0.98,
-        transition: { duration: 0.1 }
-      }}
-      className="resource-card glass-effect rounded-[1.75rem] overflow-hidden cursor-pointer btn-press-effect group h-full"
+      )
+    }
+  }, [index, tags])
+
+  const cardRef = useMemo(() => combineRefs(cardMountRef, cardHoverRef), [cardMountRef, cardHoverRef])
+
+  const CardContent = () => (
+    <div
+      ref={cardRef}
+      className="resource-card glass-effect rounded-[1.75rem] overflow-hidden cursor-pointer btn-press-effect group h-full transition-transform duration-300"
     >
       {/* Card image placeholder */}
-      <motion.div 
+      <div
+        ref={mediaContainerRef}
         className="h-[180px] bg-tertiary flex items-center justify-center overflow-hidden"
-        whileHover={{ scale: 1.05 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
       >
-        <motion.div 
+        <div
+          ref={iconRef}
           className="w-12 h-12 text-tertiary opacity-70"
           dangerouslySetInnerHTML={{ __html: resource.icon }}
-          whileHover={{ 
-            scale: 1.2, 
-            opacity: 0.9,
-            rotate: 5,
-            transition: { 
-              type: "spring",
-              stiffness: 400,
-              damping: 15
-            }
-          }}
         />
-      </motion.div>
+      </div>
 
       {/* Card content */}
       <div className="p-6 flex flex-col flex-grow">
-        <motion.h3 
-          className="text-xl font-semibold mb-3 text-primary"
-          whileHover={{ 
-            color: "#2563eb",
-            transition: { duration: 0.2 }
-          }}
+        <h3 
+          className="text-xl font-semibold mb-3 text-primary transition-colors duration-200 group-hover:text-blue-600"
         >
           {resource.title}
-        </motion.h3>
+        </h3>
         
-        <motion.p 
-          className="text-secondary text-sm mb-4 flex-grow"
-          whileHover={{ 
-            color: "#4b5563",
-            transition: { duration: 0.2 }
-          }}
+        <p 
+          className="text-secondary text-sm mb-4 flex-grow transition-colors duration-200 group-hover:text-gray-600"
         >
           {resource.description}
-        </motion.p>
+        </p>
 
         {/* Progress bar for courses */}
         {resource.progressKey && resource.totalLessons && (
-          <motion.div 
+          <div 
+            ref={progressWrapperRef}
             className="mb-4"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.1 + 0.4 }}
           >
             <div className="flex justify-between items-center mb-2">
               <span className="text-xs font-medium text-tertiary">Progress</span>
-              <motion.span 
+              <span 
+                ref={progressValueRef}
                 className="text-xs font-medium text-tertiary"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: index * 0.1 + 0.6 }}
               >
                 {progress}%
-              </motion.span>
+              </span>
             </div>
             <div className="w-full bg-tertiary rounded-full h-2 overflow-hidden">
-              <motion.div
+              <div
+                ref={progressFillRef}
                 className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full shadow-sm"
-                initial={{ width: 0, scale: 0.9 }}
-                animate={{ width: `${progress}%`, scale: 1 }}
-                transition={{ 
-                  duration: 1.2, 
-                  delay: index * 0.1 + 0.5,
-                  ease: "easeOut"
-                }}
-                whileHover={{
-                  scale: 1.02,
-                  transition: { duration: 0.2 }
-                }}
               />
             </div>
-          </motion.div>
+          </div>
         )}
 
         {/* Tags */}
-        <div className="flex flex-wrap gap-2 mb-4">
+        <div ref={tagsContainerRef} className="flex flex-wrap gap-2 mb-4">
           {tags.map((tag, tagIndex) => (
-            <motion.span
+            <span
               key={tag}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ 
-                duration: 0.3, 
-                delay: index * 0.1 + tagIndex * 0.05 + 0.3 
-              }}
               className="px-3 py-1 rounded-full bg-tertiary text-secondary text-xs font-medium"
             >
               {tag}
-            </motion.span>
+            </span>
           ))}
         </div>
 
         {/* Link */}
-        <motion.div 
-          className="flex items-center justify-between"
-          whileHover={{ x: 2 }}
-          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+        <div 
+          className="flex items-center justify-between transition-transform duration-200 group-hover:translate-x-0.5"
         >
-          <motion.span 
-            className="text-blue-600 font-medium text-sm"
-            whileHover={{ 
-              color: "#1d4ed8",
-              transition: { duration: 0.2 }
-            }}
+          <span 
+            className="text-blue-600 font-medium text-sm transition-colors duration-200 group-hover:text-blue-700"
           >
             {resource.linkText}
-          </motion.span>
-          <motion.div
-            whileHover={{ 
-              x: 4,
-              scale: 1.1,
-              transition: { 
-                type: "spring",
-                stiffness: 400,
-                damping: 15
-              }
-            }}
+          </span>
+          <div
+            className="transition-transform duration-200 group-hover:translate-x-1 group-hover:scale-105"
           >
             <ExternalLink className="w-4 h-4 text-blue-600" />
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
-    </motion.div>
+    </div>
   )
 
   // For external links (HTML files, APKs, URLs), use regular links

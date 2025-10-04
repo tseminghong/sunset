@@ -247,11 +247,8 @@
     font-size: clamp(2.5rem, 8vw, 6rem);
     line-height: 1.1;
     font-weight: 800;
-    background: linear-gradient(135deg, var(--text-primary), var(--accent-primary));
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 4px 20px rgba(0, 145, 255, 0.3);
+    color: var(--text-primary);
+    text-shadow: 0 2px 10px rgba(0, 145, 255, 0.2);
   }
 
   .hero-subtitle {
@@ -285,11 +282,8 @@
 
   /* Dark mode hero enhancements */
   .dark .hero-title {
-    background: linear-gradient(135deg, var(--text-primary), var(--accent-primary));
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 4px 20px rgba(10, 150, 255, 0.4);
+    color: var(--text-primary);
+    text-shadow: 0 2px 10px rgba(10, 150, 255, 0.3);
   }
 
   .bg-primary {

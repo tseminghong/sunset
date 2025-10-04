@@ -1,16 +1,151 @@
 'use client'
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { GraduationCap, Users, Target, Award, Mail, Github, ExternalLink } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { GraduationCap, Users, Target, Award, Mail, Github } from 'lucide-react'
 import Header from '@/components/Header'
 import AuthModal from '@/components/AuthModal'
 import Footer from '@/components/Footer'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { gsap } from '@/lib/gsap'
 
 export default function AboutPage() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const { t } = useLanguage()
+  
+  const heroRef = useRef<HTMLDivElement>(null)
+  const titleRef = useRef<HTMLHeadingElement>(null)
+  const subtitleRef = useRef<HTMLParagraphElement>(null)
+  const shapesRef = useRef<HTMLDivElement>(null)
+  const missionRef = useRef<HTMLDivElement>(null)
+  const featuresContainerRef = useRef<HTMLDivElement>(null)
+  const subjectsRef = useRef<HTMLDivElement>(null)
+  const teamRef = useRef<HTMLDivElement>(null)
+  const contactRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    // Hero animation
+    if (heroRef.current) {
+      gsap.fromTo(heroRef.current,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
+      )
+    }
+
+    // Title pulse
+    if (titleRef.current) {
+      gsap.to(titleRef.current, {
+        textShadow: '0 0 20px rgba(59, 130, 246, 0.1)',
+        duration: 3,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut'
+      })
+    }
+
+    // Subtitle fade in
+    if (subtitleRef.current) {
+      gsap.fromTo(subtitleRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.8, delay: 0.3, ease: 'power2.out' }
+      )
+    }
+
+    // Background animations
+    if (shapesRef.current) {
+      const shapes = shapesRef.current.querySelectorAll('.shape')
+      shapes.forEach((shape, i) => {
+        gsap.to(shape, {
+          x: () => `+=${Math.random() * 100 - 50}`,
+          y: () => `+=${Math.random() * 100 - 50}`,
+          scale: () => Math.random() * 0.3 + 0.7,
+          rotate: 360,
+          duration: 8 + Math.random() * 4,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+          delay: i * 0.2
+        })
+      })
+
+      const lines = shapesRef.current.querySelectorAll('.line')
+      lines.forEach((line, i) => {
+        gsap.fromTo(line,
+          { x: '-100%', opacity: 0 },
+          {
+            x: '100%',
+            opacity: 1,
+            duration: 4 + i,
+            repeat: -1,
+            delay: i * 1.5,
+            ease: 'none',
+            keyframes: [
+              { opacity: 0, duration: 0 },
+              { opacity: 1, duration: 0.2 },
+              { opacity: 1, duration: 0.6 },
+              { opacity: 0, duration: 0.2 }
+            ]
+          }
+        )
+      })
+    }
+
+    // Section scroll animations
+    const sections = [missionRef, featuresContainerRef, subjectsRef, teamRef, contactRef]
+    sections.forEach((ref, index) => {
+      if (ref.current) {
+        gsap.fromTo(ref.current,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            scrollTrigger: {
+              trigger: ref.current,
+              start: 'top 80%',
+              toggleActions: 'play none none none'
+            }
+          }
+        )
+      }
+    })
+
+    // Feature cards stagger
+    if (featuresContainerRef.current) {
+      const cards = featuresContainerRef.current.querySelectorAll('.feature-card')
+      gsap.fromTo(cards,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: featuresContainerRef.current,
+            start: 'top 70%'
+          }
+        }
+      )
+    }
+
+    // Subject items stagger
+    if (subjectsRef.current) {
+      const items = subjectsRef.current.querySelectorAll('.subject-item')
+      gsap.fromTo(items,
+        { opacity: 0, scale: 0.9 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 0.5,
+          stagger: 0.05,
+          ease: 'back.out(1.4)',
+          scrollTrigger: {
+            trigger: subjectsRef.current,
+            start: 'top 70%'
+          }
+        }
+      )
+    }
+  }, [])
 
   const features = [
     {
@@ -50,153 +185,88 @@ export default function AboutPage() {
 
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+        <div
+          ref={heroRef}
           className="text-center mb-12 relative overflow-hidden"
         >
           {/* Dynamic Background Elements */}
-          <div className="absolute inset-0 -z-10">
+          <div ref={shapesRef} className="absolute inset-0 -z-10">
             {/* Floating shapes */}
             {[...Array(6)].map((_, i) => (
-              <motion.div
+              <div
                 key={i}
-                className="absolute w-4 h-4 bg-blue-500/10 rounded-full"
-                initial={{ 
-                  x: Math.random() * 800,
-                  y: Math.random() * 400,
-                  scale: Math.random() * 0.5 + 0.5
-                }}
-                animate={{
-                  x: Math.random() * 800,
-                  y: Math.random() * 400,
-                  scale: Math.random() * 0.8 + 0.4,
-                  rotate: 360
-                }}
-                transition={{
-                  duration: 8 + Math.random() * 4,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                  ease: "easeInOut"
+                className="shape absolute w-4 h-4 bg-blue-500/10 rounded-full"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`
                 }}
               />
             ))}
             
-            {/* Gradient waves */}
-            <motion.div
-              className="absolute top-0 left-0 w-full h-full opacity-30"
-              animate={{
-                background: [
-                  "radial-gradient(circle at 20% 80%, #3b82f6 0%, transparent 50%)",
-                  "radial-gradient(circle at 80% 20%, #6366f1 0%, transparent 50%)",
-                  "radial-gradient(circle at 40% 40%, #8b5cf6 0%, transparent 50%)",
-                  "radial-gradient(circle at 20% 80%, #3b82f6 0%, transparent 50%)"
-                ]
-              }}
-              transition={{
-                duration: 10,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-            
             {/* Animated lines */}
             {[...Array(3)].map((_, i) => (
-              <motion.div
+              <div
                 key={`line-${i}`}
-                className="absolute h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent"
+                className="line absolute h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent"
                 style={{
                   width: '100%',
                   top: `${20 + i * 30}%`,
                   left: '0%'
                 }}
-                animate={{
-                  x: ['-100%', '100%'],
-                  opacity: [0, 1, 0]
-                }}
-                transition={{
-                  duration: 4 + i,
-                  repeat: Infinity,
-                  delay: i * 1.5,
-                  ease: "easeInOut"
-                }}
               />
             ))}
           </div>
           
-          <motion.h1 
+          <h1 
+            ref={titleRef}
             className="text-4xl md:text-5xl font-bold text-primary mb-6 relative z-10"
-            animate={{ 
-              textShadow: [
-                "0 0 0px rgba(59, 130, 246, 0)",
-                "0 0 20px rgba(59, 130, 246, 0.1)",
-                "0 0 0px rgba(59, 130, 246, 0)"
-              ]
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
           >
             {t('about.heroTitle')}
-          </motion.h1>
-          <motion.p 
+          </h1>
+          <p 
+            ref={subtitleRef}
             className="text-xl text-secondary max-w-3xl mx-auto leading-relaxed relative z-10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
           >
             {t('about.heroSubtitle')}
-          </motion.p>
-        </motion.div>
+          </p>
+        </div>
 
         {/* Mission Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+        <div
+          ref={missionRef}
           className="bg-secondary rounded-2xl p-8 mb-12"
         >
           <h2 className="text-2xl font-bold text-primary mb-4 text-center">My Mission</h2>
           <p className="text-secondary text-center max-w-4xl mx-auto text-lg leading-relaxed">
             SYBAU nigga
           </p>
-        </motion.div>
+        </div>
 
         {/* Features Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+        <div
+          ref={featuresContainerRef}
           className="mb-12"
         >
           <h2 className="text-3xl font-bold text-primary text-center mb-8">{t('about.whatIOffer')}</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
-                className="bg-secondary rounded-xl p-6 text-center hover:shadow-lg transition-shadow"
+                className="feature-card bg-secondary rounded-xl p-6 text-center hover:shadow-lg transition-shadow duration-300"
               >
                 <div className="text-blue-600 mb-4 flex justify-center">
                   {feature.icon}
                 </div>
                 <h3 className="font-semibold text-primary mb-3">{feature.title}</h3>
                 <p className="text-secondary text-sm">{feature.description}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Subjects Covered */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+        <div
+          ref={subjectsRef}
           className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl p-8 mb-12"
         >
           <h2 className="text-3xl font-bold text-primary text-center mb-8">Subjects Covered</h2>
@@ -212,53 +282,43 @@ export default function AboutPage() {
               'Computer Networks',
               'Programming Fundamentals'
             ].map((subject, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.7 + index * 0.05 }}
-                className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm"
+                className="subject-item bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm"
               >
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
                   <span className="text-primary font-medium">{subject}</span>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Team Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
+        <div
+          ref={teamRef}
           className="mb-12"
         >
           <h2 className="text-3xl font-bold text-primary text-center mb-8">Our Team</h2>
           <div className="flex justify-center">
             {teamMembers.map((member, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.9 + index * 0.1 }}
                 className="bg-secondary rounded-xl p-6 text-center max-w-sm"
               >
                 <div className="text-4xl mb-4">{member.image}</div>
                 <h3 className="font-semibold text-primary mb-2">{member.name}</h3>
                 <p className="text-blue-600 font-medium mb-3">{member.role}</p>
                 <p className="text-secondary text-sm">{member.description}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Contact Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.0 }}
+        <div
+          ref={contactRef}
           className="bg-secondary rounded-2xl p-8 text-center"
         >
           <h2 className="text-2xl font-bold text-primary mb-4">Find me</h2>
@@ -275,7 +335,7 @@ export default function AboutPage() {
               GitHub
             </button>
           </div>
-        </motion.div>
+        </div>
       </main>
 
       <Footer />

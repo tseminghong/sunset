@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useHeroScrollEffects } from '@/hooks/useHeroScrollEffects'
 import { gsap } from '@/lib/gsap'
+import { useGsapHoverAnimation, useGsapMountAnimation } from '@/hooks/useGsapMotion'
 
 export default function HeroSection() {
   const { t } = useLanguage()
@@ -21,7 +21,23 @@ export default function HeroSection() {
   const titleRef = useRef<HTMLHeadingElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)
   const betaRef = useRef<HTMLParagraphElement>(null)
-  const ctaRef = useRef<HTMLAnchorElement>(null)
+  const ctaRef = useGsapHoverAnimation<HTMLAnchorElement>({
+    rest: { scale: 1, y: 0 },
+    hover: { scale: 1.05, y: -2 },
+    pressIn: { scale: 0.95 },
+    pressOut: { scale: 1.05, y: -2 },
+    transition: { duration: 0.2, ease: 'power2.out' }
+  })
+  const contentRef = useGsapMountAnimation<HTMLDivElement>({
+    from: { opacity: 0, y: 50 },
+    to: { opacity: 1, y: 0 },
+    transition: { duration: 0.8, ease: 'power2.out' }
+  })
+
+  const floatingARef = useRef<HTMLDivElement>(null)
+  const floatingBRef = useRef<HTMLDivElement>(null)
+  const floatingCRef = useRef<HTMLDivElement>(null)
+  const floatingDRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     let titleSplit: any
@@ -84,14 +100,6 @@ export default function HeroSection() {
               duration: 0.5
             }, '-=0.2')
           }
-
-          if (ctaRef.current) {
-            tl.from(ctaRef.current, {
-              opacity: 0,
-              y: 30,
-              duration: 0.6
-            }, '-=0.2')
-          }
         }, heroRef)
       } catch (error) {
         console.warn('SplitText animation failed:', error)
@@ -108,6 +116,69 @@ export default function HeroSection() {
     }
   }, [heroRef])
 
+  useEffect(() => {
+    const tweens: gsap.core.Tween[] = []
+
+    if (floatingARef.current) {
+      tweens.push(gsap.to(floatingARef.current, {
+        keyframes: [
+          { y: -10, rotate: 0 },
+          { y: 10, rotate: 5 },
+          { y: -10, rotate: 0 }
+        ],
+        duration: 4,
+        repeat: -1,
+        ease: 'sine.inOut'
+      }))
+    }
+
+    if (floatingBRef.current) {
+      tweens.push(gsap.to(floatingBRef.current, {
+        keyframes: [
+          { y: 10, rotate: 0 },
+          { y: -10, rotate: -3 },
+          { y: 10, rotate: 0 }
+        ],
+        duration: 3,
+        repeat: -1,
+        ease: 'sine.inOut',
+        delay: 1
+      }))
+    }
+
+    if (floatingCRef.current) {
+      tweens.push(gsap.to(floatingCRef.current, {
+        keyframes: [
+          { x: -5, y: -15, rotate: 0 },
+          { x: 15, y: 5, rotate: 10 },
+          { x: -5, y: -15, rotate: 0 }
+        ],
+        duration: 5,
+        repeat: -1,
+        ease: 'sine.inOut',
+        delay: 2
+      }))
+    }
+
+    if (floatingDRef.current) {
+      tweens.push(gsap.to(floatingDRef.current, {
+        keyframes: [
+          { x: 5, y: 10, rotate: 0 },
+          { x: -10, y: -5, rotate: -8 },
+          { x: 5, y: 10, rotate: 0 }
+        ],
+        duration: 3.5,
+        repeat: -1,
+        ease: 'sine.inOut',
+        delay: 0.5
+      }))
+    }
+
+    return () => {
+      tweens.forEach(tween => tween.kill())
+    }
+  }, [])
+
   return (
     <section 
       ref={heroRef}
@@ -118,11 +189,9 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20" />
       </div>
 
-      <motion.div
+      <div
+        ref={contentRef}
         className="hero-content relative z-10"
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <h1 
           ref={titleRef}
@@ -145,77 +214,34 @@ export default function HeroSection() {
           {t('hero.beta')}
         </p>
 
-        <motion.a 
+        <a 
           ref={ctaRef}
           href="/ict-v1.0.0.apk"
           className="primary-btn px-8 py-3 text-lg inline-block btn-press-effect hero-download-btn"
-          whileHover={{ 
-            scale: 1.05,
-            y: -2,
-            transition: { duration: 0.2 }
-          }}
-          whileTap={{ scale: 0.95 }}
         >
           {t('hero.download')}
-        </motion.a>
-      </motion.div>
+        </a>
+      </div>
 
       {/* Enhanced Floating background elements */}
-      <motion.div
+      <div
+        ref={floatingARef}
         className="floating-element absolute top-10 left-10 w-20 h-20 bg-blue-500/10 rounded-full"
-        animate={{ 
-          y: [-10, 10, -10],
-          rotate: [0, 5, 0]
-        }}
-        transition={{ 
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
       />
       
-      <motion.div
+      <div
+        ref={floatingBRef}
         className="floating-element absolute bottom-10 right-10 w-16 h-16 bg-purple-500/10 rounded-full"
-        animate={{ 
-          y: [10, -10, 10],
-          rotate: [0, -3, 0]
-        }}
-        transition={{ 
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1
-        }}
       />
 
-      <motion.div
+      <div
+        ref={floatingCRef}
         className="floating-element absolute top-1/2 left-20 w-12 h-12 bg-pink-500/10 rounded-full"
-        animate={{ 
-          x: [-5, 15, -5],
-          y: [-15, 5, -15],
-          rotate: [0, 10, 0]
-        }}
-        transition={{ 
-          duration: 5,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 2
-        }}
       />
 
-      <motion.div
+      <div
+        ref={floatingDRef}
         className="floating-element absolute top-1/3 right-20 w-8 h-8 bg-yellow-500/10 rounded-full"
-        animate={{ 
-          x: [5, -10, 5],
-          y: [10, -5, 10],
-          rotate: [0, -8, 0]
-        }}
-        transition={{ 
-          duration: 3.5,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 0.5
-        }}
       />
     </section>
   )

@@ -1,7 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { ReactNode } from 'react'
+import { useIntersectionAnimation } from '@/hooks/useScrollAnimations'
+import { gsap } from '@/lib/gsap'
 
 interface TransitionSectionProps {
   children: ReactNode
@@ -22,46 +23,42 @@ export default function TransitionSection({
   distance = 50,
   id
 }: TransitionSectionProps) {
-  const getInitialPosition = () => {
-    switch (direction) {
-      case 'up':
-        return { opacity: 0, y: distance }
-      case 'down':
-        return { opacity: 0, y: -distance }
-      case 'left':
-        return { opacity: 0, x: distance }
-      case 'right':
-        return { opacity: 0, x: -distance }
-      default:
-        return { opacity: 0, y: distance }
-    }
-  }
+  const sectionRef = useIntersectionAnimation<HTMLElement>((element) => {
+    const from: gsap.TweenVars = { opacity: 0 }
+    const to: gsap.TweenVars = { opacity: 1, duration, delay, ease: 'power2.out' }
 
-  const getAnimatePosition = () => {
     switch (direction) {
       case 'up':
-        return { opacity: 1, y: 0 }
+        from.y = distance
+        to.y = 0
+        break
       case 'down':
-        return { opacity: 1, y: 0 }
+        from.y = -distance
+        to.y = 0
+        break
       case 'left':
-        return { opacity: 1, x: 0 }
+        from.x = distance
+        to.x = 0
+        break
       case 'right':
-        return { opacity: 1, x: 0 }
+        from.x = -distance
+        to.x = 0
+        break
       default:
-        return { opacity: 1, y: 0 }
+        from.y = distance
+        to.y = 0
     }
-  }
+
+    gsap.fromTo(element, from, to)
+  })
 
   return (
-    <motion.section
+    <section
+      ref={sectionRef}
       id={id}
       className={className}
-      initial={getInitialPosition()}
-      whileInView={getAnimatePosition()}
-      viewport={{ once: true }}
-      transition={{ duration, delay }}
     >
       {children}
-    </motion.section>
+    </section>
   )
 }

@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { Search } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { gsap } from '@/lib/gsap'
 
 interface SearchBarProps {
   searchTerm: string
@@ -11,30 +11,34 @@ interface SearchBarProps {
   placeholder?: string
 }
 
-export default function SearchBar({
+// Inner component that only renders after portal is mounted
+function SearchBarContent({
   searchTerm,
   onSearchChange,
-  placeholder = "Search resources..."
+  placeholder
 }: SearchBarProps) {
-  const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    setPortalTarget(document.body)
+    if (containerRef.current) {
+      gsap.fromTo(
+        containerRef.current,
+        { opacity: 0, y: 100, scale: 0.9 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1,
+          delay: 1.2,
+          ease: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+        }
+      )
+    }
   }, [])
 
-  if (!portalTarget) {
-    return null
-  }
-
-  const content = (
-    <motion.div
-      initial={{ opacity: 0, y: 100, scale: 0.9 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{
-        duration: 1,
-        ease: [0.175, 0.885, 0.32, 1.275],
-        delay: 1.2
-      }}
+  return (
+    <div
+      ref={containerRef}
       className="pointer-events-none fixed left-4 right-4 z-40 flex justify-center"
       style={{ bottom: `calc(1.5rem + env(safe-area-inset-bottom, 0px))` }}
     >
@@ -50,8 +54,20 @@ export default function SearchBar({
           className="w-full bg-transparent border-none outline-none pl-14 pr-6 py-4 text-primary placeholder-tertiary font-medium"
         />
       </div>
-    </motion.div>
+    </div>
   )
+}
 
-  return createPortal(content, portalTarget)
+export default function SearchBar(props: SearchBarProps) {
+  const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null)
+
+  useEffect(() => {
+    setPortalTarget(document.body)
+  }, [])
+
+  if (!portalTarget) {
+    return null
+  }
+
+  return createPortal(<SearchBarContent {...props} />, portalTarget)
 }

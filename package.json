@@ -13,9 +13,17 @@
     "perf:analyze": "npm run build:analyze",
     "perf:test": "npm run build && npm run start & sleep 5 && npm run lighthouse && pkill -f 'next start'",
     "size": "npx size-limit",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "android:add": "npx cap add android",
+    "android:sync": "npm run build && npx cap sync android",
+    "android:open": "npx cap open android",
+    "android:run": "npm run android:sync && npx cap run android",
+    "mobile:build": "npm run build && npx cap sync"
   },
   "dependencies": {
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/cli": "^7.4.3",
+    "@capacitor/core": "^7.4.3",
     "@headlessui/react": "^2.2.9",
     "@vercel/analytics": "^1.5.0",
     "clsx": "^2.1.1",

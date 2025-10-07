@@ -216,7 +216,8 @@ export default function HeroSection() {
 
         <a 
           ref={ctaRef}
-          href="/ict-v1.0.0.apk"
+          href="/ict-v1.1.0.apk"
+          download="ICT-Revision-Hub-v1.1.0.apk"
           className="primary-btn px-8 py-3 text-lg inline-block btn-press-effect hero-download-btn"
         >
           {t('hero.download')}

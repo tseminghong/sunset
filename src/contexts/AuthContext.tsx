@@ -14,9 +14,10 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-const AUTH_API_BASE = 'https://login-system.darrenintr.workers.dev'
-const TOKEN_KEY = 'auth_jwt_token_v1'
-const PROFILE_KEY = 'auth_profile_cache_v1'
+// Use the new ICT Sync API
+const AUTH_API_BASE = 'https://ict-sync-api.darrenintr.workers.dev'
+const TOKEN_KEY = 'ict_sync_jwt_token'
+const PROFILE_KEY = 'ict_sync_profile_cache'
 
 async function apiCall(path: string, options: RequestInit = {}): Promise<AuthResponse> {
   const token = localStorage.getItem(TOKEN_KEY)
@@ -79,7 +80,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return
     }
 
-    const response = await apiCall('/me')
+    const response = await apiCall('/auth/me')
     if (!response.ok) {
       if (response.status === 401) {
         localStorage.removeItem(TOKEN_KEY)
@@ -108,7 +109,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const login = async (username: string, password: string) => {
-    const response = await apiCall('/login', {
+    const response = await apiCall('/auth/login', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
     })
@@ -131,7 +132,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const signup = async (username: string, password: string) => {
-    const response = await apiCall('/register', {
+    const response = await apiCall('/auth/register', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
     })
@@ -147,8 +148,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const logout = async () => {
-    await apiCall('/logout', { method: 'POST' })
-    
     try {
       localStorage.removeItem(TOKEN_KEY)
       localStorage.removeItem(PROFILE_KEY)

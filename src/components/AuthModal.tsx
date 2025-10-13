@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { createPortal } from 'react-dom'
+import { motion } from 'framer-motion'
 import { X, User, Lock } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
 import { useLanguage } from '@/contexts/LanguageContext'
@@ -90,23 +91,25 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
     setIsLoading(false)
   }
 
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0"
-            style={{ 
-              background: 'var(--modal-backdrop)',
-              backdropFilter: 'blur(18px)',
-              WebkitBackdropFilter: 'blur(18px)'
-            }}
-            onClick={onClose}
-          />
+  // Don't render if not open
+  if (!isOpen) return null
+
+  // Render modal using portal (same as SimpleAuthModal that worked)
+  return createPortal(
+    <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="absolute inset-0"
+        style={{ 
+          background: 'var(--modal-backdrop)',
+          backdropFilter: 'blur(18px)',
+          WebkitBackdropFilter: 'blur(18px)'
+        }}
+        onClick={onClose}
+      />
 
           {/* Modal */}
           <motion.div
@@ -244,13 +247,12 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
               </button>
             </form>
 
-            {/* Footer */}
-            <p className="mt-6 text-[10px] text-secondary text-center">
-              Powered by secure Worker auth API.
-            </p>
-          </motion.div>
-        </div>
-      )}
-    </AnimatePresence>
+          {/* Footer */}
+          <p className="mt-6 text-[10px] text-secondary text-center">
+            Powered by ICT Sync API
+          </p>
+        </motion.div>
+      </div>,
+    document.body
   )
 }

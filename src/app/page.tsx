@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import Header from '@/components/Header'
 import HeroSection from '@/components/HeroSection'
@@ -8,6 +8,7 @@ import TagFilter from '@/components/TagFilter'
 import ResourceCard from '@/components/ResourceCard'
 import SearchBar from '@/components/SearchBar'
 import AuthModal from '@/components/AuthModal'
+import SimpleAuthModal from '@/components/SimpleAuthModal'
 import Footer from '@/components/Footer'
 import TransitionSection from '@/components/TransitionSection'
 import { resourcesData, allTags } from '@/data/resources'
@@ -17,6 +18,16 @@ export default function HomePage() {
   const [activeTag, setActiveTag] = useState('all')
   const [searchTerm, setSearchTerm] = useState('')
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+
+  // Memoized callback to open auth modal
+  const openAuthModal = useCallback(() => {
+    setIsAuthModalOpen(true)
+  }, [])
+
+  // Memoized callback to close auth modal
+  const closeAuthModal = useCallback(() => {
+    setIsAuthModalOpen(false)
+  }, [])
 
   const filteredResources = useMemo(() => {
     return resourcesData.filter(resource => {
@@ -32,7 +43,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-primary">
-      <Header onAuthClick={() => setIsAuthModalOpen(true)} />
+      <Header onAuthClick={openAuthModal} />
 
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         {/* Hero Section */}
@@ -158,7 +169,7 @@ export default function HomePage() {
       {/* Auth Modal */}
       <AuthModal
         isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
+        onClose={closeAuthModal}
       />
     </div>
   )

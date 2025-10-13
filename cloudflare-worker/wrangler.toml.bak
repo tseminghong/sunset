@@ -1,0 +1,29 @@
+# Cloudflare Worker Configuration for ICT Revision Hub Sync API
+
+name = "ict-sync-api"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+account_id = "YOUR_ACCOUNT_ID"  # Replace with your Cloudflare account ID
+workers_dev = true
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "ict-sync-db"
+database_id = "YOUR_DATABASE_ID"  # Replace after creating D1 database
+
+# KV namespace for session storage (optional)
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = "YOUR_KV_ID"
+
+# Environment variables
+[vars]
+JWT_SECRET = "your-secret-key-change-in-production"
+API_VERSION = "v1"
+CORS_ORIGINS = "*"  # In production, specify exact domains
+
+# Production environment
+[env.production]
+workers_dev = false
+vars = { JWT_SECRET = "production-secret-key" }

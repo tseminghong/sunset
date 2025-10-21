@@ -31,8 +31,171 @@
 
   <title>flutter_ict_hub</title>
   <link rel="manifest" href="manifest.json">
+
+  <!-- GSAP Core -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js"></script>
+  
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    
+    /* Smooth scrolling container */
+    #smooth-wrapper {
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+    
+    #smooth-content {
+      overflow-y: auto;
+      overflow-x: hidden;
+      height: 100vh;
+      width: 100%;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: auto;
+    }
+    
+    /* Hide scrollbar but keep functionality */
+    #smooth-content::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    #smooth-content::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+    }
+    
+    #smooth-content::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 4px;
+    }
+    
+    #smooth-content::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    /* Performance optimizations */
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  </style>
 </head>
 <body>
+  <div id="smooth-wrapper">
+    <div id="smooth-content">
+      <!-- Flutter content will be injected here -->
+    </div>
+  </div>
+
+  <!-- GSAP Smooth Scroll Implementation -->
+  <script>
+    // Initialize GSAP plugins
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+    
+    // Smooth scrolling configuration
+    let smoothScroll = null;
+    
+    window.addEventListener('load', function() {
+      // Get the smooth content container
+      const smoothContent = document.getElementById('smooth-content');
+      const flutterView = document.querySelector('flutter-view') || document.querySelector('flt-glass-pane');
+      
+      // Move Flutter content into smooth container if it exists
+      if (flutterView && smoothContent) {
+        smoothContent.appendChild(flutterView);
+      }
+      
+      // Apply smooth scrolling with Lenis-like feel
+      let scrollPos = 0;
+      let targetScrollPos = 0;
+      const lerp = (start, end, factor) => start + (end - start) * factor;
+      
+      // Smooth scroll animation
+      function smoothScrollAnimation() {
+        scrollPos = lerp(scrollPos, targetScrollPos, 0.1);
+        
+        if (Math.abs(targetScrollPos - scrollPos) > 0.5) {
+          if (smoothContent) {
+            smoothContent.scrollTop = scrollPos;
+          }
+          requestAnimationFrame(smoothScrollAnimation);
+        } else {
+          scrollPos = targetScrollPos;
+          if (smoothContent) {
+            smoothContent.scrollTop = scrollPos;
+          }
+        }
+      }
+      
+      // Listen for scroll events
+      if (smoothContent) {
+        smoothContent.addEventListener('scroll', function(e) {
+          targetScrollPos = smoothContent.scrollTop;
+          if (!smoothScroll) {
+            smoothScroll = true;
+            requestAnimationFrame(smoothScrollAnimation);
+          }
+        }, { passive: true });
+        
+        // Smooth wheel scrolling
+        smoothContent.addEventListener('wheel', function(e) {
+          e.preventDefault();
+          targetScrollPos += e.deltaY * 0.8;
+          targetScrollPos = Math.max(0, Math.min(targetScrollPos, smoothContent.scrollHeight - smoothContent.clientHeight));
+          
+          if (!smoothScroll) {
+            smoothScroll = true;
+            requestAnimationFrame(smoothScrollAnimation);
+          }
+        }, { passive: false });
+      }
+      
+      // Initialize ScrollTrigger
+      ScrollTrigger.create({
+        trigger: smoothContent,
+        start: 'top top',
+        end: 'bottom bottom',
+        onUpdate: (self) => {
+          // Update scroll position for any GSAP animations
+          gsap.set(smoothContent, { y: -self.scroll() * 0.05 });
+        }
+      });
+      
+      console.log('GSAP Smooth Scrolling initialized');
+    });
+    
+    // Expose GSAP to Flutter via window object
+    window.gsap = gsap;
+    window.ScrollTrigger = ScrollTrigger;
+    
+    // Helper function for Flutter to trigger animations
+    window.animateElement = function(selector, props, duration = 1) {
+      return gsap.to(selector, { ...props, duration });
+    };
+    
+    // Helper function for scroll animations
+    window.scrollToElement = function(selector, duration = 1) {
+      const element = document.querySelector(selector);
+      if (element) {
+        gsap.to('#smooth-content', {
+          scrollTo: { y: element, offsetY: 50 },
+          duration: duration,
+          ease: 'power2.inOut'
+        });
+      }
+    };
+  </script>
+
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

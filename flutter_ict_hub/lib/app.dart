@@ -15,7 +15,8 @@ import 'screens/javascript_screen.dart';
 import 'screens/html_screen.dart';
 import 'screens/dse_screen.dart';
 import 'screens/processing_modes_screen.dart';
-import 'widgets/smooth_scroll.dart';
+import 'widgets/gsap_widgets.dart';
+import 'utils/gsap_bridge.dart' if (dart.library.html) 'utils/gsap_bridge.dart';
 
 final _router = GoRouter(
   initialLocation: '/',
@@ -96,8 +97,27 @@ final _router = GoRouter(
   ),
 );
 
-class ICTRevisionHubApp extends StatelessWidget {
+class ICTRevisionHubApp extends StatefulWidget {
   const ICTRevisionHubApp({Key? key}) : super(key: key);
+
+  @override
+  State<ICTRevisionHubApp> createState() => _ICTRevisionHubAppState();
+}
+
+class _ICTRevisionHubAppState extends State<ICTRevisionHubApp> {
+  @override
+  void initState() {
+    super.initState();
+    // Initialize GSAP on web platform
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      try {
+        GSAPBridge.initialize();
+        GSAPBridge.applySmoothScroll();
+      } catch (e) {
+        print('GSAP not available: $e');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,8 +132,8 @@ class ICTRevisionHubApp extends StatelessWidget {
           darkTheme: _buildDarkTheme(),
           themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
           routerConfig: _router,
-          // Apply smooth scroll behavior globally
-          scrollBehavior: const SmoothScrollBehavior(),
+          // Apply GSAP-like smooth scroll behavior globally
+          scrollBehavior: const GSAPScrollBehavior(),
         );
       },
     );

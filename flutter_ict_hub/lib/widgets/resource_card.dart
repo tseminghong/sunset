@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import '../constants/colors.dart';
+import '../constants/design_tokens.dart';
 import '../models/resource.dart';
 import '../providers/theme_provider.dart';
 import '../utils/animations.dart';
@@ -29,7 +30,7 @@ class _ResourceCardState extends State<ResourceCard>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: DesignTokens.durationNormal,
       vsync: this,
     );
   }
@@ -64,7 +65,7 @@ class _ResourceCardState extends State<ResourceCard>
               _controller.reverse();
             },
             child: Transform.scale(
-              scale: _isHovered ? 1.02 : 1.0,
+              scale: _isHovered ? DesignTokens.hoverScale : 1.0,
               child: AnimatedBuilder(
                 animation: _controller,
                 builder: (context, child) {
@@ -78,22 +79,18 @@ class _ResourceCardState extends State<ResourceCard>
                     // Navigate to the resource page
                     context.go(widget.resource.href);
                   },
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(DesignTokens.radiusXL),
                   child: Container(
                     decoration: BoxDecoration(
                       color: bgSecondary,
-                      borderRadius: BorderRadius.circular(24),
+                      borderRadius: BorderRadius.circular(DesignTokens.radiusXL),
                       border: Border.all(
                         color: bgTertiary,
                         width: 1,
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(_isHovered ? 0.1 : 0.05),
-                          blurRadius: _isHovered ? 20 : 10,
-                          offset: Offset(0, _isHovered ? 12 : 4),
-                        ),
-                      ],
+                      boxShadow: _isHovered
+                          ? DesignTokens.shadowHover(Colors.black)
+                          : DesignTokens.shadowMD(Colors.black),
                     ),
                     child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,9 +100,9 @@ class _ResourceCardState extends State<ResourceCard>
                         height: 180,
                         decoration: BoxDecoration(
                           color: bgTertiary,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(24),
-                            topRight: Radius.circular(24),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(DesignTokens.radiusXL),
+                            topRight: Radius.circular(DesignTokens.radiusXL),
                           ),
                         ),
                         child: Center(
@@ -169,7 +166,7 @@ class _ResourceCardState extends State<ResourceCard>
                                         decoration: BoxDecoration(
                                           color: bgTertiary,
                                           borderRadius:
-                                              BorderRadius.circular(20),
+                                              BorderRadius.circular(DesignTokens.radiusLG),
                                         ),
                                         child: Text(
                                           tag,

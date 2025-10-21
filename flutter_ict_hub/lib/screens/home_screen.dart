@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../constants/colors.dart';
+import '../constants/design_tokens.dart';
 import '../data/resources.dart';
 import '../providers/resource_provider.dart';
 import '../providers/theme_provider.dart';
 import '../providers/language_provider.dart';
-import '../utils/animations.dart';
 import '../utils/responsive.dart';
 import '../widgets/header.dart';
 import '../widgets/hero_section.dart';
 import '../widgets/tag_filter.dart';
 import '../widgets/resource_card.dart';
 import '../widgets/search_bar.dart';
-import '../widgets/auth_modal.dart';
+import '../widgets/gsap_widgets.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -23,7 +23,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool _isAuthModalOpen = false;
   bool _isScrolled = false;
   late ScrollController _scrollController;
 
@@ -73,8 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 flexibleSpace: FlexibleSpaceBar(
                   collapseMode: CollapseMode.pin,
                   background: Header(
-                    onAuthClick: () =>
-                        setState(() => _isAuthModalOpen = true),
+                    onAuthClick: () {},
                     isScrolled: _isScrolled,
                   ),
                 ),
@@ -91,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Hero Section
-                      FadeInTransition(
+                      GSAPFadeIn(
                         child: const HeroSection(),
                       ),
                       const SizedBox(height: 48),
@@ -103,9 +101,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 32),
                       // Tag Filter
-                      SlideUpTransition(
+                      GSAPFadeIn(
                         duration: const Duration(milliseconds: 600),
-                        delay: 200,
+                        delay: const Duration(milliseconds: 200),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -121,9 +119,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 48),
                       // Resources Title
-                      SlideUpTransition(
+                      GSAPFadeIn(
                         duration: const Duration(milliseconds: 600),
-                        delay: 300,
+                        delay: const Duration(milliseconds: 300),
                         child: Text(
                           langProvider.t('home.featured_resources'),
                           style: TextStyle(
@@ -186,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         )
                       else
-                        SlideUpTransition(
+                        GSAPFadeIn(
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 48),
@@ -213,18 +211,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       const SizedBox(height: 48),
                       // About Section
-                      SlideUpTransition(
-                        duration: const Duration(milliseconds: 800),
-                        delay: 400,
-                        distance: 75,
+                      GSAPFadeIn(
+                        duration: DesignTokens.durationXSlow,
+                        delay: const Duration(milliseconds: 400),
+                        slideOffset: const Offset(0, 75),
                         child: Container(
                           decoration: BoxDecoration(
                             color: bgSecondary,
-                            borderRadius: BorderRadius.circular(24),
+                            borderRadius: BorderRadius.circular(DesignTokens.radiusXL),
                             border: Border.all(
                               color: AppColors.getBgTertiary(isDark),
                               width: 1,
                             ),
+                            boxShadow: DesignTokens.shadowMD(Colors.black),
                           ),
                           padding: const EdgeInsets.all(40),
                           child: Column(
@@ -265,7 +264,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 48),
                       // Footer
-                      FadeInTransition(
+                      GSAPFadeIn(
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                             vertical: 24,

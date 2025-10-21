@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../constants/colors.dart';
+import '../constants/design_tokens.dart';
 import '../providers/theme_provider.dart';
 import '../providers/language_provider.dart';
 import '../utils/animations.dart';
@@ -41,7 +42,7 @@ class _HeroSectionState extends State<HeroSection>
         final textSecondary = AppColors.getTextSecondary(isDark);
 
         return SlideUpTransition(
-          duration: const Duration(milliseconds: 800),
+          duration: DesignTokens.durationXSlow,
           distance: 50,
           child: Container(
             decoration: BoxDecoration(
@@ -53,14 +54,8 @@ class _HeroSectionState extends State<HeroSection>
                   bgSecondary.withOpacity(0.8),
                 ],
               ),
-              borderRadius: BorderRadius.circular(24),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 20,
-                  offset: const Offset(0, 10),
-                ),
-              ],
+              borderRadius: BorderRadius.circular(DesignTokens.radiusXL),
+              boxShadow: DesignTokens.shadowLG(Colors.black),
             ),
             padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 24),
             child: Stack(
@@ -77,7 +72,7 @@ class _HeroSectionState extends State<HeroSection>
                       height: 80,
                       decoration: BoxDecoration(
                         color: AppColors.accentBlue.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(40),
+                        borderRadius: BorderRadius.circular(DesignTokens.radiusXXL),
                       ),
                     ),
                   ),
@@ -94,7 +89,7 @@ class _HeroSectionState extends State<HeroSection>
                       height: 64,
                       decoration: BoxDecoration(
                         color: AppColors.accentPurple.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(32),
+                        borderRadius: BorderRadius.circular(DesignTokens.radiusXXL),
                       ),
                     ),
                   ),

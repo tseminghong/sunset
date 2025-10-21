@@ -58,7 +58,7 @@ final List<Resource> resourcesData = [
     linkText: 'Try Editor',
   ),
   Resource(
-    href: 's4python.html',
+    href: '/python',
     tags: 'Algorithms,Visualization',
     icon: algorithmIcon,
     title: 'Python Algorithm Visualizer',
@@ -66,8 +66,8 @@ final List<Resource> resourcesData = [
     linkText: 'Explore Visualization',
   ),
   Resource(
-    href: 'javascript.html',
-    tags: 'JavaScript,Visualization',
+    href: '/javascript',
+    tags: 'JavaScript,Interactive',
     icon: algorithmIcon,
     title: 'JavaScript Interactive Course',
     description: 'Step-by-step interactive JS lessons with built-in code editor.',

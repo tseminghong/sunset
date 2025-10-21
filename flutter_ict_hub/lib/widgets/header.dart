@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 import '../constants/colors.dart';
 import '../providers/theme_provider.dart';
 import '../providers/language_provider.dart';
@@ -206,13 +207,27 @@ class _HeaderState extends State<Header> {
     Color textSecondary,
     Color textPrimary,
   ) {
-    return MouseRegion(
-      onEnter: (_) {},
-      child: Text(
-        label,
-        style: TextStyle(
-          color: textSecondary,
-          fontWeight: FontWeight.w500,
+    final routes = {
+      'Home': '/',
+      'Resources': '/courses',
+      'About': '/about',
+    };
+    
+    return InkWell(
+      onTap: () {
+        final route = routes[label];
+        if (route != null) {
+          context.go(route);
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        child: Text(
+          label,
+          style: TextStyle(
+            color: textSecondary,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );

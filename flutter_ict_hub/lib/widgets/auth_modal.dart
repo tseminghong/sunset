@@ -45,7 +45,7 @@ class _AuthModalState extends State<AuthModal> {
     if (!widget.isOpen) return const SizedBox.shrink();
 
     return Consumer3<ThemeProvider, LanguageProvider, AuthProvider>(
-      builder: (context, themeProvider, langProvider, authProvider) {
+      builder: (context, themeProvider, langProvider, authProvider, child) {
         final isDark = themeProvider.isDarkMode;
         final bgSecondary = AppColors.getBgSecondary(isDark);
         final textPrimary = AppColors.getTextPrimary(isDark);

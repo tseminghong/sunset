@@ -5,14 +5,95 @@ import 'package:provider/provider.dart';
 import 'constants/colors.dart';
 import 'providers/theme_provider.dart';
 import 'screens/home_screen.dart';
+import 'screens/about_screen.dart';
+import 'screens/courses_screen.dart';
+import 'screens/sql_screen.dart';
+import 'screens/hardware_screen.dart';
+import 'screens/software_screen.dart';
+import 'screens/python_screen.dart';
+import 'screens/javascript_screen.dart';
+import 'screens/html_screen.dart';
+import 'screens/dse_screen.dart';
+import 'screens/processing_modes_screen.dart';
+import 'widgets/smooth_scroll.dart';
 
 final _router = GoRouter(
+  initialLocation: '/',
+  debugLogDiagnostics: false,
   routes: [
     GoRoute(
       path: '/',
+      name: 'home',
       builder: (context, state) => const HomeScreen(),
     ),
+    GoRoute(
+      path: '/about',
+      name: 'about',
+      builder: (context, state) => const AboutScreen(),
+    ),
+    GoRoute(
+      path: '/courses',
+      name: 'courses',
+      builder: (context, state) => const CoursesScreen(),
+    ),
+    GoRoute(
+      path: '/sql',
+      name: 'sql',
+      builder: (context, state) => const SQLScreen(),
+    ),
+    GoRoute(
+      path: '/hardware',
+      name: 'hardware',
+      builder: (context, state) => const HardwareScreen(),
+    ),
+    GoRoute(
+      path: '/software',
+      name: 'software',
+      builder: (context, state) => const SoftwareScreen(),
+    ),
+    GoRoute(
+      path: '/python',
+      name: 'python',
+      builder: (context, state) => const PythonScreen(),
+    ),
+    GoRoute(
+      path: '/javascript',
+      name: 'javascript',
+      builder: (context, state) => const JavaScriptScreen(),
+    ),
+    GoRoute(
+      path: '/html-learning',
+      name: 'html',
+      builder: (context, state) => const HTMLScreen(),
+    ),
+    GoRoute(
+      path: '/dse',
+      name: 'dse',
+      builder: (context, state) => const DSEScreen(),
+    ),
+    GoRoute(
+      path: '/processing-modes',
+      name: 'processing',
+      builder: (context, state) => const ProcessingModesScreen(),
+    ),
   ],
+  errorBuilder: (context, state) => Scaffold(
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.error_outline, size: 64, color: Colors.red),
+          const SizedBox(height: 16),
+          Text('Page not found: ${state.uri}'),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () => context.go('/'),
+            child: const Text('Go Home'),
+          ),
+        ],
+      ),
+    ),
+  ),
 );
 
 class ICTRevisionHubApp extends StatelessWidget {
@@ -31,6 +112,8 @@ class ICTRevisionHubApp extends StatelessWidget {
           darkTheme: _buildDarkTheme(),
           themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
           routerConfig: _router,
+          // Apply smooth scroll behavior globally
+          scrollBehavior: const SmoothScrollBehavior(),
         );
       },
     );

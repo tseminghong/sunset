@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 import '../constants/colors.dart';
 import '../models/resource.dart';
 import '../providers/theme_provider.dart';
@@ -72,23 +73,29 @@ class _ResourceCardState extends State<ResourceCard>
                     child: child,
                   );
                 },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: bgSecondary,
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(
-                      color: bgTertiary,
-                      width: 1,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(_isHovered ? 0.1 : 0.05),
-                        blurRadius: _isHovered ? 20 : 10,
-                        offset: Offset(0, _isHovered ? 12 : 4),
+                child: InkWell(
+                  onTap: () {
+                    // Navigate to the resource page
+                    context.go(widget.resource.href);
+                  },
+                  borderRadius: BorderRadius.circular(24),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: bgSecondary,
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(
+                        color: bgTertiary,
+                        width: 1,
                       ),
-                    ],
-                  ),
-                  child: Column(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(_isHovered ? 0.1 : 0.05),
+                          blurRadius: _isHovered ? 20 : 10,
+                          offset: Offset(0, _isHovered ? 12 : 4),
+                        ),
+                      ],
+                    ),
+                    child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Card image/icon area
@@ -202,6 +209,7 @@ class _ResourceCardState extends State<ResourceCard>
                       ),
                     ],
                   ),
+                ),
                 ),
               ),
             ),

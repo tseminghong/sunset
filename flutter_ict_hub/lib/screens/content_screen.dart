@@ -7,7 +7,6 @@ import '../providers/language_provider.dart';
 import '../utils/animations.dart';
 import '../widgets/header.dart';
 import '../widgets/smooth_scroll.dart';
-import 'dart:ui' as ui;
 
 class ContentScreen extends StatefulWidget {
   final String title;
@@ -47,6 +46,9 @@ class _ContentScreenState extends State<ContentScreen> {
         return Scaffold(
           backgroundColor: bgPrimary,
           body: CustomScrollView(
+            physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics(),
+            ),
             slivers: [
               // Header
               SliverAppBar(

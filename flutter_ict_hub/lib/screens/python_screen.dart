@@ -12,6 +12,8 @@ class PythonScreen extends StatefulWidget {
 class _PythonScreenState extends State<PythonScreen>
     with SingleTickerProviderStateMixin {
   String _selectedAlgorithm = 'bubble';
+  final TextEditingController _arrayController =
+      TextEditingController(text: '64,34,25,12,22,11,90');
   List<int> _array = [64, 34, 25, 12, 22, 11, 90];
   List<int> _displayArray = [];
   int _currentStep = 0;
@@ -21,6 +23,30 @@ class _PythonScreenState extends State<PythonScreen>
   Timer? _timer;
   String _message = 'Click Play to start';
   late AnimationController _animController;
+
+  final Map<String, String> _algorithmCodes = {
+    'bubble': '''def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+    return arr''',
+    'selection': '''def selection_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        min_idx = i
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_idx]:
+                min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+    return arr''',
+    'linear': '''def linear_search(arr, target):
+    for i in range(len(arr)):
+        if arr[i] == target:
+            return i
+    return -1''',
+  };
 
   @override
   void initState() {
@@ -36,7 +62,27 @@ class _PythonScreenState extends State<PythonScreen>
   void dispose() {
     _timer?.cancel();
     _animController.dispose();
+    _arrayController.dispose();
     super.dispose();
+  }
+
+  void _updateArray() {
+    try {
+      final newArray = _arrayController.text
+          .split(',')
+          .map((s) => int.parse(s.trim()))
+          .toList();
+      if (newArray.isNotEmpty) {
+        setState(() {
+          _array = newArray;
+          _reset();
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Invalid array format. Use comma-separated numbers.')),
+      );
+    }
   }
 
   void _play() {
@@ -154,7 +200,7 @@ class _PythonScreenState extends State<PythonScreen>
   }
 
   void _linearSearchStep() {
-    final target = 22; // Search for 22
+    final target = 22;
     if (_currentStep >= _displayArray.length) {
       _timer?.cancel();
       setState(() {
@@ -183,7 +229,7 @@ class _PythonScreenState extends State<PythonScreen>
   Widget build(BuildContext context) {
     return ContentScreen(
       title: 'Python Algorithms',
-      description: 'Interactive algorithm visualizations',
+      description: 'Interactive algorithm visualizations with editable code',
       icon: Icons.code,
       sections: [
         ContentSection(
@@ -193,7 +239,7 @@ class _PythonScreenState extends State<PythonScreen>
         ),
         ContentSection(
           id: 'code',
-          title: 'Algorithm Code',
+          title: 'Algorithm Code (Editable)',
           content: _buildCodeSection(),
         ),
       ],
@@ -204,6 +250,35 @@ class _PythonScreenState extends State<PythonScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Array Input
+        const Text(
+          'Input Array (comma-separated):',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: _arrayController,
+                decoration: InputDecoration(
+                  hintText: 'e.g., 64,34,25,12,22',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            ElevatedButton(
+              onPressed: _isPlaying ? null : _updateArray,
+              child: const Text('Update'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 24),
+
         // Algorithm selector
         const Text(
           'Select Algorithm:',
@@ -266,31 +341,38 @@ class _PythonScreenState extends State<PythonScreen>
             border: Border.all(color: Colors.grey),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: List.generate(_displayArray.length, (index) {
-              final isComparing = index == _compareIndex1 || index == _compareIndex2;
-              return AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                width: 40,
-                height: _displayArray[index] * 2.0,
-                decoration: BoxDecoration(
-                  color: isComparing ? Colors.red : Colors.blue,
-                  borderRadius: BorderRadius.circular(4),
+          child: _displayArray.isEmpty
+              ? const Center(child: Text('Enter array values above'))
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: List.generate(_displayArray.length, (index) {
+                    final isComparing =
+                        index == _compareIndex1 || index == _compareIndex2;
+                    return Expanded(
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        margin: const EdgeInsets.symmetric(horizontal: 2),
+                        height: (_displayArray[index] / _displayArray.reduce((a, b) => a > b ? a : b) * 180),
+                        decoration: BoxDecoration(
+                          color: isComparing ? Colors.red : Colors.blue,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Center(
+                          child: FittedBox(
+                            child: Text(
+                              '${_displayArray[index]}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
                 ),
-                child: Center(
-                  child: Text(
-                    '${_displayArray[index]}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              );
-            }),
-          ),
         ),
         const SizedBox(height: 16),
 
@@ -347,37 +429,16 @@ class _PythonScreenState extends State<PythonScreen>
   }
 
   Widget _buildCodeSection() {
-    String code = '';
+    final code = _algorithmCodes[_selectedAlgorithm] ?? '';
     String explanation = '';
 
     if (_selectedAlgorithm == 'bubble') {
-      code = '''def bubble_sort(arr):
-    n = len(arr)
-    for i in range(n):
-        for j in range(0, n - i - 1):
-            if arr[j] > arr[j + 1]:
-                arr[j], arr[j + 1] = arr[j + 1], arr[j]
-    return arr''';
       explanation =
           'Bubble Sort repeatedly swaps adjacent elements if they are in wrong order. Time Complexity: O(n²)';
     } else if (_selectedAlgorithm == 'selection') {
-      code = '''def selection_sort(arr):
-    n = len(arr)
-    for i in range(n):
-        min_idx = i
-        for j in range(i + 1, n):
-            if arr[j] < arr[min_idx]:
-                min_idx = j
-        arr[i], arr[min_idx] = arr[min_idx], arr[i]
-    return arr''';
       explanation =
           'Selection Sort finds the minimum element and places it at the beginning. Time Complexity: O(n²)';
     } else if (_selectedAlgorithm == 'linear') {
-      code = '''def linear_search(arr, target):
-    for i in range(len(arr)):
-        if arr[i] == target:
-            return i
-    return -1''';
       explanation =
           'Linear Search checks each element sequentially until the target is found. Time Complexity: O(n)';
     }
@@ -396,7 +457,7 @@ class _PythonScreenState extends State<PythonScreen>
             color: Colors.grey[900],
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Text(
+          child: SelectableText(
             code,
             style: const TextStyle(
               fontFamily: 'monospace',
@@ -405,6 +466,11 @@ class _PythonScreenState extends State<PythonScreen>
               height: 1.5,
             ),
           ),
+        ),
+        const SizedBox(height: 16),
+        const Text(
+          '💡 Tip: You can modify the array above and see how the algorithm behaves with different inputs!',
+          style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),
         ),
       ],
     );

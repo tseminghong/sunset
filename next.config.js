@@ -1,16 +1,9 @@
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-})
-
 /** @type {import('next').NextConfig} */
 const path = require('path')
 
 const nextConfig = {
   // Suppress the lockfile warning
   outputFileTracingRoot: process.cwd(),
-  
-  // Static export for mobile app
-  output: 'export',
   
   // Disable image optimization for static export
   images: {
@@ -126,4 +119,4 @@ const nextConfig = {
   },
 }
 
-module.exports = withBundleAnalyzer(nextConfig)
+module.exports = nextConfig

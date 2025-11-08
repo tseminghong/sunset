@@ -3,16 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
-import { LanguageProvider } from "@/contexts/LanguageContext";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-
-import PerformanceMonitor from '@/components/PerformanceMonitor';
-import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration';
-
-// Import components directly for server components compatibility
-import GSAPInitializer from "@/components/GSAPInitializer";
-import ScrollSmootherWrapper from "@/components/ScrollSmootherWrapper";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -80,26 +72,13 @@ export default function RootLayout({
         <link rel="preload" href="/favicon.ico" as="image" type="image/x-icon" />
       </head>
       <body className={`${inter.className} antialiased`}>
-        <LanguageProvider>
-          <ThemeProvider>
-            <AuthProvider>
-              <GSAPInitializer />
-              <ScrollSmootherWrapper
-                enabled={true}
-                smoothness={1.5}
-                smoothTouch={0.1}
-                effects={true}
-                className="scroll-smoother-root"
-              >
-                {children}
-              </ScrollSmootherWrapper>
-            </AuthProvider>
-          </ThemeProvider>
-        </LanguageProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </ThemeProvider>
         <Analytics />
         <SpeedInsights />
-        <PerformanceMonitor />
-        <ServiceWorkerRegistration />
       </body>
     </html>
   );

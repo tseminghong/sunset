@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { motion } from 'framer-motion'
 import Header from '@/components/Header'
 import HeroSection from '@/components/HeroSection'
 import TagFilter from '@/components/TagFilter'
@@ -39,36 +38,31 @@ export default function HomePage() {
         <HeroSection />
 
         {/* Tag Filter */}
-        <motion.section 
+        <TransitionSection
           className="mb-12 md:mb-16 flex flex-col items-center"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          delay={0.4}
         >
           <TagFilter
             tags={allTags}
             activeTag={activeTag}
             onTagChange={setActiveTag}
           />
-        </motion.section>
+        </TransitionSection>
 
         {/* Resources Grid */}
-        <motion.section 
-          id="resources" 
+        <TransitionSection
+          id="resources"
           className="mb-16 md:mb-20"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          delay={0.6}
         >
-          <motion.h2 
-            className="text-3xl sm:text-4xl font-bold mb-8 md:mb-10 text-center sm:text-left text-primary"
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-          >
-            Featured Resources
-          </motion.h2>
-          
+          <TransitionSection delay={0.8} direction="left" distance={50}>
+            <h2
+              className="text-3xl sm:text-4xl font-bold mb-8 md:mb-10 text-center sm:text-left text-primary"
+            >
+              Featured Resources
+            </h2>
+          </TransitionSection>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredResources.map((resource: ResourceData, index: number) => (
               <ResourceCard
@@ -80,17 +74,17 @@ export default function HomePage() {
           </div>
 
           {filteredResources.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-center py-16"
-            >
-              <p className="text-secondary text-lg">
-                No resources found matching your criteria.
-              </p>
-            </motion.div>
+            <TransitionSection>
+              <div
+                className="text-center py-16"
+              >
+                <p className="text-secondary text-lg">
+                  No resources found matching your criteria.
+                </p>
+              </div>
+            </TransitionSection>
           )}
-        </motion.section>
+        </TransitionSection>
 
         {/* About Section */}
         <TransitionSection
@@ -102,12 +96,8 @@ export default function HomePage() {
           distance={50}
         >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div 
+            <div
               className="text-center max-w-3xl mx-auto"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
             >
               <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-primary">
                 About ICT Revision Hub

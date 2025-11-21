@@ -13,20 +13,20 @@ interface TagButtonProps {
 
 const TagButton = ({ tag, index, active, onClick }: TagButtonProps) => {
   const mountRef = useGsapMountAnimation<HTMLButtonElement>({
-    from: { opacity: 0, scale: 0.8, y: 20 },
+    from: { opacity: 0, scale: 0.7, y: 30 },
     to: { opacity: 1, scale: 1, y: 0 },
     transition: {
-      duration: 0.4,
-      delay: 0.6 + index * 0.1,
-      ease: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+      duration: 0.6,
+      delay: 0.6 + index * 0.08,
+      ease: 'elastic.out(1, 0.7)'
     }
   })
 
   const hoverRef = useGsapHoverAnimation<HTMLButtonElement>({
-    rest: { scale: 1 },
-    hover: { scale: 1.05 },
-    pressIn: { scale: 0.95 },
-    transition: { duration: 0.2, ease: 'power2.out' }
+    rest: { scale: 1, y: 0 },
+    hover: { scale: 1.08, y: -2 },
+    pressIn: { scale: 0.93 },
+    transition: { duration: 0.25, ease: 'elastic.out(1, 0.5)' }
   })
 
   const buttonRef = useMemo(() => combineRefs(mountRef, hoverRef), [mountRef, hoverRef])
@@ -36,12 +36,17 @@ const TagButton = ({ tag, index, active, onClick }: TagButtonProps) => {
       ref={buttonRef}
       onClick={onClick}
       className={cn(
-        'px-5 py-3 rounded-full font-medium text-sm transition-all duration-300 btn-press-effect',
-        'border border-secondary hover:border-tertiary focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
+        'px-5 py-3 rounded-full font-medium text-sm transition-all duration-300 btn-press-effect jelly-effect',
+        'border border-secondary hover:border-tertiary focus:outline-none focus:ring-2 focus:ring-offset-2',
         active
-          ? 'bg-blue-600 text-white border-blue-600 shadow-lg'
+          ? 'text-white border-transparent shadow-lg'
           : 'bg-secondary text-secondary hover:text-primary hover:shadow-md'
       )}
+      style={active ? {
+        background: 'linear-gradient(135deg, var(--color-hot-pink), #FF33A0)',
+        boxShadow: '0 4px 20px rgba(255, 0, 128, 0.4)',
+        border: '2px solid rgba(255, 0, 128, 0.6)'
+      } : {}}
     >
       {tag}
     </button>

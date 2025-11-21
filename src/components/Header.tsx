@@ -201,9 +201,13 @@ export default function Header({ onAuthClick }: HeaderProps) {
                     className={cn(
                       "w-full text-left px-3 py-2 text-sm rounded-xl transition-colors flex items-center gap-2",
                       language === 'en' 
-                        ? "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200" 
+                        ? "text-white" 
                         : "text-secondary hover:bg-tertiary hover:text-primary"
                     )}
+                    style={language === 'en' ? { 
+                      background: 'linear-gradient(135deg, var(--color-hot-pink), #FF33A0)',
+                      boxShadow: '0 2px 10px rgba(255, 0, 128, 0.3)'
+                    } : {}}
                   >
                     <span className="text-base">🇺🇸</span>
                     English
@@ -216,9 +220,13 @@ export default function Header({ onAuthClick }: HeaderProps) {
                     className={cn(
                       "w-full text-left px-3 py-2 text-sm rounded-xl transition-colors flex items-center gap-2",
                       language === 'zh' 
-                        ? "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200" 
+                        ? "text-white" 
                         : "text-secondary hover:bg-tertiary hover:text-primary"
                     )}
+                    style={language === 'zh' ? { 
+                      background: 'linear-gradient(135deg, var(--color-hot-pink), #FF33A0)',
+                      boxShadow: '0 2px 10px rgba(255, 0, 128, 0.3)'
+                    } : {}}
                   >
                     <span className="text-base">🇨🇳</span>
                     中文
@@ -235,7 +243,8 @@ export default function Header({ onAuthClick }: HeaderProps) {
               >
                 <Bell className="h-5 w-5" />
                 {unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-semibold">
+                  <span className="absolute -top-1 -right-1 h-5 w-5 text-white text-xs rounded-full flex items-center justify-center font-semibold"
+                    style={{ background: 'var(--color-hot-pink)' }}>
                     {unreadCount}
                   </span>
                 )}
@@ -250,7 +259,8 @@ export default function Header({ onAuthClick }: HeaderProps) {
                       {unreadCount > 0 && (
                         <button
                           onClick={markAllAsRead}
-                          className="text-xs text-blue-600 hover:text-blue-800 font-medium"
+                          className="text-xs font-medium hover:opacity-80"
+                          style={{ color: 'var(--color-hot-pink)' }}
                         >
                           Mark all read
                         </button>
@@ -275,7 +285,7 @@ export default function Header({ onAuthClick }: HeaderProps) {
                           key={notification.id}
                           className={cn(
                             "px-4 py-3 border-b border-secondary/50 hover:bg-tertiary transition-colors cursor-pointer group",
-                            notification.unread && "bg-blue-50 dark:bg-blue-900/20"
+                            notification.unread && "bg-pink-50 dark:bg-pink-900/10"
                           )}
                           onClick={() => markNotificationAsRead(notification.id)}
                         >

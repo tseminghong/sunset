@@ -23,10 +23,10 @@ export default function HeroSection() {
   const betaRef = useRef<HTMLParagraphElement>(null)
   const ctaRef = useGsapHoverAnimation<HTMLAnchorElement>({
     rest: { scale: 1, y: 0 },
-    hover: { scale: 1.05, y: -2 },
-    pressIn: { scale: 0.95 },
-    pressOut: { scale: 1.05, y: -2 },
-    transition: { duration: 0.2, ease: 'power2.out' }
+    hover: { scale: 1.08, y: -4 },
+    pressIn: { scale: 0.93 },
+    pressOut: { scale: 1.08, y: -4 },
+    transition: { duration: 0.3, ease: 'elastic.out(1, 0.6)' }
   })
   const contentRef = useGsapMountAnimation<HTMLDivElement>({
     from: { opacity: 0, y: 50 },
@@ -184,9 +184,9 @@ export default function HeroSection() {
       ref={heroRef}
       className="hero-gradient hero-fullscreen text-center py-20 md:py-28 rounded-3xl mb-16 md:mb-20 relative overflow-hidden"
     >
-      {/* Hero Background Layer */}
+      {/* Hero Background Layer with Dopamine gradient */}
       <div className="hero-background absolute inset-0 opacity-30">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 via-purple-400/20 to-pink-400/20" />
       </div>
 
       <div
@@ -218,31 +218,35 @@ export default function HeroSection() {
           ref={ctaRef}
           href="/ict-v1.1.0.apk"
           download="ICT-Revision-Hub-v1.1.0.apk"
-          className="primary-btn px-8 py-3 text-lg inline-block btn-press-effect hero-download-btn"
+          className="primary-btn px-8 py-3 text-lg inline-block btn-press-effect jelly-effect hero-download-btn"
         >
           {t('hero.download')}
         </a>
       </div>
 
-      {/* Enhanced Floating background elements */}
+      {/* Enhanced Floating background elements with Dopamine colors */}
       <div
         ref={floatingARef}
-        className="floating-element absolute top-10 left-10 w-20 h-20 bg-blue-500/10 rounded-full"
+        className="floating-element absolute top-10 left-10 w-20 h-20 rounded-full"
+        style={{ background: 'radial-gradient(circle, rgba(0, 200, 150, 0.2), rgba(0, 200, 150, 0.05))' }}
       />
       
       <div
         ref={floatingBRef}
-        className="floating-element absolute bottom-10 right-10 w-16 h-16 bg-purple-500/10 rounded-full"
+        className="floating-element absolute bottom-10 right-10 w-16 h-16 rounded-full"
+        style={{ background: 'radial-gradient(circle, rgba(157, 78, 221, 0.2), rgba(157, 78, 221, 0.05))' }}
       />
 
       <div
         ref={floatingCRef}
-        className="floating-element absolute top-1/2 left-20 w-12 h-12 bg-pink-500/10 rounded-full"
+        className="floating-element absolute top-1/2 left-20 w-12 h-12 rounded-full"
+        style={{ background: 'radial-gradient(circle, rgba(255, 0, 128, 0.2), rgba(255, 0, 128, 0.05))' }}
       />
 
       <div
         ref={floatingDRef}
-        className="floating-element absolute top-1/3 right-20 w-8 h-8 bg-yellow-500/10 rounded-full"
+        className="floating-element absolute top-1/3 right-20 w-8 h-8 rounded-full"
+        style={{ background: 'radial-gradient(circle, rgba(255, 217, 61, 0.2), rgba(255, 217, 61, 0.05))' }}
       />
     </section>
   )

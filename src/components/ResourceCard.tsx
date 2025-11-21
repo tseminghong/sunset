@@ -17,6 +17,19 @@ interface ResourceCardProps {
 export default function ResourceCard({ resource, index, onClick }: ResourceCardProps) {
   const tags = resource.tags.split(',').map(tag => tag.trim())
   
+  // Map tags to dopamine color themes
+  const getCardColorClass = () => {
+    const tagLower = resource.tags.toLowerCase()
+    if (tagLower.includes('database') || tagLower.includes('sql')) return 'card-geography'
+    if (tagLower.includes('software') || tagLower.includes('hardware')) return 'card-chinese'
+    if (tagLower.includes('web') || tagLower.includes('html')) return 'card-english'
+    if (tagLower.includes('exam') || tagLower.includes('practice')) return 'card-economics'
+    if (tagLower.includes('algorithms') || tagLower.includes('visualization')) return 'card-science'
+    return 'card-default'
+  }
+  
+  const cardColorClass = getCardColorClass()
+  
   // Calculate progress percentage if available
   const getProgress = () => {
     if (!resource.progressKey || !resource.totalLessons) return 0
@@ -38,21 +51,21 @@ export default function ResourceCard({ resource, index, onClick }: ResourceCardP
   const isExternalLink = resource.href.startsWith('http') || resource.href.endsWith('.html') || resource.href.endsWith('.apk')
 
   const cardMountRef = useGsapMountAnimation<HTMLDivElement>({
-    from: { opacity: 0, y: 50, rotate: 2, scale: 0.95 },
-    to: { opacity: 1, y: 0, rotate: 0, scale: 1 },
+    from: { opacity: 0, y: 60, scale: 0.9 },
+    to: { opacity: 1, y: 0, scale: 1 },
     transition: {
-      duration: 0.6,
+      duration: 0.8,
       delay: index * 0.1,
-      ease: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+      ease: 'elastic.out(1, 0.75)'
     }
   })
 
   const cardHoverRef = useGsapHoverAnimation<HTMLDivElement>({
-    rest: { y: 0, scale: 1 },
-    hover: { y: -8, scale: 1.02 },
-    transition: { duration: 0.25, ease: 'power2.out' },
-    pressIn: { scale: 0.98 },
-    pressOut: { scale: 1.02 }
+    rest: { y: 0, scale: 1, rotateX: 0, rotateY: 0 },
+    hover: { y: -12, scale: 1.03, rotateX: 2, rotateY: 2 },
+    transition: { duration: 0.3, ease: 'power2.out' },
+    pressIn: { scale: 0.97 },
+    pressOut: { scale: 1.03 }
   })
 
   const mediaContainerRef = useRef<HTMLDivElement>(null)
@@ -167,7 +180,7 @@ export default function ResourceCard({ resource, index, onClick }: ResourceCardP
   const CardContent = () => (
     <div
       ref={cardRef}
-      className="resource-card glass-effect rounded-[1.75rem] overflow-hidden cursor-pointer btn-press-effect group h-full transition-transform duration-300"
+      className={`resource-card ${cardColorClass} overflow-hidden cursor-pointer btn-press-effect jelly-effect group h-full transition-all duration-300`}
     >
       {/* Card image placeholder */}
       <div
@@ -184,13 +197,13 @@ export default function ResourceCard({ resource, index, onClick }: ResourceCardP
       {/* Card content */}
       <div className="p-6 flex flex-col flex-grow">
         <h3 
-          className="text-xl font-semibold mb-3 text-primary transition-colors duration-200 group-hover:text-blue-600"
+          className="text-xl font-semibold mb-3 text-primary transition-colors duration-200 group-hover:opacity-90"
         >
           {resource.title}
         </h3>
         
         <p 
-          className="text-secondary text-sm mb-4 flex-grow transition-colors duration-200 group-hover:text-gray-600"
+          className="text-secondary text-sm mb-4 flex-grow transition-colors duration-200 group-hover:opacity-90"
         >
           {resource.description}
         </p>
@@ -213,7 +226,8 @@ export default function ResourceCard({ resource, index, onClick }: ResourceCardP
             <div className="w-full bg-tertiary rounded-full h-2 overflow-hidden">
               <div
                 ref={progressFillRef}
-                className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full shadow-sm"
+                className="h-full bg-gradient-to-r from-pink-500 to-pink-600 rounded-full shadow-sm"
+                style={{ background: 'linear-gradient(to right, var(--color-hot-pink), #FF33A0)' }}
               />
             </div>
           </div>
@@ -236,14 +250,16 @@ export default function ResourceCard({ resource, index, onClick }: ResourceCardP
           className="flex items-center justify-between transition-transform duration-200 group-hover:translate-x-0.5"
         >
           <span 
-            className="text-blue-600 font-medium text-sm transition-colors duration-200 group-hover:text-blue-700"
+            className="font-medium text-sm transition-colors duration-200"
+            style={{ color: 'var(--color-hot-pink)' }}
           >
             {resource.linkText}
           </span>
           <div
             className="transition-transform duration-200 group-hover:translate-x-1 group-hover:scale-105"
+            style={{ color: 'var(--color-hot-pink)' }}
           >
-            <ExternalLink className="w-4 h-4 text-blue-600" />
+            <ExternalLink className="w-4 h-4" />
           </div>
         </div>
       </div>

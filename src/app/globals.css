@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @layer base {
   :root {
-    /* Light Theme - Hyper-Visual Apple Inspired */
-    --bg-primary: #EFF1F5;
+    /* Light Theme - Dopamine Design (Jelly Glass) */
+    --bg-primary: #F0F4F8;
     --bg-secondary: #FFFFFF;
     --bg-tertiary: #E8EAF0;
     --bg-glass-color: rgba(255, 255, 255, 0.45);
@@ -14,28 +15,38 @@
     --bg-hero-start: #f0f4f9;
     --bg-hero-end: #d9e7ff;
 
-    --text-primary: #111113;
+    --text-primary: #2D3436;
     --text-secondary: #5c5c62;
     --text-tertiary: #8a8a8f;
 
-    --accent-primary: #0091FF;
-    --accent-primary-hover: #007CE6;
+    /* Dopamine Color Palette - Subject Colors */
+    --color-geography: #00C896;
+    --color-chinese: #FF6B6B;
+    --color-english: #4D96FF;
+    --color-economics: #FFD93D;
+    --color-science: #9D4EDD;
+    --color-tangerine: #FF9F1C;
+    --color-hot-pink: #FF0080;
+    
+    /* Primary accent updated to hot pink for CTAs */
+    --accent-primary: #FF0080;
+    --accent-primary-hover: #E60073;
     
     --border-highlight: rgba(255, 255, 255, 0.7);
     --border-secondary: rgba(0, 0, 0, 0.08);
 
     --shadow-color: rgba(9, 20, 56, 0.08);
-    --highlight-glow: 0px 12px 45px rgba(0, 145, 255, 0.3);
+    --highlight-glow: 0px 12px 45px rgba(255, 0, 128, 0.3);
     --modal-backdrop: rgba(240, 244, 249, 0.3);
     --icon-color: var(--text-secondary);
 
     /* Original theme variables for compatibility */
-    --background: #EFF1F5;
-    --foreground: #111113;
+    --background: #F0F4F8;
+    --foreground: #2D3436;
   }
 
   .dark {
-    /* Dark Theme - Hyper-Visual Apple Inspired */
+    /* Dark Theme - Dopamine Design */
     --bg-primary: #000000;
     --bg-secondary: #121213;
     --bg-tertiary: #2C2C2E;
@@ -50,14 +61,23 @@
     --text-secondary: #a0a0a8;
     --text-tertiary: #636366;
 
-    --accent-primary: #0A96FF;
-    --accent-primary-hover: #33A9FF;
+    /* Dopamine colors remain vibrant in dark mode */
+    --color-geography: #00C896;
+    --color-chinese: #FF6B6B;
+    --color-english: #4D96FF;
+    --color-economics: #FFD93D;
+    --color-science: #9D4EDD;
+    --color-tangerine: #FF9F1C;
+    --color-hot-pink: #FF0080;
+
+    --accent-primary: #FF0080;
+    --accent-primary-hover: #FF33A0;
 
     --border-highlight: rgba(255, 255, 255, 0.2);
     --border-secondary: rgba(255, 255, 255, 0.1);
 
     --shadow-color: rgba(0, 0, 0, 0.3);
-    --highlight-glow: 0px 12px 50px rgba(10, 150, 255, 0.35);
+    --highlight-glow: 0px 12px 50px rgba(255, 0, 128, 0.4);
     --modal-backdrop: rgba(0, 0, 0, 0.6);
     --icon-color: var(--text-secondary);
 
@@ -71,7 +91,7 @@
   }
   
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: 'Quicksand', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     background-color: var(--bg-primary);
     color: var(--text-primary);
     transition: background-color 0.4s ease, color 0.4s ease;
@@ -184,13 +204,13 @@
   .primary-btn {
     @apply px-6 py-3 rounded-full font-semibold text-white transition-all duration-300;
     background-color: var(--accent-primary);
-    box-shadow: 0 4px 15px rgba(0,125,255,0.2);
+    box-shadow: 0 4px 15px rgba(255, 0, 128, 0.3);
   }
 
   .primary-btn:hover {
     background-color: var(--accent-primary-hover);
     transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(0,125,255,0.3);
+    box-shadow: 0 6px 20px rgba(255, 0, 128, 0.4);
   }
 
   .btn-press-effect {
@@ -199,8 +219,20 @@
   }
 
   .btn-press-effect:active {
-    transform: scale(1.1) rotate(5deg);
+    transform: scale(0.95);
     transition: all 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Jelly effect for buttons */
+  @keyframes jelly {
+    0%, 100% { transform: scale(1, 1); }
+    25% { transform: scale(0.9, 1.1); }
+    50% { transform: scale(1.1, 0.9); }
+    75% { transform: scale(0.95, 1.05); }
+  }
+
+  .jelly-effect:active {
+    animation: jelly 0.5s ease;
   }
 
   .hero-gradient {
@@ -528,5 +560,91 @@
     --loading-bg: #000000;
     --loading-stroke: #F5F5F7;
     --loading-text: #F5F5F7;
+  }
+
+  /* Dopamine Design - Tinted Glass Cards */
+  .card-geography {
+    background: var(--noise-texture), var(--bg-glass-glare), rgba(0, 200, 150, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 2px solid rgba(0, 200, 150, 0.5);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0, 200, 150, 0.2);
+  }
+
+  .card-chinese, .card-history {
+    background: var(--noise-texture), var(--bg-glass-glare), rgba(255, 107, 107, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 2px solid rgba(255, 107, 107, 0.5);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(255, 107, 107, 0.2);
+  }
+
+  .card-english {
+    background: var(--noise-texture), var(--bg-glass-glare), rgba(77, 150, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 2px solid rgba(77, 150, 255, 0.5);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(77, 150, 255, 0.2);
+  }
+
+  .card-economics {
+    background: var(--noise-texture), var(--bg-glass-glare), rgba(255, 217, 61, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 2px solid rgba(255, 217, 61, 0.5);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(255, 217, 61, 0.2);
+  }
+
+  .card-science {
+    background: var(--noise-texture), var(--bg-glass-glare), rgba(157, 78, 221, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 2px solid rgba(157, 78, 221, 0.5);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(157, 78, 221, 0.2);
+  }
+
+  .card-default {
+    background: var(--noise-texture), var(--bg-glass-glare), rgba(255, 159, 28, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 2px solid rgba(255, 159, 28, 0.5);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(255, 159, 28, 0.2);
+  }
+
+  /* Hover effects for tinted glass cards */
+  .card-geography:hover {
+    box-shadow: 0 12px 48px rgba(0, 200, 150, 0.35);
+    border-color: rgba(0, 200, 150, 0.7);
+  }
+
+  .card-chinese:hover, .card-history:hover {
+    box-shadow: 0 12px 48px rgba(255, 107, 107, 0.35);
+    border-color: rgba(255, 107, 107, 0.7);
+  }
+
+  .card-english:hover {
+    box-shadow: 0 12px 48px rgba(77, 150, 255, 0.35);
+    border-color: rgba(77, 150, 255, 0.7);
+  }
+
+  .card-economics:hover {
+    box-shadow: 0 12px 48px rgba(255, 217, 61, 0.35);
+    border-color: rgba(255, 217, 61, 0.7);
+  }
+
+  .card-science:hover {
+    box-shadow: 0 12px 48px rgba(157, 78, 221, 0.35);
+    border-color: rgba(157, 78, 221, 0.7);
+  }
+
+  .card-default:hover {
+    box-shadow: 0 12px 48px rgba(255, 159, 28, 0.35);
+    border-color: rgba(255, 159, 28, 0.7);
   }
 }

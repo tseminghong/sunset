@@ -27,6 +27,13 @@
     --color-science: #9D4EDD;
     --color-tangerine: #FF9F1C;
     --color-hot-pink: #FF0080;
+    --color-hot-pink-light: #FF33A0;
+    
+    /* Floating element gradients */
+    --float-geography: radial-gradient(circle, rgba(0, 200, 150, 0.2), rgba(0, 200, 150, 0.05));
+    --float-science: radial-gradient(circle, rgba(157, 78, 221, 0.2), rgba(157, 78, 221, 0.05));
+    --float-hot-pink: radial-gradient(circle, rgba(255, 0, 128, 0.2), rgba(255, 0, 128, 0.05));
+    --float-economics: radial-gradient(circle, rgba(255, 217, 61, 0.2), rgba(255, 217, 61, 0.05));
     
     /* Primary accent updated to hot pink for CTAs */
     --accent-primary: #FF0080;
@@ -69,6 +76,13 @@
     --color-science: #9D4EDD;
     --color-tangerine: #FF9F1C;
     --color-hot-pink: #FF0080;
+    --color-hot-pink-light: #FF33A0;
+    
+    /* Floating element gradients (same in dark mode) */
+    --float-geography: radial-gradient(circle, rgba(0, 200, 150, 0.2), rgba(0, 200, 150, 0.05));
+    --float-science: radial-gradient(circle, rgba(157, 78, 221, 0.2), rgba(157, 78, 221, 0.05));
+    --float-hot-pink: radial-gradient(circle, rgba(255, 0, 128, 0.2), rgba(255, 0, 128, 0.05));
+    --float-economics: radial-gradient(circle, rgba(255, 217, 61, 0.2), rgba(255, 217, 61, 0.05));
 
     --accent-primary: #FF0080;
     --accent-primary-hover: #FF33A0;
@@ -225,14 +239,15 @@
 
   /* Jelly effect for buttons */
   @keyframes jelly {
-    0%, 100% { transform: scale(1, 1); }
-    25% { transform: scale(0.9, 1.1); }
-    50% { transform: scale(1.1, 0.9); }
-    75% { transform: scale(0.95, 1.05); }
+    0%, 100% { transform: scale3d(1, 1, 1); }
+    25% { transform: scale3d(0.9, 1.1, 1); }
+    50% { transform: scale3d(1.1, 0.9, 1); }
+    75% { transform: scale3d(0.95, 1.05, 1); }
   }
 
   .jelly-effect:active {
     animation: jelly 0.5s ease;
+    will-change: transform;
   }
 
   .hero-gradient {

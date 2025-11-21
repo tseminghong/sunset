@@ -205,7 +205,7 @@ export default function Header({ onAuthClick }: HeaderProps) {
                         : "text-secondary hover:bg-tertiary hover:text-primary"
                     )}
                     style={language === 'en' ? { 
-                      background: 'linear-gradient(135deg, var(--color-hot-pink), #FF33A0)',
+                      background: 'linear-gradient(135deg, var(--color-hot-pink), var(--color-hot-pink-light))',
                       boxShadow: '0 2px 10px rgba(255, 0, 128, 0.3)'
                     } : {}}
                   >
@@ -224,7 +224,7 @@ export default function Header({ onAuthClick }: HeaderProps) {
                         : "text-secondary hover:bg-tertiary hover:text-primary"
                     )}
                     style={language === 'zh' ? { 
-                      background: 'linear-gradient(135deg, var(--color-hot-pink), #FF33A0)',
+                      background: 'linear-gradient(135deg, var(--color-hot-pink), var(--color-hot-pink-light))',
                       boxShadow: '0 2px 10px rgba(255, 0, 128, 0.3)'
                     } : {}}
                   >

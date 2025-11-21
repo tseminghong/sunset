@@ -43,7 +43,7 @@ const TagButton = ({ tag, index, active, onClick }: TagButtonProps) => {
           : 'bg-secondary text-secondary hover:text-primary hover:shadow-md'
       )}
       style={active ? {
-        background: 'linear-gradient(135deg, var(--color-hot-pink), #FF33A0)',
+        background: 'linear-gradient(135deg, var(--color-hot-pink), var(--color-hot-pink-light))',
         boxShadow: '0 4px 20px rgba(255, 0, 128, 0.4)',
         border: '2px solid rgba(255, 0, 128, 0.6)'
       } : {}}

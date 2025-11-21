@@ -226,8 +226,8 @@ export default function ResourceCard({ resource, index, onClick }: ResourceCardP
             <div className="w-full bg-tertiary rounded-full h-2 overflow-hidden">
               <div
                 ref={progressFillRef}
-                className="h-full bg-gradient-to-r from-pink-500 to-pink-600 rounded-full shadow-sm"
-                style={{ background: 'linear-gradient(to right, var(--color-hot-pink), #FF33A0)' }}
+                className="h-full rounded-full shadow-sm"
+                style={{ background: 'linear-gradient(to right, var(--color-hot-pink), var(--color-hot-pink-light))' }}
               />
             </div>
           </div>

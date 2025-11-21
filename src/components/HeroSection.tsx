@@ -228,25 +228,25 @@ export default function HeroSection() {
       <div
         ref={floatingARef}
         className="floating-element absolute top-10 left-10 w-20 h-20 rounded-full"
-        style={{ background: 'radial-gradient(circle, rgba(0, 200, 150, 0.2), rgba(0, 200, 150, 0.05))' }}
+        style={{ background: 'var(--float-geography)' }}
       />
       
       <div
         ref={floatingBRef}
         className="floating-element absolute bottom-10 right-10 w-16 h-16 rounded-full"
-        style={{ background: 'radial-gradient(circle, rgba(157, 78, 221, 0.2), rgba(157, 78, 221, 0.05))' }}
+        style={{ background: 'var(--float-science)' }}
       />
 
       <div
         ref={floatingCRef}
         className="floating-element absolute top-1/2 left-20 w-12 h-12 rounded-full"
-        style={{ background: 'radial-gradient(circle, rgba(255, 0, 128, 0.2), rgba(255, 0, 128, 0.05))' }}
+        style={{ background: 'var(--float-hot-pink)' }}
       />
 
       <div
         ref={floatingDRef}
         className="floating-element absolute top-1/3 right-20 w-8 h-8 rounded-full"
-        style={{ background: 'radial-gradient(circle, rgba(255, 217, 61, 0.2), rgba(255, 217, 61, 0.05))' }}
+        style={{ background: 'var(--float-economics)' }}
       />
     </section>
   )

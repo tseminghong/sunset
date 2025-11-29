@@ -24,8 +24,8 @@ export async function POST(request: Request) {
       config: { systemInstruction },
     })
 
-    const response = await chat.sendMessage({ message })
-    const reply = response.text() ?? 'I need a reboot. Try again.'
+    const response = await chat.sendMessage({ message }) as { text?: () => string }
+    const reply = response.text?.() ?? 'I need a reboot. Try again.'
 
     return NextResponse.json({ reply })
   } catch (error) {

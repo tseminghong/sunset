@@ -79,7 +79,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="preload" href="/favicon.ico" as="image" type="image/x-icon" />
       </head>
-      <body className={`${inter.className} antialiased`}>
+      <body
+        className={`${inter.className} antialiased`}
+        style={{ filter: 'grayscale(100%)', WebkitFilter: 'grayscale(100%)' }}
+      >
         <LanguageProvider>
           <ThemeProvider>
             <AuthProvider>

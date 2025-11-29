@@ -12,6 +12,7 @@ A modern, interactive learning platform built with Next.js, TypeScript, and Tail
 - **Glassmorphism UI**: Beautiful glass-effect design with custom CSS variables
 - **Performance Optimized**: Fast loading with Next.js optimizations
 - **SEO Friendly**: Proper meta tags and structured data
+- **Neon Alt Experience**: `/new-design` route showcases the experimental immersive layout with AI chat and fluid backgrounds
 
 ## 🛠️ Technology Stack
 
@@ -58,6 +59,17 @@ A modern, interactive learning platform built with Next.js, TypeScript, and Tail
 npm run build
 npm start
 ```
+
+### Optional Neon Experience + AI Tutor
+
+1. Create a `.env.local` file if you do not already have one
+2. Add your Gemini key (requires Google AI Studio access)
+
+```
+GEMINI_API_KEY=your-key-here
+```
+
+3. Start the dev server and open `http://localhost:3000/new-design` to explore the immersive prototype and AI chat.
 
 ## 📁 Project Structure
 

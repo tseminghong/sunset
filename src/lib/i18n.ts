@@ -14,10 +14,10 @@ const resources = {
       },
       // Hero Section
       hero: {
-        title: "ICT Revision Hub",
-        subtitle: "Your central place for interactive learning materials, designed with clarity to help you excel.",
-        beta: "Now Android version available for beta testing",
-        download: "Download App"
+        title: "In Memory of the Tai Po Fire",
+        subtitle: "We mourn the lives lost in the Hong Kong Tai Po fire and choose to keep learning with compassion and resilience.",
+        beta: "Please keep the victims, survivors, and their families in your thoughts.",
+        download: "Support & Learn Together"
       },
       // Common UI
       common: {
@@ -148,10 +148,10 @@ const resources = {
       },
       // Hero Section  
       hero: {
-        title: "ICT 複習中心",
-        subtitle: "您學習互動資料的中心平台，精心設計，助您取得優異成績。",
-        beta: "現已推出 Android 測試版",
-        download: "下載應用"
+        title: "悼念大埔火災罹難者",
+        subtitle: "我們哀悼在香港大埔火災中逝去的生命，願以溫柔與堅毅繼續學習。",
+        beta: "請將罹難者、傷者與家人放在心中。",
+        download: "一起支持與學習"
       },
       // Common UI
       common: {

@@ -4,6 +4,8 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
     // Enable Google Services plugin to read google-services.json
     id("com.google.gms.google-services")
+    // KSP for Room
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -72,6 +74,12 @@ dependencies {
     
     // DataStore for user preferences
     implementation("androidx.datastore:datastore-preferences:1.1.1")
+    
+    // Room for progress tracking
+    val roomVersion = "2.6.1"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
     
     // Firebase BoM and Analytics SDK
     implementation(platform("com.google.firebase:firebase-bom:34.6.0"))

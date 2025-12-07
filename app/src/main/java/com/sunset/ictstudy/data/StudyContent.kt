@@ -66,14 +66,14 @@ object StudyContentRepository {
             id = 2,
             title = "Databases",
             lessons = 8,
-            completedPercentage = 50,
+            completedPercentage = 0,
             category = TopicCategory.Databases
         ),
         StudyTopic(
             id = 3,
             title = "Cybersecurity",
             lessons = 15,
-            completedPercentage = 25,
+            completedPercentage = 0,
             category = TopicCategory.Cybersecurity
         ),
         StudyTopic(
@@ -87,7 +87,7 @@ object StudyContentRepository {
             id = 5,
             title = "Hardware",
             lessons = 10,
-            completedPercentage = 40,
+            completedPercentage = 0,
             category = TopicCategory.Hardware
         )
     )

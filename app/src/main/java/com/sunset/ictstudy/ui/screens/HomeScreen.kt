@@ -70,6 +70,7 @@ import com.sunset.ictstudy.data.StudyContentRepository
 import com.sunset.ictstudy.data.StudyTopic
 import com.sunset.ictstudy.data.ThemeMode
 import com.sunset.ictstudy.data.TopicCategory
+import com.sunset.ictstudy.data.database.ProgressRepository
 import com.sunset.ictstudy.ui.theme.AccentCyan
 import com.sunset.ictstudy.ui.theme.AccentPrimary
 import com.sunset.ictstudy.ui.theme.AccentPurple
@@ -85,10 +86,13 @@ fun IctStudyApp(context: Context) {
     val navController = rememberNavController()
     val scope = rememberCoroutineScope()
     val preferencesRepository = remember { PreferencesRepository(context) }
+    val progressRepository = remember { ProgressRepository(context) }
     val userPreferences by preferencesRepository.userPreferencesFlow.collectAsState(
         initial = com.sunset.ictstudy.data.UserPreferences()
     )
-    var readStates by rememberSaveable { mutableStateOf<Map<String, Boolean>>(emptyMap()) }
+    val processingModesProgress by progressRepository.getAllProcessingModesProgress().collectAsState(
+        initial = emptyMap()
+    )
 
     val startDestination = if (userPreferences.isOnboardingComplete) {
         StudyDestination.Home.route
@@ -115,6 +119,7 @@ fun IctStudyApp(context: Context) {
             composable(StudyDestination.Home.route) {
                 HomeRoute(
                     username = userPreferences.username,
+                    progressRepository = progressRepository,
                     onOpenProcessingModes = {
                         navController.navigate(StudyDestination.ProcessingModes.route)
                     }
@@ -122,8 +127,8 @@ fun IctStudyApp(context: Context) {
             }
             composable(StudyDestination.ProcessingModes.route) {
                 ProcessingModesScreen(
-                    modes = ProcessingModesRepository.processingModes,
-                    readStates = readStates,
+                    modes = ProcessingModesRepository.allModes,
+                    readStates = processingModesProgress,
                     onBack = { navController.popBackStack() },
                     onModeSelected = { mode ->
                         navController.navigate(StudyDestination.ProcessingModeDetail.create(mode.id))
@@ -155,10 +160,23 @@ fun IctStudyApp(context: Context) {
 }
 
 @Composable
-private fun HomeRoute(username: String, onOpenProcessingModes: () -> Unit) {
+private fun HomeRoute(username: String, progressRepository: ProgressRepository, onOpenProcessingModes: () -> Unit) {
     var query by rememberSaveable { mutableStateOf("") }
-    val filteredTopics = remember(query) {
-        StudyContentRepository.studyTopics.filter { topic ->
+    val baseTopics = StudyContentRepository.studyTopics
+    
+    // Collect dynamic progress for each topic
+    val topicsWithProgress = baseTopics.map { topic ->
+        val progress by progressRepository.getTopicCompletionPercentage(
+            topicId = topic.id,
+            category = topic.category,
+            totalLessons = topic.lessons
+        ).collectAsState(initial = 0)
+        
+        topic.copy(completedPercentage = progress)
+    }
+    
+    val filteredTopics = remember(query, topicsWithProgress) {
+        topicsWithProgress.filter { topic ->
             query.isBlank() || topic.title.contains(query, ignoreCase = true)
         }
     }

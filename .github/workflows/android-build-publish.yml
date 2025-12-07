@@ -85,26 +85,10 @@ jobs:
         shell: bash
         run: chmod +x gradlew
 
-      - name: Decode keystore (optional)
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+      - name: Build Release APK
         shell: bash
         run: |
-          echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > keystore.jks
-        env:
-          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-
-      - name: Build Release APK (unsigned if no secrets)
-        shell: bash
-        run: |
-          if [ -f keystore.jks ]; then
-            ./gradlew assembleRelease \
-              -Pandroid.injected.signing.store.file=keystore.jks \
-              -Pandroid.injected.signing.store.password=${{ secrets.ANDROID_KEYSTORE_PASSWORD }} \
-              -Pandroid.injected.signing.key.alias=${{ secrets.ANDROID_KEY_ALIAS }} \
-              -Pandroid.injected.signing.key.password=${{ secrets.ANDROID_KEY_PASSWORD }} --stacktrace
-          else
-            ./gradlew assembleRelease --stacktrace
-          fi
+          ./gradlew assembleRelease --stacktrace
 
       - name: Determine APK path
         id: apk

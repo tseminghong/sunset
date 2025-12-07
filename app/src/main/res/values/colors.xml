@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand_night">#060C1A</color>
+    <color name="brand_card">#121C2F</color>
+    <color name="brand_accent">#1F7BFF</color>
+    <color name="brand_accent_variant">#4FC0FF</color>
+    <color name="ic_launcher_background">#050B17</color>
+</resources>

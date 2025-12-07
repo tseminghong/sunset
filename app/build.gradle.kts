@@ -69,6 +69,10 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.navigation:navigation-compose:2.8.0")
+    
+    // DataStore for user preferences
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    
     // Firebase BoM and Analytics SDK
     implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
     implementation("com.google.firebase:firebase-analytics")

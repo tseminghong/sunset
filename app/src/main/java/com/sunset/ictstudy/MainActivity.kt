@@ -4,6 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import com.sunset.ictstudy.data.PreferencesRepository
+import com.sunset.ictstudy.data.ThemeMode
 import com.sunset.ictstudy.ui.screens.IctStudyApp
 import com.sunset.ictstudy.ui.theme.SunsetTheme
 
@@ -12,8 +17,19 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            SunsetTheme {
-                IctStudyApp()
+            val preferencesRepository = PreferencesRepository(this)
+            val userPreferences by preferencesRepository.userPreferencesFlow.collectAsState(
+                initial = com.sunset.ictstudy.data.UserPreferences()
+            )
+            
+            val darkTheme = when (userPreferences.themeMode) {
+                ThemeMode.LIGHT -> false
+                ThemeMode.DARK -> true
+                ThemeMode.SYSTEM -> isSystemInDarkTheme()
+            }
+            
+            SunsetTheme(darkTheme = darkTheme) {
+                IctStudyApp(context = this)
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.sunset.ictstudy.ui.screens
 
+import android.content.Context
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -40,9 +41,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -50,6 +54,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -58,11 +63,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.sunset.ictstudy.data.PreferencesRepository
 import com.sunset.ictstudy.data.ProcessingModesRepository
 import com.sunset.ictstudy.data.QuickActionType
 import com.sunset.ictstudy.data.QuickAccessAction
 import com.sunset.ictstudy.data.StudyContentRepository
 import com.sunset.ictstudy.data.StudyTopic
+import com.sunset.ictstudy.data.ThemeMode
 import com.sunset.ictstudy.data.TopicCategory
 import com.sunset.ictstudy.ui.theme.AccentCyan
 import com.sunset.ictstudy.ui.theme.AccentPrimary
@@ -72,18 +79,47 @@ import com.sunset.ictstudy.ui.theme.NightCard
 import com.sunset.ictstudy.ui.theme.NightMuted
 import com.sunset.ictstudy.ui.theme.NightSurface
 import com.sunset.ictstudy.ui.theme.SunsetTheme
+import kotlinx.coroutines.launch
 
 @Composable
-fun IctStudyApp() {
+fun IctStudyApp(context: Context) {
     val navController = rememberNavController()
+    val scope = rememberCoroutineScope()
+    val preferencesRepository = remember { PreferencesRepository(context) }
+    val userPreferences by preferencesRepository.userPreferencesFlow.collectAsState(
+        initial = com.sunset.ictstudy.data.UserPreferences()
+    )
     var readStates by rememberSaveable { mutableStateOf<Map<String, Boolean>>(emptyMap()) }
 
+    val startDestination = if (userPreferences.isOnboardingComplete) {
+        StudyDestination.Home.route
+    } else {
+        StudyDestination.Welcome.route
+    }
+
     Surface(color = NightSurface, modifier = Modifier.fillMaxSize()) {
-        NavHost(navController = navController, startDestination = StudyDestination.Home.route) {
+        NavHost(navController = navController, startDestination = startDestination) {
+            composable(StudyDestination.Welcome.route) {
+                WelcomeScreen(
+                    onComplete = { username, themeMode ->
+                        scope.launch {
+                            preferencesRepository.updateUsername(username)
+                            preferencesRepository.updateThemeMode(themeMode)
+                            preferencesRepository.completeOnboarding()
+                            navController.navigate(StudyDestination.Home.route) {
+                                popUpTo(StudyDestination.Welcome.route) { inclusive = true }
+                            }
+                        }
+                    }
+                )
+            }
             composable(StudyDestination.Home.route) {
-                HomeRoute(onOpenProcessingModes = {
-                    navController.navigate(StudyDestination.ProcessingModes.route)
-                })
+                HomeRoute(
+                    username = userPreferences.username,
+                    onOpenProcessingModes = {
+                        navController.navigate(StudyDestination.ProcessingModes.route)
+                    }
+                )
             }
             composable(StudyDestination.ProcessingModes.route) {
                 ProcessingModesScreen(
@@ -120,7 +156,7 @@ fun IctStudyApp() {
 }
 
 @Composable
-private fun HomeRoute(onOpenProcessingModes: () -> Unit) {
+private fun HomeRoute(username: String, onOpenProcessingModes: () -> Unit) {
     var query by rememberSaveable { mutableStateOf("") }
     val filteredTopics = remember(query) {
         StudyContentRepository.studyTopics.filter { topic ->
@@ -129,6 +165,7 @@ private fun HomeRoute(onOpenProcessingModes: () -> Unit) {
     }
 
     HomeScreen(
+        username = username,
         query = query,
         onQueryChange = { query = it },
         actions = StudyContentRepository.quickAccess,
@@ -143,6 +180,7 @@ private fun HomeRoute(onOpenProcessingModes: () -> Unit) {
 
 @Composable
 private fun HomeScreen(
+    username: String,
     query: String,
     onQueryChange: (String) -> Unit,
     actions: List<QuickAccessAction>,
@@ -156,7 +194,7 @@ private fun HomeScreen(
             .padding(horizontal = 20.dp, vertical = 24.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        HeaderSection()
+        HeaderSection(username = username)
         SearchBar(query = query, onQueryChange = onQueryChange)
         QuickAccessSection(actions = actions, onActionClick = onQuickActionClick)
         StudyTopicsSection(topics = topics, query = query)
@@ -164,7 +202,7 @@ private fun HomeScreen(
 }
 
 @Composable
-private fun HeaderSection() {
+private fun HeaderSection(username: String) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -187,7 +225,7 @@ private fun HeaderSection() {
             }
             Spacer(modifier = Modifier.size(16.dp))
             Column {
-                Text(text = "Hi, Alex", style = MaterialTheme.typography.displaySmall, color = Color.White)
+                Text(text = "Hi, $username", style = MaterialTheme.typography.displaySmall, color = Color.White)
                 Text(text = "Keep the momentum going", style = MaterialTheme.typography.bodyMedium, color = NightMuted)
             }
         }
@@ -427,6 +465,7 @@ private fun TopicCategory.icon() = when (this) {
 }
 
 private sealed class StudyDestination(val route: String) {
+    data object Welcome : StudyDestination("welcome")
     data object Home : StudyDestination("home")
     data object ProcessingModes : StudyDestination("processingModes")
     data object ProcessingModeDetail : StudyDestination("processingModes/{modeId}") {
@@ -440,6 +479,7 @@ private fun HomeScreenPreview() {
     SunsetTheme {
         Surface(color = NightSurface) {
             HomeScreen(
+                username = "Alex",
                 query = "",
                 onQueryChange = {},
                 actions = StudyContentRepository.quickAccess,

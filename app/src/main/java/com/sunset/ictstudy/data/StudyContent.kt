@@ -11,8 +11,7 @@ data class QuickAccessAction(
 enum class QuickActionType {
     ContinueLearning,
     SavedItems,
-    PracticeQuiz,
-    ProcessingModes
+    PracticeQuiz
 }
 
 /** Topic metadata shown in the Study Topics list. */

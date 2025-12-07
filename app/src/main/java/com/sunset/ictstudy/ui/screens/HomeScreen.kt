@@ -127,7 +127,7 @@ fun IctStudyApp(context: Context) {
             }
             composable(StudyDestination.ProcessingModes.route) {
                 ProcessingModesScreen(
-                    modes = ProcessingModesRepository.allModes,
+                    modes = ProcessingModesRepository.processingModes,
                     readStates = processingModesProgress,
                     onBack = { navController.popBackStack() },
                     onModeSelected = { mode ->
@@ -144,12 +144,14 @@ fun IctStudyApp(context: Context) {
                 if (mode == null) {
                     navController.popBackStack()
                 } else {
-                    val modeRead = readStates[mode.id] ?: mode.isCompleted
+                    val modeRead = processingModesProgress[mode.id] ?: mode.isCompleted
                     ProcessingModeDetailScreen(
                         mode = mode,
                         isRead = modeRead,
                         onToggleRead = { updated ->
-                            readStates = readStates.toMutableMap().apply { put(mode.id, updated) }
+                            scope.launch {
+                                progressRepository.markProcessingModeComplete(mode.id, updated)
+                            }
                         },
                         onBack = { navController.popBackStack() }
                     )

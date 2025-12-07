@@ -25,12 +25,11 @@ data class StudyTopic(
 )
 
 enum class TopicCategory {
-    Networking,
+    ProcessingModes,
     Databases,
     Cybersecurity,
     Programming,
-    Hardware,
-    EmergingTech
+    Hardware
 }
 
 object StudyContentRepository {
@@ -52,22 +51,16 @@ object StudyContentRepository {
             title = "Practice",
             subtitle = "Flash quizzes",
             type = QuickActionType.PracticeQuiz
-        ),
-        QuickAccessAction(
-            id = 4,
-            title = "Processing Modes",
-            subtitle = "Data workflows",
-            type = QuickActionType.ProcessingModes
         )
     )
 
     val studyTopics: List<StudyTopic> = listOf(
         StudyTopic(
             id = 1,
-            title = "Networking",
-            lessons = 12,
-            completedPercentage = 75,
-            category = TopicCategory.Networking
+            title = "Processing Modes",
+            lessons = 5,
+            completedPercentage = 0,
+            category = TopicCategory.ProcessingModes
         ),
         StudyTopic(
             id = 2,
@@ -96,13 +89,6 @@ object StudyContentRepository {
             lessons = 10,
             completedPercentage = 40,
             category = TopicCategory.Hardware
-        ),
-        StudyTopic(
-            id = 6,
-            title = "Emerging Tech",
-            lessons = 6,
-            completedPercentage = 15,
-            category = TopicCategory.EmergingTech
         )
     )
 }

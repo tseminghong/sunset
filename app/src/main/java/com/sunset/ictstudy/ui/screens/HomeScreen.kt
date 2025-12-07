@@ -31,7 +31,6 @@ import androidx.compose.material.icons.rounded.School
 import androidx.compose.material.icons.rounded.Security
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.Storage
-import androidx.compose.material.icons.rounded.Wifi
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -170,8 +169,9 @@ private fun HomeRoute(username: String, onOpenProcessingModes: () -> Unit) {
         onQueryChange = { query = it },
         actions = StudyContentRepository.quickAccess,
         topics = filteredTopics,
-        onQuickActionClick = { action ->
-            if (action.type == QuickActionType.ProcessingModes) {
+        onQuickActionClick = { },
+        onTopicClick = { topic ->
+            if (topic.category == TopicCategory.ProcessingModes) {
                 onOpenProcessingModes()
             }
         }
@@ -185,7 +185,8 @@ private fun HomeScreen(
     onQueryChange: (String) -> Unit,
     actions: List<QuickAccessAction>,
     topics: List<StudyTopic>,
-    onQuickActionClick: (QuickAccessAction) -> Unit
+    onQuickActionClick: (QuickAccessAction) -> Unit,
+    onTopicClick: (StudyTopic) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -197,7 +198,7 @@ private fun HomeScreen(
         HeaderSection(username = username)
         SearchBar(query = query, onQueryChange = onQueryChange)
         QuickAccessSection(actions = actions, onActionClick = onQuickActionClick)
-        StudyTopicsSection(topics = topics, query = query)
+        StudyTopicsSection(topics = topics, query = query, onTopicClick = onTopicClick)
     }
 }
 
@@ -326,11 +327,10 @@ private fun quickActionIcon(type: QuickActionType) = when (type) {
     QuickActionType.ContinueLearning -> Icons.Rounded.PlayArrow
     QuickActionType.SavedItems -> Icons.Rounded.BookmarkBorder
     QuickActionType.PracticeQuiz -> Icons.Rounded.MenuBook
-    QuickActionType.ProcessingModes -> Icons.Rounded.DataUsage
 }
 
 @Composable
-private fun StudyTopicsSection(topics: List<StudyTopic>, query: String) {
+private fun StudyTopicsSection(topics: List<StudyTopic>, query: String, onTopicClick: (StudyTopic) -> Unit) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -347,16 +347,18 @@ private fun StudyTopicsSection(topics: List<StudyTopic>, query: String) {
             EmptyState(query = query)
         } else {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                topics.forEach { topic -> TopicCard(topic) }
+                topics.forEach { topic -> TopicCard(topic, onClick = { onTopicClick(topic) }) }
             }
         }
     }
 }
 
 @Composable
-private fun TopicCard(topic: StudyTopic) {
+private fun TopicCard(topic: StudyTopic, onClick: () -> Unit) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
         colors = CardDefaults.cardColors(containerColor = NightCard),
         shape = RoundedCornerShape(24.dp)
     ) {
@@ -447,21 +449,19 @@ private fun EmptyState(query: String) {
 }
 
 private fun topicIconGradient(category: TopicCategory) = when (category) {
-    TopicCategory.Networking -> Brush.linearGradient(listOf(AccentPrimary, AccentCyan))
+    TopicCategory.ProcessingModes -> Brush.linearGradient(listOf(AccentPrimary, AccentCyan))
     TopicCategory.Databases -> Brush.linearGradient(listOf(Color(0xFF2C2F88), AccentPurple))
     TopicCategory.Cybersecurity -> Brush.linearGradient(listOf(Color(0xFF184451), AccentCyan))
     TopicCategory.Programming -> Brush.linearGradient(listOf(AccentPurple, Color(0xFFFB6FFF)))
     TopicCategory.Hardware -> Brush.linearGradient(listOf(Color(0xFF7A5CFF), Color(0xFF2BD9DF)))
-    TopicCategory.EmergingTech -> Brush.linearGradient(listOf(Color(0xFF3A86FF), Color(0xFFF9D423)))
 }
 
 private fun TopicCategory.icon() = when (this) {
-    TopicCategory.Networking -> Icons.Rounded.Wifi
+    TopicCategory.ProcessingModes -> Icons.Rounded.DataUsage
     TopicCategory.Databases -> Icons.Rounded.Storage
     TopicCategory.Cybersecurity -> Icons.Rounded.Security
     TopicCategory.Programming -> Icons.Rounded.MenuBook
     TopicCategory.Hardware -> Icons.Rounded.Settings
-    TopicCategory.EmergingTech -> Icons.Rounded.School
 }
 
 private sealed class StudyDestination(val route: String) {
@@ -484,7 +484,8 @@ private fun HomeScreenPreview() {
                 onQueryChange = {},
                 actions = StudyContentRepository.quickAccess,
                 topics = StudyContentRepository.studyTopics,
-                onQuickActionClick = {}
+                onQuickActionClick = {},
+                onTopicClick = {}
             )
         }
     }

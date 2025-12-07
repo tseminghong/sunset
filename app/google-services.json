@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "729556297498",
+    "project_id": "sunset-a05ac",
+    "storage_bucket": "sunset-a05ac.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729556297498:android:b08054683b339b75f9eea3",
+        "android_client_info": {
+          "package_name": "com.sunset.ict"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpnMhQjBtHf3vDGCs1A4O5Kazx4WQTlGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

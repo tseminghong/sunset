@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
+    // Enable Google Services plugin to read google-services.json
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -67,6 +69,9 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.navigation:navigation-compose:2.8.0")
+    // Firebase BoM and Analytics SDK
+    implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
+    implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.android.material:material:1.12.0")
 
     testImplementation("junit:junit:4.13.2")

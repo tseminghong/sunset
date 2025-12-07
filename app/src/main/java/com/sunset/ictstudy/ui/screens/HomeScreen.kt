@@ -191,8 +191,8 @@ private fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = 20.dp, vertical = 24.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp)
+            .padding(horizontal = 18.dp, vertical = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         HeaderSection(username = username)
         SearchBar(query = query, onQueryChange = onQueryChange)
@@ -223,9 +223,9 @@ private fun HeaderSection(username: String) {
                     modifier = Modifier.size(26.dp)
                 )
             }
-            Spacer(modifier = Modifier.size(16.dp))
+            Spacer(modifier = Modifier.size(12.dp))
             Column {
-                Text(text = "Hi, $username", style = MaterialTheme.typography.displaySmall, color = Color.White)
+                Text(text = "Hi, $username", style = MaterialTheme.typography.headlineMedium, color = Color.White)
                 Text(text = "Keep the momentum going", style = MaterialTheme.typography.bodyMedium, color = NightMuted)
             }
         }

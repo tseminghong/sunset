@@ -80,8 +80,8 @@ fun ProcessingModesScreen(
         Divider(color = Color.White.copy(alpha = 0.08f))
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            contentPadding = androidx.compose.foundation.layout.PaddingValues(20.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             items(modes) { mode ->
                 val isRead = readStates[mode.id] ?: mode.isCompleted
@@ -127,7 +127,7 @@ private fun ProcessingModeCard(
 ) {
     Card(
         colors = CardDefaults.cardColors(containerColor = NightCard),
-        shape = RoundedCornerShape(28.dp),
+        shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
@@ -216,8 +216,8 @@ fun ProcessingModeDetailScreen(
             modifier = Modifier
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 20.dp, vertical = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp)
+                .padding(horizontal = 16.dp, vertical = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             HeroHeader(mode)
             SectionCard(title = "Definition", description = mode.detail.definition)

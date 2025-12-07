@@ -62,22 +62,22 @@ fun WelcomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 24.dp, vertical = 40.dp),
+                .padding(horizontal = 24.dp, vertical = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(32.dp),
+                verticalArrangement = Arrangement.spacedBy(20.dp),
                 modifier = Modifier.weight(1f)
             ) {
-                Spacer(modifier = Modifier.height(40.dp))
+                Spacer(modifier = Modifier.height(16.dp))
                 
                 // App Icon & Title
                 Box(
                     modifier = Modifier
-                        .size(100.dp)
-                        .clip(RoundedCornerShape(28.dp))
+                        .size(80.dp)
+                        .clip(RoundedCornerShape(24.dp))
                         .background(Brush.linearGradient(listOf(AccentPrimary, AccentPurple))),
                     contentAlignment = Alignment.Center
                 ) {
@@ -85,32 +85,32 @@ fun WelcomeScreen(
                         imageVector = Icons.Rounded.School,
                         contentDescription = null,
                         tint = Color.White,
-                        modifier = Modifier.size(56.dp)
+                        modifier = Modifier.size(44.dp)
                     )
                 }
                 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         text = "Welcome to",
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MaterialTheme.typography.titleMedium,
                         color = NightMuted
                     )
                     Text(
                         text = "ICT Revision Hub",
-                        style = MaterialTheme.typography.displaySmall,
+                        style = MaterialTheme.typography.headlineMedium,
                         color = Color.White
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = "Your companion for mastering Information & Communication Technology",
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodySmall,
                         color = NightMuted,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
                 }
                 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(12.dp))
                 
                 // Username Input
                 Column(
@@ -154,7 +154,7 @@ fun WelcomeScreen(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp),
+                    .height(52.dp),
                 enabled = username.isNotBlank(),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = AccentPrimary,
@@ -251,15 +251,15 @@ private fun ThemeOption(
         colors = CardDefaults.cardColors(
             containerColor = if (isSelected) AccentPrimary else NightCard
         ),
-        shape = RoundedCornerShape(18.dp),
+        shape = RoundedCornerShape(14.dp),
         modifier = modifier.clickable(onClick = onClick)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 20.dp),
+                .padding(vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             Box(contentAlignment = Alignment.Center) {
                 Icon(

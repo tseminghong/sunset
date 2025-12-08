@@ -13,445 +13,450 @@
 12-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:5:5-77
 12-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:5:22-74
 13
-14    <!-- Alarm permissions for exact scheduling -->
-15    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-15-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:8:5-79
-15-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:8:22-76
-16    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
-16-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:9:5-74
-16-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:9:22-71
-17
-18    <!-- Wake lock for alarms -->
-19    <uses-permission android:name="android.permission.WAKE_LOCK" />
-19-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:12:5-68
-19-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:12:22-65
+14    <!-- Live Update (Promoted) notification permission -->
+15    <uses-permission android:name="android.permission.POST_PROMOTED_NOTIFICATIONS" />
+15-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:8:5-86
+15-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:8:22-83
+16
+17    <!-- Alarm permissions for exact scheduling -->
+18    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+18-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:11:5-79
+18-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:11:22-76
+19    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+19-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:12:5-74
+19-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:12:22-71
 20
-21    <!-- Foreground service for notifications -->
-22    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-22-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:15:5-77
-22-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:15:22-74
-23    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
-23-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:16:5-87
-23-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:16:22-84
-24
-25    <!-- ColorOS specific permissions for live alerts -->
-26    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
-26-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:19:5-81
-26-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:19:22-78
-27    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Required by older versions of Google Play services to create IID tokens -->
-27-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:22:5-79
-27-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:22:22-76
-28    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" /> <!-- Required permission for App measurement to run. -->
-28-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:26:5-82
-28-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:26:22-79
-29    <uses-permission android:name="android.permission.INTERNET" />
-29-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:23:5-67
-29-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:23:22-64
-30    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
-30-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:26:5-110
-30-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:26:22-107
-31    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
-31-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\362983135b084fff30eace6d8c51fd17\transformed\play-services-measurement-api-23.0.0\AndroidManifest.xml:25:5-79
-31-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\362983135b084fff30eace6d8c51fd17\transformed\play-services-measurement-api-23.0.0\AndroidManifest.xml:25:22-76
-32    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_ATTRIBUTION" />
-32-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\362983135b084fff30eace6d8c51fd17\transformed\play-services-measurement-api-23.0.0\AndroidManifest.xml:26:5-88
-32-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\362983135b084fff30eace6d8c51fd17\transformed\play-services-measurement-api-23.0.0\AndroidManifest.xml:26:22-85
-33    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_AD_ID" />
-33-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\362983135b084fff30eace6d8c51fd17\transformed\play-services-measurement-api-23.0.0\AndroidManifest.xml:27:5-82
-33-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\362983135b084fff30eace6d8c51fd17\transformed\play-services-measurement-api-23.0.0\AndroidManifest.xml:27:22-79
-34
-35    <permission
-35-->[androidx.core:core:1.13.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d0ab552b52dc6de02aa1bedc030ea6c6\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
-36        android:name="com.sunset.ictstudy.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-36-->[androidx.core:core:1.13.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d0ab552b52dc6de02aa1bedc030ea6c6\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
-37        android:protectionLevel="signature" />
-37-->[androidx.core:core:1.13.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d0ab552b52dc6de02aa1bedc030ea6c6\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
-38
-39    <uses-permission android:name="com.sunset.ictstudy.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-39-->[androidx.core:core:1.13.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d0ab552b52dc6de02aa1bedc030ea6c6\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
-39-->[androidx.core:core:1.13.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d0ab552b52dc6de02aa1bedc030ea6c6\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
-40
-41    <application
-41-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:21:5-76:19
-42        android:allowBackup="true"
-42-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:22:9-35
-43        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-43-->[androidx.core:core:1.13.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d0ab552b52dc6de02aa1bedc030ea6c6\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
-44        android:debuggable="true"
-45        android:enableOnBackInvokedCallback="true"
-45-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:28:9-51
-46        android:extractNativeLibs="false"
-47        android:icon="@mipmap/ic_launcher"
-47-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:23:9-43
-48        android:label="@string/app_name"
-48-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:24:9-41
-49        android:roundIcon="@mipmap/ic_launcher_round"
-49-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:25:9-54
-50        android:supportsRtl="true"
-50-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:26:9-35
-51        android:theme="@style/Theme.Sunset" >
-51-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:27:9-44
-52        <activity
-52-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:29:9-41:20
-53            android:name="com.sunset.ictstudy.MainActivity"
-53-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:30:13-60
-54            android:exported="true"
-54-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:31:13-36
-55            android:launchMode="singleTop"
-55-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:33:13-43
-56            android:showWhenLocked="true"
-56-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:34:13-42
-57            android:theme="@style/Theme.Sunset"
-57-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:32:13-48
-58            android:turnScreenOn="true" >
-58-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:35:13-40
-59            <intent-filter>
-59-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:36:13-40:29
-60                <action android:name="android.intent.action.MAIN" />
-60-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:37:17-69
-60-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:37:25-66
-61
-62                <category android:name="android.intent.category.LAUNCHER" />
-62-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:39:17-77
-62-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:39:27-74
-63            </intent-filter>
-64        </activity>
-65
-66        <!-- Reminder broadcast receiver -->
-67        <receiver
-67-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:44:9-47:40
-68            android:name="com.sunset.ictstudy.notifications.StudyReminderReceiver"
-68-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:45:13-83
-69            android:enabled="true"
-69-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:46:13-35
-70            android:exported="false" />
-70-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:47:13-37
-71
-72        <!-- Live Alert action receiver for timer controls -->
-73        <receiver
-73-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:50:9-59:20
-74            android:name="com.sunset.ictstudy.notifications.LiveAlertActionReceiver"
-74-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:51:13-85
-75            android:enabled="true"
-75-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:52:13-35
-76            android:exported="false" >
-76-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:53:13-37
-77            <intent-filter>
-77-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:54:13-58:29
-78                <action android:name="com.sunset.ictstudy.ACTION_PAUSE_TIMER" />
-78-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:55:17-81
-78-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:55:25-78
-79                <action android:name="com.sunset.ictstudy.ACTION_RESUME_TIMER" />
-79-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:56:17-82
-79-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:56:25-79
-80                <action android:name="com.sunset.ictstudy.ACTION_STOP_TIMER" />
-80-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:57:17-80
-80-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:57:25-77
-81            </intent-filter>
-82        </receiver>
-83
-84        <!-- Firebase Cloud Messaging service for Live Alert updates -->
-85        <service
-85-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:62:9-68:19
-86            android:name="com.sunset.ictstudy.notifications.LiveAlertFCMService"
-86-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:63:13-81
-87            android:exported="false" >
-87-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:64:13-37
-88            <intent-filter>
-88-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:65:13-67:29
-89                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-89-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:66:17-78
-89-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:66:25-75
-90            </intent-filter>
-91        </service>
-92
-93        <!-- Study Session Foreground Service for Live Updates -->
-94        <service
-94-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:71:9-75:56
-95            android:name="com.sunset.ictstudy.services.StudySessionService"
-95-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:72:13-76
-96            android:enabled="true"
-96-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:73:13-35
-97            android:exported="false"
-97-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:74:13-37
-98            android:foregroundServiceType="dataSync" />
-98-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:75:13-53
-99
-100        <receiver
-100-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:29:9-40:20
-101            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
-101-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:30:13-78
-102            android:exported="true"
-102-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:31:13-36
-103            android:permission="com.google.android.c2dm.permission.SEND" >
-103-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:32:13-73
-104            <intent-filter>
-104-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:33:13-35:29
-105                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-105-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:34:17-81
-105-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:34:25-78
-106            </intent-filter>
-107
-108            <meta-data
-108-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:37:13-39:40
-109                android:name="com.google.android.gms.cloudmessaging.FINISHED_AFTER_HANDLED"
-109-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:38:17-92
-110                android:value="true" />
-110-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:39:17-37
-111        </receiver>
-112        <!--
-113             FirebaseMessagingService performs security checks at runtime,
-114             but set to not exported to explicitly avoid allowing another app to call it.
-115        -->
-116        <service
-116-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:46:9-53:19
-117            android:name="com.google.firebase.messaging.FirebaseMessagingService"
-117-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:47:13-82
-118            android:directBootAware="true"
-118-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:48:13-43
-119            android:exported="false" >
-119-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:49:13-37
-120            <intent-filter android:priority="-500" >
-120-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:65:13-67:29
-121                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-121-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:66:17-78
-121-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:66:25-75
-122            </intent-filter>
-123        </service>
-124        <service
-124-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:54:9-63:19
-125            android:name="com.google.firebase.components.ComponentDiscoveryService"
-125-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:55:13-84
-126            android:directBootAware="true"
-126-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:32:13-43
-127            android:exported="false" >
-127-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:56:13-37
-128            <meta-data
-128-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:57:13-59:85
-129                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingKtxRegistrar"
-129-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:58:17-122
-130                android:value="com.google.firebase.components.ComponentRegistrar" />
-130-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:59:17-82
+21    <!-- Wake lock for alarms -->
+22    <uses-permission android:name="android.permission.WAKE_LOCK" />
+22-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:15:5-68
+22-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:15:22-65
+23
+24    <!-- Foreground service for notifications -->
+25    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+25-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:18:5-77
+25-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:18:22-74
+26    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+26-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:19:5-87
+26-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:19:22-84
+27
+28    <!-- ColorOS specific permissions for live alerts -->
+29    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+29-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:22:5-81
+29-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:22:22-78
+30    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Required by older versions of Google Play services to create IID tokens -->
+30-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:22:5-79
+30-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:22:22-76
+31    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" /> <!-- Required permission for App measurement to run. -->
+31-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:26:5-82
+31-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:26:22-79
+32    <uses-permission android:name="android.permission.INTERNET" />
+32-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:23:5-67
+32-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:23:22-64
+33    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+33-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:26:5-110
+33-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:26:22-107
+34    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+34-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\362983135b084fff30eace6d8c51fd17\transformed\play-services-measurement-api-23.0.0\AndroidManifest.xml:25:5-79
+34-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\362983135b084fff30eace6d8c51fd17\transformed\play-services-measurement-api-23.0.0\AndroidManifest.xml:25:22-76
+35    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_ATTRIBUTION" />
+35-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\362983135b084fff30eace6d8c51fd17\transformed\play-services-measurement-api-23.0.0\AndroidManifest.xml:26:5-88
+35-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\362983135b084fff30eace6d8c51fd17\transformed\play-services-measurement-api-23.0.0\AndroidManifest.xml:26:22-85
+36    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_AD_ID" />
+36-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\362983135b084fff30eace6d8c51fd17\transformed\play-services-measurement-api-23.0.0\AndroidManifest.xml:27:5-82
+36-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\362983135b084fff30eace6d8c51fd17\transformed\play-services-measurement-api-23.0.0\AndroidManifest.xml:27:22-79
+37
+38    <permission
+38-->[androidx.core:core:1.13.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d0ab552b52dc6de02aa1bedc030ea6c6\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
+39        android:name="com.sunset.ictstudy.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+39-->[androidx.core:core:1.13.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d0ab552b52dc6de02aa1bedc030ea6c6\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
+40        android:protectionLevel="signature" />
+40-->[androidx.core:core:1.13.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d0ab552b52dc6de02aa1bedc030ea6c6\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
+41
+42    <uses-permission android:name="com.sunset.ictstudy.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+42-->[androidx.core:core:1.13.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d0ab552b52dc6de02aa1bedc030ea6c6\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
+42-->[androidx.core:core:1.13.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d0ab552b52dc6de02aa1bedc030ea6c6\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
+43
+44    <application
+44-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:24:5-79:19
+45        android:allowBackup="true"
+45-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:25:9-35
+46        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+46-->[androidx.core:core:1.13.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d0ab552b52dc6de02aa1bedc030ea6c6\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
+47        android:debuggable="true"
+48        android:enableOnBackInvokedCallback="true"
+48-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:31:9-51
+49        android:extractNativeLibs="false"
+50        android:icon="@mipmap/ic_launcher"
+50-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:26:9-43
+51        android:label="@string/app_name"
+51-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:27:9-41
+52        android:roundIcon="@mipmap/ic_launcher_round"
+52-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:28:9-54
+53        android:supportsRtl="true"
+53-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:29:9-35
+54        android:theme="@style/Theme.Sunset" >
+54-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:30:9-44
+55        <activity
+55-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:32:9-44:20
+56            android:name="com.sunset.ictstudy.MainActivity"
+56-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:33:13-60
+57            android:exported="true"
+57-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:34:13-36
+58            android:launchMode="singleTop"
+58-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:36:13-43
+59            android:showWhenLocked="true"
+59-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:37:13-42
+60            android:theme="@style/Theme.Sunset"
+60-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:35:13-48
+61            android:turnScreenOn="true" >
+61-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:38:13-40
+62            <intent-filter>
+62-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:39:13-43:29
+63                <action android:name="android.intent.action.MAIN" />
+63-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:40:17-69
+63-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:40:25-66
+64
+65                <category android:name="android.intent.category.LAUNCHER" />
+65-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:42:17-77
+65-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:42:27-74
+66            </intent-filter>
+67        </activity>
+68
+69        <!-- Reminder broadcast receiver -->
+70        <receiver
+70-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:47:9-50:40
+71            android:name="com.sunset.ictstudy.notifications.StudyReminderReceiver"
+71-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:48:13-83
+72            android:enabled="true"
+72-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:49:13-35
+73            android:exported="false" />
+73-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:50:13-37
+74
+75        <!-- Live Alert action receiver for timer controls -->
+76        <receiver
+76-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:53:9-62:20
+77            android:name="com.sunset.ictstudy.notifications.LiveAlertActionReceiver"
+77-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:54:13-85
+78            android:enabled="true"
+78-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:55:13-35
+79            android:exported="false" >
+79-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:56:13-37
+80            <intent-filter>
+80-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:57:13-61:29
+81                <action android:name="com.sunset.ictstudy.ACTION_PAUSE_TIMER" />
+81-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:58:17-81
+81-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:58:25-78
+82                <action android:name="com.sunset.ictstudy.ACTION_RESUME_TIMER" />
+82-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:59:17-82
+82-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:59:25-79
+83                <action android:name="com.sunset.ictstudy.ACTION_STOP_TIMER" />
+83-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:60:17-80
+83-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:60:25-77
+84            </intent-filter>
+85        </receiver>
+86
+87        <!-- Firebase Cloud Messaging service for Live Alert updates -->
+88        <service
+88-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:65:9-71:19
+89            android:name="com.sunset.ictstudy.notifications.LiveAlertFCMService"
+89-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:66:13-81
+90            android:exported="false" >
+90-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:67:13-37
+91            <intent-filter>
+91-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:68:13-70:29
+92                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+92-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:69:17-78
+92-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:69:25-75
+93            </intent-filter>
+94        </service>
+95
+96        <!-- Study Session Foreground Service for Live Updates -->
+97        <service
+97-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:74:9-78:56
+98            android:name="com.sunset.ictstudy.services.StudySessionService"
+98-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:75:13-76
+99            android:enabled="true"
+99-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:76:13-35
+100            android:exported="false"
+100-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:77:13-37
+101            android:foregroundServiceType="dataSync" />
+101-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:78:13-53
+102
+103        <receiver
+103-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:29:9-40:20
+104            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+104-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:30:13-78
+105            android:exported="true"
+105-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:31:13-36
+106            android:permission="com.google.android.c2dm.permission.SEND" >
+106-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:32:13-73
+107            <intent-filter>
+107-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:33:13-35:29
+108                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+108-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:34:17-81
+108-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:34:25-78
+109            </intent-filter>
+110
+111            <meta-data
+111-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:37:13-39:40
+112                android:name="com.google.android.gms.cloudmessaging.FINISHED_AFTER_HANDLED"
+112-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:38:17-92
+113                android:value="true" />
+113-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:39:17-37
+114        </receiver>
+115        <!--
+116             FirebaseMessagingService performs security checks at runtime,
+117             but set to not exported to explicitly avoid allowing another app to call it.
+118        -->
+119        <service
+119-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:46:9-53:19
+120            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+120-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:47:13-82
+121            android:directBootAware="true"
+121-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:48:13-43
+122            android:exported="false" >
+122-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:49:13-37
+123            <intent-filter android:priority="-500" >
+123-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:68:13-70:29
+124                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+124-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:69:17-78
+124-->C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:69:25-75
+125            </intent-filter>
+126        </service>
+127        <service
+127-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:54:9-63:19
+128            android:name="com.google.firebase.components.ComponentDiscoveryService"
+128-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:55:13-84
+129            android:directBootAware="true"
+129-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:32:13-43
+130            android:exported="false" >
+130-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:56:13-37
 131            <meta-data
-131-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:60:13-62:85
-132                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
-132-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:61:17-119
+131-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:57:13-59:85
+132                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingKtxRegistrar"
+132-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:58:17-122
 133                android:value="com.google.firebase.components.ComponentRegistrar" />
-133-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:62:17-82
+133-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:59:17-82
 134            <meta-data
-134-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\362983135b084fff30eace6d8c51fd17\transformed\play-services-measurement-api-23.0.0\AndroidManifest.xml:33:13-35:85
-135                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
-135-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\362983135b084fff30eace6d8c51fd17\transformed\play-services-measurement-api-23.0.0\AndroidManifest.xml:34:17-139
+134-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:60:13-62:85
+135                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
+135-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:61:17-119
 136                android:value="com.google.firebase.components.ComponentRegistrar" />
-136-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\362983135b084fff30eace6d8c51fd17\transformed\play-services-measurement-api-23.0.0\AndroidManifest.xml:35:17-82
+136-->[com.google.firebase:firebase-messaging:25.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\d9d9b9dde2b52cddd22654998ff363fd\transformed\firebase-messaging-25.0.1\AndroidManifest.xml:62:17-82
 137            <meta-data
-137-->[com.google.firebase:firebase-installations:19.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\44bc2389229f6d6fb4f54c7769a344f0\transformed\firebase-installations-19.0.1\AndroidManifest.xml:15:13-17:85
-138                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsKtxRegistrar"
-138-->[com.google.firebase:firebase-installations:19.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\44bc2389229f6d6fb4f54c7769a344f0\transformed\firebase-installations-19.0.1\AndroidManifest.xml:16:17-130
+137-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\362983135b084fff30eace6d8c51fd17\transformed\play-services-measurement-api-23.0.0\AndroidManifest.xml:33:13-35:85
+138                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+138-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\362983135b084fff30eace6d8c51fd17\transformed\play-services-measurement-api-23.0.0\AndroidManifest.xml:34:17-139
 139                android:value="com.google.firebase.components.ComponentRegistrar" />
-139-->[com.google.firebase:firebase-installations:19.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\44bc2389229f6d6fb4f54c7769a344f0\transformed\firebase-installations-19.0.1\AndroidManifest.xml:17:17-82
+139-->[com.google.android.gms:play-services-measurement-api:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\362983135b084fff30eace6d8c51fd17\transformed\play-services-measurement-api-23.0.0\AndroidManifest.xml:35:17-82
 140            <meta-data
-140-->[com.google.firebase:firebase-installations:19.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\44bc2389229f6d6fb4f54c7769a344f0\transformed\firebase-installations-19.0.1\AndroidManifest.xml:18:13-20:85
-141                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
-141-->[com.google.firebase:firebase-installations:19.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\44bc2389229f6d6fb4f54c7769a344f0\transformed\firebase-installations-19.0.1\AndroidManifest.xml:19:17-127
+140-->[com.google.firebase:firebase-installations:19.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\44bc2389229f6d6fb4f54c7769a344f0\transformed\firebase-installations-19.0.1\AndroidManifest.xml:15:13-17:85
+141                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsKtxRegistrar"
+141-->[com.google.firebase:firebase-installations:19.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\44bc2389229f6d6fb4f54c7769a344f0\transformed\firebase-installations-19.0.1\AndroidManifest.xml:16:17-130
 142                android:value="com.google.firebase.components.ComponentRegistrar" />
-142-->[com.google.firebase:firebase-installations:19.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\44bc2389229f6d6fb4f54c7769a344f0\transformed\firebase-installations-19.0.1\AndroidManifest.xml:20:17-82
+142-->[com.google.firebase:firebase-installations:19.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\44bc2389229f6d6fb4f54c7769a344f0\transformed\firebase-installations-19.0.1\AndroidManifest.xml:17:17-82
 143            <meta-data
-143-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:35:13-37:85
-144                android:name="com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar"
-144-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:36:17-109
+143-->[com.google.firebase:firebase-installations:19.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\44bc2389229f6d6fb4f54c7769a344f0\transformed\firebase-installations-19.0.1\AndroidManifest.xml:18:13-20:85
+144                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+144-->[com.google.firebase:firebase-installations:19.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\44bc2389229f6d6fb4f54c7769a344f0\transformed\firebase-installations-19.0.1\AndroidManifest.xml:19:17-127
 145                android:value="com.google.firebase.components.ComponentRegistrar" />
-145-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:37:17-82
+145-->[com.google.firebase:firebase-installations:19.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\44bc2389229f6d6fb4f54c7769a344f0\transformed\firebase-installations-19.0.1\AndroidManifest.xml:20:17-82
 146            <meta-data
-146-->[com.google.firebase:firebase-datatransport:18.2.0] C:\Users\Tsemi\.gradle\caches\transforms-4\590b2cb153e36d588fd163bbff53aea0\transformed\firebase-datatransport-18.2.0\AndroidManifest.xml:25:13-27:85
-147                android:name="com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar"
-147-->[com.google.firebase:firebase-datatransport:18.2.0] C:\Users\Tsemi\.gradle\caches\transforms-4\590b2cb153e36d588fd163bbff53aea0\transformed\firebase-datatransport-18.2.0\AndroidManifest.xml:26:17-115
+146-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:35:13-37:85
+147                android:name="com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar"
+147-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:36:17-109
 148                android:value="com.google.firebase.components.ComponentRegistrar" />
-148-->[com.google.firebase:firebase-datatransport:18.2.0] C:\Users\Tsemi\.gradle\caches\transforms-4\590b2cb153e36d588fd163bbff53aea0\transformed\firebase-datatransport-18.2.0\AndroidManifest.xml:27:17-82
-149        </service>
-150
-151        <receiver
-151-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:29:9-33:20
-152            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
-152-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:30:13-85
-153            android:enabled="true"
-153-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:31:13-35
-154            android:exported="false" >
-154-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:32:13-37
-155        </receiver>
-156
-157        <service
-157-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:35:9-38:40
-158            android:name="com.google.android.gms.measurement.AppMeasurementService"
-158-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:36:13-84
-159            android:enabled="true"
-159-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:37:13-35
-160            android:exported="false" />
-160-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:38:13-37
-161        <service
-161-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:39:9-43:72
-162            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
-162-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:40:13-87
-163            android:enabled="true"
-163-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:41:13-35
-164            android:exported="false"
-164-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:42:13-37
-165            android:permission="android.permission.BIND_JOB_SERVICE" />
-165-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:43:13-69
-166
-167        <provider
-167-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:23:9-28:39
-168            android:name="com.google.firebase.provider.FirebaseInitProvider"
-168-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:24:13-77
-169            android:authorities="com.sunset.ictstudy.firebaseinitprovider"
-169-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:25:13-72
-170            android:directBootAware="true"
-170-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:26:13-43
-171            android:exported="false"
-171-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:27:13-37
-172            android:initOrder="100" />
-172-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:28:13-36
-173
-174        <service
-174-->[androidx.room:room-runtime:2.6.1] C:\Users\Tsemi\.gradle\caches\transforms-4\91bf014963b99d61fd7bbe1e48acb8e4\transformed\room-runtime-2.6.1\AndroidManifest.xml:24:9-28:63
-175            android:name="androidx.room.MultiInstanceInvalidationService"
-175-->[androidx.room:room-runtime:2.6.1] C:\Users\Tsemi\.gradle\caches\transforms-4\91bf014963b99d61fd7bbe1e48acb8e4\transformed\room-runtime-2.6.1\AndroidManifest.xml:25:13-74
-176            android:directBootAware="true"
-176-->[androidx.room:room-runtime:2.6.1] C:\Users\Tsemi\.gradle\caches\transforms-4\91bf014963b99d61fd7bbe1e48acb8e4\transformed\room-runtime-2.6.1\AndroidManifest.xml:26:13-43
-177            android:exported="false" />
-177-->[androidx.room:room-runtime:2.6.1] C:\Users\Tsemi\.gradle\caches\transforms-4\91bf014963b99d61fd7bbe1e48acb8e4\transformed\room-runtime-2.6.1\AndroidManifest.xml:27:13-37
-178
-179        <activity
-179-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\Tsemi\.gradle\caches\transforms-4\85845bbe40d73624ee21351ad883f289\transformed\ui-test-manifest-1.7.0\AndroidManifest.xml:23:9-25:39
-180            android:name="androidx.activity.ComponentActivity"
-180-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\Tsemi\.gradle\caches\transforms-4\85845bbe40d73624ee21351ad883f289\transformed\ui-test-manifest-1.7.0\AndroidManifest.xml:24:13-63
-181            android:exported="true" />
-181-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\Tsemi\.gradle\caches\transforms-4\85845bbe40d73624ee21351ad883f289\transformed\ui-test-manifest-1.7.0\AndroidManifest.xml:25:13-36
-182
-183        <provider
-183-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Tsemi\.gradle\caches\transforms-4\7c26947f4ce3b003e7c7b92c594c78ee\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
-184            android:name="androidx.startup.InitializationProvider"
-184-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Tsemi\.gradle\caches\transforms-4\7c26947f4ce3b003e7c7b92c594c78ee\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
-185            android:authorities="com.sunset.ictstudy.androidx-startup"
-185-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Tsemi\.gradle\caches\transforms-4\7c26947f4ce3b003e7c7b92c594c78ee\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
-186            android:exported="false" >
-186-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Tsemi\.gradle\caches\transforms-4\7c26947f4ce3b003e7c7b92c594c78ee\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
-187            <meta-data
-187-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Tsemi\.gradle\caches\transforms-4\7c26947f4ce3b003e7c7b92c594c78ee\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
-188                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-188-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Tsemi\.gradle\caches\transforms-4\7c26947f4ce3b003e7c7b92c594c78ee\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
-189                android:value="androidx.startup" />
-189-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Tsemi\.gradle\caches\transforms-4\7c26947f4ce3b003e7c7b92c594c78ee\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+148-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:37:17-82
+149            <meta-data
+149-->[com.google.firebase:firebase-datatransport:18.2.0] C:\Users\Tsemi\.gradle\caches\transforms-4\590b2cb153e36d588fd163bbff53aea0\transformed\firebase-datatransport-18.2.0\AndroidManifest.xml:25:13-27:85
+150                android:name="com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar"
+150-->[com.google.firebase:firebase-datatransport:18.2.0] C:\Users\Tsemi\.gradle\caches\transforms-4\590b2cb153e36d588fd163bbff53aea0\transformed\firebase-datatransport-18.2.0\AndroidManifest.xml:26:17-115
+151                android:value="com.google.firebase.components.ComponentRegistrar" />
+151-->[com.google.firebase:firebase-datatransport:18.2.0] C:\Users\Tsemi\.gradle\caches\transforms-4\590b2cb153e36d588fd163bbff53aea0\transformed\firebase-datatransport-18.2.0\AndroidManifest.xml:27:17-82
+152        </service>
+153
+154        <receiver
+154-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:29:9-33:20
+155            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+155-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:30:13-85
+156            android:enabled="true"
+156-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:31:13-35
+157            android:exported="false" >
+157-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:32:13-37
+158        </receiver>
+159
+160        <service
+160-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:35:9-38:40
+161            android:name="com.google.android.gms.measurement.AppMeasurementService"
+161-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:36:13-84
+162            android:enabled="true"
+162-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:37:13-35
+163            android:exported="false" />
+163-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:38:13-37
+164        <service
+164-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:39:9-43:72
+165            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+165-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:40:13-87
+166            android:enabled="true"
+166-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:41:13-35
+167            android:exported="false"
+167-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:42:13-37
+168            android:permission="android.permission.BIND_JOB_SERVICE" />
+168-->[com.google.android.gms:play-services-measurement:23.0.0] C:\Users\Tsemi\.gradle\caches\transforms-4\11283ab672bebe59161db1ec5bfb87c6\transformed\play-services-measurement-23.0.0\AndroidManifest.xml:43:13-69
+169
+170        <provider
+170-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:23:9-28:39
+171            android:name="com.google.firebase.provider.FirebaseInitProvider"
+171-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:24:13-77
+172            android:authorities="com.sunset.ictstudy.firebaseinitprovider"
+172-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:25:13-72
+173            android:directBootAware="true"
+173-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:26:13-43
+174            android:exported="false"
+174-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:27:13-37
+175            android:initOrder="100" />
+175-->[com.google.firebase:firebase-common:22.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\31a5b9670dd8799022195ce81cbb7b3d\transformed\firebase-common-22.0.1\AndroidManifest.xml:28:13-36
+176
+177        <service
+177-->[androidx.room:room-runtime:2.6.1] C:\Users\Tsemi\.gradle\caches\transforms-4\91bf014963b99d61fd7bbe1e48acb8e4\transformed\room-runtime-2.6.1\AndroidManifest.xml:24:9-28:63
+178            android:name="androidx.room.MultiInstanceInvalidationService"
+178-->[androidx.room:room-runtime:2.6.1] C:\Users\Tsemi\.gradle\caches\transforms-4\91bf014963b99d61fd7bbe1e48acb8e4\transformed\room-runtime-2.6.1\AndroidManifest.xml:25:13-74
+179            android:directBootAware="true"
+179-->[androidx.room:room-runtime:2.6.1] C:\Users\Tsemi\.gradle\caches\transforms-4\91bf014963b99d61fd7bbe1e48acb8e4\transformed\room-runtime-2.6.1\AndroidManifest.xml:26:13-43
+180            android:exported="false" />
+180-->[androidx.room:room-runtime:2.6.1] C:\Users\Tsemi\.gradle\caches\transforms-4\91bf014963b99d61fd7bbe1e48acb8e4\transformed\room-runtime-2.6.1\AndroidManifest.xml:27:13-37
+181
+182        <activity
+182-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\Tsemi\.gradle\caches\transforms-4\85845bbe40d73624ee21351ad883f289\transformed\ui-test-manifest-1.7.0\AndroidManifest.xml:23:9-25:39
+183            android:name="androidx.activity.ComponentActivity"
+183-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\Tsemi\.gradle\caches\transforms-4\85845bbe40d73624ee21351ad883f289\transformed\ui-test-manifest-1.7.0\AndroidManifest.xml:24:13-63
+184            android:exported="true" />
+184-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\Tsemi\.gradle\caches\transforms-4\85845bbe40d73624ee21351ad883f289\transformed\ui-test-manifest-1.7.0\AndroidManifest.xml:25:13-36
+185
+186        <provider
+186-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Tsemi\.gradle\caches\transforms-4\7c26947f4ce3b003e7c7b92c594c78ee\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+187            android:name="androidx.startup.InitializationProvider"
+187-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Tsemi\.gradle\caches\transforms-4\7c26947f4ce3b003e7c7b92c594c78ee\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+188            android:authorities="com.sunset.ictstudy.androidx-startup"
+188-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Tsemi\.gradle\caches\transforms-4\7c26947f4ce3b003e7c7b92c594c78ee\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+189            android:exported="false" >
+189-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Tsemi\.gradle\caches\transforms-4\7c26947f4ce3b003e7c7b92c594c78ee\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
 190            <meta-data
-190-->[androidx.lifecycle:lifecycle-process:2.8.3] C:\Users\Tsemi\.gradle\caches\transforms-4\1caf60569c5d4c4e798181d554b65053\transformed\lifecycle-process-2.8.3\AndroidManifest.xml:29:13-31:52
-191                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-191-->[androidx.lifecycle:lifecycle-process:2.8.3] C:\Users\Tsemi\.gradle\caches\transforms-4\1caf60569c5d4c4e798181d554b65053\transformed\lifecycle-process-2.8.3\AndroidManifest.xml:30:17-78
+190-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Tsemi\.gradle\caches\transforms-4\7c26947f4ce3b003e7c7b92c594c78ee\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+191                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+191-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Tsemi\.gradle\caches\transforms-4\7c26947f4ce3b003e7c7b92c594c78ee\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
 192                android:value="androidx.startup" />
-192-->[androidx.lifecycle:lifecycle-process:2.8.3] C:\Users\Tsemi\.gradle\caches\transforms-4\1caf60569c5d4c4e798181d554b65053\transformed\lifecycle-process-2.8.3\AndroidManifest.xml:31:17-49
+192-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Tsemi\.gradle\caches\transforms-4\7c26947f4ce3b003e7c7b92c594c78ee\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
 193            <meta-data
-193-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
-194                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-194-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+193-->[androidx.lifecycle:lifecycle-process:2.8.3] C:\Users\Tsemi\.gradle\caches\transforms-4\1caf60569c5d4c4e798181d554b65053\transformed\lifecycle-process-2.8.3\AndroidManifest.xml:29:13-31:52
+194                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+194-->[androidx.lifecycle:lifecycle-process:2.8.3] C:\Users\Tsemi\.gradle\caches\transforms-4\1caf60569c5d4c4e798181d554b65053\transformed\lifecycle-process-2.8.3\AndroidManifest.xml:30:17-78
 195                android:value="androidx.startup" />
-195-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
-196        </provider>
-197
-198        <uses-library
-198-->[androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] C:\Users\Tsemi\.gradle\caches\transforms-4\84bce3ec7d7f2c762ef6f0d1d287677e\transformed\ads-adservices-1.1.0-beta11\AndroidManifest.xml:23:9-25:40
-199            android:name="android.ext.adservices"
-199-->[androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] C:\Users\Tsemi\.gradle\caches\transforms-4\84bce3ec7d7f2c762ef6f0d1d287677e\transformed\ads-adservices-1.1.0-beta11\AndroidManifest.xml:24:13-50
-200            android:required="false" />
-200-->[androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] C:\Users\Tsemi\.gradle\caches\transforms-4\84bce3ec7d7f2c762ef6f0d1d287677e\transformed\ads-adservices-1.1.0-beta11\AndroidManifest.xml:25:13-37
-201
-202        <activity
-202-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\Tsemi\.gradle\caches\transforms-4\a319bb9eb0a7fb278dcc40155078c8ad\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:9-173
-203            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-203-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\Tsemi\.gradle\caches\transforms-4\a319bb9eb0a7fb278dcc40155078c8ad\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:19-85
-204            android:exported="false"
-204-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\Tsemi\.gradle\caches\transforms-4\a319bb9eb0a7fb278dcc40155078c8ad\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:146-170
-205            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-205-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\Tsemi\.gradle\caches\transforms-4\a319bb9eb0a7fb278dcc40155078c8ad\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:86-145
-206
-207        <meta-data
-207-->[com.google.android.gms:play-services-basement:18.5.0] C:\Users\Tsemi\.gradle\caches\transforms-4\b9e52cff304112e60188fef78afe46b8\transformed\play-services-basement-18.5.0\AndroidManifest.xml:21:9-23:69
-208            android:name="com.google.android.gms.version"
-208-->[com.google.android.gms:play-services-basement:18.5.0] C:\Users\Tsemi\.gradle\caches\transforms-4\b9e52cff304112e60188fef78afe46b8\transformed\play-services-basement-18.5.0\AndroidManifest.xml:22:13-58
-209            android:value="@integer/google_play_services_version" />
-209-->[com.google.android.gms:play-services-basement:18.5.0] C:\Users\Tsemi\.gradle\caches\transforms-4\b9e52cff304112e60188fef78afe46b8\transformed\play-services-basement-18.5.0\AndroidManifest.xml:23:13-66
-210
-211        <activity
-211-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\Tsemi\.gradle\caches\transforms-4\e5b5b38f4a4a0e889dd6e1f5d5ae1a4c\transformed\ui-tooling-release\AndroidManifest.xml:23:9-25:39
-212            android:name="androidx.compose.ui.tooling.PreviewActivity"
-212-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\Tsemi\.gradle\caches\transforms-4\e5b5b38f4a4a0e889dd6e1f5d5ae1a4c\transformed\ui-tooling-release\AndroidManifest.xml:24:13-71
-213            android:exported="true" />
-213-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\Tsemi\.gradle\caches\transforms-4\e5b5b38f4a4a0e889dd6e1f5d5ae1a4c\transformed\ui-tooling-release\AndroidManifest.xml:25:13-36
-214
-215        <service
-215-->[com.google.android.datatransport:transport-backend-cct:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\c7cf2a89c17d4fcea77662cd59e33432\transformed\transport-backend-cct-3.1.9\AndroidManifest.xml:28:9-34:19
-216            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
-216-->[com.google.android.datatransport:transport-backend-cct:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\c7cf2a89c17d4fcea77662cd59e33432\transformed\transport-backend-cct-3.1.9\AndroidManifest.xml:29:13-103
-217            android:exported="false" >
-217-->[com.google.android.datatransport:transport-backend-cct:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\c7cf2a89c17d4fcea77662cd59e33432\transformed\transport-backend-cct-3.1.9\AndroidManifest.xml:30:13-37
-218            <meta-data
-218-->[com.google.android.datatransport:transport-backend-cct:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\c7cf2a89c17d4fcea77662cd59e33432\transformed\transport-backend-cct-3.1.9\AndroidManifest.xml:31:13-33:39
-219                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
-219-->[com.google.android.datatransport:transport-backend-cct:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\c7cf2a89c17d4fcea77662cd59e33432\transformed\transport-backend-cct-3.1.9\AndroidManifest.xml:32:17-94
-220                android:value="cct" />
-220-->[com.google.android.datatransport:transport-backend-cct:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\c7cf2a89c17d4fcea77662cd59e33432\transformed\transport-backend-cct-3.1.9\AndroidManifest.xml:33:17-36
-221        </service>
-222        <service
-222-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\93b64305a85cb8afda66aa3507e4ae9b\transformed\transport-runtime-3.1.9\AndroidManifest.xml:26:9-30:19
-223            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
-223-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\93b64305a85cb8afda66aa3507e4ae9b\transformed\transport-runtime-3.1.9\AndroidManifest.xml:27:13-117
-224            android:exported="false"
-224-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\93b64305a85cb8afda66aa3507e4ae9b\transformed\transport-runtime-3.1.9\AndroidManifest.xml:28:13-37
-225            android:permission="android.permission.BIND_JOB_SERVICE" >
-225-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\93b64305a85cb8afda66aa3507e4ae9b\transformed\transport-runtime-3.1.9\AndroidManifest.xml:29:13-69
-226        </service>
-227
-228        <receiver
-228-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\93b64305a85cb8afda66aa3507e4ae9b\transformed\transport-runtime-3.1.9\AndroidManifest.xml:32:9-34:40
-229            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
-229-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\93b64305a85cb8afda66aa3507e4ae9b\transformed\transport-runtime-3.1.9\AndroidManifest.xml:33:13-132
-230            android:exported="false" />
-230-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\93b64305a85cb8afda66aa3507e4ae9b\transformed\transport-runtime-3.1.9\AndroidManifest.xml:34:13-37
+195-->[androidx.lifecycle:lifecycle-process:2.8.3] C:\Users\Tsemi\.gradle\caches\transforms-4\1caf60569c5d4c4e798181d554b65053\transformed\lifecycle-process-2.8.3\AndroidManifest.xml:31:17-49
+196            <meta-data
+196-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+197                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+197-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+198                android:value="androidx.startup" />
+198-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+199        </provider>
+200
+201        <uses-library
+201-->[androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] C:\Users\Tsemi\.gradle\caches\transforms-4\84bce3ec7d7f2c762ef6f0d1d287677e\transformed\ads-adservices-1.1.0-beta11\AndroidManifest.xml:23:9-25:40
+202            android:name="android.ext.adservices"
+202-->[androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] C:\Users\Tsemi\.gradle\caches\transforms-4\84bce3ec7d7f2c762ef6f0d1d287677e\transformed\ads-adservices-1.1.0-beta11\AndroidManifest.xml:24:13-50
+203            android:required="false" />
+203-->[androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] C:\Users\Tsemi\.gradle\caches\transforms-4\84bce3ec7d7f2c762ef6f0d1d287677e\transformed\ads-adservices-1.1.0-beta11\AndroidManifest.xml:25:13-37
+204
+205        <activity
+205-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\Tsemi\.gradle\caches\transforms-4\a319bb9eb0a7fb278dcc40155078c8ad\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:9-173
+206            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+206-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\Tsemi\.gradle\caches\transforms-4\a319bb9eb0a7fb278dcc40155078c8ad\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:19-85
+207            android:exported="false"
+207-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\Tsemi\.gradle\caches\transforms-4\a319bb9eb0a7fb278dcc40155078c8ad\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:146-170
+208            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+208-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\Tsemi\.gradle\caches\transforms-4\a319bb9eb0a7fb278dcc40155078c8ad\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:86-145
+209
+210        <meta-data
+210-->[com.google.android.gms:play-services-basement:18.5.0] C:\Users\Tsemi\.gradle\caches\transforms-4\b9e52cff304112e60188fef78afe46b8\transformed\play-services-basement-18.5.0\AndroidManifest.xml:21:9-23:69
+211            android:name="com.google.android.gms.version"
+211-->[com.google.android.gms:play-services-basement:18.5.0] C:\Users\Tsemi\.gradle\caches\transforms-4\b9e52cff304112e60188fef78afe46b8\transformed\play-services-basement-18.5.0\AndroidManifest.xml:22:13-58
+212            android:value="@integer/google_play_services_version" />
+212-->[com.google.android.gms:play-services-basement:18.5.0] C:\Users\Tsemi\.gradle\caches\transforms-4\b9e52cff304112e60188fef78afe46b8\transformed\play-services-basement-18.5.0\AndroidManifest.xml:23:13-66
+213
+214        <activity
+214-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\Tsemi\.gradle\caches\transforms-4\e5b5b38f4a4a0e889dd6e1f5d5ae1a4c\transformed\ui-tooling-release\AndroidManifest.xml:23:9-25:39
+215            android:name="androidx.compose.ui.tooling.PreviewActivity"
+215-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\Tsemi\.gradle\caches\transforms-4\e5b5b38f4a4a0e889dd6e1f5d5ae1a4c\transformed\ui-tooling-release\AndroidManifest.xml:24:13-71
+216            android:exported="true" />
+216-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\Tsemi\.gradle\caches\transforms-4\e5b5b38f4a4a0e889dd6e1f5d5ae1a4c\transformed\ui-tooling-release\AndroidManifest.xml:25:13-36
+217
+218        <service
+218-->[com.google.android.datatransport:transport-backend-cct:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\c7cf2a89c17d4fcea77662cd59e33432\transformed\transport-backend-cct-3.1.9\AndroidManifest.xml:28:9-34:19
+219            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+219-->[com.google.android.datatransport:transport-backend-cct:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\c7cf2a89c17d4fcea77662cd59e33432\transformed\transport-backend-cct-3.1.9\AndroidManifest.xml:29:13-103
+220            android:exported="false" >
+220-->[com.google.android.datatransport:transport-backend-cct:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\c7cf2a89c17d4fcea77662cd59e33432\transformed\transport-backend-cct-3.1.9\AndroidManifest.xml:30:13-37
+221            <meta-data
+221-->[com.google.android.datatransport:transport-backend-cct:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\c7cf2a89c17d4fcea77662cd59e33432\transformed\transport-backend-cct-3.1.9\AndroidManifest.xml:31:13-33:39
+222                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+222-->[com.google.android.datatransport:transport-backend-cct:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\c7cf2a89c17d4fcea77662cd59e33432\transformed\transport-backend-cct-3.1.9\AndroidManifest.xml:32:17-94
+223                android:value="cct" />
+223-->[com.google.android.datatransport:transport-backend-cct:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\c7cf2a89c17d4fcea77662cd59e33432\transformed\transport-backend-cct-3.1.9\AndroidManifest.xml:33:17-36
+224        </service>
+225        <service
+225-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\93b64305a85cb8afda66aa3507e4ae9b\transformed\transport-runtime-3.1.9\AndroidManifest.xml:26:9-30:19
+226            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+226-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\93b64305a85cb8afda66aa3507e4ae9b\transformed\transport-runtime-3.1.9\AndroidManifest.xml:27:13-117
+227            android:exported="false"
+227-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\93b64305a85cb8afda66aa3507e4ae9b\transformed\transport-runtime-3.1.9\AndroidManifest.xml:28:13-37
+228            android:permission="android.permission.BIND_JOB_SERVICE" >
+228-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\93b64305a85cb8afda66aa3507e4ae9b\transformed\transport-runtime-3.1.9\AndroidManifest.xml:29:13-69
+229        </service>
+230
 231        <receiver
-231-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
-232            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-232-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
-233            android:directBootAware="false"
-233-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
-234            android:enabled="true"
-234-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
-235            android:exported="true"
-235-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
-236            android:permission="android.permission.DUMP" >
-236-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
-237            <intent-filter>
-237-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
-238                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-238-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
-238-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
-239            </intent-filter>
+231-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\93b64305a85cb8afda66aa3507e4ae9b\transformed\transport-runtime-3.1.9\AndroidManifest.xml:32:9-34:40
+232            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+232-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\93b64305a85cb8afda66aa3507e4ae9b\transformed\transport-runtime-3.1.9\AndroidManifest.xml:33:13-132
+233            android:exported="false" />
+233-->[com.google.android.datatransport:transport-runtime:3.1.9] C:\Users\Tsemi\.gradle\caches\transforms-4\93b64305a85cb8afda66aa3507e4ae9b\transformed\transport-runtime-3.1.9\AndroidManifest.xml:34:13-37
+234        <receiver
+234-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+235            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+235-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+236            android:directBootAware="false"
+236-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+237            android:enabled="true"
+237-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+238            android:exported="true"
+238-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+239            android:permission="android.permission.DUMP" >
+239-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
 240            <intent-filter>
-240-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
-241                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-241-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
-241-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+240-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+241                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+241-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+241-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
 242            </intent-filter>
 243            <intent-filter>
-243-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
-244                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-244-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
-244-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+243-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+244                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+244-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+244-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
 245            </intent-filter>
 246            <intent-filter>
-246-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
-247                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-247-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
-247-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+246-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+247                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+247-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+247-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
 248            </intent-filter>
-249        </receiver>
-250    </application>
-251
-252</manifest>
+249            <intent-filter>
+249-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+250                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+250-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+250-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Tsemi\.gradle\caches\transforms-4\33566845f6921f11fff40fa026938f2b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+251            </intent-filter>
+252        </receiver>
+253    </application>
+254
+255</manifest>

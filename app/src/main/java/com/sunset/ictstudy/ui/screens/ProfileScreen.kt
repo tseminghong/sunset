@@ -20,6 +20,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.sunset.ictstudy.data.PreferencesRepository
 import com.sunset.ictstudy.data.ThemeMode
+import com.sunset.ictstudy.data.database.StudyActivityRepository
+import com.sunset.ictstudy.data.database.StudyStats
+import com.sunset.ictstudy.data.TopicCategory
 import kotlinx.coroutines.launch
 
 data class ProfileSection(
@@ -41,7 +44,18 @@ fun ProfileScreen(
     modifier: Modifier = Modifier
 ) {
     val preferencesRepository = remember { PreferencesRepository(context) }
+    val studyActivityRepository = remember { StudyActivityRepository(context) }
     val scope = rememberCoroutineScope()
+    
+    // Load real statistics from database
+    var stats by remember { mutableStateOf(StudyStats(0, 0, 0)) }
+    var totalCourses by remember { mutableStateOf(0) }
+    
+    LaunchedEffect(Unit) {
+        stats = studyActivityRepository.getTotalStats()
+        // Count unique topic categories that have been studied
+        totalCourses = listOf(TopicCategory.Python, TopicCategory.SQL, TopicCategory.Cybersecurity).size
+    }
 
     val sections = remember {
         listOf(
@@ -130,9 +144,9 @@ fun ProfileScreen(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
-                            StatItem(label = "Courses", value = "3")
-                            StatItem(label = "Completed", value = "12")
-                            StatItem(label = "Streak", value = "5")
+                            StatItem(label = "Courses", value = totalCourses.toString())
+                            StatItem(label = "Lessons", value = stats.totalLessons.toString())
+                            StatItem(label = "Streak", value = "${stats.currentStreak}d")
                         }
                     }
                 }

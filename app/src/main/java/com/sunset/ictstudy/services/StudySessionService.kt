@@ -9,6 +9,7 @@ import android.os.PowerManager
 import androidx.core.app.NotificationCompat
 import com.sunset.ictstudy.MainActivity
 import com.sunset.ictstudy.R
+import com.sunset.ictstudy.data.database.StudyActivityRepository
 import com.sunset.ictstudy.notifications.LiveAlertManager
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
@@ -48,6 +49,7 @@ class StudySessionService : Service() {
     private var timerJob: Job? = null
     private var wakeLock: PowerManager.WakeLock? = null
     private lateinit var liveAlertManager: LiveAlertManager
+    private lateinit var studyActivityRepository: StudyActivityRepository
     
     private var topicId: String = ""
     private var topicName: String = ""
@@ -57,6 +59,7 @@ class StudySessionService : Service() {
     override fun onCreate() {
         super.onCreate()
         liveAlertManager = LiveAlertManager(this)
+        studyActivityRepository = StudyActivityRepository(this)
         createNotificationChannel()
         createProgressNotificationChannel()
         acquireWakeLock()
@@ -365,11 +368,18 @@ class StudySessionService : Service() {
     }
     
     private fun saveStudySession(completed: Boolean = false) {
-        // TODO: Save to Room database
-        // This would integrate with StudyActivityRepository
         serviceScope.launch {
             try {
-                // Save session with elapsed time, topic, completion status
+                // Calculate actual study time in minutes
+                val studyMinutes = elapsedSeconds / 60
+                
+                // Only save if there was actual study time
+                if (studyMinutes > 0) {
+                    studyActivityRepository.recordStudySession(
+                        minutesStudied = studyMinutes,
+                        lessonsCompleted = if (completed) 1 else 0
+                    )
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }

@@ -16,6 +16,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        
+        // Enable predictive back gesture (Android 13+)
+        // The predictive back animation is automatically handled by the system
+        // when combined with the navigation animations we've implemented
         setContent {
             val preferencesRepository = PreferencesRepository(this)
             val userPreferences by preferencesRepository.userPreferencesFlow.collectAsState(

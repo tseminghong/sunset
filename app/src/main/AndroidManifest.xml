@@ -23,7 +23,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Sunset">
+        android:theme="@style/Theme.Sunset"
+        android:enableOnBackInvokedCallback="true">
         <activity
             android:name="com.sunset.ictstudy.MainActivity"
             android:exported="true"

@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:2:1-48:12
-INJECTED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:2:1-48:12
-INJECTED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:2:1-48:12
-INJECTED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:2:1-48:12
+ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:2:1-49:12
+INJECTED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:2:1-49:12
+INJECTED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:2:1-49:12
+INJECTED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:2:1-49:12
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\Tsemi\.gradle\caches\transforms-4\121510236646b195f2a87954611473e9\transformed\material-1.12.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\df79e7b796cae37bd852c4596c6b916f\transformed\constraintlayout-2.0.1\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\Tsemi\.gradle\caches\transforms-4\b868df20a3fe6b806dc7e42068fec57f\transformed\appcompat-resources-1.6.1\AndroidManifest.xml:17:1-22:12
@@ -151,8 +151,8 @@ ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:18:5-81
 	android:name
 		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:18:22-78
 application
-ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:20:5-46:19
-INJECTED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:20:5-46:19
+ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:20:5-47:19
+INJECTED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:20:5-47:19
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\Tsemi\.gradle\caches\transforms-4\121510236646b195f2a87954611473e9\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\Tsemi\.gradle\caches\transforms-4\121510236646b195f2a87954611473e9\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\Tsemi\.gradle\caches\transforms-4\df79e7b796cae37bd852c4596c6b916f\transformed\constraintlayout-2.0.1\AndroidManifest.xml:9:5-20
@@ -221,38 +221,40 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Tsemi\.gradle\cach
 		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:21:9-35
 	android:theme
 		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:26:9-44
+	android:enableOnBackInvokedCallback
+		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:27:9-51
 activity#com.sunset.ictstudy.MainActivity
-ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:27:9-39:20
+ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:28:9-40:20
 	android:turnScreenOn
-		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:33:13-40
+		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:34:13-40
 	android:showWhenLocked
-		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:32:13-42
+		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:33:13-42
 	android:launchMode
-		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:31:13-43
+		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:32:13-43
 	android:exported
-		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:29:13-36
+		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:30:13-36
 	android:theme
-		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:30:13-48
+		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:31:13-48
 	android:name
-		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:28:13-60
+		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:29:13-60
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:34:13-38:29
+ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:35:13-39:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:35:17-69
+ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:36:17-69
 	android:name
-		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:35:25-66
+		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:36:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:37:17-77
+ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:38:17-77
 	android:name
-		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:37:27-74
+		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:38:27-74
 receiver#com.sunset.ictstudy.notifications.StudyReminderReceiver
-ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:42:9-45:40
+ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:43:9-46:40
 	android:enabled
-		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:44:13-35
+		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:45:13-35
 	android:exported
-		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:45:13-37
+		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:46:13-37
 	android:name
-		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:43:13-83
+		ADDED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml:44:13-83
 uses-sdk
 INJECTED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\Tsemi\sunset\app\src\main\AndroidManifest.xml

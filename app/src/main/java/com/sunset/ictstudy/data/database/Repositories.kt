@@ -573,6 +573,260 @@ class QuizRepository(context: Context) {
             )
         ))
         
+        // Cybersecurity Questions
+        sampleQuestions.addAll(listOf(
+            QuizQuestion(
+                topicId = "authentication_authorization",
+                questionText = "What is the primary purpose of authentication?",
+                options = """["Assign permissions", "Verify user identity", "Encrypt data", "Monitor traffic"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "authentication_authorization",
+                questionText = "What does authorization control?",
+                options = """["User identity", "Password strength", "Access rights and permissions", "Network speed"]""",
+                correctAnswer = 2,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "authentication_authorization",
+                questionText = "Which is NOT part of Two-Factor Authentication (2FA)?",
+                options = """["Something you know", "Something you have", "Something you want", "Something you are"]""",
+                correctAnswer = 2,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "authentication_authorization",
+                questionText = "What is a good password practice?",
+                options = """["Use your birthday", "Same password everywhere", "Mix uppercase, lowercase, digits, symbols", "Share with friends"]""",
+                correctAnswer = 2,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "authentication_authorization",
+                questionText = "What is an example of 'something you are' in 2FA?",
+                options = """["Password", "SMS code", "Fingerprint", "Security question"]""",
+                correctAnswer = 2,
+                difficulty = "easy"
+            ),
+            
+            QuizQuestion(
+                topicId = "encryption_pki",
+                questionText = "What does PKI stand for?",
+                options = """["Private Key Information", "Public Key Infrastructure", "Password Key Integration", "Protected Key Interface"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "encryption_pki",
+                questionText = "In asymmetric encryption, which key is used to encrypt data?",
+                options = """["Private key", "Public key", "Session key", "Master key"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "encryption_pki",
+                questionText = "What is the purpose of a digital signature?",
+                options = """["Encrypt emails", "Prove sender identity", "Speed up connection", "Block spam"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "encryption_pki",
+                questionText = "What does symmetric encryption use?",
+                options = """["Two different keys", "Same key for encryption and decryption", "No keys", "Public key only"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "encryption_pki",
+                questionText = "What does 'non-repudiation' mean?",
+                options = """["Can be denied", "Cannot be denied", "Can be encrypted", "Can be deleted"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            
+            QuizQuestion(
+                topicId = "privacy_threats",
+                questionText = "What is hacking?",
+                options = """["Legal testing", "Unauthorized access to steal information", "Software update", "Data backup"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "privacy_threats",
+                questionText = "What is phishing?",
+                options = """["Fishing for data", "Fraudulent messages to steal credentials", "Network monitoring", "Password reset"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "privacy_threats",
+                questionText = "What should you do with spam emails?",
+                options = """["Reply to unsubscribe", "Click all links", "Never reply or unsubscribe", "Forward to friends"]""",
+                correctAnswer = 2,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "privacy_threats",
+                questionText = "What is eavesdropping in cybersecurity?",
+                options = """["Listening to music", "Intercepting network communications", "Reading books", "Watching videos"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "privacy_threats",
+                questionText = "What do cookies store?",
+                options = """["Food recipes", "Browsing history and behavior", "System files", "Hardware info"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            
+            QuizQuestion(
+                topicId = "network_attacks",
+                questionText = "What does DDoS attack do?",
+                options = """["Steals passwords", "Overwhelms server with traffic", "Encrypts files", "Installs software"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "network_attacks",
+                questionText = "What is SQL injection?",
+                options = """["Database backup", "Malicious SQL code through input fields", "Software update", "Network scan"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "network_attacks",
+                questionText = "How to prevent SQL injection?",
+                options = """["Use user input directly in commands", "Validate and sanitize all input", "Disable database", "Remove all forms"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "network_attacks",
+                questionText = "What does XSS stand for?",
+                options = """["Extra Security System", "Cross-Site Scripting", "Extended SQL Server", "External Storage Space"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "network_attacks",
+                questionText = "What is the key principle to prevent injection attacks?",
+                options = """["Execute all user input", "Never execute user input directly", "Allow all scripts", "Disable validation"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            
+            QuizQuestion(
+                topicId = "malware_types",
+                questionText = "What does a virus require to spread?",
+                options = """["Network connection", "User to run infected program", "Antivirus software", "Firewall"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "malware_types",
+                questionText = "How do worms enter a computer?",
+                options = """["User must run them", "Via security loopholes automatically", "Through email only", "By USB only"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "malware_types",
+                questionText = "What is a Trojan horse?",
+                options = """["Antivirus software", "Legitimate-looking program with malicious code", "Operating system", "Browser extension"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "malware_types",
+                questionText = "What does spyware do?",
+                options = """["Protects privacy", "Monitors keystrokes and captures screens", "Speeds up computer", "Cleans hard drive"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "malware_types",
+                questionText = "What does ransomware demand for file decryption?",
+                options = """["Personal information", "Cryptocurrency payment", "Email password", "Social media account"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "malware_types",
+                questionText = "When do viruses commonly outbreak?",
+                options = """["Random dates", "Black Friday, April Fool's Day", "Only weekends", "Every Monday"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "malware_types",
+                questionText = "What does adware do?",
+                options = """["Blocks ads", "Shows excessive unwanted ads", "Protects browser", "Updates software"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            
+            QuizQuestion(
+                topicId = "security_measures",
+                questionText = "What is a safe browser security practice?",
+                options = """["Install all extensions", "Set higher security settings", "Disable updates", "Allow all pop-ups"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "security_measures",
+                questionText = "What should antivirus software do?",
+                options = """["Slow down computer", "Live scan + regular virus data updates", "Delete all files", "Disable internet"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "security_measures",
+                questionText = "What does a firewall do?",
+                options = """["Start fires", "Filter traffic and block unauthorized access", "Speed up internet", "Install programs"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "security_measures",
+                questionText = "Which WiFi encryption is strongest?",
+                options = """["WEP", "TKIP", "WPA2", "WPA3"]""",
+                correctAnswer = 3,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "security_measures",
+                questionText = "What ports should typically be allowed through firewall?",
+                options = """["All ports", "80 (HTTP) and 443 (HTTPS)", "No ports", "Random ports"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "security_measures",
+                questionText = "What is the purpose of VPN?",
+                options = """["Speed up internet", "Establish secure encrypted connection to network", "Block all traffic", "Install software"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "security_measures",
+                questionText = "What should you do with browser extensions?",
+                options = """["Install everything", "Only install verified extensions", "Never use extensions", "Share with everyone"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "security_measures",
+                questionText = "How to defend against worms?",
+                options = """["Never update", "Patch systems regularly", "Disable firewall", "Open all ports"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            )
+        ))
+        
         quizDao.insertQuestions(sampleQuestions)
     }
     

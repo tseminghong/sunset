@@ -21,12 +21,14 @@ class StudySessionService : Service() {
     
     companion object {
         const val CHANNEL_ID = "study_session_channel"
+        const val PROGRESS_CHANNEL_ID = "study_progress_channel"
         const val NOTIFICATION_ID = 1001
         
         // Intent extras
         const val EXTRA_TOPIC_ID = "topic_id"
         const val EXTRA_TOPIC_NAME = "topic_name"
         const val EXTRA_DURATION_MINUTES = "duration_minutes"
+        const val EXTRA_USE_PROGRESS_NOTIFICATION = "use_progress_notification"
         
         // Actions
         const val ACTION_START = "action_start"
@@ -50,11 +52,13 @@ class StudySessionService : Service() {
     private var topicId: String = ""
     private var topicName: String = ""
     private var durationMinutes: Int = 25
+    private var useProgressNotification: Boolean = false
     
     override fun onCreate() {
         super.onCreate()
         liveAlertManager = LiveAlertManager(this)
         createNotificationChannel()
+        createProgressNotificationChannel()
         acquireWakeLock()
     }
     
@@ -64,6 +68,7 @@ class StudySessionService : Service() {
                 topicId = intent.getStringExtra(EXTRA_TOPIC_ID) ?: ""
                 topicName = intent.getStringExtra(EXTRA_TOPIC_NAME) ?: "Study Session"
                 durationMinutes = intent.getIntExtra(EXTRA_DURATION_MINUTES, 25)
+                useProgressNotification = intent.getBooleanExtra(EXTRA_USE_PROGRESS_NOTIFICATION, true)
                 
                 startStudySession()
             }
@@ -139,8 +144,12 @@ class StudySessionService : Service() {
         val progress = (elapsedSeconds.toFloat() / totalSeconds * 100).toInt()
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            // Use Progress-centric notification if enabled
+            if (useProgressNotification) {
+                updateProgressCentricNotification(elapsedMinutes, totalMinutes, progress)
+            }
             // Use Live Alert if supported (Android 16+)
-            if (liveAlertManager.canShowLiveAlerts()) {
+            else if (liveAlertManager.canShowLiveAlerts()) {
                 liveAlertManager.showStudyProgressLiveUpdate(
                     topicName = topicName,
                     elapsedMinutes = elapsedMinutes,
@@ -246,6 +255,103 @@ class StudySessionService : Service() {
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(channel)
         }
+    }
+    
+    private fun createProgressNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                PROGRESS_CHANNEL_ID,
+                "Study Progress",
+                NotificationManager.IMPORTANCE_DEFAULT
+            ).apply {
+                description = "Progress-centric study session notifications with real-time updates"
+                setShowBadge(true)
+                enableVibration(false)
+                lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            }
+            
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+    
+    /**
+     * Progress-centric notification (Android 16+)
+     * Optimized for showing ongoing task progress with FLAG_ONLY_UPDATE_PROGRESS
+     */
+    private fun updateProgressCentricNotification(
+        elapsedMinutes: Int,
+        totalMinutes: Int,
+        progress: Int
+    ) {
+        val contentIntent = PendingIntent.getActivity(
+            this,
+            0,
+            Intent(this, MainActivity::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        
+        val pauseIntent = Intent(this, StudySessionService::class.java).apply {
+            action = if (isPaused) ACTION_RESUME else ACTION_PAUSE
+        }
+        val pausePendingIntent = PendingIntent.getService(
+            this, 0, pauseIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        
+        val stopIntent = Intent(this, StudySessionService::class.java).apply {
+            action = ACTION_STOP
+        }
+        val stopPendingIntent = PendingIntent.getService(
+            this, 1, stopIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        
+        // Calculate remaining time
+        val remainingSeconds = totalSeconds - elapsedSeconds
+        val remainingMinutes = remainingSeconds / 60
+        val remainingSecondsDisplay = remainingSeconds % 60
+        
+        val builder = NotificationCompat.Builder(this, PROGRESS_CHANNEL_ID)
+            .setContentTitle(topicName)
+            .setContentText(if (isPaused) "Paused at $elapsedMinutes min" else "$remainingMinutes:${String.format("%02d", remainingSecondsDisplay)} remaining")
+            .setSubText("$elapsedMinutes / $totalMinutes min")
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setProgress(100, progress, false)
+            .setContentIntent(contentIntent)
+            .setOngoing(true)
+            .setOnlyAlertOnce(true)
+            .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        
+        // Add actions
+        if (isPaused) {
+            builder.addAction(
+                android.R.drawable.ic_media_play,
+                "Resume",
+                pausePendingIntent
+            )
+        } else {
+            builder.addAction(
+                android.R.drawable.ic_media_pause,
+                "Pause",
+                pausePendingIntent
+            )
+        }
+        builder.addAction(
+            android.R.drawable.ic_delete,
+            "Stop",
+            stopPendingIntent
+        )
+        
+        // Use setOnlyAlertOnce to prevent repeated sounds/vibrations for progress updates
+        builder.setOnlyAlertOnce(true)
+        
+        val notification = builder.build()
+        
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(NOTIFICATION_ID, notification)
     }
     
     private fun acquireWakeLock() {

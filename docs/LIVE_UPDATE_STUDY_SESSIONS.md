@@ -1,57 +1,134 @@
-# Android 16 Live Update Notifications for Study Sessions
+# Android Study Session Notifications
 
 ## Overview
-This implementation adds Android 16 Live Update notification support for study sessions, providing real-time progress tracking similar to ColorOS Live Alerts and iOS Dynamic Island.
+This implementation provides comprehensive study session tracking with three notification modes, optimized for different Android versions and user preferences.
 
-## Features
+## Notification Modes
 
-### 1. **StudySessionService** - Foreground Service
-A dedicated foreground service that manages active study sessions with live progress updates.
+### 1. **Progress-Centric Notifications** (Recommended)
+Task-focused notifications emphasizing completion progress with countdown timers.
 
-**Key Features**:
-- Real-time countdown timer (updates every second)
-- Pause/Resume functionality
-- Automatic completion detection
-- Wake lock management to prevent sleep during sessions
-- Session persistence and statistics tracking
+**Features**:
+- **Countdown Timer**: Shows remaining time (MM:SS format)
+- **Progress Bar**: Visual completion indicator (0-100%)
+- **Status Subtitle**: Displays elapsed/total time
+- **Optimized Updates**: Uses `setOnlyAlertOnce(true)` to prevent repeated alerts
+- **Interactive Controls**: Pause/Resume and Stop actions
 
-**Service Actions**:
-- `ACTION_START` - Start new study session
-- `ACTION_PAUSE` - Pause current session
-- `ACTION_RESUME` - Resume paused session  
-- `ACTION_STOP` - Stop and save session
+**Visual Layout**:
+```
+┌─────────────────────────────────┐
+│ Studying: Python Programming    │
+│ ⏱️ 13:25 remaining              │
+│ 11:35 / 25:00 elapsed           │
+│ ████████████░░░░ 46%            │
+│             [Pause]  [Stop]     │
+└─────────────────────────────────┘
+```
 
-**Intent Extras**:
-- `EXTRA_TOPIC_ID` - Topic identifier
-- `EXTRA_TOPIC_NAME` - Display name for notification
-- `EXTRA_DURATION_MINUTES` - Total session duration (default: 25 minutes)
+**Channel Configuration**:
+- ID: `study_progress_channel`
+- Importance: `DEFAULT` (allows sound/vibration on start, silent updates)
+- Visibility: `PUBLIC` (shows on lock screen)
+- Badge: Enabled
 
-### 2. **Live Update Notifications**
-Enhanced notification system that provides dynamic, real-time updates in the notification shade.
+**When to Use**:
+- Default mode for all users
+- Best for focused studying
+- Emphasizes remaining time
+- Minimal distractions
 
-**Android 16+ Features**:
+### 2. **Live Update Notifications** (Android 16+)
+Dynamic island-style notifications for ColorOS and compatible devices.
+
+**Features**:
 - `FLAG_PROMOTED_ONGOING` - Promotes notification to Live Update area
 - `hasPromotableCharacteristics()` - Validates notification eligibility
 - `canPostPromotedNotifications()` - Checks user permission
 - RemoteViews for custom layouts with live data
 
-**Notification Updates**:
-- **Every second** during active sessions
-- Shows: Topic name, elapsed time, total time, progress bar
-- Interactive controls: Pause/Resume, Stop buttons
-- Status indicator: "In Progress" or "Paused"
-
-**Visual Elements**:
-```
-┌─────────────────────────────────┐
-│ Python Programming              │
-│ 12 min / 25 min                 │
-│ ████████░░░░░░░░ 48%            │
-│             [Pause]  [Stop]     │
 └─────────────────────────────────┘
 ```
 
-### 3. **StudySessionControls** - UI Component
+**Channel Configuration**:
+- ID: `live_alerts`
+- Importance: `HIGH` (always visible, sound/vibration)
+- Visibility: `PUBLIC`
+- Badge: Enabled
+
+**When to Use**:
+- Android 16+ devices with Live Alert support
+- ColorOS, OxygenOS, and compatible skins
+- Users who prefer visual engagement
+- Requires: `canPostPromotedNotifications()` permission
+
+### 3. **Standard Fallback Notifications** (Android 8+)
+Basic progress notifications for older devices or when enhanced modes are unavailable.
+
+**Features**:
+- Standard notification progress bar
+- Simple elapsed/total time display
+- Interactive controls (Pause/Stop)
+- Minimal resource usage
+
+**Channel Configuration**:
+- ID: `study_session_channel`
+- Importance: `LOW` (minimal interruption)
+- Visibility: `PUBLIC`
+
+---
+
+## StudySessionService Architecture
+
+### Service Configuration
+**Type**: Foreground Service  
+**Service Type**: `dataSync` (for continuous data synchronization)  
+**Wake Lock**: `PARTIAL_WAKE_LOCK` (keeps CPU running during sessions)
+
+### Core Features
+- **Real-time Updates**: Every 1 second during active sessions
+- **Pause/Resume**: Session state preservation
+- **Automatic Completion**: Stops and saves when time expires
+- **Statistics Tracking**: Records session data for analytics
+- **Multiple Notification Modes**: Automatic selection based on device capabilities
+
+### Service Actions
+- `ACTION_START` - Start new study session
+- `ACTION_PAUSE` - Pause current session
+- `ACTION_RESUME` - Resume paused session  
+- `ACTION_STOP` - Stop and save session
+
+### Intent Extras
+- `EXTRA_TOPIC_ID` - Topic identifier (String)
+- `EXTRA_TOPIC_NAME` - Display name for notification (String)
+- `EXTRA_DURATION_MINUTES` - Total session duration (Int, default: 25)
+- `EXTRA_USE_PROGRESS_NOTIFICATION` - Use progress-centric mode (Boolean, default: false)
+
+### Notification Selection Logic
+```kotlin
+fun updateLiveNotification(elapsedMinutes: Int, totalMinutes: Int, progress: Int) {
+    when {
+        useProgressNotification -> {
+            // Mode 1: Progress-centric (countdown, task focus)
+            updateProgressCentricNotification(elapsedMinutes, totalMinutes, progress)
+        }
+        liveAlertManager.canShowLiveAlerts() -> {
+            // Mode 2: Live Update (Android 16+, ColorOS)
+            liveAlertManager.showStudyProgressLiveUpdate(...)
+        }
+        else -> {
+            // Mode 3: Standard fallback
+            updateForegroundNotification(elapsedMinutes, totalMinutes, progress)
+        }
+    }
+}
+```
+
+---
+
+## UI Components
+
+### StudySessionControls
 Reusable Compose component for starting/controlling study sessions from any screen.
 
 **Features**:
@@ -70,7 +147,7 @@ StudySessionControls(
 )
 ```
 
-### 4. **LiveAlertManager Enhancements**
+### LiveAlertManager Enhancements
 Extended the existing Live Alert manager with study session support.
 
 **New Method**:
@@ -90,6 +167,24 @@ fun showStudyProgressLiveUpdate(
 - Automatic fallback for older Android versions
 - Progress bar with percentage
 - Pause/Resume state management
+
+---
+
+## Notification Comparison
+
+| Feature | Progress-Centric | Live Update | Standard Fallback |
+|---------|------------------|-------------|-------------------|
+| **Android Version** | 8+ | 16+ | 8+ |
+| **Importance** | DEFAULT | HIGH | LOW |
+| **Timer Display** | Countdown (remaining) | Countup (elapsed) | Elapsed only |
+| **Progress Bar** | Yes (0-100%) | Yes (0-100%) | Yes (0-100%) |
+| **Interactive** | Yes | Yes | Yes |
+| **Alert Behavior** | Silent updates | Sound on update | Silent |
+| **Visual Priority** | Standard | Promoted/Floating | Minimal |
+| **Best For** | Task completion | Engagement | Compatibility |
+| **Battery Impact** | Low | Medium | Very Low |
+
+---
 
 ## Implementation Details
 
@@ -356,8 +451,79 @@ Session data can be used for:
 **Modified Files**:
 1. `notifications/LiveAlertManager.kt` - Added `showStudyProgressLiveUpdate()`
 2. `AndroidManifest.xml` - Service registration, permissions
+3. `services/StudySessionService.kt` - Progress-centric notifications
 
-**Total**: 400+ lines of new code
+**Total**: 500+ lines of new code
+
+---
+
+## Quick Start Guide
+
+### Starting a Study Session
+
+**From UI Component**:
+```kotlin
+StudySessionControls(
+    topicId = topic.id,
+    topicName = topic.name,
+    modifier = Modifier.fillMaxWidth()
+)
+```
+
+**From Code (Progress-Centric)**:
+```kotlin
+val intent = Intent(context, StudySessionService::class.java).apply {
+    action = StudySessionService.ACTION_START
+    putExtra(StudySessionService.EXTRA_TOPIC_ID, "python_basics")
+    putExtra(StudySessionService.EXTRA_TOPIC_NAME, "Python Programming")
+    putExtra(StudySessionService.EXTRA_DURATION_MINUTES, 25)
+    putExtra(StudySessionService.EXTRA_USE_PROGRESS_NOTIFICATION, true)
+}
+ContextCompat.startForegroundService(context, intent)
+```
+
+### Choosing Notification Mode
+
+**Progress-Centric** (Recommended):
+- Shows countdown timer (remaining time)
+- Task-focused, minimal distractions
+- Default mode for all users
+- Set `EXTRA_USE_PROGRESS_NOTIFICATION = true`
+
+**Live Update** (Android 16+):
+- Dynamic island-style notifications
+- Visual engagement emphasis
+- Requires compatible device
+- Set `EXTRA_USE_PROGRESS_NOTIFICATION = false`
+- Automatically falls back if unavailable
+
+---
+
+## Best Practices
+
+1. **Use Progress-Centric** for most users (better UX)
+2. **Session Duration**: 15-25 min (Pomodoro), 30-45 min (lectures), 60 min (deep work)
+3. **Battery**: Service uses minimal battery with `PARTIAL_WAKE_LOCK`
+4. **Updates**: `setOnlyAlertOnce(true)` prevents notification spam
+
+---
+
+## Troubleshooting
+
+**Notifications Not Showing**:
+- Check: Settings > Apps > ICT Study > Notifications
+- Verify channel importance not "None"
+
+**Live Updates Not Working**:
+- Requires Android 16+ (`Build.VERSION.SDK_INT >= 36`)
+- Check `canPostPromotedNotifications()` permission
+- Service auto-falls back to standard notifications
+
+**Timer Not Updating**:
+- Verify wake lock acquired (check logcat for "StudySessionWakeLock")
+- Disable battery optimization for the app
+
+---
 
 ## Resources
 

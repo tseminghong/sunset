@@ -23,13 +23,22 @@ private val DarkColorScheme = darkColorScheme(
     tertiary = AccentPurple,
     background = NightSurface,
     surface = NightSurface,
-    onSurface = Color.White
+    onSurface = Color.White,
+    onBackground = Color.White,
+    onPrimary = Color.White,
+    onSecondary = Color.White
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = AccentPrimary,
     secondary = AccentSecondary,
-    tertiary = AccentPurple
+    tertiary = AccentPurple,
+    background = DaySurface,
+    surface = DayCard,
+    onSurface = DayText,
+    onBackground = DayText,
+    onPrimary = Color.White,
+    onSecondary = Color.White
 )
 
 @Composable
@@ -61,4 +70,26 @@ fun SunsetTheme(
         typography = AppTypography,
         content = content
     )
+}
+
+// Theme-aware colors
+object AppColors {
+    val surface: Color
+        @Composable get() = MaterialTheme.colorScheme.background
+    
+    val card: Color
+        @Composable get() = MaterialTheme.colorScheme.surface
+    
+    val textPrimary: Color
+        @Composable get() = MaterialTheme.colorScheme.onBackground
+    
+    val textSecondary: Color
+        @Composable get() = if (MaterialTheme.colorScheme.background == NightSurface) {
+            NightMuted
+        } else {
+            DayMuted
+        }
+    
+    val divider: Color
+        @Composable get() = Color.White.copy(alpha = if (MaterialTheme.colorScheme.background == NightSurface) 0.08f else 0.12f)
 }

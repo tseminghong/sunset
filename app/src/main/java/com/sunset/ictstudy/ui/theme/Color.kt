@@ -2,9 +2,19 @@ package com.sunset.ictstudy.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+// Dark Theme Colors
 val NightSurface = Color(0xFF050A18)
 val NightCard = Color(0xFF111A2B)
 val NightMuted = Color(0xFF6B748C)
+
+// Light Theme Colors
+val DaySurface = Color(0xFFF5F7FA)
+val DayCard = Color(0xFFFFFFFF)
+val DayMuted = Color(0xFF64748B)
+val DayText = Color(0xFF1E293B)
+val DayTextSecondary = Color(0xFF475569)
+
+// Accent Colors (used in both themes)
 val AccentPrimary = Color(0xFF1F7BFF)
 val AccentSecondary = Color(0xFF4FC0FF)
 val AccentPurple = Color(0xFF8A5EFF)

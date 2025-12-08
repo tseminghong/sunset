@@ -3190,8 +3190,6 @@ id container
 id content
 id contentPanel
 id contiguous
-id control_button
-id control_button_text
 id coordinator
 id cos
 id counterclockwise
@@ -3401,6 +3399,7 @@ id parent_matrix
 id password_toggle
 id path
 id pathRelative
+id pause_button
 id peekHeight
 id percent
 id pin
@@ -3511,9 +3510,10 @@ id textinput_placeholder
 id textinput_prefix_text
 id textinput_suffix_text
 id time
+id timer_elapsed
 id timer_progress
-id timer_text
 id timer_title
+id timer_total
 id title
 id titleDividerNoCustom
 id title_template

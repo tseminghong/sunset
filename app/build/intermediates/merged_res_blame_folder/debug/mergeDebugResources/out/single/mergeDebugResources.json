@@ -1,22 +1,26 @@
 [
     {
-        "merged": "com.sunset.ictstudy.app-debug-82:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "com.sunset.ictstudy.app-main-84:/mipmap-anydpi-v26/ic_launcher_round.xml"
+        "merged": "C:\\Users\\Tsemi\\.gradle\\daemon\\8.7\\com.sunset.ictstudy.app-debug-82:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\Tsemi\\.gradle\\daemon\\8.7\\com.sunset.ictstudy.app-main-84:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
     },
     {
-        "merged": "com.sunset.ictstudy.app-debug-82:/mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "com.sunset.ictstudy.app-main-84:/mipmap-anydpi-v26/ic_launcher.xml"
+        "merged": "C:\\Users\\Tsemi\\.gradle\\daemon\\8.7\\com.sunset.ictstudy.app-debug-82:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\Tsemi\\.gradle\\daemon\\8.7\\com.sunset.ictstudy.app-main-84:\\drawable\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\Tsemi\\.gradle\\daemon\\8.7\\com.sunset.ictstudy.app-debug-82:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\Tsemi\\.gradle\\daemon\\8.7\\com.sunset.ictstudy.app-main-84:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\Tsemi\\.gradle\\daemon\\8.7\\com.sunset.ictstudy.app-debug-82:\\layout_notification_study_progress.xml.flat",
+        "source": "C:\\Users\\Tsemi\\.gradle\\daemon\\8.7\\com.sunset.ictstudy.app-main-84:\\layout\\notification_study_progress.xml"
     },
     {
         "merged": "com.sunset.ictstudy.app-debug-82:/layout_notification_study_timer.xml.flat",
         "source": "com.sunset.ictstudy.app-main-84:/layout/notification_study_timer.xml"
     },
     {
-        "merged": "com.sunset.ictstudy.app-debug-82:/layout_notification_study_progress.xml.flat",
-        "source": "com.sunset.ictstudy.app-main-84:/layout/notification_study_progress.xml"
-    },
-    {
-        "merged": "com.sunset.ictstudy.app-debug-82:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "com.sunset.ictstudy.app-main-84:/drawable/ic_launcher_foreground.xml"
+        "merged": "C:\\Users\\Tsemi\\.gradle\\daemon\\8.7\\com.sunset.ictstudy.app-debug-82:\\layout_notification_study_timer.xml.flat",
+        "source": "C:\\Users\\Tsemi\\.gradle\\daemon\\8.7\\com.sunset.ictstudy.app-main-84:\\layout\\notification_study_timer.xml"
     }
 ]

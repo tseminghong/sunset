@@ -17,15 +17,29 @@
         android:textColor="@android:color/white" />
 
     <!-- Timer Display -->
-    <TextView
-        android:id="@+id/timer_text"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="0/25 min"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/white" />
+        android:orientation="horizontal">
+        
+        <TextView
+            android:id="@+id/timer_elapsed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 min"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white" />
+        
+        <TextView
+            android:id="@+id/timer_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" / 25 min"
+            android:textSize="24sp"
+            android:textColor="#99FFFFFF" />
+    </LinearLayout>
 
     <!-- Progress Bar -->
     <ProgressBar
@@ -48,22 +62,16 @@
         android:gravity="end">
 
         <Button
-            android:id="@+id/control_button"
+            android:id="@+id/pause_button"
             style="@android:style/Widget.Material.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
+            android:text="Pause"
             android:textColor="@android:color/white"
-            android:background="@android:color/transparent">
-            <TextView
-                android:id="@+id/control_button_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pause"
-                android:textColor="@android:color/white"
-                android:textSize="14sp" />
-        </Button>
+            android:textSize="14sp"
+            android:background="@android:color/transparent" />
 
         <Button
             android:id="@+id/stop_button"

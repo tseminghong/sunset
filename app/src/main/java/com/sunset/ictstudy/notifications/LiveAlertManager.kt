@@ -98,10 +98,8 @@ class LiveAlertManager(private val context: Context) {
         // Create custom layout using RemoteViews
         val notificationLayout = RemoteViews(context.packageName, R.layout.notification_study_timer)
         notificationLayout.setTextViewText(R.id.timer_title, "Study Session")
-        notificationLayout.setTextViewText(
-            R.id.timer_text, 
-            "${elapsedMinutes}/${totalMinutes} min"
-        )
+        notificationLayout.setTextViewText(R.id.timer_elapsed, "${elapsedMinutes} min")
+        notificationLayout.setTextViewText(R.id.timer_total, "/ ${totalMinutes} min")
         notificationLayout.setProgressBar(
             R.id.timer_progress,
             totalMinutes,
@@ -115,11 +113,11 @@ class LiveAlertManager(private val context: Context) {
         val stopIntent = createActionIntent(ACTION_STOP_TIMER)
         
         if (isPaused) {
-            notificationLayout.setOnClickPendingIntent(R.id.control_button, resumeIntent)
-            notificationLayout.setTextViewText(R.id.control_button_text, "Resume")
+            notificationLayout.setOnClickPendingIntent(R.id.pause_button, resumeIntent)
+            notificationLayout.setTextViewText(R.id.pause_button, "Resume")
         } else {
-            notificationLayout.setOnClickPendingIntent(R.id.control_button, pauseIntent)
-            notificationLayout.setTextViewText(R.id.control_button_text, "Pause")
+            notificationLayout.setOnClickPendingIntent(R.id.pause_button, pauseIntent)
+            notificationLayout.setTextViewText(R.id.pause_button, "Pause")
         }
         notificationLayout.setOnClickPendingIntent(R.id.stop_button, stopIntent)
         
@@ -152,6 +150,84 @@ class LiveAlertManager(private val context: Context) {
                 notificationManager.notify(STUDY_TIMER_NOTIFICATION_ID, notification)
                 return true
             }
+        }
+        
+        notificationManager.notify(STUDY_TIMER_NOTIFICATION_ID, notification)
+        return true
+    }
+    
+    /**
+     * Show study progress Live Update notification (Android 16)
+     * This updates in real-time as the study session progresses
+     */
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun showStudyProgressLiveUpdate(
+        topicName: String,
+        elapsedMinutes: Int,
+        totalMinutes: Int,
+        progress: Int,
+        isPaused: Boolean = false
+    ): Boolean {
+        if (!canShowLiveAlerts()) {
+            return showFallbackStudyTimer(totalMinutes, elapsedMinutes, isPaused)
+        }
+        
+        // Create custom layout using RemoteViews
+        val notificationLayout = RemoteViews(context.packageName, R.layout.notification_study_timer)
+        notificationLayout.setTextViewText(R.id.timer_title, topicName)
+        notificationLayout.setTextViewText(
+            R.id.timer_elapsed,
+            "$elapsedMinutes min"
+        )
+        notificationLayout.setTextViewText(
+            R.id.timer_total,
+            "/ $totalMinutes min"
+        )
+        notificationLayout.setProgressBar(R.id.timer_progress, 100, progress, false)
+        
+        // Set pause/play button based on state
+        val actionIntent = if (isPaused) {
+            createActionIntent(ACTION_RESUME_TIMER)
+        } else {
+            createActionIntent(ACTION_PAUSE_TIMER)
+        }
+        val stopIntent = createActionIntent(ACTION_STOP_TIMER)
+        
+        notificationLayout.setOnClickPendingIntent(R.id.pause_button, actionIntent)
+        notificationLayout.setOnClickPendingIntent(R.id.stop_button, stopIntent)
+        
+        // Update button text
+        notificationLayout.setTextViewText(
+            R.id.pause_button,
+            if (isPaused) "Resume" else "Pause"
+        )
+        
+        // Create notification with Live Update support
+        val contentIntent = PendingIntent.getActivity(
+            context,
+            0,
+            Intent(context, MainActivity::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        
+        val notification = NotificationCompat.Builder(context, LIVE_ALERT_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setContentTitle(topicName)
+            .setContentText("$elapsedMinutes / $totalMinutes min")
+            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+            .setCustomContentView(notificationLayout)
+            .setCustomBigContentView(notificationLayout)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+            .setOngoing(true)
+            .setOnlyAlertOnce(true) // Don't make sound/vibration on updates
+            .setContentIntent(contentIntent)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .build()
+        
+        // Set FLAG_PROMOTED_ONGOING for Live Update on Android 16+
+        if (Build.VERSION.SDK_INT >= 36) {
+            notification.flags = notification.flags or Notification.FLAG_PROMOTED_ONGOING
         }
         
         notificationManager.notify(STUDY_TIMER_NOTIFICATION_ID, notification)

@@ -20,6 +20,7 @@
 
     <!-- Foreground service for notifications -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
     <!-- ColorOS specific permissions for live alerts -->
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
@@ -88,6 +89,13 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <!-- Study Session Foreground Service for Live Updates -->
+        <service
+            android:name="com.sunset.ictstudy.services.StudySessionService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
 
         <receiver
             android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"

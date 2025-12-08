@@ -43,3 +43,23 @@ next-env.d.ts
 # capacitor/android
 ios/
 .capacitor/
+
+# Android/Gradle
+*.iml
+.gradle
+/local.properties
+/.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# Keystore files - DO NOT COMMIT
+*.jks
+*.keystore
+key.properties

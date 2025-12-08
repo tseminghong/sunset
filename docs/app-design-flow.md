@@ -16,7 +16,7 @@ flowchart TD
     %% Home Screen Components
     Home --> HomeHeader[Header Section<br/>Greeting + Settings Icon]
     Home --> SearchBar[Search Bar<br/>Filter Topics]
-    Home --> QuickAccess[Quick Access Cards]
+    Home --> QuickAccess[Quick Acc  ess Cards]
     Home --> TopicsList[Study Topics List<br/>Filterable by Search]
     
     %% Quick Access Actions

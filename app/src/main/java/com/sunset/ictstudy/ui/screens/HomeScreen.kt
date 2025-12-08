@@ -469,9 +469,36 @@ fun IctStudyApp(context: Context) {
             composable(StudyDestination.Settings.route) {
                 SettingsScreen(
                     username = userPreferences.username,
+                    preferences = userPreferences,
                     onUsernameChange = { newUsername ->
                         scope.launch {
                             preferencesRepository.updateUsername(newUsername)
+                        }
+                    },
+                    onThemeModeChange = { themeMode ->
+                        scope.launch {
+                            preferencesRepository.updateThemeMode(themeMode)
+                        }
+                    },
+                    onDailyGoalChange = { enabled ->
+                        scope.launch {
+                            preferencesRepository.updateDailyGoalEnabled(enabled)
+                        }
+                    },
+                    onNotificationsChange = { enabled ->
+                        scope.launch {
+                            preferencesRepository.updateNotificationsEnabled(enabled)
+                        }
+                    },
+                    onSoundChange = { enabled ->
+                        scope.launch {
+                            preferencesRepository.updateSoundEnabled(enabled)
+                        }
+                    },
+                    onClearAllData = {
+                        scope.launch {
+                            preferencesRepository.clearAllData()
+                            // TODO: Also clear Room database if needed
                         }
                     },
                     onBack = { navController.popBackStack() }

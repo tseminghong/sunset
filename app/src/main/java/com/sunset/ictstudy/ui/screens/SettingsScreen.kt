@@ -19,13 +19,21 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.sunset.ictstudy.data.ThemeMode
+import com.sunset.ictstudy.data.UserPreferences
 import com.sunset.ictstudy.ui.theme.*
 import kotlinx.coroutines.launch
 
 @Composable
 fun SettingsScreen(
     username: String,
+    preferences: UserPreferences,
     onUsernameChange: (String) -> Unit,
+    onThemeModeChange: (ThemeMode) -> Unit,
+    onDailyGoalChange: (Boolean) -> Unit,
+    onNotificationsChange: (Boolean) -> Unit,
+    onSoundChange: (Boolean) -> Unit,
+    onClearAllData: () -> Unit,
     onBack: () -> Unit
 ) {
     val context = LocalContext.current
@@ -67,15 +75,12 @@ fun SettingsScreen(
             // Study Preferences Section
             SectionHeader("Study Preferences")
             SettingsCard {
-                var dailyGoalEnabled by remember { mutableStateOf(true) }
-                var notificationsEnabled by remember { mutableStateOf(true) }
-                
                 SettingsToggleItem(
                     icon = Icons.Rounded.Timer,
                     title = "Daily Study Goal",
                     subtitle = "Set daily learning targets",
-                    checked = dailyGoalEnabled,
-                    onCheckedChange = { dailyGoalEnabled = it }
+                    checked = preferences.dailyGoalEnabled,
+                    onCheckedChange = onDailyGoalChange
                 )
                 
                 Divider(
@@ -87,8 +92,8 @@ fun SettingsScreen(
                     icon = Icons.Rounded.Notifications,
                     title = "Study Reminders",
                     subtitle = "Get notified about study sessions",
-                    checked = notificationsEnabled,
-                    onCheckedChange = { notificationsEnabled = it }
+                    checked = preferences.notificationsEnabled,
+                    onCheckedChange = onNotificationsChange
                 )
             }
             
@@ -97,15 +102,18 @@ fun SettingsScreen(
             // App Preferences Section
             SectionHeader("App Preferences")
             SettingsCard {
-                var darkModeEnabled by remember { mutableStateOf(true) }
-                var soundEnabled by remember { mutableStateOf(false) }
-                
                 SettingsToggleItem(
                     icon = Icons.Rounded.DarkMode,
                     title = "Dark Mode",
-                    subtitle = "Use dark theme",
-                    checked = darkModeEnabled,
-                    onCheckedChange = { darkModeEnabled = it }
+                    subtitle = when (preferences.themeMode) {
+                        ThemeMode.LIGHT -> "Light theme enabled"
+                        ThemeMode.DARK -> "Dark theme enabled"
+                        ThemeMode.SYSTEM -> "Follow system settings"
+                    },
+                    checked = preferences.themeMode == ThemeMode.DARK,
+                    onCheckedChange = { enabled ->
+                        onThemeModeChange(if (enabled) ThemeMode.DARK else ThemeMode.LIGHT)
+                    }
                 )
                 
                 Divider(
@@ -117,8 +125,8 @@ fun SettingsScreen(
                     icon = Icons.Rounded.VolumeUp,
                     title = "Sound Effects",
                     subtitle = "Play sounds for interactions",
-                    checked = soundEnabled,
-                    onCheckedChange = { soundEnabled = it }
+                    checked = preferences.soundEnabled,
+                    onCheckedChange = onSoundChange
                 )
             }
             
@@ -209,10 +217,8 @@ fun SettingsScreen(
         ClearDataDialog(
             onDismiss = { showClearDataDialog = false },
             onConfirm = {
-                scope.launch {
-                    // TODO: Clear all app data
-                    showClearDataDialog = false
-                }
+                onClearAllData()
+                showClearDataDialog = false
             }
         )
     }

@@ -85,25 +85,11 @@ object StudyContentRepository {
             category = TopicCategory.ProcessingModes
         ),
         StudyTopic(
-            id = 2,
-            title = "Databases",
-            lessons = 8,
-            completedPercentage = 0,
-            category = TopicCategory.Databases
-        ),
-        StudyTopic(
             id = 3,
             title = "Cybersecurity",
             lessons = 15,
             completedPercentage = 0,
             category = TopicCategory.Cybersecurity
-        ),
-        StudyTopic(
-            id = 4,
-            title = "Programming",
-            lessons = 20,
-            completedPercentage = 0,
-            category = TopicCategory.Programming
         ),
         StudyTopic(
             id = 5,

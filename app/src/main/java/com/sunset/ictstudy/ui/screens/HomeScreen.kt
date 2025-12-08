@@ -92,6 +92,7 @@ import com.sunset.ictstudy.ui.theme.AccentCyan
 import com.sunset.ictstudy.ui.theme.AccentPrimary
 import com.sunset.ictstudy.ui.theme.AccentPurple
 import com.sunset.ictstudy.ui.theme.AccentSecondary
+import com.sunset.ictstudy.ui.theme.DayMuted
 import com.sunset.ictstudy.ui.theme.NightCard
 import com.sunset.ictstudy.ui.theme.NightMuted
 import com.sunset.ictstudy.ui.theme.NightSurface
@@ -120,7 +121,7 @@ fun IctStudyApp(context: Context) {
         StudyDestination.Welcome.route
     }
 
-    Surface(color = NightSurface, modifier = Modifier.fillMaxSize()) {
+    Surface(color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxSize()) {
         SharedTransitionLayout {
             NavHost(navController = navController, startDestination = startDestination) {
             composable(StudyDestination.Welcome.route) {
@@ -806,6 +807,7 @@ private fun HomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
             .statusBarsPadding()
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 18.dp, vertical = 20.dp),
@@ -842,8 +844,8 @@ private fun HeaderSection(username: String, onOpenSettings: () -> Unit) {
             }
             Spacer(modifier = Modifier.size(12.dp))
             Column {
-                Text(text = "Hi, $username", style = MaterialTheme.typography.headlineMedium, color = Color.White)
-                Text(text = "Keep the momentum going", style = MaterialTheme.typography.bodyMedium, color = NightMuted)
+                Text(text = "Hi, $username", style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.onBackground)
+                Text(text = "Keep the momentum going", style = MaterialTheme.typography.bodyMedium, color = if (MaterialTheme.colorScheme.background == NightSurface) NightMuted else DayMuted)
             }
         }
         IconButton(onClick = onOpenSettings) {
@@ -861,15 +863,19 @@ private fun SearchBar(
     query: String,
     onQueryChange: (String) -> Unit
 ) {
+    val isDark = MaterialTheme.colorScheme.background == NightSurface
+    val mutedColor = if (isDark) NightMuted else DayMuted
+    val textColor = MaterialTheme.colorScheme.onBackground
+    
     val placeholderColor by animateColorAsState(
-        targetValue = if (query.isEmpty()) NightMuted else Color.White,
+        targetValue = if (query.isEmpty()) mutedColor else textColor,
         label = "searchPlaceholder"
     )
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(18.dp))
-            .background(NightCard)
+            .background(MaterialTheme.colorScheme.surface)
             .padding(horizontal = 20.dp, vertical = 14.dp)
     ) {
         if (query.isEmpty()) {
@@ -878,7 +884,7 @@ private fun SearchBar(
         BasicTextField(
             value = query,
             onValueChange = onQueryChange,
-            textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White),
+            textStyle = MaterialTheme.typography.bodyMedium.copy(color = textColor),
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
@@ -891,7 +897,7 @@ private fun QuickAccessSection(
     onActionClick: (QuickAccessAction) -> Unit
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text(text = "Quick Access", style = MaterialTheme.typography.headlineSmall, color = Color.White)
+        Text(text = "Quick Access", style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onBackground)
         LazyRow(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
             items(actions) { action ->
                 QuickAccessCard(action = action, onClick = { onActionClick(action) })
@@ -952,6 +958,9 @@ private fun quickActionIcon(type: QuickActionType) = when (type) {
 
 @Composable
 private fun StudyTopicsSection(topics: List<StudyTopic>, query: String, onTopicClick: (StudyTopic) -> Unit) {
+    val isDark = MaterialTheme.colorScheme.background == NightSurface
+    val mutedColor = if (isDark) NightMuted else DayMuted
+    
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -959,8 +968,8 @@ private fun StudyTopicsSection(topics: List<StudyTopic>, query: String, onTopicC
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column {
-                Text(text = "Study Topics", style = MaterialTheme.typography.headlineSmall, color = Color.White)
-                Text(text = "Plan your revision", color = NightMuted, style = MaterialTheme.typography.bodyMedium)
+                Text(text = "Study Topics", style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onBackground)
+                Text(text = "Plan your revision", color = mutedColor, style = MaterialTheme.typography.bodyMedium)
             }
             Text(text = "See all", color = AccentSecondary, style = MaterialTheme.typography.bodyMedium)
         }
@@ -976,11 +985,15 @@ private fun StudyTopicsSection(topics: List<StudyTopic>, query: String, onTopicC
 
 @Composable
 private fun TopicCard(topic: StudyTopic, onClick: () -> Unit) {
+    val isDark = MaterialTheme.colorScheme.background == NightSurface
+    val mutedColor = if (isDark) NightMuted else DayMuted
+    val trackColor = if (isDark) Color.White.copy(alpha = 0.1f) else Color.Black.copy(alpha = 0.1f)
+    
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor = NightCard),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         shape = RoundedCornerShape(24.dp)
     ) {
         Row(
@@ -1005,23 +1018,23 @@ private fun TopicCard(topic: StudyTopic, onClick: () -> Unit) {
                 )
             }
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = topic.title, color = Color.White, style = MaterialTheme.typography.titleMedium)
+                Text(text = topic.title, color = MaterialTheme.colorScheme.onBackground, style = MaterialTheme.typography.titleMedium)
                 Text(
                     text = "${topic.lessons} Lessons",
-                    color = NightMuted,
+                    color = mutedColor,
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 LinearProgressIndicator(
                     progress = topic.completedPercentage / 100f,
                     modifier = Modifier.fillMaxWidth(),
-                    trackColor = Color.White.copy(alpha = 0.1f),
+                    trackColor = trackColor,
                     color = AccentPrimary
                 )
             }
             Text(
                 text = "${topic.completedPercentage}%",
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.width(40.dp),
                 textAlign = TextAlign.End
@@ -1032,10 +1045,13 @@ private fun TopicCard(topic: StudyTopic, onClick: () -> Unit) {
 
 @Composable
 private fun EmptyState(query: String) {
+    val isDark = MaterialTheme.colorScheme.background == NightSurface
+    val mutedColor = if (isDark) NightMuted else DayMuted
+    
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = NightCard)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(
             modifier = Modifier
@@ -1050,18 +1066,18 @@ private fun EmptyState(query: String) {
                 tint = AccentPrimary,
                 modifier = Modifier
                     .size(36.dp)
-                    .background(Color.White.copy(alpha = 0.08f), CircleShape)
+                    .background(if (isDark) Color.White.copy(alpha = 0.08f) else Color.Black.copy(alpha = 0.05f), CircleShape)
                     .padding(8.dp)
             )
             Text(
                 text = if (query.isBlank()) "No topics yet" else "No matches for \"$query\"",
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center
             )
             Text(
                 text = "Try another keyword or clear the search to keep revising.",
-                color = NightMuted,
+                color = mutedColor,
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center
             )

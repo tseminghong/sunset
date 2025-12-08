@@ -9,6 +9,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -17,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
@@ -45,68 +47,25 @@ fun BottomNavBar(
     Surface(
         modifier = modifier.fillMaxWidth(),
         color = MaterialTheme.colorScheme.surface,
-        tonalElevation = 8.dp
+        tonalElevation = 8.dp,
+        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
     ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
-            // Half-circle indicator
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(20.dp)
-            ) {
-                HalfCircleIndicator(
-                    selectedIndex = selectedIndex,
-                    itemCount = items.size
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(80.dp)
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            items.forEachIndexed { index, item ->
+                BottomNavBarItem(
+                    item = item,
+                    isSelected = index == selectedIndex,
+                    onClick = { onNavigate(item.route) }
                 )
             }
-
-            // Navigation items
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .background(MaterialTheme.colorScheme.surface),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                items.forEachIndexed { index, item ->
-                    BottomNavBarItem(
-                        item = item,
-                        isSelected = index == selectedIndex,
-                        onClick = { onNavigate(item.route) }
-                    )
-                }
-            }
         }
-    }
-}
-
-@Composable
-fun HalfCircleIndicator(
-    selectedIndex: Int,
-    itemCount: Int,
-    modifier: Modifier = Modifier
-) {
-    val animatedOffset by animateFloatAsState(
-        targetValue = selectedIndex.toFloat(),
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessLow
-        ),
-        label = "indicator_offset"
-    )
-
-    BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
-        val itemWidth = maxWidth / itemCount
-        val indicatorSize = 40.dp
-
-        Box(
-            modifier = Modifier
-                .offset(x = itemWidth * animatedOffset + (itemWidth - indicatorSize) / 2)
-                .size(indicatorSize, 20.dp)
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primaryContainer)
-        )
     }
 }
 
@@ -117,55 +76,59 @@ fun BottomNavBarItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val iconColor by animateColorAsState(
+    val backgroundColor by animateColorAsState(
         targetValue = if (isSelected) 
             MaterialTheme.colorScheme.primary 
+        else 
+            Color.Transparent,
+        animationSpec = tween(300),
+        label = "background_color"
+    )
+    
+    val iconColor by animateColorAsState(
+        targetValue = if (isSelected) 
+            MaterialTheme.colorScheme.onPrimary 
         else 
             MaterialTheme.colorScheme.onSurfaceVariant,
         animationSpec = tween(300),
         label = "icon_color"
     )
 
-    val scale by animateFloatAsState(
-        targetValue = if (isSelected) 1.1f else 1.0f,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessMedium
-        ),
-        label = "scale"
+    val elevation by animateDpAsState(
+        targetValue = if (isSelected) 8.dp else 0.dp,
+        animationSpec = tween(300),
+        label = "elevation"
     )
 
-    val iconSize by animateDpAsState(
-        targetValue = if (isSelected) 28.dp else 24.dp,
+    val offsetY by animateDpAsState(
+        targetValue = if (isSelected) (-16).dp else 0.dp,
         animationSpec = spring(
             dampingRatio = Spring.DampingRatioMediumBouncy,
             stiffness = Spring.StiffnessMedium
         ),
-        label = "icon_size"
+        label = "offset_y"
     )
 
     IconButton(
         onClick = onClick,
-        modifier = modifier.scale(scale)
+        modifier = modifier
+            .offset(y = offsetY)
+            .size(56.dp)
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+        Box(
+            modifier = Modifier
+                .size(56.dp)
+                .shadow(elevation, CircleShape)
+                .clip(CircleShape)
+                .background(backgroundColor),
+            contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = item.icon,
                 contentDescription = item.label,
                 tint = iconColor,
-                modifier = Modifier.size(iconSize)
+                modifier = Modifier.size(24.dp)
             )
-            if (isSelected) {
-                Text(
-                    text = item.label,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = iconColor,
-                    fontSize = 10.sp
-                )
-            }
         }
     }
 }

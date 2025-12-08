@@ -26,6 +26,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BookmarkBorder
+import androidx.compose.material.icons.rounded.Code
 import androidx.compose.material.icons.rounded.DataUsage
 import androidx.compose.material.icons.rounded.MenuBook
 import androidx.compose.material.icons.rounded.PlayArrow
@@ -33,6 +34,7 @@ import androidx.compose.material.icons.rounded.School
 import androidx.compose.material.icons.rounded.Security
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.Storage
+import androidx.compose.material.icons.rounded.TableChart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -726,6 +728,8 @@ private fun topicIconGradient(category: TopicCategory) = when (category) {
     TopicCategory.Cybersecurity -> Brush.linearGradient(listOf(Color(0xFF184451), AccentCyan))
     TopicCategory.Programming -> Brush.linearGradient(listOf(AccentPurple, Color(0xFFFB6FFF)))
     TopicCategory.Hardware -> Brush.linearGradient(listOf(Color(0xFF7A5CFF), Color(0xFF2BD9DF)))
+    TopicCategory.Python -> Brush.linearGradient(listOf(Color(0xFF3776AB), Color(0xFFFFD43B)))
+    TopicCategory.SQL -> Brush.linearGradient(listOf(Color(0xFF00758F), Color(0xFFE97451)))
 }
 
 private fun TopicCategory.icon() = when (this) {
@@ -734,6 +738,8 @@ private fun TopicCategory.icon() = when (this) {
     TopicCategory.Cybersecurity -> Icons.Rounded.Security
     TopicCategory.Programming -> Icons.Rounded.MenuBook
     TopicCategory.Hardware -> Icons.Rounded.Settings
+    TopicCategory.Python -> Icons.Rounded.Code
+    TopicCategory.SQL -> Icons.Rounded.TableChart
 }
 
 private sealed class StudyDestination(val route: String) {

@@ -68,6 +68,9 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.sunset.ictstudy.data.PreferencesRepository
 import com.sunset.ictstudy.data.ProcessingModesRepository
+import com.sunset.ictstudy.data.PythonRepository
+import com.sunset.ictstudy.data.SQLRepository
+import com.sunset.ictstudy.data.CybersecurityRepository
 import com.sunset.ictstudy.data.QuickActionType
 import com.sunset.ictstudy.data.QuickAccessAction
 import com.sunset.ictstudy.data.database.QuizQuestion
@@ -147,6 +150,15 @@ fun IctStudyApp(context: Context) {
                     },
                     onOpenSettings = {
                         navController.navigate(StudyDestination.Settings.route)
+                    },
+                    onOpenPython = {
+                        navController.navigate(StudyDestination.PythonTopics.route)
+                    },
+                    onOpenSQL = {
+                        navController.navigate(StudyDestination.SQLTopics.route)
+                    },
+                    onOpenCybersecurity = {
+                        navController.navigate(StudyDestination.CybersecurityTopics.route)
                     }
                 )
             }
@@ -190,6 +202,78 @@ fun IctStudyApp(context: Context) {
                                 )
                             }
                         },
+                        onBack = { navController.popBackStack() }
+                    )
+                }
+            }
+            composable(StudyDestination.PythonTopics.route) {
+                PythonTopicsScreen(
+                    topics = PythonRepository.pythonTopics,
+                    onBack = { navController.popBackStack() },
+                    onTopicSelected = { topic ->
+                        navController.navigate(StudyDestination.PythonTopicDetail.create(topic.id))
+                    }
+                )
+            }
+            composable(
+                route = StudyDestination.PythonTopicDetail.route,
+                arguments = listOf(navArgument("topicId") { type = NavType.StringType })
+            ) { entry ->
+                val topicId = entry.arguments?.getString("topicId") ?: return@composable
+                val topic = PythonRepository.getTopic(topicId)
+                if (topic == null) {
+                    navController.popBackStack()
+                } else {
+                    PythonTopicDetailScreen(
+                        topic = topic,
+                        onBack = { navController.popBackStack() }
+                    )
+                }
+            }
+            composable(StudyDestination.SQLTopics.route) {
+                SQLTopicsScreen(
+                    topics = SQLRepository.sqlTopics,
+                    onBack = { navController.popBackStack() },
+                    onTopicSelected = { topic ->
+                        navController.navigate(StudyDestination.SQLTopicDetail.create(topic.id))
+                    }
+                )
+            }
+            composable(
+                route = StudyDestination.SQLTopicDetail.route,
+                arguments = listOf(navArgument("topicId") { type = NavType.StringType })
+            ) { entry ->
+                val topicId = entry.arguments?.getString("topicId") ?: return@composable
+                val topic = SQLRepository.getTopic(topicId)
+                if (topic == null) {
+                    navController.popBackStack()
+                } else {
+                    SQLTopicDetailScreen(
+                        topic = topic,
+                        onBack = { navController.popBackStack() }
+                    )
+                }
+            }
+            composable(StudyDestination.CybersecurityTopics.route) {
+                CybersecurityTopicsScreen(
+                    topics = CybersecurityRepository.cybersecurityTopics,
+                    onBack = { navController.popBackStack() },
+                    onTopicSelected = { topic ->
+                        navController.navigate(StudyDestination.CybersecurityTopicDetail.create(topic.id))
+                    }
+                )
+            }
+            composable(
+                route = StudyDestination.CybersecurityTopicDetail.route,
+                arguments = listOf(navArgument("topicId") { type = NavType.StringType })
+            ) { entry ->
+                val topicId = entry.arguments?.getString("topicId") ?: return@composable
+                val topic = CybersecurityRepository.getTopic(topicId)
+                if (topic == null) {
+                    navController.popBackStack()
+                } else {
+                    CybersecurityTopicDetailScreen(
+                        topic = topic,
                         onBack = { navController.popBackStack() }
                     )
                 }
@@ -415,7 +499,10 @@ private fun HomeRoute(
     onOpenCalendar: () -> Unit,
     onOpenStatistics: () -> Unit,
     onOpenReminders: () -> Unit,
-    onOpenSettings: () -> Unit
+    onOpenSettings: () -> Unit,
+    onOpenPython: () -> Unit,
+    onOpenSQL: () -> Unit,
+    onOpenCybersecurity: () -> Unit
 ) {
     var query by rememberSaveable { mutableStateOf("") }
     val baseTopics = StudyContentRepository.studyTopics
@@ -454,8 +541,12 @@ private fun HomeRoute(
             }
         },
         onTopicClick = { topic ->
-            if (topic.category == TopicCategory.ProcessingModes) {
-                onOpenProcessingModes()
+            when (topic.category) {
+                TopicCategory.ProcessingModes -> onOpenProcessingModes()
+                TopicCategory.Python -> onOpenPython()
+                TopicCategory.SQL -> onOpenSQL()
+                TopicCategory.Cybersecurity -> onOpenCybersecurity()
+                else -> {}
             }
         },
         onOpenSettings = onOpenSettings
@@ -765,6 +856,18 @@ private sealed class StudyDestination(val route: String) {
     data object ProcessingModes : StudyDestination("processingModes")
     data object ProcessingModeDetail : StudyDestination("processingModes/{modeId}") {
         fun create(modeId: String) = "processingModes/$modeId"
+    }
+    data object PythonTopics : StudyDestination("pythonTopics")
+    data object PythonTopicDetail : StudyDestination("pythonTopics/{topicId}") {
+        fun create(topicId: String) = "pythonTopics/$topicId"
+    }
+    data object SQLTopics : StudyDestination("sqlTopics")
+    data object SQLTopicDetail : StudyDestination("sqlTopics/{topicId}") {
+        fun create(topicId: String) = "sqlTopics/$topicId"
+    }
+    data object CybersecurityTopics : StudyDestination("cybersecurityTopics")
+    data object CybersecurityTopicDetail : StudyDestination("cybersecurityTopics/{topicId}") {
+        fun create(topicId: String) = "cybersecurityTopics/$topicId"
     }
     data object SavedItems : StudyDestination("savedItems")
     data object QuizSelection : StudyDestination("quizSelection")

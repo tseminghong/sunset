@@ -534,4 +534,6 @@ Benefits:
             )
         )
     )
+    
+    fun getTopic(id: String): CybersecurityTopic? = cybersecurityTopics.firstOrNull { it.id == id }
 }

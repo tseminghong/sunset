@@ -580,4 +580,6 @@ CREATE TABLE order_items (
             )
         )
     )
+    
+    fun getTopic(id: String): SQLTopic? = sqlTopics.firstOrNull { it.id == id }
 }

@@ -522,4 +522,6 @@ def validate_age(age):
             )
         )
     )
+    
+    fun getTopic(id: String): PythonTopic? = pythonTopics.firstOrNull { it.id == id }
 }

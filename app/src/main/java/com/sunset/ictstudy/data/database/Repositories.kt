@@ -97,7 +97,7 @@ class QuizRepository(context: Context) {
     
     suspend fun addSampleQuestions() {
         // Add sample questions for Processing Modes
-        val sampleQuestions = listOf(
+        val sampleQuestions = mutableListOf(
             QuizQuestion(
                 topicId = "processing_modes",
                 questionText = "Which processing mode handles transactions immediately as they occur?",
@@ -134,6 +134,445 @@ class QuizRepository(context: Context) {
                 difficulty = "hard"
             )
         )
+        
+        // Python Programming Questions
+        sampleQuestions.addAll(listOf(
+            QuizQuestion(
+                topicId = "python_basics",
+                questionText = "What is the correct way to declare a variable in Python?",
+                options = """["int x = 5", "var x = 5", "x = 5", "let x = 5"]""",
+                correctAnswer = 2,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "python_basics",
+                questionText = "Which of these is NOT a valid Python data type?",
+                options = """["int", "float", "char", "str"]""",
+                correctAnswer = 2,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "python_basics",
+                questionText = "What does the type() function return?",
+                options = """["The value of a variable", "The data type of a variable", "The memory address", "The variable name"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "python_basics",
+                questionText = "Which operator is used for exponentiation in Python?",
+                options = """["^", "**", "exp()", "pow"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "python_basics",
+                questionText = "What is the output of: print(10 // 3)?",
+                options = """["3.333", "3", "4", "3.0"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            
+            QuizQuestion(
+                topicId = "python_control_flow",
+                questionText = "Which keyword is used for conditional branching in Python?",
+                options = """["switch", "if", "case", "when"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "python_control_flow",
+                questionText = "What does the 'elif' keyword stand for?",
+                options = """["else if", "elseif", "elif function", "end if"]""",
+                correctAnswer = 0,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "python_control_flow",
+                questionText = "Which loop is best when you don't know the number of iterations?",
+                options = """["for loop", "while loop", "do-while loop", "foreach loop"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "python_control_flow",
+                questionText = "What does the 'break' statement do in a loop?",
+                options = """["Pauses the loop", "Skips current iteration", "Exits the loop completely", "Restarts the loop"]""",
+                correctAnswer = 2,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "python_control_flow",
+                questionText = "What is the output of: range(1, 5)?",
+                options = """["[1, 2, 3, 4, 5]", "[1, 2, 3, 4]", "[0, 1, 2, 3, 4]", "[2, 3, 4, 5]"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            
+            QuizQuestion(
+                topicId = "python_functions",
+                questionText = "Which keyword is used to define a function in Python?",
+                options = """["function", "def", "func", "define"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "python_functions",
+                questionText = "What does a function return if there's no return statement?",
+                options = """["0", "None", "False", "Empty string"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "python_functions",
+                questionText = "Which parameter type allows any number of arguments?",
+                options = """["*args", "**kwargs", "...params", "[]args"]""",
+                correctAnswer = 0,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "python_functions",
+                questionText = "What is a lambda function?",
+                options = """["A built-in function", "An anonymous function", "A class method", "A recursive function"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "python_functions",
+                questionText = "How do you import a specific function from a module?",
+                options = """["import module.function", "from module import function", "include module.function", "use function from module"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            
+            QuizQuestion(
+                topicId = "python_data_structures",
+                questionText = "Which data structure is mutable and ordered in Python?",
+                options = """["Tuple", "List", "Set", "String"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "python_data_structures",
+                questionText = "How do you access the last element of a list?",
+                options = """["list[end]", "list[-1]", "list[last]", "list.last()"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "python_data_structures",
+                questionText = "Which method adds an element to the end of a list?",
+                options = """["add()", "append()", "insert()", "push()"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "python_data_structures",
+                questionText = "What makes a set different from a list?",
+                options = """["Sets are ordered", "Sets allow duplicates", "Sets store unique values", "Sets are immutable"]""",
+                correctAnswer = 2,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "python_data_structures",
+                questionText = "How do you create an empty dictionary?",
+                options = """["dict = []", "dict = {}", "dict = ()", "dict = set()"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            
+            QuizQuestion(
+                topicId = "python_oop",
+                questionText = "What is the constructor method in a Python class?",
+                options = """["__init__()", "constructor()", "__new__()", "create()"]""",
+                correctAnswer = 0,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "python_oop",
+                questionText = "Which keyword is used to create a class?",
+                options = """["class", "def", "object", "struct"]""",
+                correctAnswer = 0,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "python_oop",
+                questionText = "What is inheritance in OOP?",
+                options = """["Creating multiple objects", "One class acquiring properties of another", "Hiding data", "Method overloading"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "python_oop",
+                questionText = "How do you make an attribute private in Python?",
+                options = """["private keyword", "Prefix with __", "Prefix with _", "Use @private decorator"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "python_oop",
+                questionText = "What is polymorphism?",
+                options = """["Multiple inheritance", "Same method name, different implementations", "Data hiding", "Object creation"]""",
+                correctAnswer = 1,
+                difficulty = "hard"
+            ),
+            
+            QuizQuestion(
+                topicId = "python_file_handling",
+                questionText = "Which mode opens a file for reading?",
+                options = """["'w'", "'r'", "'a'", "'x'"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "python_file_handling",
+                questionText = "What does the 'with' statement ensure?",
+                options = """["File is created", "File is automatically closed", "File is encrypted", "File is compressed"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "python_file_handling",
+                questionText = "Which exception is raised when a file is not found?",
+                options = """["FileError", "IOError", "FileNotFoundError", "PathError"]""",
+                correctAnswer = 2,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "python_file_handling",
+                questionText = "What does 'a' mode do when opening a file?",
+                options = """["Reads the file", "Overwrites the file", "Appends to the file", "Creates a new file"]""",
+                correctAnswer = 2,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "python_file_handling",
+                questionText = "Which block always executes in exception handling?",
+                options = """["try", "except", "finally", "else"]""",
+                correctAnswer = 2,
+                difficulty = "medium"
+            )
+        ))
+        
+        // SQL Database Questions
+        sampleQuestions.addAll(listOf(
+            QuizQuestion(
+                topicId = "sql_basics",
+                questionText = "Which SQL command is used to retrieve data from a database?",
+                options = """["GET", "SELECT", "RETRIEVE", "FETCH"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "sql_basics",
+                questionText = "What does PRIMARY KEY constraint ensure?",
+                options = """["Unique and NOT NULL", "Only unique values", "Only NOT NULL", "Foreign key reference"]""",
+                correctAnswer = 0,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "sql_basics",
+                questionText = "Which command is used to add new records to a table?",
+                options = """["ADD", "INSERT", "CREATE", "PUT"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "sql_basics",
+                questionText = "What does the WHERE clause do?",
+                options = """["Sorts results", "Filters rows", "Joins tables", "Groups data"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "sql_basics",
+                questionText = "Which constraint prevents duplicate values in a column?",
+                options = """["PRIMARY KEY", "UNIQUE", "NOT NULL", "CHECK"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            
+            QuizQuestion(
+                topicId = "sql_queries",
+                questionText = "Which SQL clause sorts query results?",
+                options = """["SORT BY", "ORDER BY", "GROUP BY", "ARRANGE BY"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "sql_queries",
+                questionText = "What does COUNT(*) return?",
+                options = """["Sum of values", "Average value", "Number of rows", "Maximum value"]""",
+                correctAnswer = 2,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "sql_queries",
+                questionText = "Which clause is used to filter grouped data?",
+                options = """["WHERE", "HAVING", "FILTER", "GROUP FILTER"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "sql_queries",
+                questionText = "What does DISTINCT do in a SELECT statement?",
+                options = """["Sorts rows", "Removes duplicates", "Counts rows", "Filters nulls"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "sql_queries",
+                questionText = "Which aggregate function calculates the average?",
+                options = """["SUM()", "AVG()", "MEAN()", "AVERAGE()"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            
+            QuizQuestion(
+                topicId = "sql_joins",
+                questionText = "Which JOIN returns only matching rows from both tables?",
+                options = """["LEFT JOIN", "RIGHT JOIN", "INNER JOIN", "FULL JOIN"]""",
+                correctAnswer = 2,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "sql_joins",
+                questionText = "What does LEFT JOIN return?",
+                options = """["Only matching rows", "All from left, matching from right", "All from right, matching from left", "All rows from both tables"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "sql_joins",
+                questionText = "What is a foreign key?",
+                options = """["A unique identifier", "A reference to another table's primary key", "An index", "A constraint"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "sql_joins",
+                questionText = "Which relationship type requires a junction table?",
+                options = """["One-to-One", "One-to-Many", "Many-to-Many", "None of these"]""",
+                correctAnswer = 2,
+                difficulty = "hard"
+            ),
+            QuizQuestion(
+                topicId = "sql_joins",
+                questionText = "What does the ON clause specify in a JOIN?",
+                options = """["Table names", "Join condition", "Column list", "Sort order"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            
+            QuizQuestion(
+                topicId = "sql_data_modification",
+                questionText = "Which command modifies existing data?",
+                options = """["MODIFY", "UPDATE", "CHANGE", "ALTER"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "sql_data_modification",
+                questionText = "What happens if you DELETE without a WHERE clause?",
+                options = """["Deletes first row", "Deletes last row", "Deletes all rows", "Throws an error"]""",
+                correctAnswer = 2,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "sql_data_modification",
+                questionText = "Which command adds a new column to a table?",
+                options = """["ADD COLUMN", "ALTER TABLE ADD", "INSERT COLUMN", "CREATE COLUMN"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "sql_data_modification",
+                questionText = "What does TRUNCATE do?",
+                options = """["Deletes specific rows", "Removes all rows quickly", "Drops the table", "Archives data"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "sql_data_modification",
+                questionText = "Which is faster for clearing a table?",
+                options = """["DELETE", "TRUNCATE", "DROP", "REMOVE"]""",
+                correctAnswer = 1,
+                difficulty = "hard"
+            ),
+            
+            QuizQuestion(
+                topicId = "sql_transactions",
+                questionText = "Which command saves transaction changes permanently?",
+                options = """["SAVE", "COMMIT", "APPLY", "FINISH"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "sql_transactions",
+                questionText = "What does ROLLBACK do?",
+                options = """["Saves changes", "Undoes changes", "Restarts transaction", "Commits partially"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "sql_transactions",
+                questionText = "What does the 'A' in ACID stand for?",
+                options = """["Automatic", "Atomicity", "Asynchronous", "Advanced"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "sql_transactions",
+                questionText = "Which constraint references another table's primary key?",
+                options = """["PRIMARY KEY", "UNIQUE", "FOREIGN KEY", "CHECK"]""",
+                correctAnswer = 2,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "sql_transactions",
+                questionText = "What does CASCADE do in a foreign key?",
+                options = """["Prevents deletion", "Automatically updates/deletes related rows", "Creates backup", "Logs changes"]""",
+                correctAnswer = 1,
+                difficulty = "hard"
+            ),
+            
+            QuizQuestion(
+                topicId = "sql_design",
+                questionText = "What is the goal of normalization?",
+                options = """["Increase redundancy", "Reduce redundancy", "Add more tables", "Improve speed"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "sql_design",
+                questionText = "What does 1NF require?",
+                options = """["No duplicates", "Atomic values in cells", "Primary key exists", "No null values"]""",
+                correctAnswer = 1,
+                difficulty = "medium"
+            ),
+            QuizQuestion(
+                topicId = "sql_design",
+                questionText = "What is data redundancy?",
+                options = """["Backup data", "Duplicate data", "Missing data", "Encrypted data"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            ),
+            QuizQuestion(
+                topicId = "sql_design",
+                questionText = "When might denormalization be beneficial?",
+                options = """["To save space", "To improve read performance", "To reduce errors", "To enforce constraints"]""",
+                correctAnswer = 1,
+                difficulty = "hard"
+            ),
+            QuizQuestion(
+                topicId = "sql_design",
+                questionText = "What does an ER diagram show?",
+                options = """["Error reports", "Entity relationships", "Execution results", "Export records"]""",
+                correctAnswer = 1,
+                difficulty = "easy"
+            )
+        ))
+        
         quizDao.insertQuestions(sampleQuestions)
     }
     

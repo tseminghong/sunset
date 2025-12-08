@@ -31,7 +31,9 @@ enum class TopicCategory {
     Databases,
     Cybersecurity,
     Programming,
-    Hardware
+    Hardware,
+    Python,
+    SQL
 }
 
 object StudyContentRepository {
@@ -109,6 +111,20 @@ object StudyContentRepository {
             lessons = 10,
             completedPercentage = 0,
             category = TopicCategory.Hardware
+        ),
+        StudyTopic(
+            id = 6,
+            title = "Python Programming",
+            lessons = 25,
+            completedPercentage = 0,
+            category = TopicCategory.Python
+        ),
+        StudyTopic(
+            id = 7,
+            title = "SQL Database",
+            lessons = 18,
+            completedPercentage = 0,
+            category = TopicCategory.SQL
         )
     )
 }

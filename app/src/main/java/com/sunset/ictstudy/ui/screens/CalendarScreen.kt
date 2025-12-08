@@ -30,7 +30,7 @@ fun CalendarScreen(
     sessions: List<StudySession>,
     onBack: () -> Unit,
     onAddSession: (String, Long, Int) -> Unit,
-    onToggleComplete: (Long, Boolean) -> Unit
+    onToggleComplete: (Int, Boolean) -> Unit
 ) {
     var showAddDialog by remember { mutableStateOf(false) }
     var selectedMonth by remember { mutableStateOf(Calendar.getInstance()) }

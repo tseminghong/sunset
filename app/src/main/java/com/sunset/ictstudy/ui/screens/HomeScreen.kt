@@ -2,6 +2,7 @@ package com.sunset.ictstudy.ui.screens
 
 import android.content.Context
 import androidx.compose.animation.animateColorAsState
+import java.util.Calendar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -67,6 +68,7 @@ import com.sunset.ictstudy.data.PreferencesRepository
 import com.sunset.ictstudy.data.ProcessingModesRepository
 import com.sunset.ictstudy.data.QuickActionType
 import com.sunset.ictstudy.data.QuickAccessAction
+import com.sunset.ictstudy.data.database.QuizQuestion
 import com.sunset.ictstudy.data.StudyContentRepository
 import com.sunset.ictstudy.data.StudyTopic
 import com.sunset.ictstudy.data.ThemeMode
@@ -134,6 +136,12 @@ fun IctStudyApp(context: Context) {
                     },
                     onOpenCalendar = {
                         navController.navigate(StudyDestination.Calendar.route)
+                    },
+                    onOpenStatistics = {
+                        navController.navigate(StudyDestination.Statistics.route)
+                    },
+                    onOpenReminders = {
+                        navController.navigate(StudyDestination.Reminders.route)
                     }
                 )
             }
@@ -173,7 +181,7 @@ fun IctStudyApp(context: Context) {
                                     itemId = mode.id,
                                     title = mode.title,
                                     subtitle = mode.description,
-                                    itemType = "processing_mode"
+                                    type = "processing_mode"
                                 )
                             }
                         },
@@ -223,15 +231,17 @@ fun IctStudyApp(context: Context) {
                 val topicName = entry.arguments?.getString("topicName") ?: return@composable
                 val quizRepository = remember { com.sunset.ictstudy.data.database.QuizRepository(context) }
                 
-                val questions by quizRepository.getQuestionsForTopic(topicId, limit = 5)
-                    .collectAsState(initial = emptyList())
+                var questions by remember { mutableStateOf<List<QuizQuestion>>(emptyList()) }
                 
-                if (questions.isEmpty()) {
-                    // Initialize sample questions if needed
-                    LaunchedEffect(Unit) {
+                LaunchedEffect(Unit) {
+                    questions = quizRepository.getQuestionsForTopic(topicId, count = 5)
+                    if (questions.isEmpty()) {
                         quizRepository.addSampleQuestions()
+                        questions = quizRepository.getQuestionsForTopic(topicId, count = 5)
                     }
-                } else {
+                }
+                
+                if (questions.isNotEmpty()) {
                     QuizTakingScreen(
                         topicName = topicName,
                         questions = questions,
@@ -294,17 +304,91 @@ fun IctStudyApp(context: Context) {
                     onBack = { navController.popBackStack() },
                     onAddSession = { title, scheduledDate, duration ->
                         scope.launch {
-                            studySessionRepository.createSession(title, scheduledDate, duration)
+                            studySessionRepository.createSession(
+                                title = title,
+                                description = "",
+                                topicId = null,
+                                scheduledDate = scheduledDate,
+                                durationMinutes = duration
+                            )
                         }
                     },
                     onToggleComplete = { sessionId, isCompleted ->
                         scope.launch {
-                            studySessionRepository.markSessionComplete(sessionId, isCompleted)
+                            studySessionRepository.markComplete(sessionId, isCompleted)
+                        }
+                    }
+                )
+            }
+            composable(StudyDestination.Statistics.route) {
+                val studyActivityRepository = remember { com.sunset.ictstudy.data.database.StudyActivityRepository(context) }
+                val stats by remember {
+                    derivedStateOf {
+                        var currentStats = com.sunset.ictstudy.data.database.StudyStats(0, 0, 0)
+                        scope.launch {
+                            currentStats = studyActivityRepository.getTotalStats()
+                        }
+                        currentStats
+                    }
+                }
+                val recentActivity by studyActivityRepository.getRecentActivity(30)
+                    .collectAsState(initial = emptyList())
+                
+                StatisticsScreen(
+                    stats = stats,
+                    recentActivity = recentActivity,
+                    onBack = { navController.popBackStack() }
+                )
+            }
+            composable(StudyDestination.Reminders.route) {
+                val reminderRepository = remember { com.sunset.ictstudy.data.database.StudyReminderRepository(context) }
+                val reminderManager = remember { com.sunset.ictstudy.notifications.StudyReminderManager(context) }
+                val reminders by reminderRepository.getAllReminders().collectAsState(initial = emptyList())
+                
+                RemindersScreen(
+                    reminders = reminders,
+                    onBack = { navController.popBackStack() },
+                    onAddReminder = { title, message, hour, minute, days ->
+                        scope.launch {
+                            val id = reminderRepository.createReminder(title, message, hour, minute, days).toInt()
+                            reminderManager.scheduleReminder(id, title, message, hour, minute, days)
+                        }
+                    },
+                    onToggleReminder = { reminderId, enabled ->
+                        scope.launch {
+                            reminderRepository.toggleReminder(reminderId, enabled)
+                            val reminder = reminders.find { it.id == reminderId }
+                            if (reminder != null) {
+                                val days = parseDaysOfWeek(reminder.daysOfWeek)
+                                if (enabled) {
+                                    reminderManager.scheduleReminder(
+                                        reminderId, reminder.title, reminder.message,
+                                        reminder.hour, reminder.minute, days
+                                    )
+                                } else {
+                                    reminderManager.cancelReminder(reminderId, days)
+                                }
+                            }
+                        }
+                    },
+                    onDeleteReminder = { reminder ->
+                        scope.launch {
+                            reminderRepository.deleteReminder(reminder)
+                            val days = parseDaysOfWeek(reminder.daysOfWeek)
+                            reminderManager.cancelReminder(reminder.id, days)
                         }
                     }
                 )
             }
         }
+    }
+}
+
+private fun parseDaysOfWeek(daysJson: String): List<Int> {
+    return try {
+        daysJson.trim('[', ']').split(",").map { it.trim().toInt() }
+    } catch (e: Exception) {
+        emptyList()
     }
 }
 
@@ -315,7 +399,9 @@ private fun HomeRoute(
     onOpenProcessingModes: () -> Unit,
     onOpenSavedItems: () -> Unit,
     onOpenQuiz: () -> Unit,
-    onOpenCalendar: () -> Unit
+    onOpenCalendar: () -> Unit,
+    onOpenStatistics: () -> Unit,
+    onOpenReminders: () -> Unit
 ) {
     var query by rememberSaveable { mutableStateOf("") }
     val baseTopics = StudyContentRepository.studyTopics
@@ -348,6 +434,8 @@ private fun HomeRoute(
                 QuickActionType.SavedItems -> onOpenSavedItems()
                 QuickActionType.PracticeQuiz -> onOpenQuiz()
                 QuickActionType.StudyCalendar -> onOpenCalendar()
+                QuickActionType.Statistics -> onOpenStatistics()
+                QuickActionType.Reminders -> onOpenReminders()
                 else -> {}
             }
         },
@@ -472,6 +560,9 @@ private fun QuickAccessCard(action: QuickAccessAction, onClick: () -> Unit) {
         QuickActionType.ContinueLearning -> listOf(AccentPrimary, AccentPurple)
         QuickActionType.SavedItems -> listOf(Color(0xFF233554), AccentPrimary)
         QuickActionType.PracticeQuiz -> listOf(AccentPurple, AccentCyan)
+        QuickActionType.StudyCalendar -> listOf(AccentPrimary, AccentPurple)
+        QuickActionType.Statistics -> listOf(Color(0xFF6366F1), Color(0xFF8B5CF6))
+        QuickActionType.Reminders -> listOf(Color(0xFF10B981), Color(0xFF059669))
     }
     Card(
         colors = CardDefaults.cardColors(containerColor = Color.Transparent),
@@ -662,6 +753,8 @@ private sealed class StudyDestination(val route: String) {
             "quizResults/$topicId/$topicName/$total/$correct/$duration"
     }
     data object Calendar : StudyDestination("calendar")
+    data object Statistics : StudyDestination("statistics")
+    data object Reminders : StudyDestination("reminders")
 }
 
 @Preview(showBackground = true)

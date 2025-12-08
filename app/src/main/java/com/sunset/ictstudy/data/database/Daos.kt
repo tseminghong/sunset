@@ -78,3 +78,72 @@ interface QuizDao {
     @Query("SELECT AVG(questionsCorrect * 100.0 / questionsTotal) FROM quiz_results WHERE topicId = :topicId")
     suspend fun getAverageScoreForTopic(topicId: String): Double?
 }
+
+@Dao
+interface LessonNotesDao {
+    
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertNote(note: LessonNote): Long
+    
+    @Delete
+    suspend fun deleteNote(note: LessonNote)
+    
+    @Query("SELECT * FROM lesson_notes WHERE lessonId = :lessonId ORDER BY updatedAt DESC")
+    fun getNotesForLesson(lessonId: String): Flow<List<LessonNote>>
+    
+    @Query("SELECT * FROM lesson_notes ORDER BY updatedAt DESC")
+    fun getAllNotes(): Flow<List<LessonNote>>
+    
+    @Query("UPDATE lesson_notes SET title = :title, content = :content, updatedAt = :updatedAt WHERE id = :noteId")
+    suspend fun updateNote(noteId: Int, title: String, content: String, updatedAt: Long)
+    
+    @Query("SELECT COUNT(*) FROM lesson_notes WHERE lessonId = :lessonId")
+    fun getNoteCountForLesson(lessonId: String): Flow<Int>
+}
+
+@Dao
+interface StudyActivityDao {
+    
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun recordActivity(activity: StudyActivity)
+    
+    @Query("SELECT * FROM study_activity WHERE date = :date")
+    suspend fun getActivityForDate(date: String): StudyActivity?
+    
+    @Query("SELECT * FROM study_activity ORDER BY date DESC LIMIT :days")
+    fun getRecentActivity(days: Int): Flow<List<StudyActivity>>
+    
+    @Query("SELECT * FROM study_activity WHERE date >= :startDate AND date <= :endDate ORDER BY date ASC")
+    fun getActivityInRange(startDate: String, endDate: String): Flow<List<StudyActivity>>
+    
+    @Query("SELECT COUNT(*) FROM study_activity WHERE date >= :startDate")
+    suspend fun getStreakCount(startDate: String): Int
+    
+    @Query("SELECT SUM(minutesStudied) FROM study_activity")
+    suspend fun getTotalMinutesStudied(): Int?
+    
+    @Query("SELECT SUM(lessonsCompleted) FROM study_activity")
+    suspend fun getTotalLessonsCompleted(): Int?
+}
+
+@Dao
+interface StudyReminderDao {
+    
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertReminder(reminder: StudyReminder): Long
+    
+    @Delete
+    suspend fun deleteReminder(reminder: StudyReminder)
+    
+    @Query("SELECT * FROM study_reminders ORDER BY hour, minute")
+    fun getAllReminders(): Flow<List<StudyReminder>>
+    
+    @Query("SELECT * FROM study_reminders WHERE isEnabled = 1 ORDER BY hour, minute")
+    fun getEnabledReminders(): Flow<List<StudyReminder>>
+    
+    @Query("UPDATE study_reminders SET isEnabled = :enabled WHERE id = :reminderId")
+    suspend fun toggleReminder(reminderId: Int, enabled: Boolean)
+    
+    @Query("UPDATE study_reminders SET title = :title, message = :message, hour = :hour, minute = :minute, daysOfWeek = :daysOfWeek WHERE id = :reminderId")
+    suspend fun updateReminder(reminderId: Int, title: String, message: String, hour: Int, minute: Int, daysOfWeek: String)
+}

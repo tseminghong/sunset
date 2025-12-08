@@ -59,3 +59,46 @@ data class QuizResult(
     val completedAt: Long = System.currentTimeMillis(),
     val durationSeconds: Int
 )
+
+/**
+ * Entity to store user notes for lessons
+ */
+@Entity(tableName = "lesson_notes")
+data class LessonNote(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val lessonId: String, // Which lesson this note belongs to
+    val title: String,
+    val content: String,
+    val createdAt: Long = System.currentTimeMillis(),
+    val updatedAt: Long = System.currentTimeMillis()
+)
+
+/**
+ * Entity to track study streaks
+ */
+@Entity(tableName = "study_activity")
+data class StudyActivity(
+    @PrimaryKey
+    val date: String, // Format: "yyyy-MM-dd"
+    val sessionsCount: Int = 0,
+    val minutesStudied: Int = 0,
+    val lessonsCompleted: Int = 0,
+    val quizzesTaken: Int = 0
+)
+
+/**
+ * Entity to store study reminders
+ */
+@Entity(tableName = "study_reminders")
+data class StudyReminder(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val title: String,
+    val message: String,
+    val hour: Int, // 0-23
+    val minute: Int, // 0-59
+    val daysOfWeek: String, // JSON array: [0-6] where 0=Sunday
+    val isEnabled: Boolean = true,
+    val createdAt: Long = System.currentTimeMillis()
+)

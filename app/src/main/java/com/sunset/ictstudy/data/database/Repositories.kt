@@ -161,3 +161,164 @@ class QuizRepository(context: Context) {
         return quizDao.getAverageScoreForTopic(topicId) ?: 0.0
     }
 }
+
+class LessonNotesRepository(context: Context) {
+    private val db = AppDatabase.getInstance(context)
+    private val notesDao = db.lessonNotesDao()
+    
+    suspend fun createNote(lessonId: String, title: String, content: String): Long {
+        return notesDao.insertNote(
+            LessonNote(
+                lessonId = lessonId,
+                title = title,
+                content = content
+            )
+        )
+    }
+    
+    suspend fun updateNote(noteId: Int, title: String, content: String) {
+        notesDao.updateNote(noteId, title, content, System.currentTimeMillis())
+    }
+    
+    suspend fun deleteNote(note: LessonNote) {
+        notesDao.deleteNote(note)
+    }
+    
+    fun getNotesForLesson(lessonId: String): Flow<List<LessonNote>> {
+        return notesDao.getNotesForLesson(lessonId)
+    }
+    
+    fun getAllNotes(): Flow<List<LessonNote>> {
+        return notesDao.getAllNotes()
+    }
+    
+    fun getNoteCount(lessonId: String): Flow<Int> {
+        return notesDao.getNoteCountForLesson(lessonId)
+    }
+}
+
+class StudyActivityRepository(context: Context) {
+    private val db = AppDatabase.getInstance(context)
+    private val activityDao = db.studyActivityDao()
+    
+    suspend fun recordStudySession(minutesStudied: Int, lessonsCompleted: Int = 0, quizzesTaken: Int = 0) {
+        val today = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
+            .format(java.util.Date())
+        
+        val existing = activityDao.getActivityForDate(today)
+        if (existing != null) {
+            activityDao.recordActivity(
+                existing.copy(
+                    sessionsCount = existing.sessionsCount + 1,
+                    minutesStudied = existing.minutesStudied + minutesStudied,
+                    lessonsCompleted = existing.lessonsCompleted + lessonsCompleted,
+                    quizzesTaken = existing.quizzesTaken + quizzesTaken
+                )
+            )
+        } else {
+            activityDao.recordActivity(
+                StudyActivity(
+                    date = today,
+                    sessionsCount = 1,
+                    minutesStudied = minutesStudied,
+                    lessonsCompleted = lessonsCompleted,
+                    quizzesTaken = quizzesTaken
+                )
+            )
+        }
+    }
+    
+    fun getRecentActivity(days: Int = 30): Flow<List<StudyActivity>> {
+        return activityDao.getRecentActivity(days)
+    }
+    
+    suspend fun getCurrentStreak(): Int {
+        val calendar = Calendar.getInstance()
+        val dateFormat = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
+        var streak = 0
+        
+        // Check backwards from today
+        for (i in 0..365) {
+            val date = dateFormat.format(calendar.time)
+            val activity = activityDao.getActivityForDate(date)
+            
+            if (activity != null && activity.sessionsCount > 0) {
+                streak++
+                calendar.add(Calendar.DAY_OF_YEAR, -1)
+            } else if (i > 0) {
+                // Only break if not today (allow grace for today)
+                break
+            } else {
+                calendar.add(Calendar.DAY_OF_YEAR, -1)
+            }
+        }
+        
+        return streak
+    }
+    
+    suspend fun getTotalStats(): StudyStats {
+        return StudyStats(
+            totalMinutes = activityDao.getTotalMinutesStudied() ?: 0,
+            totalLessons = activityDao.getTotalLessonsCompleted() ?: 0,
+            currentStreak = getCurrentStreak()
+        )
+    }
+}
+
+data class StudyStats(
+    val totalMinutes: Int,
+    val totalLessons: Int,
+    val currentStreak: Int
+)
+
+class StudyReminderRepository(context: Context) {
+    private val db = AppDatabase.getInstance(context)
+    private val reminderDao = db.studyReminderDao()
+    
+    suspend fun createReminder(
+        title: String,
+        message: String,
+        hour: Int,
+        minute: Int,
+        daysOfWeek: List<Int> // 0=Sunday, 1=Monday, etc.
+    ): Long {
+        val daysJson = daysOfWeek.joinToString(",", "[", "]")
+        return reminderDao.insertReminder(
+            StudyReminder(
+                title = title,
+                message = message,
+                hour = hour,
+                minute = minute,
+                daysOfWeek = daysJson
+            )
+        )
+    }
+    
+    suspend fun updateReminder(
+        reminderId: Int,
+        title: String,
+        message: String,
+        hour: Int,
+        minute: Int,
+        daysOfWeek: List<Int>
+    ) {
+        val daysJson = daysOfWeek.joinToString(",", "[", "]")
+        reminderDao.updateReminder(reminderId, title, message, hour, minute, daysJson)
+    }
+    
+    suspend fun deleteReminder(reminder: StudyReminder) {
+        reminderDao.deleteReminder(reminder)
+    }
+    
+    suspend fun toggleReminder(reminderId: Int, enabled: Boolean) {
+        reminderDao.toggleReminder(reminderId, enabled)
+    }
+    
+    fun getAllReminders(): Flow<List<StudyReminder>> {
+        return reminderDao.getAllReminders()
+    }
+    
+    fun getEnabledReminders(): Flow<List<StudyReminder>> {
+        return reminderDao.getEnabledReminders()
+    }
+}

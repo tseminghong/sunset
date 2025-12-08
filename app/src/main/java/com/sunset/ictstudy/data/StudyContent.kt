@@ -11,7 +11,10 @@ data class QuickAccessAction(
 enum class QuickActionType {
     ContinueLearning,
     SavedItems,
-    PracticeQuiz
+    PracticeQuiz,
+    StudyCalendar,
+    Statistics,
+    Reminders
 }
 
 /** Topic metadata shown in the Study Topics list. */
@@ -50,6 +53,24 @@ object StudyContentRepository {
             title = "Practice",
             subtitle = "Flash quizzes",
             type = QuickActionType.PracticeQuiz
+        ),
+        QuickAccessAction(
+            id = 4,
+            title = "Calendar",
+            subtitle = "Study schedule",
+            type = QuickActionType.StudyCalendar
+        ),
+        QuickAccessAction(
+            id = 5,
+            title = "Statistics",
+            subtitle = "Your progress",
+            type = QuickActionType.Statistics
+        ),
+        QuickAccessAction(
+            id = 6,
+            title = "Reminders",
+            subtitle = "Study alerts",
+            type = QuickActionType.Reminders
         )
     )
 

@@ -144,6 +144,9 @@ fun IctStudyApp(context: Context) {
                     },
                     onOpenReminders = {
                         navController.navigate(StudyDestination.Reminders.route)
+                    },
+                    onOpenSettings = {
+                        navController.navigate(StudyDestination.Settings.route)
                     }
                 )
             }
@@ -379,6 +382,17 @@ fun IctStudyApp(context: Context) {
                     }
                 )
             }
+            composable(StudyDestination.Settings.route) {
+                SettingsScreen(
+                    username = userPreferences.username,
+                    onUsernameChange = { newUsername ->
+                        scope.launch {
+                            preferencesRepository.updateUsername(newUsername)
+                        }
+                    },
+                    onBack = { navController.popBackStack() }
+                )
+            }
         }
     }
 }
@@ -400,7 +414,8 @@ private fun HomeRoute(
     onOpenQuiz: () -> Unit,
     onOpenCalendar: () -> Unit,
     onOpenStatistics: () -> Unit,
-    onOpenReminders: () -> Unit
+    onOpenReminders: () -> Unit,
+    onOpenSettings: () -> Unit
 ) {
     var query by rememberSaveable { mutableStateOf("") }
     val baseTopics = StudyContentRepository.studyTopics
@@ -442,7 +457,8 @@ private fun HomeRoute(
             if (topic.category == TopicCategory.ProcessingModes) {
                 onOpenProcessingModes()
             }
-        }
+        },
+        onOpenSettings = onOpenSettings
     )
 }
 
@@ -454,7 +470,8 @@ private fun HomeScreen(
     actions: List<QuickAccessAction>,
     topics: List<StudyTopic>,
     onQuickActionClick: (QuickAccessAction) -> Unit,
-    onTopicClick: (StudyTopic) -> Unit
+    onTopicClick: (StudyTopic) -> Unit,
+    onOpenSettings: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -464,7 +481,7 @@ private fun HomeScreen(
             .padding(horizontal = 18.dp, vertical = 20.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        HeaderSection(username = username)
+        HeaderSection(username = username, onOpenSettings = onOpenSettings)
         SearchBar(query = query, onQueryChange = onQueryChange)
         QuickAccessSection(actions = actions, onActionClick = onQuickActionClick)
         StudyTopicsSection(topics = topics, query = query, onTopicClick = onTopicClick)
@@ -472,7 +489,7 @@ private fun HomeScreen(
 }
 
 @Composable
-private fun HeaderSection(username: String) {
+private fun HeaderSection(username: String, onOpenSettings: () -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -499,7 +516,7 @@ private fun HeaderSection(username: String) {
                 Text(text = "Keep the momentum going", style = MaterialTheme.typography.bodyMedium, color = NightMuted)
             }
         }
-        IconButton(onClick = { }) {
+        IconButton(onClick = onOpenSettings) {
             Icon(
                 imageVector = Icons.Rounded.Settings,
                 contentDescription = "Settings",
@@ -761,6 +778,7 @@ private sealed class StudyDestination(val route: String) {
     data object Calendar : StudyDestination("calendar")
     data object Statistics : StudyDestination("statistics")
     data object Reminders : StudyDestination("reminders")
+    data object Settings : StudyDestination("settings")
 }
 
 @Preview(showBackground = true)
@@ -775,7 +793,8 @@ private fun HomeScreenPreview() {
                 actions = StudyContentRepository.quickAccess,
                 topics = StudyContentRepository.studyTopics,
                 onQuickActionClick = {},
-                onTopicClick = {}
+                onTopicClick = {},
+                onOpenSettings = {}
             )
         }
     }

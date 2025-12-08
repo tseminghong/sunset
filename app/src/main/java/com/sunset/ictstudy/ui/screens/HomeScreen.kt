@@ -1,7 +1,16 @@
 package com.sunset.ictstudy.ui.screens
 
 import android.content.Context
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import java.util.Calendar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -89,6 +98,7 @@ import com.sunset.ictstudy.ui.theme.NightSurface
 import com.sunset.ictstudy.ui.theme.SunsetTheme
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun IctStudyApp(context: Context) {
     val navController = rememberNavController()
@@ -111,7 +121,8 @@ fun IctStudyApp(context: Context) {
     }
 
     Surface(color = NightSurface, modifier = Modifier.fillMaxSize()) {
-        NavHost(navController = navController, startDestination = startDestination) {
+        SharedTransitionLayout {
+            NavHost(navController = navController, startDestination = startDestination) {
             composable(StudyDestination.Welcome.route) {
                 WelcomeScreen(
                     onComplete = { username, themeMode ->
@@ -162,7 +173,33 @@ fun IctStudyApp(context: Context) {
                     }
                 )
             }
-            composable(StudyDestination.ProcessingModes.route) {
+            composable(
+                route = StudyDestination.ProcessingModes.route,
+                enterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { it },
+                        animationSpec = tween(400)
+                    ) + fadeIn(animationSpec = tween(400))
+                },
+                exitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { -it / 3 },
+                        animationSpec = tween(400)
+                    ) + fadeOut(animationSpec = tween(400))
+                },
+                popEnterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { -it / 3 },
+                        animationSpec = tween(400)
+                    ) + fadeIn(animationSpec = tween(400))
+                },
+                popExitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { it },
+                        animationSpec = tween(400)
+                    ) + fadeOut(animationSpec = tween(400))
+                }
+            ) {
                 ProcessingModesScreen(
                     modes = ProcessingModesRepository.processingModes,
                     readStates = processingModesProgress,
@@ -174,7 +211,31 @@ fun IctStudyApp(context: Context) {
             }
             composable(
                 route = StudyDestination.ProcessingModeDetail.route,
-                arguments = listOf(navArgument("modeId") { type = NavType.StringType })
+                arguments = listOf(navArgument("modeId") { type = NavType.StringType }),
+                enterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { it },
+                        animationSpec = tween(400)
+                    ) + fadeIn(animationSpec = tween(400))
+                },
+                exitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { -it / 3 },
+                        animationSpec = tween(400)
+                    ) + fadeOut(animationSpec = tween(400))
+                },
+                popEnterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { -it / 3 },
+                        animationSpec = tween(400)
+                    ) + fadeIn(animationSpec = tween(400))
+                },
+                popExitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { it },
+                        animationSpec = tween(400)
+                    ) + fadeOut(animationSpec = tween(400))
+                }
             ) { entry ->
                 val modeId = entry.arguments?.getString("modeId") ?: return@composable
                 val mode = ProcessingModesRepository.getMode(modeId)
@@ -206,7 +267,33 @@ fun IctStudyApp(context: Context) {
                     )
                 }
             }
-            composable(StudyDestination.PythonTopics.route) {
+            composable(
+                route = StudyDestination.PythonTopics.route,
+                enterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { it },
+                        animationSpec = tween(400)
+                    ) + fadeIn(animationSpec = tween(400))
+                },
+                exitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { -it / 3 },
+                        animationSpec = tween(400)
+                    ) + fadeOut(animationSpec = tween(400))
+                },
+                popEnterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { -it / 3 },
+                        animationSpec = tween(400)
+                    ) + fadeIn(animationSpec = tween(400))
+                },
+                popExitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { it },
+                        animationSpec = tween(400)
+                    ) + fadeOut(animationSpec = tween(400))
+                }
+            ) {
                 PythonTopicsScreen(
                     topics = PythonRepository.pythonTopics,
                     onBack = { navController.popBackStack() },
@@ -217,7 +304,31 @@ fun IctStudyApp(context: Context) {
             }
             composable(
                 route = StudyDestination.PythonTopicDetail.route,
-                arguments = listOf(navArgument("topicId") { type = NavType.StringType })
+                arguments = listOf(navArgument("topicId") { type = NavType.StringType }),
+                enterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { it },
+                        animationSpec = tween(400)
+                    ) + fadeIn(animationSpec = tween(400))
+                },
+                exitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { -it / 3 },
+                        animationSpec = tween(400)
+                    ) + fadeOut(animationSpec = tween(400))
+                },
+                popEnterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { -it / 3 },
+                        animationSpec = tween(400)
+                    ) + fadeIn(animationSpec = tween(400))
+                },
+                popExitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { it },
+                        animationSpec = tween(400)
+                    ) + fadeOut(animationSpec = tween(400))
+                }
             ) { entry ->
                 val topicId = entry.arguments?.getString("topicId") ?: return@composable
                 val topic = PythonRepository.getTopic(topicId)
@@ -230,7 +341,33 @@ fun IctStudyApp(context: Context) {
                     )
                 }
             }
-            composable(StudyDestination.SQLTopics.route) {
+            composable(
+                route = StudyDestination.SQLTopics.route,
+                enterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { it },
+                        animationSpec = tween(400)
+                    ) + fadeIn(animationSpec = tween(400))
+                },
+                exitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { -it / 3 },
+                        animationSpec = tween(400)
+                    ) + fadeOut(animationSpec = tween(400))
+                },
+                popEnterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { -it / 3 },
+                        animationSpec = tween(400)
+                    ) + fadeIn(animationSpec = tween(400))
+                },
+                popExitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { it },
+                        animationSpec = tween(400)
+                    ) + fadeOut(animationSpec = tween(400))
+                }
+            ) {
                 SQLTopicsScreen(
                     topics = SQLRepository.sqlTopics,
                     onBack = { navController.popBackStack() },
@@ -241,7 +378,31 @@ fun IctStudyApp(context: Context) {
             }
             composable(
                 route = StudyDestination.SQLTopicDetail.route,
-                arguments = listOf(navArgument("topicId") { type = NavType.StringType })
+                arguments = listOf(navArgument("topicId") { type = NavType.StringType }),
+                enterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { it },
+                        animationSpec = tween(400)
+                    ) + fadeIn(animationSpec = tween(400))
+                },
+                exitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { -it / 3 },
+                        animationSpec = tween(400)
+                    ) + fadeOut(animationSpec = tween(400))
+                },
+                popEnterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { -it / 3 },
+                        animationSpec = tween(400)
+                    ) + fadeIn(animationSpec = tween(400))
+                },
+                popExitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { it },
+                        animationSpec = tween(400)
+                    ) + fadeOut(animationSpec = tween(400))
+                }
             ) { entry ->
                 val topicId = entry.arguments?.getString("topicId") ?: return@composable
                 val topic = SQLRepository.getTopic(topicId)
@@ -254,7 +415,33 @@ fun IctStudyApp(context: Context) {
                     )
                 }
             }
-            composable(StudyDestination.CybersecurityTopics.route) {
+            composable(
+                route = StudyDestination.CybersecurityTopics.route,
+                enterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { it },
+                        animationSpec = tween(400)
+                    ) + fadeIn(animationSpec = tween(400))
+                },
+                exitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { -it / 3 },
+                        animationSpec = tween(400)
+                    ) + fadeOut(animationSpec = tween(400))
+                },
+                popEnterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { -it / 3 },
+                        animationSpec = tween(400)
+                    ) + fadeIn(animationSpec = tween(400))
+                },
+                popExitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { it },
+                        animationSpec = tween(400)
+                    ) + fadeOut(animationSpec = tween(400))
+                }
+            ) {
                 CybersecurityTopicsScreen(
                     topics = CybersecurityRepository.cybersecurityTopics,
                     onBack = { navController.popBackStack() },
@@ -265,7 +452,31 @@ fun IctStudyApp(context: Context) {
             }
             composable(
                 route = StudyDestination.CybersecurityTopicDetail.route,
-                arguments = listOf(navArgument("topicId") { type = NavType.StringType })
+                arguments = listOf(navArgument("topicId") { type = NavType.StringType }),
+                enterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { it },
+                        animationSpec = tween(400)
+                    ) + fadeIn(animationSpec = tween(400))
+                },
+                exitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { -it / 3 },
+                        animationSpec = tween(400)
+                    ) + fadeOut(animationSpec = tween(400))
+                },
+                popEnterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { -it / 3 },
+                        animationSpec = tween(400)
+                    ) + fadeIn(animationSpec = tween(400))
+                },
+                popExitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { it },
+                        animationSpec = tween(400)
+                    ) + fadeOut(animationSpec = tween(400))
+                }
             ) { entry ->
                 val topicId = entry.arguments?.getString("topicId") ?: return@composable
                 val topic = CybersecurityRepository.getTopic(topicId)
@@ -504,6 +715,7 @@ fun IctStudyApp(context: Context) {
                     onBack = { navController.popBackStack() }
                 )
             }
+        }
         }
     }
 }

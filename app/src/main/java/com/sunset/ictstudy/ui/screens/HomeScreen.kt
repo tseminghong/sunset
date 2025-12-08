@@ -310,7 +310,6 @@ private fun QuickAccessCard(action: QuickAccessAction, onClick: () -> Unit) {
         QuickActionType.ContinueLearning -> listOf(AccentPrimary, AccentPurple)
         QuickActionType.SavedItems -> listOf(Color(0xFF233554), AccentPrimary)
         QuickActionType.PracticeQuiz -> listOf(AccentPurple, AccentCyan)
-        QuickActionType.ProcessingModes -> listOf(Color(0xFF0F2027), Color(0xFF203A43))
     }
     Card(
         colors = CardDefaults.cardColors(containerColor = Color.Transparent),

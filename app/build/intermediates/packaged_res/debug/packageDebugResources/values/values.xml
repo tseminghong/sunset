@@ -6,6 +6,12 @@
     <color name="brand_night">#060C1A</color>
     <color name="ic_launcher_background">#050B17</color>
     <string name="app_name">ICT Study Coach</string>
+    <string name="gcm_defaultSenderId" translatable="false">729556297498</string>
+    <string name="google_api_key" translatable="false">AIzaSyBpnMhQjBtHf3vDGCs1A4O5Kazx4WQTlGE</string>
+    <string name="google_app_id" translatable="false">1:729556297498:android:b08054683b339b75f9eea3</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBpnMhQjBtHf3vDGCs1A4O5Kazx4WQTlGE</string>
+    <string name="google_storage_bucket" translatable="false">sunset-a05ac.firebasestorage.app</string>
+    <string name="project_id" translatable="false">sunset-a05ac</string>
     <style name="Theme.Sunset" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:statusBarColor" ns1:targetApi="l">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>

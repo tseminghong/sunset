@@ -1,14 +1,14 @@
 [
     {
-        "merged": "com.sunset.ictstudy.app-debug-67:/mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "com.sunset.ictstudy.app-main-69:/mipmap-anydpi-v26/ic_launcher.xml"
+        "merged": "com.sunset.ictstudy.app-debug-81:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.sunset.ictstudy.app-main-83:/drawable/ic_launcher_foreground.xml"
     },
     {
-        "merged": "com.sunset.ictstudy.app-debug-67:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "com.sunset.ictstudy.app-main-69:/drawable/ic_launcher_foreground.xml"
+        "merged": "com.sunset.ictstudy.app-debug-81:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.sunset.ictstudy.app-main-83:/mipmap-anydpi-v26/ic_launcher.xml"
     },
     {
-        "merged": "com.sunset.ictstudy.app-debug-67:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "com.sunset.ictstudy.app-main-69:/mipmap-anydpi-v26/ic_launcher_round.xml"
+        "merged": "com.sunset.ictstudy.app-debug-81:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.sunset.ictstudy.app-main-83:/mipmap-anydpi-v26/ic_launcher_round.xml"
     }
 ]

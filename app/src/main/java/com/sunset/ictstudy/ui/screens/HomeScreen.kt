@@ -200,7 +200,7 @@ fun IctStudyApp(context: Context) {
                         }
                     },
                     onItemClick = { favorite ->
-                        when (favorite.itemType) {
+                        when (favorite.type) {
                             "processing_mode" -> {
                                 navController.navigate(StudyDestination.ProcessingModeDetail.create(favorite.itemId))
                             }
@@ -247,7 +247,7 @@ fun IctStudyApp(context: Context) {
                         questions = questions,
                         onQuizComplete = { total, correct, duration ->
                             scope.launch {
-                                quizRepository.saveQuizResult(topicId, total, correct, duration)
+                                quizRepository.saveQuizResult(topicId, total, correct, duration.toInt())
                             }
                             navController.navigate(
                                 StudyDestination.QuizResults.create(topicId, topicName, total, correct, duration)
@@ -322,15 +322,12 @@ fun IctStudyApp(context: Context) {
             }
             composable(StudyDestination.Statistics.route) {
                 val studyActivityRepository = remember { com.sunset.ictstudy.data.database.StudyActivityRepository(context) }
-                val stats by remember {
-                    derivedStateOf {
-                        var currentStats = com.sunset.ictstudy.data.database.StudyStats(0, 0, 0)
-                        scope.launch {
-                            currentStats = studyActivityRepository.getTotalStats()
-                        }
-                        currentStats
-                    }
+                var stats by remember { mutableStateOf(com.sunset.ictstudy.data.database.StudyStats(0, 0, 0)) }
+                
+                LaunchedEffect(Unit) {
+                    stats = studyActivityRepository.getTotalStats()
                 }
+                
                 val recentActivity by studyActivityRepository.getRecentActivity(30)
                     .collectAsState(initial = emptyList())
                 
@@ -599,6 +596,9 @@ private fun quickActionIcon(type: QuickActionType) = when (type) {
     QuickActionType.ContinueLearning -> Icons.Rounded.PlayArrow
     QuickActionType.SavedItems -> Icons.Rounded.BookmarkBorder
     QuickActionType.PracticeQuiz -> Icons.Rounded.MenuBook
+    QuickActionType.StudyCalendar -> Icons.Rounded.DataUsage
+    QuickActionType.Statistics -> Icons.Rounded.School
+    QuickActionType.Reminders -> Icons.Rounded.Settings
 }
 
 @Composable

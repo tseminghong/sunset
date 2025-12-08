@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.sunset.ictstudy.app-mergeDebugResources-65:/values-xlarge-v4/values-xlarge-v4.xml",
+            "outputFile": "com.sunset.ictstudy.app-mergeDebugResources-79:/values-xlarge-v4/values-xlarge-v4.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Tsemi\\.gradle\\caches\\transforms-4\\6121cc2d7aa21a5327f6f05b295334c8\\transformed\\appcompat-1.6.1\\res\\values-xlarge-v4\\values-xlarge-v4.xml",
+                    "source": "C:\\Users\\Tsemi\\.gradle\\caches\\transforms-4\\aef21d30a675d2fca4a8d830ed8d44c8\\transformed\\appcompat-1.6.1\\res\\values-xlarge-v4\\values-xlarge-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7",
                         "startColumns": "4,4,4,4,4,4",

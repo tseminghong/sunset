@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.sunset.ictstudy.app-mergeDebugResources-79:/values-eu/values-eu.xml",
+            "outputFile": "com.sunset.ictstudy.app-mergeDebugResources-80:/values-eu/values-eu.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Tsemi\\.gradle\\caches\\transforms-4\\3288ec89344ea3f053f18dda99501640\\transformed\\material3-release\\res\\values-eu\\values-eu.xml",

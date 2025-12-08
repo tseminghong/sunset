@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.sunset.ictstudy.data.ThemeMode
 import com.sunset.ictstudy.data.UserPreferences
+import com.sunset.ictstudy.notifications.LiveAlertManager
 import com.sunset.ictstudy.ui.theme.*
 import kotlinx.coroutines.launch
 
@@ -127,6 +128,41 @@ fun SettingsScreen(
                     subtitle = "Play sounds for interactions",
                     checked = preferences.soundEnabled,
                     onCheckedChange = onSoundChange
+                )
+            }
+            
+            Spacer(modifier = Modifier.height(24.dp))
+            
+            // Notifications Section
+            SectionHeader("Notifications")
+            SettingsCard {
+                SettingsItem(
+                    icon = Icons.Rounded.Notifications,
+                    title = "Live Alerts (ColorOS)",
+                    subtitle = "Manage dynamic island-style notifications",
+                    onClick = { 
+                        val liveAlertManager = LiveAlertManager(context)
+                        liveAlertManager.openLiveAlertSettings()
+                    }
+                )
+                
+                Divider(
+                    color = NightMuted.copy(alpha = 0.2f),
+                    modifier = Modifier.padding(start = 56.dp)
+                )
+                
+                SettingsItem(
+                    icon = Icons.Rounded.Science,
+                    title = "Test Live Alert",
+                    subtitle = "Preview study timer notification",
+                    onClick = { 
+                        val liveAlertManager = LiveAlertManager(context)
+                        liveAlertManager.showStudyTimerLiveAlert(
+                            totalMinutes = 25,
+                            elapsedMinutes = 10,
+                            isPaused = false
+                        )
+                    }
                 )
             }
             

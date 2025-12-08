@@ -3190,6 +3190,8 @@ id container
 id content
 id contentPanel
 id contiguous
+id control_button
+id control_button_text
 id coordinator
 id cos
 id counterclockwise
@@ -3406,8 +3408,11 @@ id pooling_container_listener_holder_tag
 id position
 id postLayout
 id pressed
+id progress_bar
 id progress_circular
 id progress_horizontal
+id progress_text
+id progress_title
 id radio
 id ratio
 id rectangles
@@ -3471,6 +3476,7 @@ id startVertical
 id staticLayout
 id staticPostLayout
 id stop
+id stop_button
 id stretch
 id submenuarrow
 id submit_area
@@ -3505,6 +3511,9 @@ id textinput_placeholder
 id textinput_prefix_text
 id textinput_suffix_text
 id time
+id timer_progress
+id timer_text
+id timer_title
 id title
 id titleDividerNoCustom
 id title_template
@@ -3728,6 +3737,8 @@ layout mtrl_search_bar
 layout mtrl_search_view
 layout notification_action
 layout notification_action_tombstone
+layout notification_study_progress
+layout notification_study_timer
 layout notification_template_custom_big
 layout notification_template_icon_group
 layout notification_template_part_chronometer
@@ -3815,6 +3826,7 @@ string error_icon_content_description
 string exposed_dropdown_menu_content_description
 string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
+string fcm_fallback_notification_channel_label
 string gcm_defaultSenderId
 string google_api_key
 string google_app_id

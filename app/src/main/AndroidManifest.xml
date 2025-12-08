@@ -44,6 +44,27 @@
             android:name="com.sunset.ictstudy.notifications.StudyReminderReceiver"
             android:enabled="true"
             android:exported="false" />
+        
+        <!-- Live Alert action receiver for timer controls -->
+        <receiver
+            android:name="com.sunset.ictstudy.notifications.LiveAlertActionReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.sunset.ictstudy.ACTION_PAUSE_TIMER" />
+                <action android:name="com.sunset.ictstudy.ACTION_RESUME_TIMER" />
+                <action android:name="com.sunset.ictstudy.ACTION_STOP_TIMER" />
+            </intent-filter>
+        </receiver>
+        
+        <!-- Firebase Cloud Messaging service for Live Alert updates -->
+        <service
+            android:name="com.sunset.ictstudy.notifications.LiveAlertFCMService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

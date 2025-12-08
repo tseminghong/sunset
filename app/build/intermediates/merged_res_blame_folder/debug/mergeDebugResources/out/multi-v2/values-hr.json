@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.sunset.ictstudy.app-mergeDebugResources-79:/values-hr/values-hr.xml",
+            "outputFile": "com.sunset.ictstudy.app-mergeDebugResources-80:/values-hr/values-hr.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Tsemi\\.gradle\\caches\\transforms-4\\b9e52cff304112e60188fef78afe46b8\\transformed\\play-services-basement-18.5.0\\res\\values-hr\\values.xml",

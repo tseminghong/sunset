@@ -6,6 +6,17 @@ color brand_card
 color brand_night
 color ic_launcher_background
 drawable ic_launcher_foreground
+id control_button
+id control_button_text
+id progress_bar
+id progress_text
+id progress_title
+id stop_button
+id timer_progress
+id timer_text
+id timer_title
+layout notification_study_progress
+layout notification_study_timer
 mipmap ic_launcher
 mipmap ic_launcher_round
 string app_name

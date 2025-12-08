@@ -88,6 +88,8 @@ fun IctStudyApp(context: Context) {
     val scope = rememberCoroutineScope()
     val preferencesRepository = remember { PreferencesRepository(context) }
     val progressRepository = remember { ProgressRepository(context) }
+    val favoritesRepository = remember { com.sunset.ictstudy.data.database.FavoritesRepository(context) }
+    val studySessionRepository = remember { com.sunset.ictstudy.data.database.StudySessionRepository(context) }
     val userPreferences by preferencesRepository.userPreferencesFlow.collectAsState(
         initial = com.sunset.ictstudy.data.UserPreferences()
     )
@@ -123,6 +125,15 @@ fun IctStudyApp(context: Context) {
                     progressRepository = progressRepository,
                     onOpenProcessingModes = {
                         navController.navigate(StudyDestination.ProcessingModes.route)
+                    },
+                    onOpenSavedItems = {
+                        navController.navigate(StudyDestination.SavedItems.route)
+                    },
+                    onOpenQuiz = {
+                        navController.navigate(StudyDestination.QuizSelection.route)
+                    },
+                    onOpenCalendar = {
+                        navController.navigate(StudyDestination.Calendar.route)
                     }
                 )
             }
@@ -146,24 +157,166 @@ fun IctStudyApp(context: Context) {
                     navController.popBackStack()
                 } else {
                     val modeRead = processingModesProgress[mode.id] ?: mode.isCompleted
+                    val isFavorited by favoritesRepository.isFavorited(mode.id).collectAsState(initial = false)
                     ProcessingModeDetailScreen(
                         mode = mode,
                         isRead = modeRead,
+                        isFavorited = isFavorited,
                         onToggleRead = { updated ->
                             scope.launch {
                                 progressRepository.markProcessingModeComplete(mode.id, updated)
+                            }
+                        },
+                        onToggleFavorite = {
+                            scope.launch {
+                                favoritesRepository.toggleFavorite(
+                                    itemId = mode.id,
+                                    title = mode.title,
+                                    subtitle = mode.description,
+                                    itemType = "processing_mode"
+                                )
                             }
                         },
                         onBack = { navController.popBackStack() }
                     )
                 }
             }
+            composable(StudyDestination.SavedItems.route) {
+                val favorites by favoritesRepository.getAllFavorites().collectAsState(initial = emptyList())
+                SavedItemsScreen(
+                    favorites = favorites,
+                    onBack = { navController.popBackStack() },
+                    onRemoveFavorite = { itemId ->
+                        scope.launch {
+                            favoritesRepository.removeFavorite(itemId)
+                        }
+                    },
+                    onItemClick = { favorite ->
+                        when (favorite.itemType) {
+                            "processing_mode" -> {
+                                navController.navigate(StudyDestination.ProcessingModeDetail.create(favorite.itemId))
+                            }
+                        }
+                    }
+                )
+            }
+            composable(StudyDestination.QuizSelection.route) {
+                val availableTopics = listOf(
+                    "processing_modes" to "Data Processing Modes"
+                )
+                QuizSelectionScreen(
+                    availableTopics = availableTopics,
+                    onBack = { navController.popBackStack() },
+                    onTopicSelected = { topicId, topicName ->
+                        navController.navigate(StudyDestination.QuizTaking.create(topicId, topicName))
+                    }
+                )
+            }
+            composable(
+                route = StudyDestination.QuizTaking.route,
+                arguments = listOf(
+                    navArgument("topicId") { type = NavType.StringType },
+                    navArgument("topicName") { type = NavType.StringType }
+                )
+            ) { entry ->
+                val topicId = entry.arguments?.getString("topicId") ?: return@composable
+                val topicName = entry.arguments?.getString("topicName") ?: return@composable
+                val quizRepository = remember { com.sunset.ictstudy.data.database.QuizRepository(context) }
+                
+                val questions by quizRepository.getQuestionsForTopic(topicId, limit = 5)
+                    .collectAsState(initial = emptyList())
+                
+                if (questions.isEmpty()) {
+                    // Initialize sample questions if needed
+                    LaunchedEffect(Unit) {
+                        quizRepository.addSampleQuestions()
+                    }
+                } else {
+                    QuizTakingScreen(
+                        topicName = topicName,
+                        questions = questions,
+                        onQuizComplete = { total, correct, duration ->
+                            scope.launch {
+                                quizRepository.saveQuizResult(topicId, total, correct, duration)
+                            }
+                            navController.navigate(
+                                StudyDestination.QuizResults.create(topicId, topicName, total, correct, duration)
+                            ) {
+                                popUpTo(StudyDestination.QuizSelection.route)
+                            }
+                        },
+                        onBack = { navController.popBackStack() }
+                    )
+                }
+            }
+            composable(
+                route = StudyDestination.QuizResults.route,
+                arguments = listOf(
+                    navArgument("topicId") { type = NavType.StringType },
+                    navArgument("topicName") { type = NavType.StringType },
+                    navArgument("total") { type = NavType.IntType },
+                    navArgument("correct") { type = NavType.IntType },
+                    navArgument("duration") { type = NavType.LongType }
+                )
+            ) { entry ->
+                val topicId = entry.arguments?.getString("topicId") ?: return@composable
+                val topicName = entry.arguments?.getString("topicName") ?: return@composable
+                val total = entry.arguments?.getInt("total") ?: 0
+                val correct = entry.arguments?.getInt("correct") ?: 0
+                val duration = entry.arguments?.getLong("duration") ?: 0L
+                
+                QuizResultsScreen(
+                    topicName = topicName,
+                    totalQuestions = total,
+                    correctAnswers = correct,
+                    durationSeconds = duration,
+                    onRetake = {
+                        navController.navigate(StudyDestination.QuizTaking.create(topicId, topicName)) {
+                            popUpTo(StudyDestination.QuizResults.route) { inclusive = true }
+                        }
+                    },
+                    onBack = {
+                        navController.navigate(StudyDestination.QuizSelection.route) {
+                            popUpTo(StudyDestination.QuizResults.route) { inclusive = true }
+                        }
+                    }
+                )
+            }
+            composable(StudyDestination.Calendar.route) {
+                val currentMonth = remember { Calendar.getInstance() }
+                val sessions by studySessionRepository.getSessionsForMonth(
+                    currentMonth.get(Calendar.YEAR),
+                    currentMonth.get(Calendar.MONTH) + 1
+                ).collectAsState(initial = emptyList())
+                
+                CalendarScreen(
+                    sessions = sessions,
+                    onBack = { navController.popBackStack() },
+                    onAddSession = { title, scheduledDate, duration ->
+                        scope.launch {
+                            studySessionRepository.createSession(title, scheduledDate, duration)
+                        }
+                    },
+                    onToggleComplete = { sessionId, isCompleted ->
+                        scope.launch {
+                            studySessionRepository.markSessionComplete(sessionId, isCompleted)
+                        }
+                    }
+                )
+            }
         }
     }
 }
 
 @Composable
-private fun HomeRoute(username: String, progressRepository: ProgressRepository, onOpenProcessingModes: () -> Unit) {
+private fun HomeRoute(
+    username: String, 
+    progressRepository: ProgressRepository, 
+    onOpenProcessingModes: () -> Unit,
+    onOpenSavedItems: () -> Unit,
+    onOpenQuiz: () -> Unit,
+    onOpenCalendar: () -> Unit
+) {
     var query by rememberSaveable { mutableStateOf("") }
     val baseTopics = StudyContentRepository.studyTopics
     
@@ -190,7 +343,14 @@ private fun HomeRoute(username: String, progressRepository: ProgressRepository, 
         onQueryChange = { query = it },
         actions = StudyContentRepository.quickAccess,
         topics = filteredTopics,
-        onQuickActionClick = { },
+        onQuickActionClick = { action ->
+            when (action.type) {
+                QuickActionType.SavedItems -> onOpenSavedItems()
+                QuickActionType.PracticeQuiz -> onOpenQuiz()
+                QuickActionType.StudyCalendar -> onOpenCalendar()
+                else -> {}
+            }
+        },
         onTopicClick = { topic ->
             if (topic.category == TopicCategory.ProcessingModes) {
                 onOpenProcessingModes()
@@ -492,6 +652,16 @@ private sealed class StudyDestination(val route: String) {
     data object ProcessingModeDetail : StudyDestination("processingModes/{modeId}") {
         fun create(modeId: String) = "processingModes/$modeId"
     }
+    data object SavedItems : StudyDestination("savedItems")
+    data object QuizSelection : StudyDestination("quizSelection")
+    data object QuizTaking : StudyDestination("quiz/{topicId}/{topicName}") {
+        fun create(topicId: String, topicName: String) = "quiz/$topicId/$topicName"
+    }
+    data object QuizResults : StudyDestination("quizResults/{topicId}/{topicName}/{total}/{correct}/{duration}") {
+        fun create(topicId: String, topicName: String, total: Int, correct: Int, duration: Long) =
+            "quizResults/$topicId/$topicName/$total/$correct/$duration"
+    }
+    data object Calendar : StudyDestination("calendar")
 }
 
 @Preview(showBackground = true)

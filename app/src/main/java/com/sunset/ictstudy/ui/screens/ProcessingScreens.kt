@@ -194,10 +194,11 @@ private fun ProgressDonut(progress: Int, accent: Color) {
 fun ProcessingModeDetailScreen(
     mode: ProcessingMode,
     isRead: Boolean,
+    isFavorited: Boolean,
     onToggleRead: (Boolean) -> Unit,
+    onToggleFavorite: () -> Unit,
     onBack: () -> Unit
 ) {
-    var bookmarked by rememberSaveable(mode.id) { mutableStateOf(false) }
     var localRead by rememberSaveable(mode.id) { mutableStateOf(isRead) }
 
     LaunchedEffect(isRead) { localRead = isRead }
@@ -210,9 +211,9 @@ fun ProcessingModeDetailScreen(
     ) {
         DetailTopBar(
             title = mode.title,
-            bookmarked = bookmarked,
+            bookmarked = isFavorited,
             onBack = onBack,
-            onBookmarkToggle = { bookmarked = !bookmarked }
+            onBookmarkToggle = onToggleFavorite
         )
         Divider(color = Color.White.copy(alpha = 0.08f))
         Column(

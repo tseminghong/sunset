@@ -6,13 +6,22 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [LessonProgress::class],
-    version = 1,
+    entities = [
+        LessonProgress::class,
+        FavoriteLesson::class,
+        StudySession::class,
+        QuizQuestion::class,
+        QuizResult::class
+    ],
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
     
     abstract fun progressDao(): ProgressDao
+    abstract fun favoritesDao(): FavoritesDao
+    abstract fun studySessionDao(): StudySessionDao
+    abstract fun quizDao(): QuizDao
     
     companion object {
         @Volatile

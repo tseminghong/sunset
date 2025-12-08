@@ -60,6 +60,7 @@ class StudySessionService : Service() {
     private var topicName: String = ""
     private var durationMinutes: Int = 25
     private var useProgressNotification: Boolean = false
+    private var autoSaveCounter: Int = 0  // Track seconds for auto-save
     
     override fun onCreate() {
         super.onCreate()
@@ -179,6 +180,13 @@ class StudySessionService : Service() {
             while (elapsedSeconds < totalSeconds && isActive && !isPaused) {
                 delay(1000) // Update every second
                 elapsedSeconds++
+                autoSaveCounter++
+                
+                // Auto-save progress every 60 seconds
+                if (autoSaveCounter >= 60) {
+                    saveStudySession()
+                    autoSaveCounter = 0
+                }
                 
                 // Update live notification every second
                 updateLiveNotification()
@@ -579,7 +587,8 @@ class StudySessionService : Service() {
     }
     
     private fun saveStudySession(completed: Boolean = false) {
-        serviceScope.launch {
+        // Use runBlocking to ensure data is saved synchronously
+        runBlocking {
             try {
                 // Calculate actual study time in minutes
                 val studyMinutes = elapsedSeconds / 60
@@ -590,8 +599,10 @@ class StudySessionService : Service() {
                         minutesStudied = studyMinutes,
                         lessonsCompleted = if (completed) 1 else 0
                     )
+                    android.util.Log.d("StudySessionService", "Saved $studyMinutes minutes of study time")
                 }
             } catch (e: Exception) {
+                android.util.Log.e("StudySessionService", "Error saving study session", e)
                 e.printStackTrace()
             }
         }
@@ -599,6 +610,12 @@ class StudySessionService : Service() {
     
     override fun onDestroy() {
         super.onDestroy()
+        
+        // Save any remaining progress before destroying
+        if (elapsedSeconds > 0) {
+            saveStudySession()
+        }
+        
         timerJob?.cancel()
         serviceScope.cancel()
         wakeLock?.release()

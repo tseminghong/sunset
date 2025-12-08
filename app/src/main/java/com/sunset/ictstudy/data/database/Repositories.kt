@@ -1,7 +1,9 @@
 package com.sunset.ictstudy.data.database
 
 import android.content.Context
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import java.util.Calendar
 
 class FavoritesRepository(context: Context) {
@@ -894,30 +896,32 @@ class StudyActivityRepository(context: Context) {
     private val db = AppDatabase.getInstance(context)
     private val activityDao = db.studyActivityDao()
     
-    suspend fun recordStudySession(minutesStudied: Int, lessonsCompleted: Int = 0, quizzesTaken: Int = 0) {
+    suspend fun recordStudySession(minutesStudied: Int, lessonsCompleted: Int = 0, quizzesTaken: Int = 0) = withContext(Dispatchers.IO) {
         val today = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
             .format(java.util.Date())
         
+        android.util.Log.d("StudyActivityRepo", "Recording session: $minutesStudied min, $lessonsCompleted lessons for $today")
+        
         val existing = activityDao.getActivityForDate(today)
         if (existing != null) {
-            activityDao.recordActivity(
-                existing.copy(
-                    sessionsCount = existing.sessionsCount + 1,
-                    minutesStudied = existing.minutesStudied + minutesStudied,
-                    lessonsCompleted = existing.lessonsCompleted + lessonsCompleted,
-                    quizzesTaken = existing.quizzesTaken + quizzesTaken
-                )
+            val updated = existing.copy(
+                sessionsCount = existing.sessionsCount + 1,
+                minutesStudied = existing.minutesStudied + minutesStudied,
+                lessonsCompleted = existing.lessonsCompleted + lessonsCompleted,
+                quizzesTaken = existing.quizzesTaken + quizzesTaken
             )
+            activityDao.recordActivity(updated)
+            android.util.Log.d("StudyActivityRepo", "Updated existing: sessions=${updated.sessionsCount}, minutes=${updated.minutesStudied}")
         } else {
-            activityDao.recordActivity(
-                StudyActivity(
-                    date = today,
-                    sessionsCount = 1,
-                    minutesStudied = minutesStudied,
-                    lessonsCompleted = lessonsCompleted,
-                    quizzesTaken = quizzesTaken
-                )
+            val newActivity = StudyActivity(
+                date = today,
+                sessionsCount = 1,
+                minutesStudied = minutesStudied,
+                lessonsCompleted = lessonsCompleted,
+                quizzesTaken = quizzesTaken
             )
+            activityDao.recordActivity(newActivity)
+            android.util.Log.d("StudyActivityRepo", "Created new activity: $newActivity")
         }
     }
     

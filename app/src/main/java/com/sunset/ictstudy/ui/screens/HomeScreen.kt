@@ -48,6 +48,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -74,6 +75,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.sunset.ictstudy.data.PreferencesRepository
 import com.sunset.ictstudy.data.ProcessingModesRepository
@@ -88,6 +90,7 @@ import com.sunset.ictstudy.data.StudyTopic
 import com.sunset.ictstudy.data.ThemeMode
 import com.sunset.ictstudy.data.TopicCategory
 import com.sunset.ictstudy.data.database.ProgressRepository
+import com.sunset.ictstudy.ui.components.BottomNavBar
 import com.sunset.ictstudy.ui.theme.AccentCyan
 import com.sunset.ictstudy.ui.theme.AccentPrimary
 import com.sunset.ictstudy.ui.theme.AccentPurple
@@ -120,11 +123,46 @@ fun IctStudyApp(context: Context) {
     } else {
         StudyDestination.Welcome.route
     }
+    
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route ?: StudyDestination.Home.route
+    
+    // List of bottom nav routes
+    val bottomNavRoutes = listOf(
+        StudyDestination.Home.route,
+        StudyDestination.Course.route,
+        StudyDestination.Game.route,
+        StudyDestination.Profile.route
+    )
+    
+    val shouldShowBottomNav = currentRoute in bottomNavRoutes
 
     Surface(color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxSize()) {
-        SharedTransitionLayout {
-            NavHost(navController = navController, startDestination = startDestination) {
-            composable(StudyDestination.Welcome.route) {
+        Scaffold(
+            bottomBar = {
+                if (shouldShowBottomNav && userPreferences.isOnboardingComplete) {
+                    BottomNavBar(
+                        currentRoute = currentRoute,
+                        onNavigate = { route ->
+                            navController.navigate(route) {
+                                popUpTo(StudyDestination.Home.route) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
+                    )
+                }
+            }
+        ) { paddingValues ->
+            SharedTransitionLayout {
+                NavHost(
+                    navController = navController,
+                    startDestination = startDestination,
+                    modifier = Modifier.padding(paddingValues)
+                ) {
+                composable(StudyDestination.Welcome.route) {
                 WelcomeScreen(
                     onComplete = { username, themeMode ->
                         scope.launch {
@@ -172,6 +210,81 @@ fun IctStudyApp(context: Context) {
                     onOpenCybersecurity = {
                         navController.navigate(StudyDestination.CybersecurityTopics.route)
                     }
+                )
+            }
+            composable(StudyDestination.Course.route) {
+                CourseScreen(
+                    onOpenPython = {
+                        navController.navigate(StudyDestination.PythonTopics.route)
+                    },
+                    onOpenSQL = {
+                        navController.navigate(StudyDestination.SQLTopics.route)
+                    },
+                    onOpenCybersecurity = {
+                        navController.navigate(StudyDestination.CybersecurityTopics.route)
+                    },
+                    onOpenProcessingModes = {
+                        navController.navigate(StudyDestination.ProcessingModes.route)
+                    }
+                )
+            }
+            composable(StudyDestination.Game.route) {
+                GameScreen(
+                    onGameSelected = { gameId ->
+                        when (gameId) {
+                            "sorting" -> navController.navigate(StudyDestination.SortingGame.route)
+                            "quiz" -> navController.navigate(StudyDestination.QuizSelection.route)
+                        }
+                    }
+                )
+            }
+            composable(StudyDestination.Profile.route) {
+                ProfileScreen(
+                    context = context,
+                    username = userPreferences.username,
+                    onOpenSettings = {
+                        navController.navigate(StudyDestination.Settings.route)
+                    },
+                    onOpenStatistics = {
+                        navController.navigate(StudyDestination.Statistics.route)
+                    },
+                    onOpenReminders = {
+                        navController.navigate(StudyDestination.Reminders.route)
+                    },
+                    onOpenSavedItems = {
+                        navController.navigate(StudyDestination.SavedItems.route)
+                    }
+                )
+            }
+            composable(
+                route = StudyDestination.SortingGame.route,
+                enterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { it },
+                        animationSpec = tween(400)
+                    ) + fadeIn(animationSpec = tween(400))
+                },
+                exitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { -it / 3 },
+                        animationSpec = tween(400)
+                    ) + fadeOut(animationSpec = tween(400))
+                },
+                popEnterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { -it / 3 },
+                        animationSpec = tween(400)
+                    ) + fadeIn(animationSpec = tween(400))
+                },
+                popExitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { it },
+                        animationSpec = tween(400)
+                    ) + fadeOut(animationSpec = tween(400))
+                }
+            ) {
+                SortingGameScreen(
+                    onBack = { navController.popBackStack() }
                 )
             }
             composable(
@@ -716,7 +829,8 @@ fun IctStudyApp(context: Context) {
                     onBack = { navController.popBackStack() }
                 )
             }
-        }
+                }
+            }
         }
     }
 }
@@ -1108,6 +1222,9 @@ private fun TopicCategory.icon() = when (this) {
 private sealed class StudyDestination(val route: String) {
     data object Welcome : StudyDestination("welcome")
     data object Home : StudyDestination("home")
+    data object Course : StudyDestination("course")
+    data object Game : StudyDestination("game")
+    data object Profile : StudyDestination("me")
     data object ProcessingModes : StudyDestination("processingModes")
     data object ProcessingModeDetail : StudyDestination("processingModes/{modeId}") {
         fun create(modeId: String) = "processingModes/$modeId"
@@ -1124,6 +1241,7 @@ private sealed class StudyDestination(val route: String) {
     data object CybersecurityTopicDetail : StudyDestination("cybersecurityTopics/{topicId}") {
         fun create(topicId: String) = "cybersecurityTopics/$topicId"
     }
+    data object SortingGame : StudyDestination("sortingGame")
     data object SavedItems : StudyDestination("savedItems")
     data object QuizSelection : StudyDestination("quizSelection")
     data object QuizTaking : StudyDestination("quiz/{topicId}/{topicName}") {

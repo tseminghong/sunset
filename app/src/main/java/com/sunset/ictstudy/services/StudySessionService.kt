@@ -43,6 +43,7 @@ class StudySessionService : Service() {
         var currentTopicName: String? = null
         var elapsedSeconds = 0
         var totalSeconds = 0
+        var isStudyMode = false  // New flag for study mode
     }
     
     private val serviceScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
@@ -72,6 +73,7 @@ class StudySessionService : Service() {
                 topicName = intent.getStringExtra(EXTRA_TOPIC_NAME) ?: "Study Session"
                 durationMinutes = intent.getIntExtra(EXTRA_DURATION_MINUTES, 25)
                 useProgressNotification = intent.getBooleanExtra(EXTRA_USE_PROGRESS_NOTIFICATION, true)
+                isStudyMode = (durationMinutes >= 120) // Study mode uses longer sessions
                 
                 startStudySession()
             }
@@ -110,15 +112,27 @@ class StudySessionService : Service() {
     }
     
     private fun stopStudySession() {
+        // Save session data
+        saveStudySession()
+        
+        if (isStudyMode) {
+            // In study mode, keep the notification but make it non-ongoing
+            // This allows it to persist even when app is closed
+            val persistentNotification = createPersistentStudyModeNotification()
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.notify(NOTIFICATION_ID, persistentNotification)
+            
+            // Stop foreground but keep notification
+            stopForeground(STOP_FOREGROUND_DETACH)
+        } else {
+            stopForeground(STOP_FOREGROUND_REMOVE)
+        }
+        
+        // Clean up
         isRunning = false
         isPaused = false
         currentTopicName = null
         timerJob?.cancel()
-        
-        // Save session data here
-        saveStudySession()
-        
-        stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()
     }
     
@@ -241,6 +255,54 @@ class StudySessionService : Service() {
             .addAction(R.drawable.ic_launcher_foreground, "Stop", stopPendingIntent)
             .setOngoing(true)
             .setPriority(NotificationCompat.PRIORITY_LOW)
+            .build()
+    }
+    
+    private fun createPersistentStudyModeNotification(): Notification {
+        val intent = Intent(this, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        
+        val resumeIntent = Intent(this, StudySessionService::class.java).apply {
+            action = ACTION_RESUME
+        }
+        val resumePendingIntent = PendingIntent.getService(
+            this, 0, resumeIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        
+        val stopIntent = Intent(this, StudySessionService::class.java).apply {
+            action = ACTION_STOP
+        }
+        val stopPendingIntent = PendingIntent.getService(
+            this, 1, stopIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        
+        val elapsedMinutes = elapsedSeconds / 60
+        val elapsedHours = elapsedMinutes / 60
+        val remainingMinutes = elapsedMinutes % 60
+        
+        val timeText = if (elapsedHours > 0) {
+            "${elapsedHours}h ${remainingMinutes}m studied"
+        } else {
+            "$elapsedMinutes min studied"
+        }
+        
+        return NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle("Study Mode: $topicName")
+            .setContentText(timeText)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setContentIntent(pendingIntent)
+            .addAction(R.drawable.ic_launcher_foreground, "Resume", resumePendingIntent)
+            .addAction(R.drawable.ic_launcher_foreground, "End Session", stopPendingIntent)
+            .setOngoing(false) // Not ongoing so it can be swiped away
+            .setAutoCancel(false) // Don't auto-cancel
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .build()
     }
     

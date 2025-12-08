@@ -1,6 +1,7 @@
 package com.sunset.ictstudy.ui.screens
 
 import android.content.Context
+import android.content.Intent
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
@@ -11,6 +12,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.core.content.ContextCompat
 import java.util.Calendar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,6 +28,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -44,8 +47,13 @@ import androidx.compose.material.icons.rounded.Security
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.Storage
 import androidx.compose.material.icons.rounded.TableChart
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.School
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -53,6 +61,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -68,6 +77,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -90,6 +100,7 @@ import com.sunset.ictstudy.data.StudyTopic
 import com.sunset.ictstudy.data.ThemeMode
 import com.sunset.ictstudy.data.TopicCategory
 import com.sunset.ictstudy.data.database.ProgressRepository
+import com.sunset.ictstudy.services.StudySessionService
 import com.sunset.ictstudy.ui.components.BottomNavBar
 import com.sunset.ictstudy.ui.theme.AccentCyan
 import com.sunset.ictstudy.ui.theme.AccentPrimary
@@ -178,8 +189,12 @@ fun IctStudyApp(context: Context) {
             }
             composable(StudyDestination.Home.route) {
                 HomeRoute(
+                    context = context,
                     username = userPreferences.username,
+                    studyModeEnabled = userPreferences.studyModeEnabled,
+                    studyModeTopicName = userPreferences.studyModeTopicName,
                     progressRepository = progressRepository,
+                    preferencesRepository = preferencesRepository,
                     onOpenProcessingModes = {
                         navController.navigate(StudyDestination.ProcessingModes.route)
                     },
@@ -845,8 +860,12 @@ private fun parseDaysOfWeek(daysJson: String): List<Int> {
 
 @Composable
 private fun HomeRoute(
-    username: String, 
-    progressRepository: ProgressRepository, 
+    context: Context,
+    username: String,
+    studyModeEnabled: Boolean,
+    studyModeTopicName: String,
+    progressRepository: ProgressRepository,
+    preferencesRepository: PreferencesRepository,
     onOpenProcessingModes: () -> Unit,
     onOpenSavedItems: () -> Unit,
     onOpenQuiz: () -> Unit,
@@ -877,9 +896,14 @@ private fun HomeRoute(
             query.isBlank() || topic.title.contains(query, ignoreCase = true)
         }
     }
+    
+    val scope = rememberCoroutineScope()
 
     HomeScreen(
+        context = context,
         username = username,
+        studyModeEnabled = studyModeEnabled,
+        studyModeTopicName = studyModeTopicName,
         query = query,
         onQueryChange = { query = it },
         actions = StudyContentRepository.quickAccess,
@@ -903,34 +927,105 @@ private fun HomeRoute(
                 else -> {}
             }
         },
-        onOpenSettings = onOpenSettings
+        onOpenSettings = onOpenSettings,
+        onToggleStudyMode = { enabled, topicName ->
+            scope.launch {
+                preferencesRepository.updateStudyMode(enabled, "", topicName)
+                
+                if (enabled && topicName.isNotEmpty()) {
+                    // Start study session service
+                    val intent = Intent(context, StudySessionService::class.java).apply {
+                        action = StudySessionService.ACTION_START
+                        putExtra(StudySessionService.EXTRA_TOPIC_NAME, topicName)
+                        putExtra(StudySessionService.EXTRA_DURATION_MINUTES, 120) // 2 hour default
+                        putExtra(StudySessionService.EXTRA_USE_PROGRESS_NOTIFICATION, false)
+                    }
+                    ContextCompat.startForegroundService(context, intent)
+                } else {
+                    // Stop study session
+                    val intent = Intent(context, StudySessionService::class.java).apply {
+                        action = StudySessionService.ACTION_STOP
+                    }
+                    context.startService(intent)
+                }
+            }
+        }
     )
 }
 
 @Composable
 private fun HomeScreen(
+    context: Context,
     username: String,
+    studyModeEnabled: Boolean,
+    studyModeTopicName: String,
     query: String,
     onQueryChange: (String) -> Unit,
     actions: List<QuickAccessAction>,
     topics: List<StudyTopic>,
     onQuickActionClick: (QuickAccessAction) -> Unit,
     onTopicClick: (StudyTopic) -> Unit,
-    onOpenSettings: () -> Unit
+    onOpenSettings: () -> Unit,
+    onToggleStudyMode: (Boolean, String) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .statusBarsPadding()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 18.dp, vertical = 20.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        HeaderSection(username = username, onOpenSettings = onOpenSettings)
-        SearchBar(query = query, onQueryChange = onQueryChange)
-        QuickAccessSection(actions = actions, onActionClick = onQuickActionClick)
-        StudyTopicsSection(topics = topics, query = query, onTopicClick = onTopicClick)
+    var showTopicSelector by remember { mutableStateOf(false) }
+    
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .statusBarsPadding()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 18.dp, vertical = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            HeaderSection(username = username, onOpenSettings = onOpenSettings)
+            SearchBar(query = query, onQueryChange = onQueryChange)
+            
+            // Study Mode Banner
+            if (studyModeEnabled) {
+                StudyModeBanner(
+                    topicName = studyModeTopicName,
+                    onDisable = { onToggleStudyMode(false, "") }
+                )
+            }
+            
+            QuickAccessSection(actions = actions, onActionClick = onQuickActionClick)
+            StudyTopicsSection(topics = topics, query = query, onTopicClick = onTopicClick)
+        }
+        
+        // Study Mode FAB
+        FloatingActionButton(
+            onClick = {
+                if (studyModeEnabled) {
+                    onToggleStudyMode(false, "")
+                } else {
+                    showTopicSelector = true
+                }
+            },
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp),
+            containerColor = if (studyModeEnabled) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
+        ) {
+            Icon(
+                imageVector = if (studyModeEnabled) Icons.Default.Close else Icons.Default.School,
+                contentDescription = if (studyModeEnabled) "Exit Study Mode" else "Enter Study Mode"
+            )
+        }
+        
+        // Topic selector dialog
+        if (showTopicSelector) {
+            TopicSelectorDialog(
+                topics = topics,
+                onDismiss = { showTopicSelector = false },
+                onTopicSelected = { topic ->
+                    onToggleStudyMode(true, topic.title)
+                    showTopicSelector = false
+                }
+            )
+        }
     }
 }
 
@@ -1219,6 +1314,144 @@ private fun TopicCategory.icon() = when (this) {
     TopicCategory.SQL -> Icons.Rounded.TableChart
 }
 
+@Composable
+private fun StudyModeBanner(
+    topicName: String,
+    onDisable: () -> Unit
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        ),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.School,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+                Column {
+                    Text(
+                        text = "Study Mode Active",
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                    Text(
+                        text = topicName,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
+                    )
+                }
+            }
+            IconButton(onClick = onDisable) {
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = "Exit Study Mode",
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun TopicSelectorDialog(
+    topics: List<StudyTopic>,
+    onDismiss: () -> Unit,
+    onTopicSelected: (StudyTopic) -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = "Select Study Topic",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+        },
+        text = {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(topics.size) { index ->
+                    val topic = topics[index]
+                    Card(
+                        onClick = { onTopicSelected(topic) },
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant
+                        ),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(12.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .clip(CircleShape)
+                                    .background(topicIconGradient(topic.category)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = topic.category.icon(),
+                                    contentDescription = null,
+                                    tint = Color.White,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = topic.title,
+                                    style = MaterialTheme.typography.titleSmall,
+                                    fontWeight = FontWeight.Medium
+                                )
+                                Text(
+                                    text = "${topic.lessons} lessons • ${topic.completedPercentage}% complete",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {},
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancel")
+            }
+        }
+    )
+}
+
 private sealed class StudyDestination(val route: String) {
     data object Welcome : StudyDestination("welcome")
     data object Home : StudyDestination("home")
@@ -1260,18 +1493,5 @@ private sealed class StudyDestination(val route: String) {
 @Preview(showBackground = true)
 @Composable
 private fun HomeScreenPreview() {
-    SunsetTheme {
-        Surface(color = NightSurface) {
-            HomeScreen(
-                username = "Alex",
-                query = "",
-                onQueryChange = {},
-                actions = StudyContentRepository.quickAccess,
-                topics = StudyContentRepository.studyTopics,
-                onQuickActionClick = {},
-                onTopicClick = {},
-                onOpenSettings = {}
-            )
-        }
-    }
+    // Preview disabled - requires Context parameter
 }

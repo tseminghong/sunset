@@ -20,7 +20,10 @@ data class UserPreferences(
     val isOnboardingComplete: Boolean = false,
     val dailyGoalEnabled: Boolean = true,
     val notificationsEnabled: Boolean = true,
-    val soundEnabled: Boolean = false
+    val soundEnabled: Boolean = false,
+    val studyModeEnabled: Boolean = false,
+    val studyModeTopicId: String = "",
+    val studyModeTopicName: String = ""
 )
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_preferences")
@@ -34,6 +37,9 @@ class PreferencesRepository(private val context: Context) {
         val DAILY_GOAL_ENABLED = booleanPreferencesKey("daily_goal_enabled")
         val NOTIFICATIONS_ENABLED = booleanPreferencesKey("notifications_enabled")
         val SOUND_ENABLED = booleanPreferencesKey("sound_enabled")
+        val STUDY_MODE_ENABLED = booleanPreferencesKey("study_mode_enabled")
+        val STUDY_MODE_TOPIC_ID = stringPreferencesKey("study_mode_topic_id")
+        val STUDY_MODE_TOPIC_NAME = stringPreferencesKey("study_mode_topic_name")
     }
     
     val userPreferencesFlow: Flow<UserPreferences> = context.dataStore.data.map { preferences ->
@@ -49,7 +55,10 @@ class PreferencesRepository(private val context: Context) {
             isOnboardingComplete = preferences[PreferenceKeys.ONBOARDING_COMPLETE]?.toBoolean() ?: false,
             dailyGoalEnabled = preferences[PreferenceKeys.DAILY_GOAL_ENABLED] ?: true,
             notificationsEnabled = preferences[PreferenceKeys.NOTIFICATIONS_ENABLED] ?: true,
-            soundEnabled = preferences[PreferenceKeys.SOUND_ENABLED] ?: false
+            soundEnabled = preferences[PreferenceKeys.SOUND_ENABLED] ?: false,
+            studyModeEnabled = preferences[PreferenceKeys.STUDY_MODE_ENABLED] ?: false,
+            studyModeTopicId = preferences[PreferenceKeys.STUDY_MODE_TOPIC_ID] ?: "",
+            studyModeTopicName = preferences[PreferenceKeys.STUDY_MODE_TOPIC_NAME] ?: ""
         )
     }
     
@@ -86,6 +95,19 @@ class PreferencesRepository(private val context: Context) {
     suspend fun updateSoundEnabled(enabled: Boolean) {
         context.dataStore.edit { preferences ->
             preferences[PreferenceKeys.SOUND_ENABLED] = enabled
+        }
+    }
+    
+    suspend fun updateStudyMode(enabled: Boolean, topicId: String = "", topicName: String = "") {
+        context.dataStore.edit { preferences ->
+            preferences[PreferenceKeys.STUDY_MODE_ENABLED] = enabled
+            if (enabled) {
+                preferences[PreferenceKeys.STUDY_MODE_TOPIC_ID] = topicId
+                preferences[PreferenceKeys.STUDY_MODE_TOPIC_NAME] = topicName
+            } else {
+                preferences[PreferenceKeys.STUDY_MODE_TOPIC_ID] = ""
+                preferences[PreferenceKeys.STUDY_MODE_TOPIC_NAME] = ""
+            }
         }
     }
     

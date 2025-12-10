@@ -44,3 +44,11 @@ next-env.d.ts
 android/
 ios/
 .capacitor/
+
+#android
+/app
+/app/build
+
+#my key
+my-release-key.keystore
+*.jks

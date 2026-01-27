@@ -1,83 +1,284 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+/* Authentic Comic Book Typography - Bangers, Comic Neue, Architects Daughter */
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@300;400;700&family=Architects+Daughter&family=Passion+One:wght@400;700;900&display=swap');
 @import "tailwindcss";
 
 @layer base {
   :root {
-    /* Light Theme - Hyper-Visual Apple Inspired */
-    --bg-primary: #EFF1F5;
-    --bg-secondary: #FFFFFF;
-    --bg-tertiary: #E8EAF0;
-    --bg-glass-color: rgba(255, 255, 255, 0.45);
-    --header-glass-color: rgba(255, 255, 255, 0.4);
-    --bg-glass-glare: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.6), transparent 50%);
-    --noise-texture: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuODUiIG51bU9jdGF2ZXM9IjEwIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlRGlmZnVzZUxpZ2h0aW5nIGxpZ2h0aW5nLWNvbG9yPSIjZmZmZmZmIiBzdXJmYWNlU2NhbGU9IjE1IiA+PGZlRGlzdGFudExpZ2h0IGF6aW11dGg9IjAiIGVsZXZhdGlvbj0iMTAwIi8+PC9mZURpZmZ1c2VMaWdodGluZz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgibm9pc2UpIiBvcGFjaXR5PSIwLjA1Ii8+PC9zdmc+');
-    --bg-hero-start: #f0f4f9;
-    --bg-hero-end: #d9e7ff;
-
-    --text-primary: #111113;
-    --text-secondary: #5c5c62;
-    --text-tertiary: #8a8a8f;
-
-    --accent-primary: #0091FF;
-    --accent-primary-hover: #007CE6;
+    /* Comic Book CMYK Color System - Flat, Vibrant Colors */
+    /* Primary CMYK Palette */
+    --comic-cyan: #00B4D8;
+    --comic-magenta: #FF006E;
+    --comic-yellow: #FFBE0B;
+    --comic-black: #000000;
+    --comic-white: #FFFEF7;
     
-    --border-highlight: rgba(255, 255, 255, 0.7);
-    --border-secondary: rgba(0, 0, 0, 0.08);
-
-    --shadow-color: rgba(9, 20, 56, 0.08);
-    --highlight-glow: 0px 12px 45px rgba(0, 145, 255, 0.3);
-    --modal-backdrop: rgba(240, 244, 249, 0.3);
-    --icon-color: var(--text-secondary);
-
-    /* Original theme variables for compatibility */
-    --background: #EFF1F5;
-    --foreground: #111113;
+    /* Secondary Comic Colors */
+    --comic-red: #E63946;
+    --comic-blue: #457B9D;
+    --comic-green: #06D6A0;
+    --comic-orange: #FB8500;
+    --comic-purple: #7209B7;
+    
+    /* Backgrounds with Paper Texture */
+    --bg-primary: #FFFEF7; /* Cream paper */
+    --bg-secondary: #F8F7F0;
+    --bg-tertiary: #EEEDE4;
+    --bg-gutter: #FFFFFF; /* Pure white for panel gutters */
+    
+    /* Ben-Day Dot Patterns (Halftone) */
+    --benday-cyan: radial-gradient(circle, var(--comic-cyan) 1px, transparent 1px);
+    --benday-magenta: radial-gradient(circle, var(--comic-magenta) 1px, transparent 1px);
+    --benday-yellow: radial-gradient(circle, var(--comic-yellow) 1px, transparent 1px);
+    --benday-black: radial-gradient(circle, var(--comic-black) 1px, transparent 1px);
+    
+    /* Paper Texture Overlay */
+    --paper-texture: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOSIgbnVtT2N0YXZlcz0iNCIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2UpIiBvcGFjaXR5PSIwLjA1Ii8+PC9zdmc+');
+    
+    /* Inked Borders */
+    --ink-border: 3px solid var(--comic-black);
+    --ink-border-thick: 4px solid var(--comic-black);
+    --ink-border-thin: 2px solid var(--comic-black);
+    
+    /* Hard Drop Shadows (No Blur) */
+    --shadow-hard: 4px 4px 0px var(--comic-black);
+    --shadow-hard-large: 6px 6px 0px var(--comic-black);
+    --shadow-hard-small: 2px 2px 0px var(--comic-black);
+    --shadow-hard-pressed: 1px 1px 0px var(--comic-black);
+    
+    /* Text Colors */
+    --text-primary: var(--comic-black);
+    --text-secondary: #333333;
+    --text-shout: var(--comic-red);
+    
+    /* Action Lines and Speed Effects */
+    --action-lines: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.1) 2px,
+      rgba(0, 0, 0, 0.1) 4px
+    );
   }
 
   .dark {
-    /* Dark Theme - Hyper-Visual Apple Inspired */
-    --bg-primary: #000000;
-    --bg-secondary: #121213;
-    --bg-tertiary: #2C2C2E;
-    --bg-glass-color: rgba(28, 28, 30, 0.5);
-    --header-glass-color: rgba(28, 28, 30, 0.4);
-    --bg-glass-glare: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.1), transparent 40%);
+    /* Dark Theme - Vibrant colors on dark canvas */
+    --bg-primary: #0A0A0A;
+    --bg-secondary: #171717;
+    --bg-tertiary: #262626;
+    --bg-glass-color: rgba(23, 23, 23, 0.7);
+    --header-glass-color: rgba(23, 23, 23, 0.6);
+    --bg-glass-glare: radial-gradient(circle at 20% 20%, rgba(236, 72, 153, 0.12), transparent 50%);
     --noise-texture: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuODUiIG51bU9jdGF2ZXM9IjEwIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlRGlmZnVzZUxpZ2h0aW5nIGxpZ2h0aW5nLWNvbG9yPSIjZmZmZmZmIiBzdXJmYWNlU2NhbGU9IjE1IiA+PGZlRGlzdGFudExpZ2h0IGF6aW11dGg9IjAiIGVsZXZhdGlvbj0iMTAwIi8+PC9mZURpZmZ1c2VMaWdodGluZz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgibm9pc2UpIiBvcGFjaXR5PSIwLjA1Ii8+PC9zdmc+');
-    --bg-hero-start: #1a1c23;
-    --bg-hero-end: #1c2a4e;
+    --bg-hero-start: #0f0316;
+    --bg-hero-end: #0a1628;
     
-    --text-primary: #F5F5F7;
-    --text-secondary: #a0a0a8;
-    --text-tertiary: #636366;
+    /* Gradient Mesh Background - Dark */
+    --gradient-mesh: radial-gradient(at 0% 0%, rgba(236, 72, 153, 0.2) 0px, transparent 50%),
+                     radial-gradient(at 50% 0%, rgba(59, 130, 246, 0.2) 0px, transparent 50%),
+                     radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.2) 0px, transparent 50%);
+    
+    /* Text colors - Dark mode */
+    --text-primary: #FAFAFA;
+    --text-secondary: #A3A3A3;
+    --text-tertiary: #737373;
 
-    --accent-primary: #0A96FF;
-    --accent-primary-hover: #33A9FF;
+    /* Vibrant colors stay bright in dark mode */
+    --color-pink: #F472B6;
+    --color-pink-rgb: 244, 114, 182;
+    --color-purple: #C084FC;
+    --color-purple-rgb: 192, 132, 252;
+    --color-blue: #60A5FA;
+    --color-blue-rgb: 96, 165, 250;
+    --color-cyan: #22D3EE;
+    --color-cyan-rgb: 34, 211, 238;
+    --color-teal: #2DD4BF;
+    --color-teal-rgb: 45, 212, 191;
+    --color-green: #34D399;
+    --color-green-rgb: 52, 211, 153;
+    --color-orange: #FB923C;
+    --color-orange-rgb: 251, 146, 60;
 
-    --border-highlight: rgba(255, 255, 255, 0.2);
-    --border-secondary: rgba(255, 255, 255, 0.1);
+    /* Primary: Brighter Pink-Purple in dark */
+    --accent-primary: #F472B6;
+    --accent-primary-hover: #F9A8D4;
+    --accent-primary-rgb: 244, 114, 182;
+    --gradient-primary: linear-gradient(135deg, #F472B6 0%, #C084FC 100%);
+    
+    /* Secondary: Brighter Blue-Cyan */
+    --accent-secondary: #60A5FA;
+    --accent-secondary-hover: #93C5FD;
+    --accent-secondary-rgb: 96, 165, 250;
+    --gradient-secondary: linear-gradient(135deg, #60A5FA 0%, #22D3EE 100%);
+    
+    /* Tertiary: Purple-Blue Gradient */
+    --gradient-tertiary: linear-gradient(135deg, #C084FC 0%, #60A5FA 100%);
+    
+    /* CTA: Brighter Orange-Pink */
+    --accent-cta: #FB923C;
+    --accent-cta-hover: #FDBA74;
+    --accent-cta-rgb: 251, 146, 60;
+    --gradient-cta: linear-gradient(135deg, #FB923C 0%, #F472B6 100%);
+    
+    /* Rainbow Gradient - Brighter */
+    --gradient-rainbow: linear-gradient(90deg, 
+      #F472B6 0%, 
+      #C084FC 20%, 
+      #60A5FA 40%, 
+      #22D3EE 60%, 
+      #34D399 80%, 
+      #FB923C 100%);
+    
+    /* Success */
+    --accent-success: #34D399;
+    --accent-success-rgb: 52, 211, 153;
+    --gradient-success: linear-gradient(135deg, #34D399 0%, #2DD4BF 100%);
+    
+    /* Warning */
+    --accent-warning: #FBBF24;
+    --accent-warning-rgb: 251, 191, 36;
+    --gradient-warning: linear-gradient(135deg, #FBBF24 0%, #FB923C 100%);
+    
+    /* Error */
+    --accent-error: #F87171;
+    --accent-error-rgb: 248, 113, 113;
+    --gradient-error: linear-gradient(135deg, #F87171 0%, #F472B6 100%);
 
-    --shadow-color: rgba(0, 0, 0, 0.3);
-    --highlight-glow: 0px 12px 50px rgba(10, 150, 255, 0.35);
-    --modal-backdrop: rgba(0, 0, 0, 0.6);
+    /* Borders */
+    --border-highlight: rgba(244, 114, 182, 0.3);
+    --border-secondary: rgba(64, 64, 64, 0.5);
+    --border-default: #404040;
+
+    /* Shadows - Stronger in dark */
+    --shadow-color: rgba(0, 0, 0, 0.7);
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.6), 0 2px 4px -1px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 10px 10px -5px rgba(0, 0, 0, 0.6);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+    --highlight-glow: 0px 12px 50px rgba(244, 114, 182, 0.5);
+    --cta-glow: 0px 12px 50px rgba(251, 146, 60, 0.4);
+    --rainbow-glow: 0px 0px 60px rgba(244, 114, 182, 0.5), 0px 0px 100px rgba(96, 165, 250, 0.4);
+    --modal-backdrop: rgba(0, 0, 0, 0.85);
     --icon-color: var(--text-secondary);
 
     /* Original theme variables for compatibility */
-    --background: #000000;
-    --foreground: #F5F5F7;
+    --background: #0A0A0A;
+    --foreground: #FAFAFA;
   }
 
+  /* Comic Book Instant Scrolling - No Smooth Gliding! */
+  html {
+    scroll-behavior: auto; /* Instant, snappy scrolling */
+    scroll-padding-top: 5rem; /* Account for fixed header */
+  }
+  
   html, body {
-    overscroll-behavior: none;
+    overscroll-behavior: auto;
+    -webkit-overflow-scrolling: auto; /* Standard scrolling, not momentum */
+  }
+  
+  /* Smooth scroll with momentum for webkit */
+  @supports (-webkit-overflow-scrolling: touch) {
+    html {
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
+    }
   }
   
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: var(--bg-primary);
+    font-family: 'Comic Neue', 'Architects Daughter', 'Open Sans', sans-serif;
+    background: var(--bg-primary);
+    background-image: var(--paper-texture);
+    background-attachment: fixed;
     color: var(--text-primary);
-    transition: background-color 0.4s ease, color 0.4s ease;
+    transition: none; /* Instant changes, not smooth */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    filter: grayscale(100%);
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  /* Typography System - Comic Book Style */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Bangers', 'Passion One', 'Poppins', sans-serif;
+    font-weight: 900;
+    line-height: 0.9;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8);
+  }
+
+  h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 900;
+    letter-spacing: 0.02em;
+  }
+
+  h2 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+  }
+
+  h3 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+  }
+
+  h4 {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 700; /* Lighter for smaller headings */
+  }
+
+  h5 {
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    font-weight: 700; /* Lighter for better readability */
+  }
+
+  h6 {
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
+    font-weight: 700; /* Lighter for small text */
+  }
+
+  p {
+    font-family: 'Comic Neue', 'Architects Daughter', sans-serif;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-weight: 400;
+  }
+
+  /* Strong text - Comic book emphasis */
+  strong, b {
+    font-weight: 700; /* Bold but readable */
+    color: var(--comic-black);
+  }
+
+  /* Links */
+  a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  a:hover {
+    color: var(--accent-primary-hover);
+  }
+
+  a:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Small text readability */
+  small, .text-sm, .text-xs {
+    font-weight: 400; /* Normal weight for small text */
+  }
+  
+  /* Ensure readable font weight for UI elements */
+  button, input, select, textarea, label {
+    font-weight: 600; /* Semi-bold for UI */
   }
 
   /* ScrollSmoother Performance Optimizations */
@@ -168,44 +369,214 @@
 }
 
 @layer components {
-  .glass-effect {
-    background: var(--noise-texture), var(--bg-glass-glare), var(--bg-glass-color);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 0 0 1.5px var(--border-highlight), 0 8px 32px var(--shadow-color);
-    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+  /* Comic Book Panel System */
+  .glass-effect, .glassmorphism-card {
+    background: var(--bg-secondary);
+    border: var(--ink-border-thick);
+    border-radius: 3px 4px 2px 5px; /* Sketchy, imperfect edges */
+    box-shadow: var(--shadow-hard-large);
+    transition: transform 0.1s cubic-bezier(0.1, 0.7, 1.0, 0.1); /* Snappy */
+    position: relative;
+    overflow: visible;
+  }
+  
+  .glassmorphism-card::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    background: var(--benday-cyan);
+    background-size: 4px 4px;
+    opacity: 0;
+    transition: opacity 0.1s;
+    pointer-events: none;
+    z-index: -1;
   }
   
   .glass-header {
-    background: var(--noise-texture), var(--bg-glass-glare), var(--header-glass-color);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: var(--comic-cyan);
+    border: var(--ink-border);
+    border-bottom: var(--ink-border-thick);
+    box-shadow: var(--shadow-hard);
   }
 
-  .primary-btn {
-    @apply px-6 py-3 rounded-full font-semibold text-white transition-all duration-300;
-    background-color: var(--accent-primary);
-    box-shadow: 0 4px 15px rgba(0,125,255,0.2);
+  .glassmorphism-card:hover {
+    transform: translate(-2px, -2px); /* Move up-left slightly */
+    box-shadow: 8px 8px 0px var(--comic-black); /* Larger hard shadow */
+    border-width: 5px;
+  }
+  
+  .glassmorphism-card:hover::before {
+    opacity: 0.3; /* Show Ben-Day dots on hover */
   }
 
-  .primary-btn:hover {
-    background-color: var(--accent-primary-hover);
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(0,125,255,0.3);
+  .dark .glassmorphism-card {
+    background: #1a1a1a;
+    border-color: var(--comic-cyan);
+    box-shadow: var(--shadow-hard-large), 0 0 20px rgba(0, 180, 216, 0.3);
   }
 
+  .dark .glassmorphism-card:hover {
+    box-shadow: 8px 8px 0px var(--comic-cyan), 0 0 30px rgba(0, 180, 216, 0.5);
+  }
+
+  /* Comic Book Button System */
+  .btn-primary {
+    position: relative;
+    padding: 1rem 2rem;
+    border-radius: 2px 4px 3px 2px; /* Sketchy edges */
+    font-family: 'Bangers', sans-serif;
+    font-weight: 700; /* Readable bold */
+    font-size: 1.125rem; /* Slightly smaller for clarity */
+    color: var(--comic-white);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--comic-magenta); /* Flat CMYK color */
+    border: var(--ink-border-thick);
+    cursor: pointer;
+    transition: transform 0.1s cubic-bezier(0.1, 0.7, 1.0, 0.1); /* Snappy */
+    box-shadow: var(--shadow-hard-large);
+    overflow: visible;
+  }
+
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120%;
+    height: 120%;
+    background: var(--action-lines);
+    transform: translate(-50%, -50%) rotate(-45deg);
+    opacity: 0;
+    transition: opacity 0.1s;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .btn-primary:hover::after {
+    opacity: 0.5; /* Show action lines on hover */
+  }
+
+  .btn-primary:hover {
+    transform: translate(-2px, -2px); /* Move slightly up-left */
+    box-shadow: 8px 8px 0px var(--comic-black); /* Larger shadow */
+  }
+
+  .btn-primary:active {
+    transform: translate(2px, 2px); /* Press down effect */
+    box-shadow: var(--shadow-hard-pressed); /* Smaller shadow */
+  }
+
+  /* CTA Button - Energetic Orange */
+  .btn-cta {
+    position: relative;
+    padding: 0.875rem 2rem;
+    border-radius: 9999px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: white;
+    background: linear-gradient(135deg, var(--accent-cta), #FB923C);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-md), var(--cta-glow);
+  }
+
+  .btn-cta:hover {
+    background: linear-gradient(135deg, var(--accent-cta-hover), var(--accent-cta));
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--shadow-lg), var(--cta-glow);
+  }
+
+  .btn-cta:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  /* Secondary Button */
+  .btn-secondary {
+    padding: 0.875rem 2rem;
+    border-radius: 9999px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--accent-primary);
+    background: transparent;
+    border: 2px solid var(--accent-primary);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(var(--accent-primary-rgb), 0.1);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .btn-secondary:active {
+    transform: translateY(0);
+  }
+
+  /* Micro-interaction: Press effect */
   .btn-press-effect {
     transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     transform-origin: center;
   }
 
   .btn-press-effect:active {
-    transform: scale(1.1) rotate(5deg);
+    transform: scale(0.95);
     transition: all 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
+  /* Touch target - minimum 44x44px */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Hero Section - Comic Book Splash Page */
   .hero-gradient {
-    background-image: radial-gradient(circle at 50% 30%, var(--bg-hero-start), var(--bg-hero-end));
+    background: var(--comic-yellow); /* Bright CMYK yellow background */
+    position: relative;
+    overflow: visible;
+    border: var(--ink-border-thick);
+    border-radius: 4px 3px 5px 2px; /* Sketchy edges */
+    box-shadow: var(--shadow-hard-large);
+    padding: 4rem 2rem;
+  }
+
+  .hero-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(circle at 20% 20%, var(--comic-magenta) 2px, transparent 2px),
+      radial-gradient(circle at 80% 30%, var(--comic-cyan) 2px, transparent 2px),
+      radial-gradient(circle at 50% 80%, var(--comic-blue) 2px, transparent 2px);
+    background-size: 20px 20px, 25px 25px, 30px 30px;
+    opacity: 0.2;
+    pointer-events: none;
+  }
+  
+  .hero-gradient::after {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
+    background: var(--action-lines);
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  @keyframes gradient-flow {
+    0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    50% { opacity: 0.8; transform: scale(1.1) rotate(5deg); }
   }
 
   /* Hero Fullscreen and Scroll Effects */
@@ -216,7 +587,8 @@
     justify-content: center;
     position: relative;
     transform-origin: center top;
-    will-change: transform, height;
+    will-change: transform;
+    padding: 2rem 0;
   }
 
   .hero-content {
@@ -225,9 +597,8 @@
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 2rem;
     transform-origin: center;
-    will-change: transform;
   }
 
   .hero-background {
@@ -235,34 +606,274 @@
     inset: 0;
     pointer-events: none;
     will-change: transform, opacity;
+    overflow: hidden;
   }
 
   .floating-element {
-    will-change: transform, opacity;
+    will-change: transform;
     transform-origin: center;
     pointer-events: none;
+    animation: float 6s ease-in-out infinite;
   }
 
-  /* Enhanced hero text effects */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+  }
+
+  /* Comic Book Hero Title - Bold Lettering */
   .hero-title {
-    font-size: clamp(2.5rem, 8vw, 6rem);
-    line-height: 1.1;
-    font-weight: 800;
-    color: var(--text-primary);
-    text-shadow: 0 2px 10px rgba(0, 145, 255, 0.2);
+    font-family: 'Bangers', 'Passion One', sans-serif;
+    font-size: clamp(4rem, 12vw, 10rem);
+    line-height: 0.85;
+    font-weight: 900;
+    color: var(--comic-black);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-shadow: 
+      -3px -3px 0 var(--comic-white),
+      3px -3px 0 var(--comic-white),
+      -3px 3px 0 var(--comic-white),
+      3px 3px 0 var(--comic-white),
+      5px 5px 0px var(--comic-black); /* Thick outline + shadow */
+    position: relative;
+    z-index: 2;
   }
 
   .hero-subtitle {
-    font-size: clamp(1.125rem, 3vw, 1.5rem);
-    line-height: 1.6;
-    opacity: 0.9;
+    font-family: 'Bangers', sans-serif;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    line-height: 1.2;
+    color: var(--comic-black);
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 0px var(--comic-white);
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Card hover effects with lift */
+  .card-hover-lift {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  /* Input focus states */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+    border-radius: 0.5rem;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--accent-primary);
+    border-radius: 6px;
+    border: 3px solid var(--bg-secondary);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-primary-hover);
+  }
+
+  /* Loading skeleton */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--bg-tertiary) 25%,
+      var(--bg-secondary) 50%,
+      var(--bg-tertiary) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 0.5rem;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Shimmer effect for progress bars */
+  .animate-shimmer {
+    animation: shimmer-progress 2s infinite;
+  }
+
+  @keyframes shimmer-progress {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  /* Badge system */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .badge-primary {
+    background: rgba(var(--accent-primary-rgb), 0.15);
+    color: var(--accent-primary);
+    border: 1px solid rgba(var(--accent-primary-rgb), 0.3);
+  }
+
+  .badge-success {
+    background: rgba(var(--accent-success-rgb), 0.15);
+    color: var(--accent-success);
+    border: 1px solid rgba(var(--accent-success-rgb), 0.3);
+  }
+
+  .badge-warning {
+    background: rgba(var(--accent-warning-rgb), 0.15);
+    color: var(--accent-warning);
+    border: 1px solid rgba(var(--accent-warning-rgb), 0.3);
+  }
+
+  .badge-error {
+    background: rgba(var(--accent-error-rgb), 0.15);
+    color: var(--accent-error);
+    border: 1px solid rgba(var(--accent-error-rgb), 0.3);
+  }
+
+  .badge-rainbow {
+    background: var(--gradient-rainbow);
+    color: white;
+    border: 3px solid rgba(0, 0, 0, 0.3);
+    animation: rainbow-shift 6s ease infinite;
+    background-size: 200% 200%;
+    font-weight: 800;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2);
+    border-radius: 2rem;
+  }
+  
+  @keyframes rainbow-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* Comic Book CMYK Buttons */
+  .btn-rainbow {
+    position: relative;
+    padding: 1rem 2rem;
+    border-radius: 3px 2px 4px 2px; /* Sketchy */
+    font-family: 'Bangers', sans-serif;
+    font-weight: 700; /* Readable bold */
+    font-size: 1.125rem; /* Clear size */
+    color: var(--comic-black);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--comic-cyan); /* Flat CMYK cyan */
+    border: var(--ink-border-thick);
+    cursor: pointer;
+    transition: transform 0.1s cubic-bezier(0.1, 0.7, 1.0, 0.1);
+    box-shadow: var(--shadow-hard-large);
+    overflow: visible;
+  }
+
+  .btn-rainbow::before {
+    content: '';
+    position: absolute;
+    inset: -12px;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 4px,
+      rgba(0, 0, 0, 0.1) 4px,
+      rgba(0, 0, 0, 0.1) 8px
+    ); /* Action lines */
+    opacity: 0;
+    transition: opacity 0.1s;
+    pointer-events: none;
+  }
+
+  .btn-rainbow:hover::before {
+    opacity: 1;
+  }
+
+  .btn-rainbow:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0px var(--comic-black);
+  }
+
+  .btn-rainbow:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-hard-pressed);
+  }
+
+  /* Comic Book Outline Button */
+  .btn-outline-rainbow {
+    position: relative;
+    padding: 1rem 2rem;
+    border-radius: 2px 3px 2px 4px;
+    font-family: 'Bangers', sans-serif;
+    font-weight: 700; /* Readable bold */
+    font-size: 1.125rem; /* Clear size */
+    color: var(--comic-cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--bg-primary);
+    border: var(--ink-border-thick);
+    border-color: var(--comic-cyan);
+    cursor: pointer;
+    transition: transform 0.1s cubic-bezier(0.1, 0.7, 1.0, 0.1);
+    box-shadow: var(--shadow-hard-large);
+    overflow: visible;
+  }
+
+  .btn-outline-rainbow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--benday-cyan);
+    background-size: 6px 6px;
+    opacity: 0;
+    transition: opacity 0.1s;
+  }
+
+  .btn-outline-rainbow:hover {
+    color: var(--comic-black);
+    background: var(--comic-cyan);
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0px var(--comic-black);
+  }
+  
+  .btn-outline-rainbow:hover::before {
+    opacity: 0.3; /* Show halftone dots */
+  }
+
+  .btn-outline-rainbow:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-hard-pressed);
   }
 
   /* Responsive hero adjustments */
   @media (max-width: 768px) {
     .hero-fullscreen {
       min-height: 90vh;
-      padding: 2rem 0;
+      padding: 3rem 0;
     }
     
     .hero-content {
@@ -273,6 +884,16 @@
     .floating-element {
       display: none;
     }
+    
+    h1 {
+      font-size: clamp(2rem, 10vw, 3rem);
+    }
+    
+    /* Ensure touch targets are adequate */
+    button, a {
+      min-height: 44px;
+      min-width: 44px;
+    }
   }
 
   @media (max-width: 480px) {
@@ -281,10 +902,16 @@
     }
   }
 
+  /* Tablet adjustments */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .hero-title {
+      font-size: clamp(3rem, 6vw, 4.5rem);
+    }
+  }
+
   /* Dark mode hero enhancements */
   .dark .hero-title {
     color: var(--text-primary);
-    text-shadow: 0 2px 10px rgba(10, 150, 255, 0.3);
   }
 
   .bg-primary {
@@ -519,6 +1146,164 @@
     --loading-stroke: #171717;
     --loading-text: #171717;
     --loading-stroke-width: 12;
+  }
+  
+  /* Comic Book Style Enhancements */
+  
+  /* Halftone dot pattern for comic effect */
+  @keyframes halftone-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+  }
+  
+  /* Comic book "POW" effect */
+  .comic-accent {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .comic-accent::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(0, 0, 0, 0.03) 10px,
+      rgba(0, 0, 0, 0.03) 20px
+    );
+    pointer-events: none;
+    border-radius: 2rem;
+  }
+  
+  /* Bold comic borders for all interactive elements */
+  .comic-border {
+    border: 4px solid rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.15);
+  }
+  
+  .comic-border:hover {
+    border-width: 5px !important;
+    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.2);
+    transform: translateY(-4px) rotate(-1deg);
+  }
+  
+  /* Speech bubble effect - Authentic Comic Style */
+  .speech-bubble {
+    position: relative;
+    background: var(--comic-white);
+    border: var(--ink-border-thick);
+    border-radius: 3px 20px 4px 18px; /* Asymmetric organic shape */
+    padding: 1.5rem;
+    box-shadow: var(--shadow-hard-large);
+    font-family: 'Comic Neue', 'Architects Daughter', sans-serif;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  
+  .speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -25px;
+    left: 40px;
+    width: 0;
+    height: 0;
+    border: 25px solid transparent;
+    border-top-color: var(--comic-white);
+    border-bottom: 0;
+    margin-left: -25px;
+  }
+  
+  .speech-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: 40px;
+    width: 0;
+    height: 0;
+    border: 27px solid transparent;
+    border-top-color: var(--comic-black);
+    border-bottom: 0;
+    margin-left: -27px;
+    z-index: -1;
+  }
+  
+  /* Thought bubble effect */
+  .thought-bubble {
+    position: relative;
+    background: white;
+    border: 4px solid rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    padding: 2rem;
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Ben-Day dots background (comic book print effect) */
+  .benday-dots {
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.1) 2px, transparent 2px);
+    background-size: 12px 12px;
+  }
+  
+  /* Comic book action lines */
+  .action-lines {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .action-lines::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0, 0, 0, 0.05) 3px,
+      rgba(0, 0, 0, 0.05) 6px
+    );
+    pointer-events: none;
+    animation: action-lines-move 0.5s linear infinite;
+  }
+  
+  @keyframes action-lines-move {
+    from { transform: translateX(0); }
+    to { transform: translateX(6px); }
+  }
+  
+  /* Onomatopoeia text effect (POW!, BAM!, CLICK!) */
+  .onomatopoeia {
+    font-family: 'Bangers', sans-serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--comic-magenta);
+    text-shadow: 
+      -4px -4px 0 var(--comic-black),
+      4px -4px 0 var(--comic-black),
+      -4px 4px 0 var(--comic-black),
+      4px 4px 0 var(--comic-black);
+    letter-spacing: 0.15em;
+    transform: rotate(-8deg);
+    display: inline-block;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .onomatopoeia::before {
+    content: '';
+    position: absolute;
+    inset: -30px;
+    background: repeating-conic-gradient(
+      from 0deg,
+      transparent 0deg 5deg,
+      rgba(0, 0, 0, 0.08) 5deg 10deg
+    );
+    z-index: -1;
+  }
+
+  /* Loading Animation Properties */
+  :root {
     --loading-circle-size: 5rem;
     --loading-text-size: 2rem;
     --loading-animation-duration: 3s;
@@ -529,5 +1314,21 @@
     --loading-bg: #000000;
     --loading-stroke: #F5F5F7;
     --loading-text: #F5F5F7;
+  }
+
+  /* Code Preview Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.3s ease-out forwards;
   }
 }

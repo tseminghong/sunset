@@ -167,12 +167,12 @@ export default function ResourceCard({ resource, index, onClick }: ResourceCardP
   const CardContent = () => (
     <div
       ref={cardRef}
-      className="resource-card glass-effect rounded-[1.75rem] overflow-hidden cursor-pointer btn-press-effect group h-full transition-transform duration-300"
+      className="resource-card glassmorphism-card rounded-[1.75rem] overflow-hidden cursor-pointer btn-press-effect group h-full transition-all duration-300"
     >
       {/* Card image placeholder */}
       <div
         ref={mediaContainerRef}
-        className="h-[180px] bg-tertiary flex items-center justify-center overflow-hidden"
+        className="h-[180px] bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex items-center justify-center overflow-hidden"
       >
         <div
           ref={iconRef}
@@ -184,13 +184,13 @@ export default function ResourceCard({ resource, index, onClick }: ResourceCardP
       {/* Card content */}
       <div className="p-6 flex flex-col flex-grow">
         <h3 
-          className="text-xl font-semibold mb-3 text-primary transition-colors duration-200 group-hover:text-blue-600"
+          className="text-xl font-semibold mb-3 text-primary transition-colors duration-200 group-hover:text-blue-400"
         >
           {resource.title}
         </h3>
         
         <p 
-          className="text-secondary text-sm mb-4 flex-grow transition-colors duration-200 group-hover:text-gray-600"
+          className="text-secondary text-sm mb-4 flex-grow transition-colors duration-200 group-hover:text-secondary/80"
         >
           {resource.description}
         </p>

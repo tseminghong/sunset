@@ -14,10 +14,10 @@ const resources = {
       },
       // Hero Section
       hero: {
-        title: "In Memory of the Tai Po Fire",
-        subtitle: "We mourn the lives lost in the Hong Kong Tai Po fire and choose to keep learning with compassion and resilience.",
-        beta: "Please keep the victims, survivors, and their families in your thoughts.",
-        download: "Support & Learn Together"
+        title: "HP ICT",
+        subtitle: "Master Information Technology with Interactive Learning!",
+        beta: "New Features Available",
+        download: "Download App"
       },
       // Common UI
       common: {
@@ -148,10 +148,10 @@ const resources = {
       },
       // Hero Section  
       hero: {
-        title: "悼念大埔火災罹難者",
-        subtitle: "我們哀悼在香港大埔火災中逝去的生命，願以溫柔與堅毅繼續學習。",
-        beta: "請將罹難者、傷者與家人放在心中。",
-        download: "一起支持與學習"
+        title: "HP ICT",
+        subtitle: "透過互動學習掌握資訊科技！",
+        beta: "新功能上線",
+        download: "下載應用程式"
       },
       // Common UI
       common: {

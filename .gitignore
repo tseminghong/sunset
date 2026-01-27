@@ -52,3 +52,19 @@ ios/
 #my key
 my-release-key.keystore
 *.jks
+
+# JetBrains IDEs
+.idea/
+*.iml
+.vscode/
+*.code-workspace
+
+# ai agent skills
+/skills/**/node_modules/
+/skills/**/.env
+/skills/**/dist/
+/skills/**/build/
+/skills/**/coverage/
+/skills/**/.DS_Store
+.shared/
+.github/

@@ -79,6 +79,9 @@ export default function HomePage() {
   useEffect(() => {
     if (typeof document !== 'undefined') {
       setSearchPortalTarget(document.body)
+      
+      // Comic book style: Instant scrolling, no smooth animations
+      document.documentElement.style.scrollBehavior = 'auto'
     }
   }, [])
 
@@ -269,27 +272,50 @@ export default function HomePage() {
     <motion.section
       initial={{ opacity: 0, y: 60 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
-      className="hero-gradient hero-fullscreen text-center py-20 md:py-28 rounded-3xl mb-16 md:mb-20 relative overflow-hidden"
+      transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+      className="hero-gradient hero-fullscreen text-center py-20 md:py-28 mb-16 md:mb-20 relative overflow-hidden"
     >
-      <div className="absolute inset-0 opacity-30">
+      <div className="absolute inset-0 opacity-30 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20" />
       </div>
-      <div className="relative z-10 space-y-6 px-4">
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-primary">
-          {t('hero.title')}
+      <div className="relative z-10 space-y-8 px-4 max-w-5xl mx-auto">
+        <h1 className="hero-title">
+          HP ICT
         </h1>
-        <p className="text-lg sm:text-xl max-w-3xl mx-auto text-secondary">
+        <p className="hero-subtitle max-w-3xl mx-auto">
           {t('hero.subtitle')}
         </p>
-        <p className="text-secondary text-sm uppercase tracking-widest">{t('hero.beta')}</p>
-        <a
-          href="/ict-v1.1.0.apk"
-          download="ICT-Revision-Hub-v1.1.0.apk"
-          className="primary-btn inline-block px-10 py-3 text-lg btn-press-effect"
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4"
         >
-          {t('hero.download')}
-        </a>
+          <a
+            href="/ict-v1.1.0.apk"
+            download="ICT-Revision-Hub-v1.1.0.apk"
+            className="btn-rainbow touch-target inline-flex items-center gap-2 px-8 py-4 text-lg font-bold shadow-2xl"
+          >
+            {t('hero.download')}
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+          </a>
+          <button
+            onClick={() => {
+              const section = document.getElementById('resources-section');
+              if (section) {
+                section.scrollIntoView({ behavior: 'auto', block: 'start' }); // Instant snap
+              }
+            }}
+            className="btn-outline-rainbow touch-target inline-flex items-center gap-2 px-8 py-4 text-lg font-semibold"
+          >
+            Explore Resources
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        </motion.div>
       </div>
     </motion.section>
   )
@@ -301,19 +327,24 @@ export default function HomePage() {
       <motion.div
         initial={{ opacity: 0, y: 100, scale: 0.9 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
+        transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1], delay: 0.3 }}
         className="pointer-events-none fixed left-4 right-4 z-40 flex justify-center"
         style={{ bottom: 'calc(1.5rem + env(safe-area-inset-bottom, 0px))' }}
       >
-        <div className="pointer-events-auto w-full max-w-md glass-effect rounded-full relative btn-press-effect">
-          <div className="absolute left-5 top-1/2 -translate-y-1/2 text-tertiary">
+        <div className="pointer-events-auto w-full max-w-md glass-effect rounded-full relative shadow-xl">
+          <label htmlFor="search-input" className="sr-only">Search resources</label>
+          <div className="absolute left-5 top-1/2 -translate-y-1/2 text-tertiary pointer-events-none" aria-hidden="true">
             <Search className="h-5 w-5" />
           </div>
           <input
+            id="search-input"
+            type="search"
             value={searchTerm}
             onChange={event => setSearchTerm(event.target.value)}
             placeholder="Search resources..."
-            className="w-full bg-transparent border-none outline-none pl-14 pr-6 py-4 text-primary placeholder-tertiary font-medium"
+            className="w-full bg-transparent border-none outline-none pl-14 pr-6 py-4 text-primary placeholder-tertiary font-medium rounded-full"
+            aria-label="Search resources"
+            autoComplete="off"
           />
         </div>
       </motion.div>,
@@ -457,132 +488,176 @@ export default function HomePage() {
     <div className="min-h-screen bg-primary">
       <header className="glass-effect sticky top-0 z-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-20">
             <div className="flex items-center">
-              <Link href="/" className="text-xl font-bold text-primary">
+              <Link 
+                href="/" 
+                className="text-2xl font-bold transition-colors duration-200 hover:opacity-80"
+                style={{
+                  fontFamily: "'Poppins', sans-serif",
+                  background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}
+              >
                 HPCSS ICT
               </Link>
             </div>
-            <nav className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-8">
+            <nav className="hidden md:block" aria-label="Main navigation">
+              <div className="ml-10 flex items-baseline space-x-6">
                 {navLinks.map(link => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="text-secondary hover:text-primary font-medium transition-colors duration-300"
+                    className="text-secondary hover:text-primary font-semibold transition-all duration-200 px-3 py-2 rounded-lg hover:bg-tertiary/50 touch-target"
+                    style={{ fontFamily: "'Poppins', sans-serif" }}
                   >
                     {link.label}
                   </Link>
                 ))}
               </div>
             </nav>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
               <div className="relative">
                 <button
-                  onClick={() => setIsLanguageMenuOpen(prev => !prev)}
-                  className="p-2 rounded-full text-secondary hover:text-primary hover:bg-tertiary transition-all duration-300 btn-press-effect flex items-center gap-1"
+                  onClick={() => {
+                    closeAllMenus();
+                    setIsLanguageMenuOpen(prev => !prev);
+                  }}
+                  className="p-2 rounded-full text-secondary hover:text-primary hover:bg-tertiary/50 transition-all duration-200 flex items-center gap-1 touch-target"
                   aria-label="Change language"
+                  aria-expanded={isLanguageMenuOpen}
+                  aria-haspopup="true"
                 >
                   <Globe className="h-5 w-5" />
-                  <span className="text-xs font-medium uppercase">{language}</span>
+                  <span className="text-xs font-semibold uppercase tracking-wider" style={{ fontFamily: "'Poppins', sans-serif" }}>{language}</span>
                 </button>
                 {isLanguageMenuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-32 bg-secondary border border-secondary rounded-2xl p-2 shadow-lg z-50">
+                  <div className="absolute right-0 top-full mt-2 w-40 glassmorphism-card p-2 shadow-xl z-50">
                     <button
                       onClick={() => {
                         setLanguage('en')
                         setIsLanguageMenuOpen(false)
                       }}
-                      className={`w-full text-left px-3 py-2 text-sm rounded-xl transition-colors flex items-center gap-2 ${
+                      className={`w-full text-left px-4 py-3 text-sm rounded-lg transition-all duration-200 flex items-center gap-3 touch-target ${
                         language === 'en'
-                          ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200'
-                          : 'text-secondary hover:bg-tertiary hover:text-primary'
+                          ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-semibold'
+                          : 'text-secondary hover:bg-tertiary/50 hover:text-primary'
                       }`}
                     >
-                      <span className="text-base">🇺🇸</span>
-                      English
+                      <span className="text-lg">🇺🇸</span>
+                      <span style={{ fontFamily: "'Poppins', sans-serif" }}>English</span>
                     </button>
                     <button
                       onClick={() => {
                         setLanguage('zh')
                         setIsLanguageMenuOpen(false)
                       }}
-                      className={`w-full text-left px-3 py-2 text-sm rounded-xl transition-colors flex items-center gap-2 ${
+                      className={`w-full text-left px-4 py-3 text-sm rounded-lg transition-all duration-200 flex items-center gap-3 touch-target ${
                         language === 'zh'
-                          ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200'
-                          : 'text-secondary hover:bg-tertiary hover:text-primary'
+                          ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-semibold'
+                          : 'text-secondary hover:bg-tertiary/50 hover:text-primary'
                       }`}
                     >
-                      <span className="text-base">🇨🇳</span>
-                      中文
+                      <span className="text-lg">🇨🇳</span>
+                      <span style={{ fontFamily: "'Poppins', sans-serif" }}>中文</span>
                     </button>
                   </div>
                 )}
               </div>
               <div className="relative">
                 <button
-                  onClick={() => setIsNotificationMenuOpen(prev => !prev)}
-                  className="p-2 rounded-full text-secondary hover:text-primary hover:bg-tertiary transition-all duration-300 btn-press-effect relative"
-                  aria-label="Notifications"
+                  onClick={() => {
+                    closeAllMenus();
+                    setIsNotificationMenuOpen(prev => !prev);
+                  }}
+                  className="p-2 rounded-full text-secondary hover:text-primary hover:bg-tertiary/50 transition-all duration-200 relative touch-target"
+                  aria-label={`Notifications ${unreadCount > 0 ? `- ${unreadCount} unread` : ''}`}
+                  aria-expanded={isNotificationMenuOpen}
+                  aria-haspopup="true"
                 >
                   <Bell className="h-5 w-5" />
                   {unreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-semibold">
-                      {unreadCount}
+                    <span 
+                      className="absolute -top-0.5 -right-0.5 h-5 w-5 text-white text-xs rounded-full flex items-center justify-center font-bold"
+                      style={{ 
+                        background: 'linear-gradient(135deg, var(--accent-error), #F87171)',
+                        fontFamily: "'Poppins', sans-serif",
+                        fontSize: '0.7rem'
+                      }}
+                      aria-live="polite"
+                    >
+                      {unreadCount > 9 ? '9+' : unreadCount}
                     </span>
                   )}
                 </button>
                 {isNotificationMenuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-96 bg-secondary border border-secondary rounded-2xl shadow-lg z-50 overflow-hidden">
-                    <div className="px-4 py-3 border-b border-secondary flex justify-between items-center">
-                      <h3 className="font-semibold text-primary">Notifications</h3>
-                      <div className="flex items-center gap-2">
+                  <div className="absolute right-0 top-full mt-2 w-96 glassmorphism-card shadow-2xl z-50 overflow-hidden max-h-[80vh] flex flex-col">
+                    <div className="px-4 py-4 border-b border-secondary/30 flex justify-between items-center flex-shrink-0">
+                      <h3 className="font-bold text-primary text-lg" style={{ fontFamily: "'Poppins', sans-serif" }}>Notifications</h3>
+                      <div className="flex items-center gap-3">
                         {unreadCount > 0 && (
                           <button
                             onClick={markAllNotificationsAsRead}
-                            className="text-xs text-blue-600 hover:text-blue-800 font-medium"
+                            className="text-xs font-semibold px-3 py-1.5 rounded-full transition-all duration-200 hover:bg-tertiary/50"
+                            style={{ color: 'var(--accent-primary)' }}
                           >
                             Mark all read
                           </button>
                         )}
                         <button
                           onClick={clearNotifications}
-                          className="text-xs text-red-600 hover:text-red-800 font-medium"
+                          className="text-xs font-semibold px-3 py-1.5 rounded-full transition-all duration-200 hover:bg-red-50 dark:hover:bg-red-900/20"
+                          style={{ color: 'var(--accent-error)' }}
                         >
-                          Clear all
+                          Clear
                         </button>
                       </div>
                     </div>
-                    <div className="max-h-96 overflow-y-auto">
+                    <div className="overflow-y-auto flex-1">
                       {notifications.length === 0 ? (
-                        <div className="px-4 py-8 text-center text-secondary">
-                          <Bell className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                          <p>No notifications</p>
+                        <div className="px-4 py-12 text-center text-secondary">
+                          <Bell className="h-12 w-12 mx-auto mb-3 opacity-30" />
+                          <p className="font-medium">No notifications</p>
+                          <p className="text-xs text-tertiary mt-1">You're all caught up!</p>
                         </div>
                       ) : (
                         notifications.map(notification => (
-                          <div
+                          <button
                             key={notification.id}
-                            className={`px-4 py-3 border-b border-secondary/50 hover:bg-tertiary transition-colors cursor-pointer ${notification.unread ? 'bg-blue-50 dark:bg-blue-900/20' : ''}`}
+                            className={`w-full text-left px-4 py-3 border-b border-secondary/30 hover:bg-tertiary/30 transition-colors touch-target ${notification.unread ? 'bg-indigo-50/50 dark:bg-indigo-900/10' : ''}`}
                             onClick={() => markNotificationAsRead(notification.id)}
+                            aria-label={`${notification.unread ? 'Unread notification: ' : ''}${notification.title}`}
                           >
-                            <div className="flex justify-between items-start mb-1">
-                              <h4 className="font-medium text-primary text-sm pr-2">{notification.title}</h4>
+                            <div className="flex justify-between items-start mb-1.5">
+                              <h4 className="font-semibold text-primary text-sm pr-2 line-clamp-1" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                                {notification.title}
+                              </h4>
                               <div className="flex items-center gap-2 flex-shrink-0">
-                                <span className="text-xs text-secondary">{formatTimestamp(notification.timestamp)}</span>
-                                {notification.unread && <div className="w-2 h-2 bg-blue-500 rounded-full" />}
+                                <span className="text-xs text-tertiary font-medium">{formatTimestamp(notification.timestamp)}</span>
+                                {notification.unread && (
+                                  <div 
+                                    className="w-2 h-2 rounded-full"
+                                    style={{ background: 'var(--accent-primary)' }}
+                                    aria-label="Unread"
+                                  />
+                                )}
                               </div>
                             </div>
-                            <p className="text-sm text-secondary leading-relaxed">{notification.message}</p>
-                          </div>
+                            <p className="text-sm text-secondary leading-relaxed line-clamp-2">{notification.message}</p>
+                          </button>
                         ))
                       )}
                     </div>
                     {notifications.length > 0 && (
-                      <div className="px-4 py-3 border-t border-secondary bg-tertiary/50 text-xs text-secondary flex justify-between">
-                        <span>{notifications.length} notification{notifications.length !== 1 ? 's' : ''}</span>
+                      <div className="px-4 py-3 border-t border-secondary/30 text-xs text-secondary flex justify-between items-center flex-shrink-0 bg-tertiary/20">
+                        <span className="font-medium">{notifications.length} notification{notifications.length !== 1 ? 's' : ''}</span>
                         {unreadCount > 0 && (
-                          <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full">
+                          <span 
+                            className="px-3 py-1 rounded-full text-white font-semibold text-xs"
+                            style={{ background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))' }}
+                          >
                             {unreadCount} unread
                           </span>
                         )}
@@ -593,8 +668,8 @@ export default function HomePage() {
               </div>
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-full text-secondary hover:text-primary hover:bg-tertiary transition-all duration-300 btn-press-effect"
-                aria-label="Toggle theme"
+                className="p-2 rounded-full text-secondary hover:text-primary hover:bg-tertiary/50 transition-all duration-200 touch-target"
+                aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
               >
                 {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
               </button>
@@ -708,61 +783,122 @@ export default function HomePage() {
           transition={{ duration: 0.6, delay: 0.3 }}
         >
           <motion.h2
-            className="text-3xl sm:text-4xl font-bold mb-8 md:mb-10 text-center sm:text-left text-primary"
+            className="text-3xl sm:text-4xl font-bold mb-8 md:mb-12 text-center sm:text-left"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
+            style={{
+              fontFamily: "'Poppins', sans-serif",
+              background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}
           >
             Featured Resources
           </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {filteredResources.map((resource, index) => {
               const tags = resource.tags.split(',').map(tag => tag.trim())
               const progress = getResourceProgress(resource)
               const isExternal = resource.href.startsWith('http') || resource.href.endsWith('.html') || resource.href.endsWith('.apk')
               const cardContent = (
                 <motion.div
-                  className="resource-card glass-effect rounded-[1.75rem] overflow-hidden cursor-pointer btn-press-effect group h-full transition-transform duration-300"
+                  className="glassmorphism-card card-hover-lift h-full flex flex-col group"
+                  style={{
+                    border: '4px solid rgba(0, 0, 0, 0.2)',
+                    borderRadius: '2rem',
+                    boxShadow: '8px 8px 0px rgba(0, 0, 0, 0.1)'
+                  }}
                   initial={{ opacity: 0, y: 50, scale: 0.95 }}
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  transition={{ 
+                    duration: 0.5, 
+                    delay: index * 0.08,
+                    ease: [0.4, 0, 0.2, 1]
+                  }}
                 >
-                  <div className="h-[180px] bg-tertiary flex items-center justify-center overflow-hidden">
+                  <div className="h-[160px] relative overflow-hidden flex items-center justify-center" style={{ borderRadius: '1.75rem 1.75rem 0 0' }}>
+                    {/* Vibrant gradient background with color variety */}
+                    <div 
+                      className="absolute inset-0 opacity-90"
+                      style={{
+                        background: [
+                          'linear-gradient(135deg, #EC4899 0%, #A855F7 100%)', // Pink to Purple
+                          'linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%)', // Blue to Cyan
+                          'linear-gradient(135deg, #10B981 0%, #14B8A6 100%)', // Green to Teal
+                          'linear-gradient(135deg, #F97316 0%, #EC4899 100%)', // Orange to Pink
+                          'linear-gradient(135deg, #A855F7 0%, #3B82F6 100%)', // Purple to Blue
+                          'linear-gradient(135deg, #06B6D4 0%, #10B981 100%)', // Cyan to Green
+                        ][index % 6]
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/10" />
+                    <div className="absolute inset-0 opacity-20">
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-transparent" />
+                    </div>
                     <div
-                      className="w-12 h-12 text-tertiary opacity-70"
+                      className="w-16 h-16 text-white opacity-95 relative z-10 transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-300 drop-shadow-lg"
                       dangerouslySetInnerHTML={{ __html: resource.icon }}
                     />
                   </div>
                   <div className="p-6 flex flex-col flex-grow">
-                    <h3 className="text-xl font-semibold mb-3 text-primary transition-colors duration-200 group-hover:text-blue-600">
+                    <h3 className="text-xl font-semibold mb-3 text-primary transition-colors duration-200 group-hover:bg-gradient-to-r group-hover:from-pink-500 group-hover:to-purple-500 group-hover:bg-clip-text group-hover:text-transparent" style={{ fontFamily: "'Poppins', sans-serif" }}>
                       {resource.title}
                     </h3>
-                    <p className="text-secondary text-sm mb-4 flex-grow">
+                    <p className="text-secondary text-sm mb-4 flex-grow line-clamp-3">
                       {resource.description}
                     </p>
                     {resource.progressKey && resource.totalLessons && (
                       <div className="mb-4">
                         <div className="flex justify-between items-center mb-2">
-                          <span className="text-xs font-medium text-tertiary">Progress</span>
-                          <span className="text-xs font-medium text-tertiary">{progress}%</span>
+                          <span className="text-xs font-semibold text-tertiary uppercase tracking-wide">Progress</span>
+                          <span className="text-xs font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">{progress}%</span>
                         </div>
-                        <div className="w-full bg-tertiary rounded-full h-2 overflow-hidden">
-                          <div className="h-full bg-gradient-to-r from-blue-500 to-blue-600" style={{ width: `${progress}%` }} />
+                        <div className="w-full bg-tertiary rounded-full h-2.5 overflow-hidden relative shadow-inner">
+                          <div 
+                            className="h-full transition-all duration-500 ease-out relative"
+                            style={{ 
+                              width: `${progress}%`,
+                              background: [
+                                'linear-gradient(90deg, #EC4899 0%, #A855F7 100%)',
+                                'linear-gradient(90deg, #3B82F6 0%, #06B6D4 100%)',
+                                'linear-gradient(90deg, #10B981 0%, #14B8A6 100%)',
+                                'linear-gradient(90deg, #F97316 0%, #EC4899 100%)',
+                                'linear-gradient(90deg, #A855F7 0%, #3B82F6 100%)',
+                                'linear-gradient(90deg, #06B6D4 0%, #10B981 100%)',
+                              ][index % 6]
+                            }}
+                          >
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer" />
+                          </div>
                         </div>
                       </div>
                     )}
                     <div className="flex flex-wrap gap-2 mb-4">
-                      {tags.map(tag => (
-                        <span key={tag} className="px-3 py-1 rounded-full bg-tertiary text-secondary text-xs font-medium">
+                      {tags.slice(0, 3).map(tag => (
+                        <span 
+                          key={tag} 
+                          className="badge badge-primary text-xs px-3 py-1"
+                        >
                           {tag}
                         </span>
                       ))}
+                      {tags.length > 3 && (
+                        <span className="badge badge-primary text-xs px-3 py-1">
+                          +{tags.length - 3}
+                        </span>
+                      )}
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-blue-600 font-medium text-sm">{resource.linkText}</span>
-                      <ExternalLink className="w-4 h-4 text-blue-600" />
+                    <div className="flex items-center justify-between pt-2 border-t border-secondary/30">
+                      <span className="font-semibold text-sm" style={{ color: 'var(--accent-primary)', fontFamily: "'Poppins', sans-serif" }}>
+                        {resource.linkText}
+                      </span>
+                      <div className="transform group-hover:translate-x-1 transition-transform duration-200">
+                        <ExternalLink className="w-4 h-4" style={{ color: 'var(--accent-primary)' }} />
+                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -775,7 +911,8 @@ export default function HomePage() {
                     href={resource.href}
                     target={resource.href.startsWith('http') ? '_blank' : '_self'}
                     rel={resource.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className="block h-full"
+                    className="block h-full touch-target"
+                    aria-label={`View ${resource.title}`}
                   >
                     {cardContent}
                   </a>
@@ -783,36 +920,96 @@ export default function HomePage() {
               }
 
               return (
-                <Link key={resource.href} href={resource.href} className="block h-full">
+                <Link 
+                  key={resource.href} 
+                  href={resource.href} 
+                  className="block h-full touch-target"
+                  aria-label={`View ${resource.title}`}
+                >
                   {cardContent}
                 </Link>
               )
             })}
           </div>
           {filteredResources.length === 0 && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-16">
-              <p className="text-secondary text-lg">No resources found matching your criteria.</p>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }} 
+              animate={{ opacity: 1, scale: 1 }} 
+              className="text-center py-20 glassmorphism-card"
+            >
+              <div className="w-20 h-20 mx-auto mb-4 opacity-50">
+                <Search className="w-full h-full text-secondary" />
+              </div>
+              <p className="text-secondary text-lg font-medium">No resources found matching your criteria.</p>
+              <p className="text-tertiary text-sm mt-2">Try adjusting your search or filters</p>
             </motion.div>
           )}
         </motion.section>
 
         <motion.section
           id="about"
-          className="bg-secondary border border-secondary py-16 md:py-20 rounded-3xl mb-16 md:mb-20"
+          className="glassmorphism-card py-16 md:py-20 mb-16 md:mb-20"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto space-y-6">
-              <h2 className="text-3xl sm:text-4xl font-bold text-primary">About ICT Revision Hub</h2>
-              <p className="text-secondary text-lg leading-relaxed">
+            <div className="text-center max-w-3xl mx-auto space-y-8">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{
+                  fontFamily: "'Poppins', sans-serif",
+                  background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}>
+                  About ICT Revision Hub
+                </h2>
+              </motion.div>
+              <motion.p 
+                className="text-secondary text-lg leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
                 Welcome to the HPCSS ICT Revision Hub - your comprehensive resource for mastering Information and Communication Technology concepts. Our platform offers interactive learning materials, visual algorithms, and practical exercises designed to help students excel in their ICT studies.
-              </p>
-              <p className="text-secondary leading-relaxed">
+              </motion.p>
+              <motion.p 
+                className="text-secondary leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
                 From programming fundamentals to database management, our curated collection of resources provides step-by-step guidance and hands-on experience to build your confidence in ICT.
-              </p>
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8"
+              >
+                <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 border border-indigo-200/30 dark:border-indigo-700/30">
+                  <div className="text-4xl font-bold mb-2" style={{ color: 'var(--accent-primary)', fontFamily: "'Poppins', sans-serif" }}>500+</div>
+                  <div className="text-sm text-secondary font-medium">Learning Resources</div>
+                </div>
+                <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200/30 dark:border-purple-700/30">
+                  <div className="text-4xl font-bold mb-2" style={{ color: 'var(--accent-secondary)', fontFamily: "'Poppins', sans-serif" }}>15+</div>
+                  <div className="text-sm text-secondary font-medium">Interactive Topics</div>
+                </div>
+                <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-pink-50 to-orange-50 dark:from-pink-900/20 dark:to-orange-900/20 border border-pink-200/30 dark:border-pink-700/30">
+                  <div className="text-4xl font-bold mb-2" style={{ color: 'var(--accent-cta)', fontFamily: "'Poppins', sans-serif" }}>1000+</div>
+                  <div className="text-sm text-secondary font-medium">Students Helped</div>
+                </div>
+              </motion.div>
             </div>
           </div>
         </motion.section>

@@ -13,6 +13,7 @@ import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration';
 // Import components directly for server components compatibility
 import GSAPInitializer from "@/components/GSAPInitializer";
 import ScrollSmootherWrapper from "@/components/ScrollSmootherWrapper";
+import ThreeDScrollBackground from "@/components/ThreeDScrollBackground";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -81,8 +82,8 @@ export default function RootLayout({
       </head>
       <body
         className={`${inter.className} antialiased`}
-        style={{ filter: 'grayscale(100%)', WebkitFilter: 'grayscale(100%)' }}
       >
+        <ThreeDScrollBackground />
         <LanguageProvider>
           <ThemeProvider>
             <AuthProvider>

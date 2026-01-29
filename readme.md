@@ -74,31 +74,31 @@ GEMINI_API_KEY=your-key-here
 ## 📁 Project Structure
 
 ```
-src/
-├── app/                 # Next.js App Router pages
-│   ├── layout.tsx      # Root layout with providers
-│   ├── page.tsx        # Homepage
-│   ├── javascript/     # JavaScript course page
-│   ├── python/         # Python algorithms page
-│   └── courses/        # All courses listing
-├── components/         # Reusable React components
-│   ├── Header.tsx      # Navigation header
-│   ├── HeroSection.tsx # Landing page hero
-│   ├── ResourceCard.tsx # Course/resource cards
-│   ├── TagFilter.tsx   # Filter buttons
-│   ├── SearchBar.tsx   # Floating search
-│   ├── AuthModal.tsx   # Authentication modal
-│   ├── Footer.tsx      # Site footer
-│   └── Loading.tsx     # Loading animation
-├── contexts/           # React Context providers
-│   ├── ThemeContext.tsx # Dark/light theme
-│   └── AuthContext.tsx  # Authentication state
-├── data/               # Static data and configuration
-│   └── resources.ts    # Course/resource data
-├── lib/                # Utility functions
-│   └── utils.ts        # Tailwind class utilities
-└── types/              # TypeScript type definitions
-    └── index.ts        # Shared interfaces
+sunset/
+├── src/                    # Main application source code
+│   ├── app/                # Next.js App Router pages
+│   │   ├── layout.tsx     # Root layout with providers
+│   │   ├── page.tsx       # Homepage
+│   │   ├── javascript/    # JavaScript course page
+│   │   ├── python/        # Python algorithms page
+│   │   └── courses/       # All courses listing
+│   ├── components/        # Reusable React components
+│   │   ├── Header.tsx     # Navigation header
+│   │   ├── HeroSection.tsx # Landing page hero
+│   │   └── ...            # Other components
+│   ├── contexts/          # React Context providers
+│   ├── data/              # Static data and configuration
+│   ├── lib/               # Utility functions
+│   └── types/             # TypeScript type definitions
+├── docs/                  # Documentation (organized by category)
+│   ├── design/            # Design specs and mockups
+│   ├── implementation/    # Technical guides
+│   └── planning/          # Project planning docs
+├── scripts/               # Build and utility scripts
+├── public/                # Static assets
+├── new-design/            # Experimental design prototype (Vite)
+├── archive/               # Archived files
+└── types/                 # Global type definitions
 ```
 
 ## 🎨 Design Features
@@ -108,6 +108,21 @@ src/
 - **Dark/Light Themes**: Automatic system detection with manual toggle
 - **Responsive Layout**: Mobile-first design approach
 - **Interactive Elements**: Button press effects and micro-interactions
+
+## 📚 Documentation
+
+Comprehensive documentation is available in the `/docs` directory, organized by category:
+- **Design**: Visual specifications and design system documentation
+- **Implementation**: Technical implementation guides
+- **Planning**: Project planning and delivery documentation
+
+See [docs/README.md](docs/README.md) for a complete list.
+
+## 🔧 Scripts
+
+Utility scripts are located in the `/scripts` directory:
+- `DELIVERY_CHECKLIST.js` - Project delivery checklist and status
+- `update-apk.ps1` - Android APK update automation (PowerShell)
 
 ## 🔄 Migration from Original Version
 

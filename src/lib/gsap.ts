@@ -217,45 +217,12 @@ export const setupScrollAnimations = () => {
   })
 }
 
-// ScrollSmoother setup
+// ScrollSmoother setup - handled by ScrollSmootherWrapper component
 export const setupScrollSmoother = async () => {
-  try {
-    const [{ ScrollTrigger }, { ScrollSmoother }] = await Promise.all([
-      import('gsap/ScrollTrigger'),
-      import('gsap/ScrollSmoother')
-    ])
-    
-    gsap.registerPlugin(ScrollTrigger, ScrollSmoother)
-    
-    // Create ScrollSmoother instance
-    const smoother = ScrollSmoother.create({
-      wrapper: '#smooth-wrapper',
-      content: '#smooth-content',
-      smooth: 1.5,
-      effects: true,
-      smoothTouch: 0.1, // Enable smooth scrolling on mobile (with reduced intensity)
-      normalizeScroll: true,
-      ignoreMobileResize: true,
-      onUpdate: (self) => {
-        // Update scroll progress for any dependent animations
-        document.documentElement.style.setProperty('--scroll-progress', self.progress.toString())
-      }
-    })
-    
-    // Refresh after fonts and images load
-    window.addEventListener('load', () => {
-      smoother.refresh()
-    })
-    
-    document.fonts.ready.then(() => {
-      smoother.refresh()
-    })
-    
-    return smoother
-  } catch (error) {
-    console.warn('ScrollSmoother not available, falling back to native scroll:', error)
-    return null
-  }
+  // ScrollSmoother is now initialized in ScrollSmootherWrapper component
+  // This function is kept for compatibility but does nothing
+  console.info('ScrollSmoother setup handled by ScrollSmootherWrapper component')
+  return null
 }
 
 // Cleanup utility

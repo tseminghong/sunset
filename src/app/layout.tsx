@@ -91,7 +91,7 @@ export default function RootLayout({
               <ScrollSmootherWrapper
                 enabled={true}
                 smoothness={1.5}
-                smoothTouch={0.1}
+                smoothTouch={false}
                 effects={true}
                 className="scroll-smoother-root"
               >

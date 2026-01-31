@@ -1,20 +1,15 @@
 'use client'
 
 import { useEffect } from 'react'
-import { initGSAP, setupScrollAnimations, setupScrollSmoother } from '@/lib/gsap'
+import { initGSAP, setupScrollAnimations } from '@/lib/gsap'
 
 const GSAPInitializer: React.FC = () => {
   useEffect(() => {
     // Initialize GSAP
     initGSAP()
     
-    // Setup scroll animations
+    // Setup scroll animations (NOT ScrollSmoother - that's in ScrollSmootherWrapper)
     setupScrollAnimations()
-    
-    // Setup ScrollSmoother (will check for compatibility)
-    setupScrollSmoother().catch(error => {
-      console.info('ScrollSmoother initialization skipped:', error.message)
-    })
     
     // Cleanup function
     return () => {

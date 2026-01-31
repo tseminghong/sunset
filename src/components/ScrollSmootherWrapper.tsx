@@ -35,13 +35,19 @@ const ScrollSmootherWrapper: React.FC<ScrollSmootherWrapperProps> = ({
       try {
         // Check if device supports smooth scrolling
         const supportsScrollSmoother = () => {
-          // Disable on older browsers or low-end devices
-          const isOldBrowser = !window.CSS?.supports?.('scroll-behavior', 'smooth')
-          const isLowEndDevice = 'deviceMemory' in navigator && (navigator as any).deviceMemory < 4
+          // Disable on mobile devices for better native scrolling
+          const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
           const isTouchDevice = 'ontouchstart' in window
+          const isSmallScreen = window.innerWidth < 1024
           
-          // Disable on touch devices with low memory
-          if (isTouchDevice && isLowEndDevice) return false
+          // Disable ScrollSmoother on mobile/touch devices
+          if (isMobile || (isTouchDevice && isSmallScreen)) {
+            console.info('ScrollSmoother disabled for mobile/touch devices')
+            return false
+          }
+          
+          // Disable on older browsers
+          const isOldBrowser = !window.CSS?.supports?.('scroll-behavior', 'smooth')
           if (isOldBrowser) return false
           
           return true
@@ -69,7 +75,7 @@ const ScrollSmootherWrapper: React.FC<ScrollSmootherWrapperProps> = ({
               content: contentRef.current!,
               smooth: smoothness,
               effects: effects,
-              smoothTouch: smoothTouch,
+              smoothTouch: false, // Disable on touch to prevent conflicts
               normalizeScroll: true,
               ignoreMobileResize: true,
               onUpdate: (self) => {
@@ -170,6 +176,17 @@ const ScrollSmootherWrapper: React.FC<ScrollSmootherWrapperProps> = ({
     return <div className={className}>{children}</div>
   }
 
+  // If ScrollSmoother failed to initialize, use native scroll
+  const useNativeScroll = isReady && !smootherRef.current
+
+  if (useNativeScroll) {
+    return (
+      <div className={className} style={{ minHeight: '100vh' }}>
+        {children}
+      </div>
+    )
+  }
+
   return (
     <div 
       ref={wrapperRef}
@@ -177,7 +194,8 @@ const ScrollSmootherWrapper: React.FC<ScrollSmootherWrapperProps> = ({
       className={`fixed top-0 left-0 w-full h-full overflow-hidden ${className}`}
       style={{ 
         opacity: isReady ? 1 : 0,
-        transition: 'opacity 0.3s ease'
+        transition: 'opacity 0.3s ease',
+        zIndex: 1
       }}
     >
       <div 

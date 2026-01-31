@@ -1332,3 +1332,99 @@
     animation: fadeInUp 0.3s ease-out forwards;
   }
 }
+
+/* ============================================
+   MOBILE RESPONSIVE OPTIMIZATIONS  
+   ============================================ */
+
+@media (max-width: 640px) {
+  /* Mobile-specific spacing reductions */
+  .hero-title {
+    font-size: clamp(2rem, 10vw, 3rem) !important;
+    margin-bottom: 0.75rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 0.875rem !important;
+    line-height: 1.4;
+    padding: 0 0.5rem;
+  }
+  
+  /* Compact card layouts on mobile */
+  .glassmorphism-card {
+    margin-bottom: 1rem;
+  }
+  
+  /* Reduce badge sizes */
+  .badge {
+    font-size: 0.65rem !important;
+    padding: 0.25rem 0.5rem !important;
+  }
+  
+  /* Mobile button adjustments */
+  .btn-rainbow,
+  .primary-btn {
+    font-size: 0.875rem !important;
+    padding: 0.65rem 1.25rem !important;
+  }
+  
+  /* Mobile header compact */
+  header {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+  
+  /* Reduce modal padding on mobile */
+  .modal-content {
+    padding: 1.25rem !important;
+    margin: 1rem !important;
+  }
+  
+  /* Compact search bars */
+  input[type="text"],
+  input[type="search"] {
+    font-size: 0.875rem !important;
+    padding: 0.5rem 0.75rem !important;
+  }
+  
+  /* Mobile menu adjustments */
+  .mobile-menu {
+    font-size: 0.875rem;
+  }
+  
+  /* Reduce notification panel size */
+  .notification-item {
+    padding: 0.75rem !important;
+    font-size: 0.8rem !important;
+  }
+  
+  /* Mobile card hover effects - reduce movement */
+  .card-hover-lift:hover {
+    transform: translateY(-2px) !important;
+  }
+  
+  /* Reduce section spacing */
+  section {
+    margin-bottom: 2rem !important;
+  }
+  
+  /* Compact grid gaps */
+  .grid {
+    gap: 0.75rem !important;
+  }
+}
+
+/* Tablet adjustments (641px - 1023px) */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .hero-title {
+    font-size: clamp(2.5rem, 8vw, 4rem) !important;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem !important;
+  }
+  
+  .glassmorphism-card {
+    padding: 1.25rem;
+  }
+}

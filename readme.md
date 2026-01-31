@@ -115,7 +115,7 @@ This Next.js version maintains all functionality from the original HTML version 
 
 ## 📱 Live Demo
 
-The application is now running at: **http://localhost:3000**
+The application is now running at: **http://ict.hpccss.site**
 
 - Homepage with hero section and resource cards
 - Dark/light theme toggle

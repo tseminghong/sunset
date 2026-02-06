@@ -2,7 +2,7 @@
 
 A modern, interactive learning platform built with Next.js, TypeScript, and Tailwind CSS. This is a complete rewrite of the original HTML/CSS/JavaScript ICT Revision Hub using modern web development practices.
 
-> 📖 **New to the project?** Check out [ARCHITECTURE.md](ARCHITECTURE.md) for technical details and [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+> 📖 **New to the project?** Check out [ARCHITECTURE.md](ARCHITECTURE.md) for technical details.
 
 ## 🚀 Features
 
@@ -143,15 +143,10 @@ The application is now running at: **http://localhost:3000**
 ## 📖 Additional Resources
 
 - **[ARCHITECTURE.md](ARCHITECTURE.md)** - Detailed technical architecture and system design
-- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Guidelines for contributors
 - **[docs/](docs/)** - Comprehensive documentation organized by category
   - [Design Documentation](docs/design/) - Visual specs and design system
   - [Implementation Guides](docs/implementation/) - Technical implementation details
   - [Planning Documents](docs/planning/) - Project planning and delivery
-
-## 🤝 Contributing
-
-We welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting a Pull Request.
 
 ## 📄 License
 

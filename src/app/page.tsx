@@ -273,28 +273,28 @@ export default function HomePage() {
       initial={{ opacity: 0, y: 60 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
-      className="hero-gradient hero-fullscreen text-center py-20 md:py-28 mb-16 md:mb-20 relative overflow-hidden"
+      className="hero-gradient hero-fullscreen text-center py-12 sm:py-20 md:py-28 mb-8 sm:mb-16 md:mb-20 relative overflow-hidden"
     >
       <div className="absolute inset-0 opacity-30 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20" />
       </div>
-      <div className="relative z-10 space-y-8 px-4 max-w-5xl mx-auto">
+      <div className="relative z-10 space-y-4 sm:space-y-8 px-3 sm:px-4 max-w-5xl mx-auto">
         <h1 className="hero-title">
           HP ICT
         </h1>
-        <p className="hero-subtitle max-w-3xl mx-auto">
+        <p className="hero-subtitle max-w-3xl mx-auto text-sm sm:text-base md:text-lg">
           {t('hero.subtitle')}
         </p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.6 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4"
+          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center pt-2 sm:pt-4"
         >
           <a
             href="/ict-v1.1.0.apk"
             download="ICT-Revision-Hub-v1.1.0.apk"
-            className="btn-rainbow touch-target inline-flex items-center gap-2 px-8 py-4 text-lg font-bold shadow-2xl"
+            className="btn-rainbow touch-target inline-flex items-center gap-2 px-5 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold shadow-2xl"
           >
             {t('hero.download')}
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -798,7 +798,7 @@ export default function HomePage() {
           >
             Featured Resources
           </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {filteredResources.map((resource, index) => {
               const tags = resource.tags.split(',').map(tag => tag.trim())
               const progress = getResourceProgress(resource)
@@ -820,7 +820,7 @@ export default function HomePage() {
                     ease: [0.4, 0, 0.2, 1]
                   }}
                 >
-                  <div className="h-[160px] relative overflow-hidden flex items-center justify-center" style={{ borderRadius: '1.75rem 1.75rem 0 0' }}>
+                  <div className="h-[120px] sm:h-[160px] relative overflow-hidden flex items-center justify-center" style={{ borderRadius: '1.75rem 1.75rem 0 0' }}>
                     {/* Vibrant gradient background with color variety */}
                     <div 
                       className="absolute inset-0 opacity-90"
@@ -840,24 +840,24 @@ export default function HomePage() {
                       <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-transparent" />
                     </div>
                     <div
-                      className="w-16 h-16 text-white opacity-95 relative z-10 transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-300 drop-shadow-lg"
+                      className="w-12 h-12 sm:w-16 sm:h-16 text-white opacity-95 relative z-10 transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-300 drop-shadow-lg"
                       dangerouslySetInnerHTML={{ __html: resource.icon }}
                     />
                   </div>
-                  <div className="p-6 flex flex-col flex-grow">
-                    <h3 className="text-xl font-semibold mb-3 text-primary transition-colors duration-200 group-hover:bg-gradient-to-r group-hover:from-pink-500 group-hover:to-purple-500 group-hover:bg-clip-text group-hover:text-transparent" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                  <div className="p-4 sm:p-6 flex flex-col flex-grow">
+                    <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-primary transition-colors duration-200 group-hover:bg-gradient-to-r group-hover:from-pink-500 group-hover:to-purple-500 group-hover:bg-clip-text group-hover:text-transparent" style={{ fontFamily: "'Poppins', sans-serif" }}>
                       {resource.title}
                     </h3>
-                    <p className="text-secondary text-sm mb-4 flex-grow line-clamp-3">
+                    <p className="text-secondary text-xs sm:text-sm mb-3 sm:mb-4 flex-grow line-clamp-3">
                       {resource.description}
                     </p>
                     {resource.progressKey && resource.totalLessons && (
-                      <div className="mb-4">
-                        <div className="flex justify-between items-center mb-2">
-                          <span className="text-xs font-semibold text-tertiary uppercase tracking-wide">Progress</span>
-                          <span className="text-xs font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">{progress}%</span>
+                      <div className="mb-3 sm:mb-4">
+                        <div className="flex justify-between items-center mb-1.5 sm:mb-2">
+                          <span className="text-[10px] sm:text-xs font-semibold text-tertiary uppercase tracking-wide">Progress</span>
+                          <span className="text-[10px] sm:text-xs font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">{progress}%</span>
                         </div>
-                        <div className="w-full bg-tertiary rounded-full h-2.5 overflow-hidden relative shadow-inner">
+                        <div className="w-full bg-tertiary rounded-full h-2 sm:h-2.5 overflow-hidden relative shadow-inner">
                           <div 
                             className="h-full transition-all duration-500 ease-out relative"
                             style={{ 
@@ -877,27 +877,27 @@ export default function HomePage() {
                         </div>
                       </div>
                     )}
-                    <div className="flex flex-wrap gap-2 mb-4">
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
                       {tags.slice(0, 3).map(tag => (
                         <span 
                           key={tag} 
-                          className="badge badge-primary text-xs px-3 py-1"
+                          className="badge badge-primary text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1"
                         >
                           {tag}
                         </span>
                       ))}
                       {tags.length > 3 && (
-                        <span className="badge badge-primary text-xs px-3 py-1">
+                        <span className="badge badge-primary text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1">
                           +{tags.length - 3}
                         </span>
                       )}
                     </div>
                     <div className="flex items-center justify-between pt-2 border-t border-secondary/30">
-                      <span className="font-semibold text-sm" style={{ color: 'var(--accent-primary)', fontFamily: "'Poppins', sans-serif" }}>
+                      <span className="font-semibold text-xs sm:text-sm" style={{ color: 'var(--accent-primary)', fontFamily: "'Poppins', sans-serif" }}>
                         {resource.linkText}
                       </span>
                       <div className="transform group-hover:translate-x-1 transition-transform duration-200">
-                        <ExternalLink className="w-4 h-4" style={{ color: 'var(--accent-primary)' }} />
+                        <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" style={{ color: 'var(--accent-primary)' }} />
                       </div>
                     </div>
                   </div>

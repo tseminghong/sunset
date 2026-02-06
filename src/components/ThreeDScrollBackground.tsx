@@ -154,12 +154,13 @@ export default function ThreeDScrollBackground() {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 -z-10 overflow-hidden"
+      className="fixed inset-0 overflow-hidden"
       style={{
         width: '100%',
         height: '100vh',
         top: 0,
-        left: 0
+        left: 0,
+        zIndex: -1
       }}
     />
   )

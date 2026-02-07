@@ -184,6 +184,34 @@
       -webkit-overflow-scrolling: touch;
     }
   }
+
+  /* iPad Safari scroll stabilization */
+  @supports (-webkit-touch-callout: none) {
+    @media (min-width: 768px) {
+      html, body {
+        height: auto;
+        min-height: 100%;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;
+      }
+
+      body {
+        background-attachment: scroll;
+      }
+
+      #smooth-wrapper {
+        position: static;
+        height: auto;
+        overflow: visible;
+      }
+
+      #smooth-content {
+        overflow: visible;
+        transform: none !important;
+      }
+    }
+  }
   
   body {
     font-family: 'Comic Neue', 'Architects Daughter', 'Open Sans', sans-serif;

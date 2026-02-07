@@ -35,6 +35,7 @@
     "framer-motion": "^12.23.22",
     "gsap": "^3.13.0",
     "i18next": "^25.5.2",
+    "liquid-glass-react": "^1.1.1",
     "lucide-react": "^0.544.0",
     "next": "^15.5.7",
     "react": "^19.1.2",

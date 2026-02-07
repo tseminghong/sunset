@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 
 export default function ThreeDScrollBackground() {
@@ -8,8 +8,20 @@ export default function ThreeDScrollBackground() {
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null)
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null)
   const meshesRef = useRef<THREE.Mesh[]>([])
+  const [isDisabled, setIsDisabled] = useState(false)
 
   useEffect(() => {
+    if (typeof navigator !== 'undefined') {
+      const userAgent = navigator.userAgent || ''
+      const isIPad = /iPad/.test(userAgent)
+      const isIPadOS = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1
+
+      if (isIPad || isIPadOS) {
+        setIsDisabled(true)
+        return
+      }
+    }
+
     if (!containerRef.current) return
 
     const initScene = () => {
@@ -150,6 +162,10 @@ export default function ThreeDScrollBackground() {
     // Return cleanup function for useEffect
     return cleanup
   }, [])
+
+  if (isDisabled) {
+    return null
+  }
 
   return (
     <div

@@ -14,6 +14,7 @@ import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration';
 import GSAPInitializer from "@/components/GSAPInitializer";
 import ScrollSmootherWrapper from "@/components/ScrollSmootherWrapper";
 import ThreeDScrollBackground from "@/components/ThreeDScrollBackground";
+import FullscreenSVGAnimation from "@/components/FullscreenSVGAnimation";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -84,6 +85,7 @@ export default function RootLayout({
         className={`${inter.className} antialiased`}
       >
         <ThreeDScrollBackground />
+        <FullscreenSVGAnimation />
         <LanguageProvider>
           <ThemeProvider>
             <AuthProvider>

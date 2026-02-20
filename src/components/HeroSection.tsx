@@ -21,6 +21,7 @@ export default function HeroSection() {
   })
 
   const titleRef = useRef<HTMLHeadingElement>(null)
+
   const contentRef = useGsapMountAnimation<HTMLDivElement>({
     from: { opacity: 0, y: 50 },
     to: { opacity: 1, y: 0 },

@@ -1,0 +1,13 @@
+CAP=7.5.0
+nextjs-revision-hub@0.1.0 E:\Tsemi\Documents\sunset
+└── @capacitor/cli@7.5.0
+
+
+nextjs-revision-hub@0.1.0 E:\Tsemi\Documents\sunset
+└── @capacitor/core@7.5.0
+
+
+nextjs-revision-hub@0.1.0 E:\Tsemi\Documents\sunset
+└── @capacitor/android@7.5.0
+
+

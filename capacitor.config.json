@@ -1,0 +1,8 @@
+{
+  "appId": "com.hpccss.ict",
+  "appName": "ICT Revision Hub",
+  "webDir": "out",
+  "server": {
+    "androidScheme": "https"
+  }
+}

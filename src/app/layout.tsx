@@ -13,7 +13,7 @@ import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration';
 // Import components directly for server components compatibility
 import GSAPInitializer from "@/components/GSAPInitializer";
 import ScrollSmootherWrapper from "@/components/ScrollSmootherWrapper";
-import ThreeDScrollBackground from "@/components/ThreeDScrollBackground";
+import ClientThreeDScrollBackground from "@/components/ClientThreeDScrollBackground";
 import FullscreenSVGAnimation from "@/components/FullscreenSVGAnimation";
 
 const inter = Inter({
@@ -84,14 +84,14 @@ export default function RootLayout({
       <body
         className={`${inter.className} antialiased`}
       >
-        <ThreeDScrollBackground />
+        <ClientThreeDScrollBackground />
         <FullscreenSVGAnimation />
         <LanguageProvider>
           <ThemeProvider>
             <AuthProvider>
               <GSAPInitializer />
               <ScrollSmootherWrapper
-                enabled={true}
+                enabled={false}
                 smoothness={1.5}
                 smoothTouch={false}
                 effects={true}
